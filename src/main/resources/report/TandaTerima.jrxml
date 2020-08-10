@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TandaTerima" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="16fc0450-ab03-45a4-9521-aa7d0d7a10ab">
+	<property name="ireport.zoom" value="2.8531167061100082"/>
+	<property name="ireport.x" value="195"/>
+	<property name="ireport.y" value="683"/>
+	<parameter name="nomor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal" class="java.lang.String">
+		<defaultValueExpression><![CDATA["12 November 2001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorKM" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KM-001/WBC.07/2001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggalKM" class="java.lang.String">
+		<defaultValueExpression><![CDATA["12 November 2001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perusahaan" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["PT. VOPAK TERMINAL MERAK"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="namaPenyerah" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fulan bin Fulan"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nipPenyerah" class="java.lang.String">
+		<defaultValueExpression><![CDATA["22222222222"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="namaPenerima" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fulanah Binti Fulan"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<printWhenExpression><![CDATA["1" == "1"]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="110" width="94" height="274" uuid="a1561353-c26f-4da7-838c-83c64e34fa7d"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="33" uuid="6c76e120-e674-4dbd-9fbf-c1d121800c64"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
+DIREKTORAT JENDERAL BEA DAN CUKAI
+KANTOR WILAYAH  DJBC BANTEN
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="33" width="555" height="20" uuid="d5abc0f9-c4c8-489d-b09c-213ed13bed84"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Jl. RAYA SERPONG DAMAI SEKTOR VI BLOK 201 NO 02 BSD. TANGERANG SELATAN
+TELEPON   : 021-53154661 FAKSIMILE :  021-53154685 EMAIL : kanwil.djbc.banten@gmail.com
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="73" width="555" height="37" uuid="ec263feb-7c47-4f42-b063-963f8e387e9f"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANDA TERIMA KEPUTUSAN MENTERI KEUANGAN
+KAWASAN PABEAN
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="111" width="105" height="20" uuid="9364e99f-03ab-4b15-9e4a-97a830255ee6"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nomor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="132" width="105" height="20" uuid="0405adcb-c7f8-470b-bc24-dfebfc5bbd0a"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="53" width="555" height="20" uuid="c9d498fb-d99a-40d2-90cb-71a371a07092"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="111" width="21" height="20" uuid="74993eb4-cc04-4217-881c-d4fc27b1b7dd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="132" width="21" height="20" uuid="f9f48c29-eb1e-4954-8bdb-16a523c828ce"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="284" y="111" width="100" height="20" uuid="17ccbb4d-3f29-417d-bc78-1d6fe1a0ba82"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="132" width="100" height="20" uuid="8ecbd01c-9d1a-460b-9af7-5150c6fdddc9"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tanggal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="94" y="160" width="367" height="42" uuid="d3fa353f-7a37-4366-81d2-9a8a6028fd0e"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Telah diserahkankan Keputusan Menteri Keuangan tentang Kawasan Pabean dan Tempat Penimbunan Sementara kepada Penerima, dokumen sebagai berikut :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="110" width="94" height="274" uuid="77c33be4-da47-443e-8d46-8487da5d5ab2"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="284" y="213" width="177" height="20" uuid="7c37eed9-de79-4071-bfa7-7605f71058f0"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomorKM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="213" width="21" height="20" uuid="2f10ea85-484a-4425-a201-2a66a6aee94c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="213" width="105" height="20" uuid="0b680e61-a2b3-4688-b8eb-0093fa164d64"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nomor KM]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="284" y="233" width="177" height="20" uuid="9f513b15-d817-4d51-a4a6-7b3e71b481ce"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tanggalKM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="233" width="21" height="20" uuid="f4224e4b-375e-42e2-a125-f667e9f6ad69"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="233" width="105" height="20" uuid="e124b2a1-3a15-4c38-b8f1-db6edcdb1887"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tanggal KM]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="284" y="253" width="177" height="20" uuid="89403e3f-6b7c-4b76-952e-8ec301050ce2"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perusahaan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="253" width="21" height="20" uuid="43d71e7a-bca2-4c6d-b999-ef38823baa5b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="253" width="105" height="20" uuid="1249ec2f-376d-498a-997f-bc6c84c0ab14"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nama Perusahaan]]></text>
+			</staticText>
+			<line>
+				<reportElement x="129" y="345" width="134" height="1" uuid="d0abf5a6-10d4-4ba0-9ad0-a8628db6ece5"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="318" y="345" width="134" height="1" uuid="a5d70818-f54a-4d91-aae4-b04c87b47b43"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="124" y="285" width="134" height="20" uuid="dca2fd9a-df67-44c0-b61a-93d492ef517b"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Yang Menyerahkan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="318" y="285" width="134" height="20" uuid="b017e267-2367-43ab-8436-5464a9d59453"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Yang Menerima]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="124" y="325" width="134" height="20" uuid="e3c50004-8600-4614-bb42-1df55933df76"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaPenyerah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="318" y="325" width="134" height="20" uuid="31dd8793-eb9f-4edb-ae57-0c4fc2f6409a"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaPenerima}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="124" y="346" width="134" height="20" uuid="19813c9f-bded-4501-9e75-abea63a6a9a8"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIP : "+$P{nipPenyerah}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="384" width="555" height="1" uuid="7b715261-5c42-4fbc-9e3a-744277a8a9de"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="395" width="555" height="33" uuid="11e38729-11c4-4ad9-b6f8-5e31fca01ce1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
+DIREKTORAT JENDERAL BEA DAN CUKAI
+KANTOR WILAYAH  DJBC BANTEN
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="505" width="94" height="296" uuid="f373ab5a-aed8-4831-a3c1-a7221d11b3d6"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="505" width="94" height="296" uuid="7e8892d3-b9dc-402e-a24e-4eb2b19a89b7"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="428" width="555" height="20" uuid="e9e08b80-f011-4b2b-a471-9d98d99faff6"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Jl. RAYA SERPONG DAMAI SEKTOR VI BLOK 201 NO 02 BSD. TANGERANG SELATAN
+TELEPON   : 021-53154661 FAKSIMILE :  021-53154685 EMAIL : kanwil.djbc.banten@gmail.com
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="468" width="555" height="37" uuid="8487a442-3f18-4c27-980f-640249934f88"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANDA TERIMA KEPUTUSAN MENTERI KEUANGAN
+KAWASAN PABEAN
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="448" width="555" height="20" uuid="f3285258-9348-478d-a181-9daf3d5b304b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="510" width="105" height="20" uuid="f0528fe8-95b5-4751-8939-0b591c899580"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nomor]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="284" y="510" width="100" height="20" uuid="90dba781-e2ba-4d35-ac5a-308ce3b9b656"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="284" y="612" width="177" height="20" uuid="c911c7df-4b56-430e-bd7f-00e356fd96dc"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomorKM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="531" width="100" height="20" uuid="d4634a50-c89a-41c7-859e-49211a0cfea7"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tanggal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="158" y="652" width="105" height="20" uuid="26cdd583-d31a-4254-a510-ff40c450efb3"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nama Perusahaan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="612" width="105" height="20" uuid="08f8a7fb-a312-433f-bf87-e3ee7b565bf1"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nomor KM]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="284" y="652" width="177" height="20" uuid="8be72003-9421-452a-b33e-b9e5034aad9a"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perusahaan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="158" y="531" width="105" height="20" uuid="67f41d23-2cd9-4662-a7d9-f1778917efc6"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="94" y="559" width="367" height="42" uuid="06ee96e0-e34e-4959-b11a-b85665f1deea"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Telah diserahkankan Keputusan Menteri Keuangan tentang Kawasan Pabean dan Tempat Penimbunan Sementara kepada Penerima, dokumen sebagai berikut :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="284" y="632" width="177" height="20" uuid="287bb1b0-c3c8-4a28-a13c-0b5a177a959e"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tanggalKM}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="801" width="555" height="1" uuid="67f30b11-4d19-4b0a-8ab7-df59862f5ead"/>
+			</line>
+			<staticText>
+				<reportElement x="158" y="632" width="105" height="20" uuid="1c1f21ab-c4be-46fc-9b99-944dd033b52c"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tanggal KM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="511" width="21" height="20" uuid="bbf69aa1-09a7-4925-8ca0-a42749e8479c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="531" width="21" height="20" uuid="bc715829-ba59-48c9-bcd0-56af8e7555a0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="612" width="21" height="20" uuid="1aff879a-9045-4473-a5bc-23dcb02c687f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="632" width="21" height="20" uuid="f38ba652-1a34-45b7-acb3-0209c6a9408b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="652" width="21" height="20" uuid="92e98709-16be-453f-801f-7d82f50c120b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="129" y="757" width="134" height="1" uuid="77bcb760-41e3-4e9a-8334-a8f1aab2b47b"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement positionType="Float" x="124" y="737" width="134" height="20" uuid="49748548-78f4-4053-954b-a55f45cd3511"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaPenyerah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="318" y="737" width="134" height="20" uuid="71034375-0791-454a-8faa-96427d0166af"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaPenerima}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="318" y="697" width="134" height="20" uuid="18af68fb-3296-43a5-a087-79b507fe73d6"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Yang Menerima]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="124" y="697" width="134" height="20" uuid="7c3ead58-a6c3-4d22-bb91-53160c72bebc"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Yang Menyerahkan]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="124" y="758" width="134" height="20" uuid="d6ff0148-92fd-4e83-90bc-8a95aa70267f"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIP : "+$P{nipPenyerah}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="318" y="757" width="134" height="1" uuid="19f53f69-97d0-449e-963a-31025bae48d1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="94" y="273" width="367" height="1" forecolor="#FFFFFF" uuid="41d1e17a-8202-4078-ba8e-131415eb8248"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="94" y="672" width="367" height="1" forecolor="#FFFFFF" uuid="57e9bd65-9671-4e37-813d-1fb40a90cad0"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

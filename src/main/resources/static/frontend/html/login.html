@@ -1,0 +1,172 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+
+<dom-module id="login-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<template>
+<style>
+</style>
+<div class="body-class">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<div id="first">
+					<div class="myform form login-header">
+						<img class="logologin-header" src="../frontend/img/logologin.png" />
+						<p class="login-title">Sistem Aplikasi Pengawasan dan
+							Pelayanan Kanwil DJBC Banten</p>
+						<p class="login-desc">Selamat Datang. SIAP KABAN, Sistem
+							Aplikasi Pengawasan dan Pelayanan Kantor Wilayah Direktorat
+							Jenderal Bea dan Cukai Banten yang di dalamnya terdiri dari
+							berbagai sub aplikasi yang digunakan untuk proses administrasi,
+							pelayanan, pengawasan, dan hal lain yang terkait dengan Tugas dan
+							Fungsi Direktorat Jenderal Bea dan Cukai Kantor Wilayah Banten.</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-5 mx-auto">
+				<div id="first">
+					<div class="myform form ">
+						<div class="logo mb-3">
+							<div class="col-md-12 text-center">
+								<h1 class="signin-color">Sign In</h1>
+							</div>
+						</div>
+						<form action="/home.html" method="get" name="login">
+							<div class="form-group addpadding-login inner-addon left-addon">
+								<input type="text" name="email"
+									class="form-control formlogin-style username-icon"
+									id="txtusername" aria-describedby="emailHelp"
+									placeholder="Username" />
+							</div>
+							<div class="form-group addpadding-login">
+								<input type="password" name="password" id="txtpassword"
+									class="form-control formlogin-style password-icon"
+									aria-describedby="emailHelp" placeholder="Password" />
+							</div>
+
+							<div class="col-md-12 text-center ">
+								<vaadin-button type="submit" id="btnsignin"
+									class=" btn btn-block mybtn btn-primary tx-tfm signin-btn">SIGN
+								IN</vaadin-button>
+							</div>
+							<div class="col-md-12 ">
+								<div class="login-or">
+									<hr class="hr-or">
+									<span class="span-or"></span>
+								</div>
+							</div>
+							<div class="col-md-12 text-center" style="margin-bottom: 10px;">
+
+								<button type="button" id="infoak"
+									class="btn btn-block mybtn btn-primary tx-tfm infoakses-btn"
+									data-toggle="modal" data-target="#informasiAkses">INFORMASI
+									AKSES</button>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="informasiAkses" tabindex="-1"
+			role="dialog" aria-labelledby="informasiAksws" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-center position-absolute"
+							id="exampleModalLabel" style="text-align: center; width: 90%">Informasi
+							Akses</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p style="font-size: 14px;">
+							<strong>Belum Punya User SIAPKABAN?</strong><br /> Silahkan
+							lakukan aktivasi <em>user</em> sebagai berikut :<br />
+						<ol>
+							<li>Pegawai DJBC dengan menghubungi Tim IT Kanwil DJBC Banten.
+							</li>
+							<!-- <li>Pengguna Jasa melalui website www.siapkaban.id/account
+								atau hubungi <em>Client Coordinator</em> (Petugas Bea Cukai yang
+								khusus melayani Perusahaan Penerima Fasilitas) Anda.
+							</li> -->
+							<li>Perusahaan Penerima Fasilitas TPB, KITE, TPS dan Kawasan
+								Pabean melalui <a href="../REG01.pdf" download>Form
+									Registrasi</a> (file pdf dapat diunduh) atau hubungi Bidang
+								Fasilitas Kepabeanan dan Cukai Kanwil DJBC Banten.
+							</li>
+						</ol>
+
+						</p>
+
+						<p style="font-size: 14px;">
+							<strong>Cara Mendapatkan Kewenangan Akses</strong><br />Setelah
+							<em>sign-in</em> seorang <em>user</em> dapat mengakses aplikasi
+							yang tersedia dengan cara mengklik <em>icon</em> aplikasinya.
+							Setiap aplikasi akan memiliki satu window browser dengan default
+							layer sesuai dengan ukuran layar komputer yang digunakan untuk
+							melakukan akses.
+						</p>
+
+						<p style="font-size: 14px;">
+							<strong>Lupa <em>Password</em> ?
+							</strong><br /> Anda bisa kembali mendapatkan <em>password</em> yaitu dengan
+							menghubungi Tim IT Kanwil DJBC Banten untuk dilakukan reset
+							<em>password</em>.
+						</p>
+
+						<p style="font-size: 14px; float: right">
+							<strong>Direktorat Jenderal Bea dan Cukai Kantor Wilayah
+								Banten - 2020</strong>
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;&nbsp;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</template> <script>    	
+        class MainPage extends Polymer.Element {
+            static get is() {
+                return 'login-page'
+            }
+            
+            ready() {
+           		super.ready();
+           		console.log("start");
+           		var h = $(this.$.informasiAkses);
+           		$(this.$.infoak).click(function () {
+           			h.modal('toggle');
+           	    });
+            }
+        }
+        customElements.define(MainPage.is, MainPage);
+    </script> </dom-module>

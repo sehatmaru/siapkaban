@@ -1,0 +1,369 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/chart.js"></script>
+
+<dom-module id="pengawasan-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css" href="../css/product.css" />
+<link rel="import" type="css" href="../css/chart.min.css" />
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<template>
+<style>
+</style>
+<div class="body-class2">
+	<nav class="site-header sticky-top py-1 navbar navbar-expand-md navbar-dark fixed-top navbar-expand-md-left">
+            
+            <a class="py-2 reset-paddinghome" href="#" aria-label="Product">
+                    <img class="logo-home" src="./frontend/img/logosiapkaban.png" width="60" height="60" />
+                </a>
+            <a class="navbar-brand" href="#"><img height="35" src="./frontend/img/siapkaban.png" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto page-title-center">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">PENGAWASAN</a>
+                    </li>
+                    
+                </ul>
+                <a class="navbar-brand" style="font-size: 14px;">Senin, 20 April 2020</a>
+                <div class="btn-group" role="group">
+                    <span id="btnGroupDrop1" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #FFF !important;color: white;"><img src="./frontend/img/icons/person-fill-white.svg" alt="" width="22" height="22" title="Filter"> Profile</span>
+
+                        <div id="menudropdown" class="dropdown-menu right-dropdown" aria-labelledby="btnGroupDrop1">
+                            <ul class="list-group mb-3">
+                                <li style="border-bottom: none !important; padding: .5rem 1.25rem !important;" class="d-flex justify-content-between lh-condensed">
+                                    <div class="center-avatar">
+                                        <img class="img-avatar" src="./frontend/img/avatar.jpg" width="100" height="100" />
+                                    </div>
+                                </li>
+                                <li style="border-top: none !important; padding: .5rem 1.25rem !important;" class="d-flex justify-content-between lh-condensed">
+                                    <div class="center-avatar text-center" style="width: 100%">
+                                        <h6 class="my-0 text-center">AULIA NIBRA S.</h6>
+                                        <small class="text-muted text-center">1995051620151521003</small>
+                                        <h6 style="font-weight: normal; font-size: 14px;" class="my-0 text-center text-muted">Pengatur Muda - II/a</h6>
+                                        <small class="text-muted text-center">aulianibras@gmail.com</small>
+                                        <div class="col-md-12 text-center" style="margin: 10px 0;">
+                                            <a href="#" class=" btn btn-block mybtn btn-primary tx-tfm signin-btn">SIGN OUT</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+
+                            </ul>
+
+                        </div>
+                    </div>
+
+        </nav>
+        
+        <div class="nav-scroller bg-white shadow-sm" style="position: fixed; width: 100%;">
+            <nav class="nav nav-underline">
+                <a class="nav-link active" href="#">Home</a>
+                
+                <div class="dropdowning">
+                    <a class="nav-link" href="#">Pangkalan Data</a>
+                    <div class="dropdowning-content">
+                        <div class="row" style="max-height: 376px; overflow-y: auto; margin-top: 20px;">
+                            <div class="col-md-3 order-md-1">
+                                <ul>
+                                    <li><a class="nav-link" href="#" style="text-align: left"><strong>Profil</strong></a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Importir</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Eksportir</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Pengusaha BKC</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Pembebasan Cukai EA & MMEA</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">PPJK</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Komoditi</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Penumpang</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 order-md-1">
+                                <ul>
+                                    <li><a class="nav-link" href="#" style="text-align: left"><strong>Tansaksional</strong></a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Manifest</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Ekspor</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Impor</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Fasilitas</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 order-md-1">
+                                <ul>
+                                    <li><a class="nav-link" href="#" style="text-align: left"><strong>Operasional</strong></a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Laporan Keuangan</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Laporan Hasil Audit</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Penelitian Ulang</a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Data Pelanggaran</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 order-md-1">
+                                <ul>
+                                    <li><a class="nav-link" href="#" style="text-align: left"><strong>Data Penindakan</strong></a></li>
+                                    <li><a class="nav-link" href="#" style="text-align: left; padding: 0 15px;">Surat Bukti Penindakan</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <a class="nav-link" href="#">Intelijen</a>
+                <a class="nav-link" href="#">Penindakan</a>
+                <a class="nav-link" href="#">Penyidikan</a>
+                <a class="nav-link" href="#">Narkotika</a>
+                <a class="nav-link" href="#">Sarana Operasi</a>
+            </nav>
+        </div>
+        
+        <div class="container container-tpb" style="margin-top: 60px;">
+
+            <div class="row">
+                
+                <div class="col-md-12 order-md-1 mb-5 rounded-corner rounded-corner-bottom right-profile2" style="padding: 20px;">
+                    
+                    <div class="row">
+
+                        <div class="col-md-8 mb-3" style="margin-bottom: 0 !important;">
+
+                            <p class="label-button"><strong>TREN DATA PELANGGARAN DI KANWIL DJBC BANTEN</strong></p>
+                            <p class="label-button"style="font-size: 12px;">PERIODE 3 TAHUN TERAKHIR</p>
+                            <canvas id="myChart" style="width: 100%; height: 12.5rem;"></canvas>
+
+                            <div class="list-group" style="margin-top: 10px;">
+                                <a href="#" class="list-group-item list-group-item-action" style="padding: .75rem .75rem !important;">
+                                    <p style="font-size: 12px; font-weight: bold; margin-bottom: 0 !important">Tahun 2018 - 25.HASIL TEMBAKAU</p>
+                                    <small style="font-size: 12px">27.Menyediakan/Menjualbelikan BKC tidak sesuai ketentuan (tidak dikemas/salah) (Pasal 54.UU No.39 Tahun 2007).</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action" style="padding: .75rem .75rem !important;">
+                                    <p style="font-size: 12px; font-weight: bold; margin-bottom: 0 !important">Tahun 2019 - 25.HASIL TEMBAKAU</p>
+                                    <small style="font-size: 12px">27.Menyediakan/Menjualbelikan BKC tidak sesuai ketentuan (tidak dikemas/salah) (Pasal 54.UU No.39 Tahun 2007).</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action" style="padding: .75rem .75rem !important;">
+                                    <p style="font-size: 12px; font-weight: bold; margin-bottom: 0 !important">Tahun 2020 - 13.MAKANAN DAN MINUMAN</p>
+                                    <small style="font-size: 12px">-</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3" style="margin-bottom: 0 !important;">
+
+                            <p class="label-button"><strong>PROFIL RISIKO (SILFIANA)</strong></p>
+
+                            <p class="label-button" style="font-size: 12px;">KB - GB - PLB - KITE</p>
+                            <canvas id="myPieChart" style="width: 100%; height: 25rem;"></canvas>
+                        </div>
+
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="row" style="margin-top: 10px">
+                        
+                        <div class="col-md-6 mb-3" style="margin-bottom: 0 !important;">
+                            
+                            <p class="label-button"><strong>NEGARA PENANGGUNG JAWAB (TOP #5)</strong></p>
+                        <p class="label-button"style="font-size: 12px;">KB - GB - PLB - KITE</p>
+                        <canvas id="myChartNegara" style="width: 100%; height: 400px;"></canvas>
+                        
+                        
+                        </div>
+                        
+                        <div class="col-md-6 mb-3" style="margin-bottom: 0 !important;">
+                            
+                            <p class="label-button"><strong>HASIL PRODUKSI (TOP #5)</strong></p>
+                            
+                        <p class="label-button" style="font-size: 12px;">KB - KITE</p>
+                            <canvas id="myPieChartProduksi" style="width: 100%; height: 400px;"></canvas>
+                        </div>
+                        
+                    </div>
+                    
+                   
+                </div>
+            </div>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">SIAPKABAN - 2020</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms</a></li>
+                    <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
+        </div>
+</div>
+</template> <script>    	
+        class PengawasanPage extends Polymer.Element {
+            static get is() {
+                return 'pengawasan-page'
+            }
+            
+            ready() {
+           		super.ready();
+           		console.log("start");
+           		var ctx = $(this.$.myChart);
+           		var btnGroupDrop1 = $(this.$.btnGroupDrop1);
+           		var menudropdown = $(this.$.menudropdown);
+           		//btnGroupDrop1.dropdown();
+           		btnGroupDrop1.click(function() {
+           			console.log("start w");
+           			if(menudropdown.hasClass("show")){
+           				menudropdown.removeClass("show");
+           			}else{
+           				menudropdown.addClass("show");
+           			}
+           		});
+           		var myChart = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: ['2018', '2019', '2020'],
+                        datasets: [{
+                            label: 'Jumlah Pelanggaran',
+                            data: [152, 189, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+           		
+           		var ctx2 = $(this.$.myPieChart);
+                var myPieChart = new Chart(ctx2, {
+                    type: 'pie',
+                    data: {
+                        labels: ['High Risk', 'Medium Risk', 'Low Risk'],
+                        datasets: [{
+                            label: 'KB - GB - PLB - KITE',
+                            data: [15.1, 36.0, 48.9],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    
+                });
+                
+                var ctx3 = $(this.$.myChartNegara);
+                var myChartNegara = new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: ['INDONESIA', 'KOREA', 'TAIWAN', 'CHINA', 'JEPANG'],
+                        datasets: [{
+                            label: 'Jumlah ',
+                            data: [137, 59, 22, 13, 9],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+                
+                var ctx4 = $(this.$.myPieChartProduksi);
+                var myPieChartProduksi = new Chart(ctx4, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Pakaian Jadi', 'Baju dan Celana', 'Bahan Pakaian', 'Komponen Elektronika', 'Accesories'],
+                        datasets: [{
+                            label: 'KB - GB - PLB - KITE',
+                            data: [40, 20, 20, 10, 10],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    
+                });
+           		
+           		$.ajax({url: "https://reqres.in/api/users?page=2", success: function(result){
+           		    console.log("hasil = "+result);
+           		  }});
+           		
+            }
+        }
+        customElements.define(PengawasanPage.is, PengawasanPage);
+    </script> </dom-module>

@@ -1,0 +1,96 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+
+<dom-module id="homeizin-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css" href="../css/product.css" />
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<template>
+<style>
+</style>
+<div class="body-class2">
+	<nav class="site-header sticky-top py-1 navbar navbar-expand-md navbar-dark fixed-top navbar-expand-md-left">
+            
+            <div class="py-2 reset-paddinghome" aria-label="Product">
+                    <img class="logo-home" src="./frontend/img/logosiapkaban.png" width="60" height="60" />
+                </div>
+            <a class="navbar-brand" href="#">SIAPKABAN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul id="menus" class="navbar-nav mr-auto">
+                    
+                </ul>
+                
+                <div class="btn-group" role="group">
+                    <a id="btnGroupDrop1" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#" style="border: 1px solid #FFF !important"><img src="./frontend/img/icons/person-fill-white.svg" alt="" width="22" height="22" title="Filter"> Profile</a>
+
+                        <div class="dropdown-menu right-dropdown" aria-labelledby="btnGroupDrop1">
+                            <ul class="list-group mb-3 left-profile rounded-corner rounded-corner-bottom">
+                                <li style="border-bottom: none !important; padding: .5rem 1.25rem !important;" class="list-group-item d-flex justify-content-between lh-condensed rounded-corner">
+                                    <div class="center-avatar">
+                                        <img class="img-avatar" src="./frontend/img/avatar.jpg" width="100" height="100" />
+                                    </div>
+                                </li>
+                                <li style="border-top: none !important; padding: .5rem 1.25rem !important;" class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div class="center-avatar text-center" style="width: 100%">
+                                        <h6 class="my-0 text-center">AULIA NIBRA S.</h6>
+                                        <small class="text-muted text-center">1995051620151521003</small>
+                                        <h6 style="font-weight: normal; font-size: 14px;" class="my-0 text-center text-muted">Pengatur Muda - II/a</h6>
+                                        <small class="text-muted text-center">aulianibras@gmail.com</small>
+                                        <div class="col-md-12 text-center" style="margin: 10px 0;">
+                                            <a href="index.html" class=" btn btn-block mybtn btn-primary tx-tfm signin-btn">SIGN OUT</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+
+                            </ul>
+
+                        </div>
+                    </div>
+                    
+                </div>
+        </nav>
+        
+        <div class="container container-tpb" style="margin-top: 15px;">
+
+            <div class="row">
+                <slot></slot>
+            </div>
+            
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">SIAPKABAN - 2020</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms</a></li>
+                    <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
+        </div>
+</div>
+</template> <script>    	
+        class HomeizinPage extends Polymer.Element {
+            static get is() {
+                return 'homeizin-page'
+            }
+            
+            ready() {
+           		super.ready();
+            }
+        }
+        customElements.define(HomeizinPage.is, HomeizinPage);
+    </script> </dom-module>

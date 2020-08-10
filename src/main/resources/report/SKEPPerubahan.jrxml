@@ -1,0 +1,1608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SKEPPerubahan" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="42" bottomMargin="20" whenResourceMissingType="Empty" uuid="978a2e6d-72f1-434b-8b65-21768b715a8a">
+	<property name="ireport.zoom" value="1.6105100000000414"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1464"/>
+	<parameter name="nomorKeputusanMenteri" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perubahanKe" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorPerubahan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tentangPerubahan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PT. Vopak Terminal Merak"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorKepMentri" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorSuratPermohonan" class="java.lang.String">
+		<defaultValueExpression><![CDATA["001/VTM/SKEP-KP/I/2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggalSuratPermohonan" class="java.lang.String">
+		<defaultValueExpression><![CDATA["17 Februari 2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kppbc" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorNotaDinasKPPBC" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggalNotaDinasKPPBC" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="skmTentangPerubahan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="skm" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ketetapan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="npwpperusahaan" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="alamatperusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="teleponPerusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="namaPenanggungJawabPerusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="npwpPenanggungJawabPerusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="alamatPenanggungJawabPerusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="letakTPS" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="alamatTPS" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kelurahanTPS" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kecamatanTPS" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kabkoTPS" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="provinsiTPS" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="luasKepabeanan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal4" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kepalaKPPBC" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggalPenetapanKeputusan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="namaKakanwilDJBC" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nipKaKanwilDJBC" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="konstruksi" class="java.lang.String"/>
+	<parameter name="tinggi" class="java.lang.String"/>
+	<parameter name="kondisi" class="java.lang.String"/>
+	<parameter name="batasTimur" class="java.lang.String"/>
+	<parameter name="batasBarat" class="java.lang.String"/>
+	<parameter name="batasUtara" class="java.lang.String"/>
+	<parameter name="batasSelatan" class="java.lang.String"/>
+	<parameter name="koordinatTimur" class="java.lang.String"/>
+	<parameter name="koordinatBarat" class="java.lang.String"/>
+	<parameter name="koordinatUtara" class="java.lang.String"/>
+	<parameter name="koordinatSelatan" class="java.lang.String"/>
+	<parameter name="jumlahPintuMasuk" class="java.lang.String"/>
+	<parameter name="jumlahPintuKeluar" class="java.lang.String"/>
+	<parameter name="jumlahPintuMasukUtama" class="java.lang.String"/>
+	<parameter name="jumlahPintuKeluarUtama" class="java.lang.String"/>
+	<parameter name="catatan" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="252">
+			<printWhenExpression><![CDATA["1" == "1"]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="0" width="483" height="63" uuid="d272f78c-82f2-4379-8dfd-c3aed1d99c8c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["KEMENTERIAN KEUANGAN REPUBLIK INDONESIA\n\n"
+
++"KEPUTUSAN MENTERI KEUANGAN\n"
++"NOMOR KM- "+$P{nomorKeputusanMenteri}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="90" width="483" height="63" uuid="0edb986b-4aea-4d97-892e-6740baddab13"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perubahanKe} + " ATAS KEPUTUSAN MENTERI KEUANGAN NOMOR \n"+$P{nomorPerubahan}+" TENTANG "+$P{tentangPerubahan}+" ATAS NAMA "+$P{perusahaan}+" SEBAGAIMANA TELAH DIUBAH TERAKHIR DENGAN KEPUTUSAN MENTERI KEUANGAN NOMOR "+$P{nomorKepMentri}+""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="63" width="483" height="27" uuid="18923117-2563-4c15-b01c-df3bba6fad41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TENTANG"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="153" width="483" height="24" uuid="a75a3a94-8b1e-4d09-9282-de8a9d432db7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MENTERI KEUANGAN,"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="177" width="68" height="13" uuid="6c0f1501-33d9-4c8d-9298-ce2c7cbac32d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Menimbang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="177" width="10" height="13" uuid="826792a4-d1eb-43d9-a8c3-207d32c27e64"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="78" y="191" width="15" height="13" uuid="26032be0-5577-41e1-8ae1-3bd1a7ad1cd6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="191" width="390" height="13" uuid="3292ef64-5da6-4f28-b2d4-a4adfbbf3c68"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa berdasarkan pertimbangan sebagaimana dimaksud pada angka 1, perlu menetapkan Keputusan Menteri Keuangan tentang "+$P{skmTentangPerubahan}+" Atas Nama "+$P{perusahaan}+"Sebagaimana Telah Diubah Terakhir Dengan Keputusan Menteri Keuangan Nomor "+$P{skm}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="78" y="219" width="15" height="13" uuid="72afe7d6-f57c-4b8b-969b-11400f726e04"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="205" width="68" height="13" uuid="3f909aed-b23b-4351-b22a-056972f0753f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Mengingat]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="218" width="483" height="1" forecolor="#FFFFFF" uuid="bb531d76-6ef9-4895-ac6a-af8dfb878860"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="78" y="205" width="15" height="13" uuid="ff0682b2-595b-4ea4-aa94-1baaeaa6be6b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="205" width="10" height="13" uuid="f6cb70cb-2541-40c0-ab38-a8c775e9f030"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="219" width="390" height="13" uuid="44af38ce-9c84-40b1-8831-7eafa521dc70"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Peraturan Menteri Keuangan Nomor 23/PMK.04/2015 tentang Kawasan Pabean dan Tempat Penimbunan Sementara;"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="205" width="390" height="13" uuid="12239196-bbb6-48f4-8bad-009c206ebfc9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Undang-undang Nomor 10 Tahun 1995 tentang Kepabeanan (Lembaran Negara Republik Indonesia Tahun 1995 Nomor 75, Tambahan Lembaran Negara Republik Indonesia Nomor 3612) sebagaimana telah diubah dengan Undang-undang Nomor 17 Tahun 2006 (Lembaran Negara Republik Indonesia Tahun 2006 Nomor 93, Tambahan Lembaran Negara Republik Indonesia Nomor 4661);"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="204" width="483" height="1" forecolor="#FFFFFF" uuid="7a066ea0-de13-4ae5-8724-35e3f91f5fb0"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="93" y="177" width="390" height="13" uuid="f8f85ca0-6cf4-4d2e-afe0-b76b3a9ae68a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa setelah dilakukan penelitian Surat Permohonan "+$P{perusahaan}+" Nomor: "+$P{nomorSuratPermohonan}+" tanggal "+$P{tanggalSuratPermohonan}+" dan Nota Dinas Kepala "+$P{kppbc}+" Merak Nomor: "+$P{nomorNotaDinasKPPBC}+" tanggal "+$P{tanggalNotaDinasKPPBC}+" diperoleh kesimpulan bahwa permohonan penetapan sebagai Kawasan Pabean di area "+$P{perusahaan}+" telah memenuhi syarat untuk ditetapkan sebagai Kawasan Pabean."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="78" y="177" width="15" height="13" uuid="09363d57-cb8f-4af3-918a-8c96fed62d0f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[1.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="190" width="483" height="1" forecolor="#FFFFFF" uuid="7c5a49d1-c36a-4619-a9a8-9b810a324f1a"/>
+			</line>
+		</band>
+		<band height="721">
+			<printWhenExpression><![CDATA["1"=="1"]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="1" width="483" height="13" uuid="23ef235b-8a3f-405a-b902-ee02bb9cf6bf"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Memutuskan"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="0" width="483" height="1" forecolor="#FFFFFF" uuid="bacf20c0-0809-40a0-86e4-2b7e558a28d4"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="26" width="390" height="13" uuid="7d803300-db40-496e-a1f5-7fac32872153"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ketetapan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="26" width="68" height="13" uuid="dd56e40d-6914-4ece-8b11-9d423da1d837"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Menetapkan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="26" width="25" height="13" uuid="20cc6aa2-6453-4083-bf68-b7845e55a041"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="39" width="483" height="1" forecolor="#FFFFFF" uuid="ac5fc139-c0bd-4c1b-8473-ad2b38be9620"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="40" width="390" height="13" uuid="45a6fe67-090c-4c19-9b74-a7d36b914b9d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Merubah diktum PERTAMA dengan menetapkan perubahan Kawasan Pabean atas nama "+$P{perusahaan}+" dengan data sebagai berikut:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="40" width="25" height="13" uuid="1602aac6-ef26-4af7-8a6f-e8ab05e06286"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="40" width="68" height="13" uuid="ac04623c-18f4-4c95-a930-0bf11bac50ae"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Pertama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="53" width="20" height="13" uuid="1924ff3d-209c-491a-9820-eecea7068c17"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[1.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="53" width="370" height="13" uuid="de9af0a0-7904-4483-84aa-90801122bb6e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pengelola Kawasan Pabean"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="66" width="20" height="13" uuid="df110070-9065-4ade-953b-f3abd11606c8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="66" width="101" height="13" uuid="dc91dcea-6c83-4495-b312-a8bc581bc892"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nama Perusahaan"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="66" width="237" height="13" uuid="495e47f8-b6fa-4b03-95e5-0b502c044d1b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perusahaan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="79" width="483" height="1" forecolor="#FFFFFF" uuid="2179beaa-77af-4cd7-98c0-08b9660e9ffa"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="80" width="20" height="13" uuid="cbf7d905-df05-48f1-aa5b-f1a75df63aa8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="80" width="237" height="13" uuid="c587d221-464b-4efe-83fb-97d14042df11"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{npwpperusahaan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="80" width="101" height="13" uuid="20b606e4-46f5-4167-9ad4-5433cb7cbdf7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NPWP Perusahaan"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="93" width="483" height="1" forecolor="#FFFFFF" uuid="8369f37e-3703-416e-ae9f-388a3eae2cb8"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="94" width="101" height="13" uuid="f2db1c1e-3225-4e7b-880d-60eb0abfaa30"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Alamat Perusahaan"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="94" width="20" height="13" uuid="8ea3028d-6c5f-4960-b29a-940b5f6c7bae"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="94" width="237" height="13" uuid="66afb7dc-a5ff-4d32-b533-5280cc875f63"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatperusahaan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="25" width="483" height="1" forecolor="#FFFFFF" uuid="44dcfea7-1c3b-4bc7-8c1d-d515a5e92767"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="66" width="12" height="13" uuid="c1d97b0a-4a14-4374-9c96-293cb5e76b00"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="80" width="12" height="13" uuid="6bf65acd-13e7-4db3-8d24-c467abd47957"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="94" width="12" height="13" uuid="d3cd7b8b-6ed3-4188-a97f-a4d38e486a03"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="108" width="101" height="13" uuid="b40183a3-3897-45e7-8fb7-4d187fb53f54"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Telepon/Faksimile"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="108" width="237" height="13" uuid="861de6fb-142b-4b3f-bae2-3e389bcae1bf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{teleponPerusahaan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="108" width="20" height="13" uuid="f95676e0-147e-4547-b2b1-70234ccdbad3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[d.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="108" width="12" height="13" uuid="4d09e824-25bf-4d53-9efa-410d4cd3aba7"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="107" width="483" height="1" forecolor="#FFFFFF" uuid="66cc9c0d-163e-448f-bbc6-b1c3e0e1b4d2"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="122" width="101" height="13" uuid="2823a1d0-350a-4eb0-9bd1-46186ddea68e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nama Penanggung Jawab"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="122" width="237" height="13" uuid="8fde5f4b-ae42-41ae-8a13-24ce77d00fe5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaPenanggungJawabPerusahaan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="122" width="12" height="13" uuid="edab5db5-4f8d-41df-a046-35adf46c3caa"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="121" width="483" height="1" forecolor="#FFFFFF" uuid="36659da5-1105-4640-9dc7-3b33a8991e64"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="122" width="20" height="13" uuid="0d32ee7b-0a17-4528-8c5f-e7db16698067"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[e.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="136" width="101" height="13" uuid="074fe6fe-efe2-43fa-97b3-c23cc8384309"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NPWP Penanggung Jawab"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="136" width="237" height="13" uuid="a02c57eb-9395-4b51-a30e-0bf244104a40"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{npwpPenanggungJawabPerusahaan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="136" width="12" height="13" uuid="a6c82104-6530-4f87-a343-d5087ee184b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="135" width="483" height="1" forecolor="#FFFFFF" uuid="bdf6021e-540f-4fd2-92ef-565530a6461c"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="136" width="20" height="13" uuid="628cba9b-77c5-46fe-8e7e-77cd087d4668"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[f.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="150" width="101" height="13" uuid="b68978c2-53de-4824-a2a9-910f25978acd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Alamat Penanggung Jawab"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="150" width="237" height="13" uuid="a405bca8-0b23-495e-aa08-07d5c1a6cc50"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatPenanggungJawabPerusahaan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="150" width="12" height="13" uuid="cda875f0-2141-4d6c-9fd0-e749550d5aca"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="149" width="483" height="1" forecolor="#FFFFFF" uuid="138fe03f-e9fe-4b66-b779-9d5308531fc0"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="150" width="20" height="13" uuid="7689ecc4-f2b5-4406-8456-d5d6e2594540"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[g.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="163" width="483" height="1" forecolor="#FFFFFF" uuid="d23f7a40-7475-49e0-aedb-c1a29171b6ef"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="164" width="20" height="13" uuid="6884417b-814a-4f0f-bc09-89cc281b11e1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="164" width="370" height="13" uuid="b8396fc5-8772-44d3-9fc9-d91f6f7f13fb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Lokasi TPS"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="177" width="483" height="1" forecolor="#FFFFFF" uuid="7da70404-5d3f-45e1-b7e4-764c337babcb"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="178" width="101" height="13" uuid="41b15955-7422-44d0-8365-c961078c1013"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Letak"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="178" width="20" height="13" uuid="328c0f8f-99a9-41e8-837c-6a3c013999dc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="178" width="12" height="13" uuid="2f3d73c1-d0b5-4670-84df-101d8d7f1241"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="178" width="237" height="13" uuid="dc9fe5ca-02c5-4f59-ad81-0e97f0331b81"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{letakTPS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="190" width="483" height="1" forecolor="#FFFFFF" uuid="af6bc211-fa6c-4de6-a623-75298a896cec"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="205" width="12" height="13" uuid="e541cc16-8976-4e34-a852-dcba7cdb84ef"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="205" width="20" height="13" uuid="819a3a29-5c23-415a-ab74-be54df010bcf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="205" width="101" height="13" uuid="06ea8b07-f091-4434-8bf3-661db82f9cbd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desa/Kelurahan"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="205" width="237" height="13" uuid="a80f7615-c7de-4d08-89ab-3a2008e0bb83"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kelurahanTPS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="218" width="483" height="1" forecolor="#FFFFFF" uuid="d8689e0c-f9a8-4275-93bd-83c97ce407ea"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="219" width="12" height="13" uuid="2a59fdb4-5f0e-40dc-a3c4-671778130df9"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="219" width="20" height="13" uuid="f7bd67dd-49bc-4a60-beaf-45929b5b28fa"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[d.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="219" width="101" height="13" uuid="1b9b7de2-846f-4f72-bbde-a40234829cfc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kecamatan"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="219" width="237" height="13" uuid="664ebe64-dbd1-421d-b2fe-85e9737d3d00"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kecamatanTPS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="232" width="483" height="1" forecolor="#FFFFFF" uuid="5d1bc508-9f72-4b5a-a3fb-61318305221e"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="233" width="12" height="13" uuid="a6211274-6da8-49a9-9510-688f1f61ea5c"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="233" width="20" height="13" uuid="7c9c3725-56d2-457b-b672-54adb07401c1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[e.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="233" width="101" height="13" uuid="5f364cec-467f-48ef-8d9d-c9af0134ea00"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kabupaten/Kotamadya"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="233" width="237" height="13" uuid="8ee8eb63-3017-4a06-add9-71dcc1b0489c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kabkoTPS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="2" y="246" width="483" height="1" forecolor="#FFFFFF" uuid="249cc430-5fd0-40ee-896b-2a54cd02b992"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="191" width="12" height="13" uuid="8634c619-8065-4255-8075-ca98e1411728"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="191" width="20" height="13" uuid="99d53825-9ef0-4e32-bc4d-4a56e96c9a15"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="191" width="101" height="13" uuid="9163de11-bf4b-40e5-a8a4-c0887e040a6c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Alamat"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="191" width="237" height="13" uuid="88538afa-679b-41c8-8f50-bbc815c030e4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatTPS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="204" width="483" height="1" forecolor="#FFFFFF" uuid="e7f3bf1c-c077-499b-8126-d57a4269a6b3"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="247" width="12" height="13" uuid="bdbdd80f-56a3-47a3-8b8d-2852dd03708c"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="247" width="20" height="13" uuid="ab4795d5-a4b9-4269-94f8-6302fd35b176"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[f.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="247" width="101" height="13" uuid="c22818cb-9466-40ef-a817-ea5d6fe0821c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Provinsi"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="247" width="237" height="13" uuid="74a2b656-77e9-4237-8ed5-0a779b0311fd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{provinsiTPS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="260" width="483" height="1" forecolor="#FFFFFF" uuid="0939236b-2a6e-4876-ad71-bffaf16dcb58"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="274" width="483" height="1" forecolor="#FFFFFF" uuid="6477fd5a-43d0-49ec-86e1-5bb223722e8e"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="261" width="20" height="13" uuid="1064c291-abcb-45db-b0b1-f7f5d95081fb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[3.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="261" width="370" height="13" uuid="3d42e4e0-6fcb-4875-823e-e82bbdc69e6f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ukuran"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="275" width="20" height="13" uuid="26379ec9-1e9d-4205-8c0d-a4c376d35703"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="275" width="101" height="13" uuid="f738c427-a344-4036-bdbc-71980caaf37f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Luas Kawasan Pabean "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="275" width="12" height="13" uuid="df23eff4-3d13-496a-a3c5-b5f1586eb227"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="275" width="237" height="13" uuid="b4d4aa92-dce7-4b2f-86fd-91c577449f41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{luasKepabeanan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="288" width="483" height="1" forecolor="#FFFFFF" uuid="d27fde93-5fc7-4575-9a21-8d34fb76d79b"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="289" width="370" height="13" uuid="6fa2c619-3853-4c00-bfc0-402208764adb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagar Pembatas"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="289" width="20" height="13" uuid="89562108-84c1-4319-a8f3-737a5f5cbd45"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[4.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="302" width="483" height="1" forecolor="#FFFFFF" uuid="2a472b80-7213-4934-9b24-d02f6eceda70"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="303" width="101" height="13" uuid="912f4475-3e92-4576-be69-e8a25a5d4182"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Konstruksi"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="303" width="20" height="13" uuid="d2f0f5e1-7c08-4639-b70f-7e87ada58128"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="303" width="12" height="13" uuid="f67af261-ab33-469d-a49c-da6695f82bb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="303" width="237" height="13" uuid="682c457d-c9fc-446e-add8-3cab5a075a03"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{konstruksi}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="316" width="483" height="1" forecolor="#FFFFFF" uuid="4fb4b377-846d-45e8-912c-4491e7f73081"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="317" width="20" height="13" uuid="667b9863-b987-4dcf-b580-e4aad511ba53"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="317" width="101" height="13" uuid="12e0fafb-7777-40c4-97bd-da54fb1c9674"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tinggi"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="317" width="12" height="13" uuid="e9c6ebee-6a58-4111-9d12-09a8721ce0f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="317" width="237" height="13" uuid="7b980e4a-89d2-4880-9b57-64d6adce371a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tinggi}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="330" width="483" height="1" forecolor="#FFFFFF" uuid="bd673f04-e445-4a3b-81fb-84f404c7d45c"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="331" width="20" height="13" uuid="97abe9ef-d303-42de-a13e-524364443f03"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="331" width="101" height="13" uuid="e884d11b-a427-47d0-ab3c-c46f969737ae"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kondisi"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="331" width="12" height="13" uuid="f2df9305-6c4e-4309-bec9-0b79f8583995"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="331" width="237" height="13" uuid="3257218b-efe8-4a60-81a1-6a7161fbadf3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kondisi}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="344" width="483" height="1" forecolor="#FFFFFF" uuid="9b802ae0-d14f-41c4-9fc2-d2e70b22a09b"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="345" width="20" height="13" uuid="b17665ed-f1d6-427f-9dc3-7b2cd182ba24"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[5.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="345" width="370" height="13" uuid="5634955c-717f-4d92-bdeb-4e08e024d831"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Batas-Batas"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="358" width="483" height="1" forecolor="#FFFFFF" uuid="35f46ba9-bca5-4e44-b424-60923fa5803f"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="359" width="20" height="13" uuid="62631f7c-18f2-4b75-9b49-1dc6d145b42d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="359" width="101" height="13" uuid="0af30540-5609-43a9-8c2b-7f20b80dd3ea"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Timur"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="359" width="237" height="13" uuid="8ab6f95f-33ac-47db-ab83-d988f39fd193"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{batasTimur}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="359" width="12" height="13" uuid="a28db029-5240-4b50-bdc5-2d0e88937120"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="372" width="483" height="1" forecolor="#FFFFFF" uuid="ef3d98f8-4123-4dce-a929-af6e6f7c1d01"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="373" width="12" height="13" uuid="31522c57-8db4-471f-a25e-9997acd12644"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="373" width="101" height="13" uuid="56d8c66c-c41a-427f-b244-494692738a61"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Barat"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="373" width="20" height="13" uuid="54d919b6-ea7e-476d-9acb-dbc67fb21090"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="373" width="237" height="13" uuid="f5d1161f-cda5-493f-a723-991f45dcd417"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{batasBarat}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="386" width="483" height="1" forecolor="#FFFFFF" uuid="8a82e18c-c4ea-4d80-8e24-fa09bad6bb2e"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="387" width="101" height="13" uuid="5a5bbcf6-0971-4a3d-a82d-0684fbe3960b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Utara"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="387" width="20" height="13" uuid="d1339124-2e77-425b-a4d4-648e9c79bddc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="387" width="12" height="13" uuid="58b201d3-17c9-4ec2-9c90-1dbf3b95f821"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="387" width="237" height="13" uuid="cf22e5a6-c49c-4ed4-afa2-0458027f7eef"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{batasUtara}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="400" width="483" height="1" forecolor="#FFFFFF" uuid="828c41f6-9735-4e4c-88c9-5b86004afac4"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="401" width="20" height="13" uuid="f6a3bb36-637c-4c95-9437-23abc0104cef"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[d.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="401" width="101" height="13" uuid="854eade5-f97e-405f-8b4e-71df37b2db19"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Selatan"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="401" width="12" height="13" uuid="32ce7976-b712-479c-bd13-86a2c1bf1d90"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="401" width="237" height="13" uuid="7ffd7ac7-37c9-4241-be4d-3f6b47d16a27"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{batasSelatan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="414" width="483" height="1" forecolor="#FFFFFF" uuid="9b340877-c0ea-4913-9a94-dceca15d6177"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="415" width="20" height="13" uuid="9316f223-9a5c-4d0c-9e8d-2f4ad7fd5789"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[6.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="415" width="370" height="13" uuid="7dd41c33-4ba7-4893-bd35-9abd60253d93"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Koordinat Titik-Titik Batas"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="428" width="483" height="1" forecolor="#FFFFFF" uuid="8e47d127-73b0-4604-bbaf-89de8ed0007d"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="429" width="12" height="13" uuid="b2da8a85-763a-412c-83ee-f87d008b4871"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="429" width="101" height="13" uuid="53892696-e9dc-491e-806d-40c6bc386db0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Timur"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="429" width="20" height="13" uuid="15c110ff-b215-4321-a239-e9cdf464a461"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="429" width="237" height="13" uuid="7bcccb6f-83a5-4c2c-8df0-e7841c50d294"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{koordinatTimur}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="442" width="483" height="1" forecolor="#FFFFFF" uuid="e3b888ef-d6ca-49fa-852f-872f914cd71c"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="443" width="12" height="13" uuid="337251a9-945e-49e4-a09c-d4303b3dc7ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="443" width="101" height="13" uuid="61f9ae28-503e-45ca-82ce-32032367a2f4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Barat"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="443" width="20" height="13" uuid="3f2d3861-a5c4-4080-af54-06c38aa60724"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="443" width="237" height="13" uuid="461de4ec-c0bc-4357-9fd6-5498f23cb24c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{koordinatBarat}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="456" width="483" height="1" forecolor="#FFFFFF" uuid="328483dd-9c05-49b2-883c-c288f185a7ab"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="457" width="12" height="13" uuid="62b58697-121a-47c6-a4ec-a857b5530671"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="457" width="20" height="13" uuid="eb963536-268f-4257-9dbb-3d0d2c6bdb9a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="457" width="101" height="13" uuid="2443488b-576c-4fd2-83f3-37268a667c61"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Utara"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="457" width="237" height="13" uuid="be4e6b8d-8a4c-41c4-b28e-3a6d18916c15"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{koordinatUtara}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="470" width="483" height="1" forecolor="#FFFFFF" uuid="5485564c-d073-45cb-a0d8-47bc3099cf0a"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="471" width="101" height="13" uuid="498f0e6b-a60c-4daa-a9dc-fe273092fd8d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sebelah Selatan"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="471" width="20" height="13" uuid="5462cfa9-e3c3-4c75-8c21-a9f9007b22eb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[d.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="471" width="12" height="13" uuid="719a28c6-97a6-44bd-b09b-bbc291019d7d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="471" width="237" height="13" uuid="ca1901bb-252f-44d7-add4-8ed5e4ef4e1c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{koordinatSelatan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="484" width="483" height="1" forecolor="#FFFFFF" uuid="d2c7f150-e94a-4acf-8fcc-c74c3a649719"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="485" width="20" height="13" uuid="efa66b5b-3066-4a7f-9cf6-cd6cdd87eb5a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[7.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="485" width="370" height="13" uuid="0b8e8e79-a82a-4021-957d-38c5ed29c344"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pintu Masuk/Keluar (Gate)"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="498" width="483" height="1" forecolor="#FFFFFF" uuid="748cc2aa-b2d3-427e-bf17-fbc2e14f9672"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="499" width="101" height="13" uuid="8728fe73-7a9a-45fd-b38b-81c2090cd2fc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jumlah Pintu Masuk"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="499" width="20" height="13" uuid="1075d565-9152-4546-8365-88a631c67168"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="499" width="237" height="13" uuid="f0a3a9b9-5b26-4fae-a6cc-02524a62c72f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jumlahPintuMasuk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="499" width="12" height="13" uuid="36837fd6-09bc-4d31-94ca-8f563368c097"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="512" width="483" height="1" forecolor="#FFFFFF" uuid="90f53bee-7e31-430e-a8ff-6c3f35ffc758"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="513" width="237" height="13" uuid="abf97878-30a6-44df-9cbf-5b4ea74135f0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jumlahPintuKeluar}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="513" width="20" height="13" uuid="c66469f7-8e38-486c-b152-65260e725dfd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="513" width="12" height="13" uuid="62ff715d-2517-493c-b1a1-8a1204ea01d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="513" width="101" height="13" uuid="93023c46-03db-46eb-bfb4-adc19ae730ba"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jumlah Pintu Keluar"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="526" width="483" height="1" forecolor="#FFFFFF" uuid="bd0220a9-d461-4f92-85d7-593c45da16b1"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="527" width="237" height="13" uuid="942be10c-2b10-4b3e-81dd-6c156b9d1a62"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jumlahPintuMasukUtama}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="527" width="20" height="13" uuid="b9271a36-d513-4683-84be-6e4d506c51ec"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="527" width="101" height="13" uuid="417dd5aa-f883-48ee-84b9-06b5902802b7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pintu Masuk Utama"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="527" width="12" height="13" uuid="362aedc5-510b-4992-b874-16add56a021a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="540" width="483" height="1" forecolor="#FFFFFF" uuid="67a11702-c09b-4d98-8075-0c1fa4ede712"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="541" width="101" height="13" uuid="87fc7ee2-e964-4024-8792-71ab7eb7af04"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pintu Keluar Utama"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="541" width="237" height="13" uuid="e26ad940-9b59-4d9e-86e9-e4b6f65e50a4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jumlahPintuKeluarUtama}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="541" width="12" height="13" uuid="9ab17e56-2fb8-40b9-addd-8614c276691e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="541" width="20" height="13" uuid="cf961c57-bc2a-4eb5-958f-72b156cc3b13"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[d.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="554" width="483" height="1" forecolor="#FFFFFF" uuid="11f72950-37ac-4a1c-a8f2-91eff84f729b"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="133" y="555" width="101" height="13" uuid="7616e707-b6f0-47e1-a918-14512e76bee0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Catatan"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="113" y="555" width="20" height="13" uuid="60adb5be-23c5-4ea6-8196-87464bd89087"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[e.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="246" y="555" width="237" height="13" uuid="c2832ed0-2bf6-4b23-9919-cfb5501910f1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{catatan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="555" width="12" height="13" uuid="1303f2e2-f0fc-48ef-84e1-f5992fdc2775"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="568" width="483" height="1" forecolor="#FFFFFF" uuid="928491cd-a08f-401f-b725-63c8a0586b65"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="569" width="121" height="13" uuid="b09ad6b6-d369-4bf0-8380-04a0cb3b33ec"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Gambar denah Kawasan Pabean"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="569" width="20" height="13" uuid="a06cf851-e5a3-4816-9aa2-3ace7951aae9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[8.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="234" y="569" width="12" height="13" uuid="e97ef660-be4e-4aa3-8bed-13713dd23972"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="246" y="569" width="237" height="13" uuid="993bf962-9694-4965-b0e4-ad332f410c70"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Terlampir]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="583" width="390" height="13" uuid="fefa416f-7974-4355-ae93-cdf1d2940b9d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Penetapan sebagai Kawasan Pabean sebagaimana dimaksud dalam diktum PERTAMA disertai kewajiban Pengelola Kawasan Pabean memenuhi ketentuan sebagaimana diatur dalam Peraturan Menteri Keuangan Nomor 23/PMK.04/2015 tentang Kawasan Pabean dan Tempat Penimbunan Sementara."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="583" width="68" height="13" uuid="48b31e55-13e6-4041-af6c-2b0f49932d9b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Kedua]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="583" width="25" height="13" uuid="e1685187-8885-4080-85f3-c398272979ad"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="582" width="483" height="1" forecolor="#FFFFFF" uuid="ec032d58-f4f7-4783-8ac7-711fa142b682"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="596" width="483" height="1" forecolor="#FFFFFF" uuid="a2a8101a-2d21-4819-92ca-b299fef98c3e"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="597" width="25" height="13" uuid="132cbb60-ddb9-4b71-a5ea-e76dcee8468b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="597" width="68" height="13" uuid="39e49f24-eea8-43d1-bcb3-95cb6379de94"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Ketiga]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="597" width="390" height="13" uuid="9b443f51-c679-4fdc-921d-973cdd1ca053"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kawasan Pabean sebagaimana dimaksud dalam diktum PERTAMA berada di bawah pengawasan Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean Merak."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="610" width="483" height="1" forecolor="#FFFFFF" uuid="23768bbd-7ae4-4d2b-9a62-71a160dc8012"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="611" width="390" height="13" forecolor="#FFFFFF" uuid="7e495f95-21e2-41a6-80ec-96e5ebecf18d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dalam hal terdapat perubahan atas data sebagaimana dimaksud dalam Diktum PERTAMA harus diberitahukan kepada Kepala Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean Merak."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="611" width="25" height="13" uuid="3d9562b9-3bd3-458f-969c-d45447b288e3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="611" width="68" height="13" uuid="2c37ea65-8709-41be-8f07-0b388ee3aa45"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Keempat]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="624" width="483" height="1" forecolor="#FFFFFF" uuid="7fe995f4-8aec-47c2-bbff-efdabf91e217"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="625" width="25" height="13" uuid="2b9c1379-5807-4700-8570-6e3c13c03d21"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="625" width="390" height="13" uuid="5378a413-4b95-464e-80e4-cc612b2033bc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Keputusan Menteri Keuangan ini merupakan bagian yang tidak terpisahkan dari Keputusan Menteri Keuangan Nomor"+$P{nomorPerubahan}+ " Tanggal "+$P{tanggal4}+" Tentang Penetapan Kawasan Di Tempat Lain Sebagai Kawasan Pabean Atas Nama "+$P{perusahaan}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="625" width="68" height="13" uuid="c6af6e3b-cf0c-448a-a74d-c11e10295db6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Kelima]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="638" width="483" height="1" forecolor="#FFFFFF" uuid="8768be61-0f36-4126-a87b-7cb6e0bb35d2"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="639" width="390" height="13" uuid="2e33879d-9b8d-47a6-ab3c-7bbb4148bdec"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Keputusan Menteri Keuangan ini mulai berlaku sejak tanggal ditetapkan."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="639" width="68" height="13" uuid="bb274f09-540d-4c9d-a13d-673f830e3d37"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Keenam]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="68" y="639" width="25" height="13" uuid="e6d4e676-a7c1-47d8-9036-581e667a5911"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="669" width="370" height="13" uuid="849e9fe6-52bd-4ac4-983c-90949845af56"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Direktur Teknis Kepabeanan;"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="669" width="20" height="13" uuid="853e4f32-0350-4f3b-acf1-964b8e39fc53"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[1.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="652" width="483" height="1" forecolor="#FFFFFF" uuid="2370c926-81a8-45e8-b985-fd834647231c"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="93" y="656" width="390" height="13" uuid="99bc965e-cf81-42ad-93b6-fa9513087333"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Salinan Keputusan Menteri Keuangan ini disampaikan kepada:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="682" width="20" height="13" uuid="a015be38-36b9-416e-9a61-0fad36e7b217"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="682" width="370" height="13" uuid="437b20a5-24df-4e27-b7c7-686e0dc2722c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Direktur Teknis Kepabeanan;"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="695" width="370" height="13" uuid="56b30ce2-71b1-4c7d-b0f2-50e9f852e705"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Direktur Penindakan dan Penyidikan;"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="695" width="20" height="13" uuid="b7f52c1b-4ea1-452f-a60a-9a00334b8e4b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[3.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="113" y="708" width="370" height="13" uuid="873085a8-dee3-4ddf-b36e-476e349bf021"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kepalaKPPBC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="93" y="708" width="20" height="13" uuid="11daefdb-1b90-45f1-8d7b-817d5bcaf70b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[4.]]></text>
+			</staticText>
+		</band>
+		<band height="300">
+			<printWhenExpression><![CDATA["1"=="1"]]></printWhenExpression>
+			<staticText>
+				<reportElement x="94" y="20" width="390" height="32" uuid="f485d3e2-039b-42b2-b666-f2ee92f03d53"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Asli Keputusan Menteri Keuangan ini disampaikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="246" y="66" width="237" height="20" uuid="27d15816-a0cb-40bc-b463-9e8309412e71"/>
+				<textFieldExpression><![CDATA["Ditetapkan di Tangerang Selatan\n"
++"pada tanggal "+$P{tanggalPenetapanKeputusan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="246" y="129" width="237" height="27" uuid="cfe94082-d324-476e-9791-e7814513298b"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[a.n. MENTERI KEUANGAN
+KEPALA KANTOR WILAYAH DJBC BANTEN
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="246" y="174" width="237" height="20" uuid="dd9e7860-d000-4037-884f-3e1406321da6"/>
+				<textFieldExpression><![CDATA[$P{namaKakanwilDJBC}+"\n"
++"NIP "+$P{nipKaKanwilDJBC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<noData>
+		<band/>
+	</noData>
+</jasperReport>

@@ -1,0 +1,143 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/chart.js"></script>
+
+
+<dom-module id="homeizin2-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css" href="../css/product.css" />
+<link rel="import" type="css" href="../css/chart.min.css" />
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<template>
+<style>
+.v-caption-my-style {
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+</style>
+<div class="body-class2">
+	<nav
+		class="site-header sticky-top py-1 navbar navbar-expand-md navbar-dark fixed-top navbar-expand-md-left">
+
+		<a class="py-2 reset-paddinghome" href="mainhome" aria-label="Product">
+			<img class="logo-home" src="./frontend/img/logosiapkaban.png"
+			width="60" height="60" />
+		</a> <a class="navbar-brand" href="mainhome"><img height="35"
+			src="./frontend/img/siapkaban.png" /></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarCollapse" aria-controls="navbarCollapse"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto page-title-center">
+				<li class="nav-item active"><a id="txtjudulapp"
+					class="nav-link">PENGAWASAN</a></li>
+
+			</ul>
+			<a id="txttgl" class="navbar-brand" style="font-size: 14px;" href="#">Senin,
+				20 April 2020</a>
+			<div class="btn-group" role="group">
+				<span id="btnGroupDrop1"
+					class="btn btn-outline-primary dropdown-toggle"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+					style="border: 1px solid #FFF !important; color: white;"><img
+					src="./frontend/img/icons/person-fill-white.svg" alt="" width="22"
+					height="22" title="Filter"> Profile</span>
+
+				<div id="menudropdown" class="dropdown-menu right-dropdown"
+					aria-labelledby="btnGroupDrop1">
+					<ul class="list-group mb-3">
+						<li
+							style="border-bottom: none !important; padding: .5rem 1.25rem !important;"
+							class="d-flex justify-content-between lh-condensed">
+							<div class="center-avatar">
+								<img class="img-avatar" src="./frontend/img/avatar.jpg"
+									width="100" height="100" />
+							</div>
+						</li>
+						<li
+							style="border-top: none !important; padding: .5rem 1.25rem !important;"
+							class="d-flex justify-content-between lh-condensed">
+							<div class="center-avatar text-center" style="width: 100%">
+								<h6 id="txtnamauser" class="my-0 text-center">AULIA NIBRA
+									S.</h6>
+								<small id="txtnip" class="text-muted text-center">1995051620151521003</small>
+								<h6 id="txtjabatan"
+									style="font-weight: normal; font-size: 14px;"
+									class="my-0 text-center text-muted">Pengatur Muda - II/a</h6>
+								<small id="txtemail" class="text-muted text-center">aulianibras@gmail.com</small>
+								<div class="col-md-12 text-center" style="margin: 10px 0;">
+									<vaadin-button id="btnsignout"
+										class=" btn btn-block mybtn btn-primary tx-tfm signin-btn">SIGN
+									OUT</vaadin-button>
+								</div>
+							</div>
+						</li>
+
+
+					</ul>
+
+				</div>
+			</div>
+	</nav>
+
+	<div class="nav-scroller bg-white shadow-sm"
+		style="position: fixed; width: 100%;">
+		<nav id="menus" class="nav nav-underline"></nav>
+	</div>
+
+	<div class="container container-tpb" style="margin-top: 60px;">
+
+		<div class="row">
+			<slot></slot>
+		</div>
+
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1">SIAPKABAN - 2020</p>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Privacy</a></li>
+				<li class="list-inline-item"><a href="#">Terms</a></li>
+				<li class="list-inline-item"><a href="#">Support</a></li>
+			</ul>
+		</footer>
+	</div>
+</div>
+</template> <script>    	
+        class Homeizin2Page extends Polymer.Element {
+            static get is() {
+                return 'homeizin2-page'
+            }
+            
+            ready() {
+           		super.ready();
+           		console.log("start");
+           		var ctx = $(this.$.myChart);
+           		var btnGroupDrop1 = $(this.$.btnGroupDrop1);
+           		var menudropdown = $(this.$.menudropdown);
+           		//btnGroupDrop1.dropdown();
+           		btnGroupDrop1.click(function() {
+           			console.log("start w");
+           			if(menudropdown.hasClass("show")){
+           				menudropdown.removeClass("show");
+           			}else{
+           				menudropdown.addClass("show");
+           			}
+           		});           		
+            }
+        }
+        customElements.define(Homeizin2Page.is, Homeizin2Page);
+    </script> </dom-module>

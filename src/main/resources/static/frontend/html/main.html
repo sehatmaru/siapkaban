@@ -1,0 +1,142 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+
+<dom-module id="mainhome-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css" href="../css/product.css" />
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<template>
+<style>
+</style>
+<div class="body-class2">
+	<nav class="site-header sticky-top py-1">
+		<div class="container d-flex flex-column flex-md-row">
+			<a class="py-2 reset-paddinghome" href="#" aria-label="Product">
+				<img class="logo-home" src="./frontend/img/logosiapkaban.png"
+				width="60" height="60" />
+			</a> <a class="py-2 link-paddinghome"
+				style="margin-left: 10px; text-align: center" href="#"><img
+				height="35" src="./frontend/img/siapkaban.png" /></a>
+		</div>
+	</nav>
+
+	<div class="container" style="margin-top: 15px;">
+
+		<div class="row">
+			<div class="col-md-4 order-md-1 mb-4 left-profile-an">
+
+				<ul
+					class="list-group mb-3 left-profile rounded-corner rounded-corner-bottom">
+					<li
+						style="border-bottom: none !important; padding: .5rem 1.25rem !important;"
+						class="list-group-item d-flex justify-content-between lh-condensed rounded-corner">
+						<div class="center-avatar">
+							<img class="img-avatar" src="./frontend/img/avatar.jpg"
+								width="100" height="100" />
+						</div>
+					</li>
+					<li
+						style="border-top: none !important; padding: .5rem 1.25rem !important;"
+						class="list-group-item d-flex justify-content-between lh-condensed">
+						<div class="center-avatar text-center" style="width: 100%">
+							<h6 id="txtnamauser" class="my-0 text-center">AULIA NIBRA S.</h6>
+							<small id="txtnip" class="text-muted text-center">1995051620151521003</small>
+							<h6 id="txtjabatan" style="font-weight: normal; font-size: 14px;"
+								class="my-0 text-center text-muted">Pengatur Muda - II/a</h6>
+							<small id="txtemail" class="text-muted text-center">aulianibras@gmail.com</small>
+							<div class="col-md-12 text-center" style="margin: 10px 0;">
+								<vaadin-button id="btnsignout" href="#"
+									class=" btn btn-block mybtn btn-primary tx-tfm signin-btn">SIGN
+									OUT</vaadin-button>
+							</div>
+						</div>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between lh-condensed">
+						<div>
+							<!-- <small style="font-size: 0.625rem;" class="text-muted">Seksi</small>
+							<h6 style="font-size: 1rem;" class="my-0">Seksi Perijinan
+								dan Fasilitas I</h6> -->
+
+							<small id="txtdscpbidang" style="font-size: 0.625rem;" class="text-muted">Bidang</small>
+							<h6 id="txtbidang" style="font-size: 1rem;" class="my-0">Fasilitas Kepabean
+								dan Cukai</h6>
+
+							<!-- <small style="font-size: 0.625rem;" class="text-muted">Kantor</small>
+							<h6 style="font-size: 1rem;" class="my-0">Kantor Wilayah
+								DJBC Banten</h6> -->
+						</div>
+					</li>
+
+					<li
+						class="list-group-item d-flex justify-content-between lh-condensed rounded-corner-bottom">
+						<div style="line-height: 1rem">
+							<h6 style="font-size: 0.8rem;" class="my-0">Cara Mengakses
+								Aplikasi</h6>
+							<p
+								style="font-size: 0.625rem; text-align: justify !important; margin: 5px 0;"
+								class="text-muted">Klik pada <em>icon</em> aplikasi yang akan Anda
+								akses, kemudian akan tampil window baru dari aplikasi tersebut.</p>
+							<br />
+							<h6 style="font-size: 0.8rem;" class="my-0">Cara Keluar
+								Aplikasi</h6>
+							<p
+								style="font-size: 0.625rem; text-align: justify !important; margin: 5px 0;"
+								class="text-muted">Klik tombol <em>sign out</em> dari halaman ini
+								atau dari header aplikasi yang sedang Anda Akses</p>
+						</div>
+					</li>
+
+				</ul>
+
+
+			</div>
+			<div
+				class="col-md-8 order-md-1 mb-5 rounded-corner rounded-corner-bottom right-profile"
+				style="padding: 20px;">
+				<h5 class="mb-3"
+					style="text-align: center; margin-bottom: 30px !important;">DAFTAR
+					APLIKASI SIAP KABAN</h5>
+
+				<div id="menuapps" class="row" style="margin-bottom: 3px;">
+					
+				</div>
+			</div>
+		</div>
+
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1">SIAPKABAN - 2020</p>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Privacy</a></li>
+				<li class="list-inline-item"><a href="#">Terms</a></li>
+				<li class="list-inline-item"><a href="#">Support</a></li>
+			</ul>
+		</footer>
+	</div>
+</div>
+</template> <script>    	
+        class MainHomePage extends Polymer.Element {
+            static get is() {
+                return 'mainhome-page'
+            }
+            
+            ready() {
+           		super.ready();
+           		//console.log("start");
+           		//var h = $(this.$.informasiAkses);
+            }
+        }
+        customElements.define(MainHomePage.is, MainHomePage);
+    </script> </dom-module>

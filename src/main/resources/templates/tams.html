@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>SIAPKABAN</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link th:href="@{/frontend/css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+        <link th:href="@{/frontend/css/main.css}" rel="stylesheet" id="bootstrap-css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+        <script th:src="@{/frontend/js/bootstrap.js}"></script>
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    </head>
+    <body class="body-class">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div id="first">
+                        <div class="myform form login-header">
+                            <img class="logologin-header" src="./frontend/img/logologin.png" />
+                            <p class="login-title">Sistem Aplikasi Pengawasan dan Pelayanan Kanwil DJBC Banten</p>
+                            <p class="login-desc">Selamat Datang. SIAPKABAN, Sistem Aplikasi Pengawasan Kantor Wilayah Direktorat Jenderal Bea dan Cukai Banten yang di dalamnya terdiri dari berbagai sub Aplikasi yang digunakan untuk proses administrasi, pelayanan, pengawasan, dan hal lain yang terkait dengan Tugas dan Fungsi Direktorat Jenderal Bea dan Cukai Kantor Wilayah Banten. </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 mx-auto">
+                    <div id="first">
+                        <div class="myform form ">
+                            <div class="logo mb-3">
+                                <div class="col-md-12 text-center">
+                                    <h1 class="signin-color">Sign In</h1>
+                                </div>
+                            </div>
+                            <form action="/home.html" method="get" name="login">
+                                <div class="form-group addpadding-login inner-addon left-addon">
+                                    <input type="email" name="email"  class="form-control formlogin-style username-icon" id="email" aria-describedby="emailHelp" placeholder="Username">
+                                </div>
+                                <div class="form-group addpadding-login">
+                                    <input type="password" name="password" id="password"  class="form-control formlogin-style password-icon" aria-describedby="emailHelp" placeholder="Password">
+                                </div>
+
+                                <div class="col-md-12 text-center ">
+                                    <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm signin-btn">SIGN IN</button>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <div class="login-or">
+                                        <hr class="hr-or">
+                                        <span class="span-or"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center" style="margin-bottom: 10px;">
+
+                                    <button type="button" class=" btn btn-block mybtn btn-primary tx-tfm infoakses-btn" data-toggle="modal" data-target="#informasiAkses">INFORMASI AKSES</button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="informasiAkses" tabindex="-1" role="dialog" aria-labelledby="informasiAksws" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center position-absolute" id="exampleModalLabel" style="text-align: center; width: 90%">Informasi Akses</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p style="font-size: 14px;"><strong>Belum Punya User SIAPKABAN?</strong><br />
+                                Silahkan lakukan aktivasi user pegawai DJBC di Portal Intranet Pegawai yang beralamat di https://intranet.beacukai.go.id. User pegawai harus melakukan aktivasi sendiri dengan menggunakan data-data kepegawaiannya.
+                            </p>
+                            
+                            <p style="font-size: 14px;"><strong>Cara Mendapatkan Kewenangan Akses</strong><br />
+                                Setelah sign-in seorang user dapat mengakses Aplikasi yang tersedia dengan cara mengklik link atau icon aplikasinya. Setiap Aplikasi akan memiliki satu window browser dengan default layer sesuai dengan ukuran layar komputer yang digunakan untuk melakukan akses.
+                            </p>
+                            
+                            <p style="font-size: 14px;"><strong>Lupa Password?</strong><br />
+                                Ada dua cara untuk Anda bisa kembali mendapatkan password yaitu dengan melakukan recovery password sendiri melalui Portal Intranet Pegawai atau hubungi bagian Dutek untuk dilakukan reset password.
+                            </p>
+                            
+                            <p style="font-size: 14px; float: right"><strong>Direktorat Jenderal Bea dan Cukai Kantow Wilayah Banten - 2020</strong></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>   
+    </body>
+</html>

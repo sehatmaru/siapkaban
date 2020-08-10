@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LembarDisposisiKepalaKantor" language="groovy" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="41" bottomMargin="20" whenResourceMissingType="Empty" uuid="6941cb2f-70c5-4258-b9f0-2e2cb9f43bc4">
+	<property name="ireport.zoom" value="1.9487171000000232"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="tanggalDiterima" class="java.lang.String"/>
+	<parameter name="tanggalSurat" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorSurat" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="asalSurat" class="java.lang.String"/>
+	<parameter name="hal" class="java.lang.String"/>
+	<parameter name="lampiran" class="java.lang.String"/>
+	<parameter name="sifat" class="java.lang.String"/>
+	<parameter name="nomorAgenda" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="730" splitType="Stretch">
+			<printWhenExpression><![CDATA["1"=="1"]]></printWhenExpression>
+			<staticText>
+				<reportElement x="110" y="46" width="373" height="26" uuid="22022c0d-167f-4326-8720-68987fc00b47"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jl. Raya Serpong Damai Sektor VI Blok 201 No. 02 BSD, Tangerang, Banten
+Telepon (021) 53154661, Faksimile (021) 53154685, Email: kanwil.djbc.banten@gmail.com]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="28" y="1" width="82" height="63" uuid="0184cea6-f92f-48bc-8e0a-544a32d456b3"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="10" y="72" width="485" height="1" forecolor="#FFFFFF" uuid="675b76ad-eb4e-483b-97d0-1525bbc12b83"/>
+			</line>
+			<staticText>
+				<reportElement x="110" y="1" width="373" height="45" uuid="0d49beba-1bb0-4b27-a740-fc453dd9d827"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
+DIREKTORAT JENDERAL BEA DAN CUKAI
+KANTOR WILAYAH BANTEN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="483" height="1" uuid="d03528eb-85f6-4ae1-b86d-55c24127f389"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="72" width="483" height="20" uuid="64371e0b-5ca1-40d4-9ebd-1a1e7ce83594"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LEMBAR DISPOSISI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="92" width="483" height="15" uuid="14849082-2130-4da3-b3e4-350dca6b7e58"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[PERHATIAN : Dilarang memisahkan sehelai surat pun yang tergabung dalam berkas ini]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="114" width="98" height="13" uuid="d2ca92ef-a3ea-49a6-a4ff-03ec32fbdabb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tanggalDiterima}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="114" width="90" height="13" uuid="bfed5085-9b98-48b2-ac18-44bb30d4882b"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Diterima Tgl]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="127" width="90" height="13" uuid="494bfc23-79ea-46dc-b915-5d39112cf197"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[No/Tgl. Surat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="140" width="90" height="13" uuid="10c09f54-ea9f-4104-91e2-4a205eeaddd8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Asal Surat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="153" width="90" height="13" uuid="48ddd0de-c733-4c57-b78f-b29ae0586a4d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Hal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="166" width="90" height="13" uuid="e0dda2f7-a1b2-4b55-bfff-04588c74f0d1"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Lampiran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="179" width="90" height="13" uuid="e98e2c56-ea43-4b5d-9b38-d2cd008d10cc"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Sifat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="114" width="10" height="13" uuid="8d07ce39-2bfd-4aee-bd2e-bff0eb69099f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="127" width="10" height="13" uuid="286feca4-3203-43db-b7f0-db5ad1244c41"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="140" width="10" height="13" uuid="de6a3b52-fbbb-4335-8126-c6ff74e4867c"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="153" width="10" height="13" uuid="5a4d64da-31f6-4b61-909b-88229d15f969"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="166" width="10" height="13" uuid="52b10154-2300-4461-8a60-450db6fc5235"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="179" width="10" height="13" uuid="32edb8f9-d522-4c5d-8731-683f28848c7e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="127" width="372" height="13" uuid="d52382ac-7e67-47fb-89d7-4155f59a8cd3"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomorSurat} +"                       "+$P{tanggalSurat}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="140" width="98" height="13" uuid="2106d51b-d7c7-43c0-ab00-bdcb478c1b12"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{asalSurat}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="153" width="98" height="13" uuid="6d54905b-5ad1-413a-812f-3c210334b9bf"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="166" width="98" height="13" uuid="f49e8f60-bd33-479c-a90d-636724fe3794"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lampiran}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="111" y="179" width="98" height="13" uuid="14401f03-f157-4812-9254-da4992090171"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sifat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="313" y="114" width="10" height="13" uuid="9226bece-5f56-4cee-9472-343f3de64c3e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="114" width="44" height="13" uuid="e9a72e82-bdea-46c9-9b77-169e42d8f4b8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[No Agenda]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="326" y="114" width="157" height="13" uuid="895c6c76-4f37-4109-a9dc-40c6fb94c680"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomorAgenda}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="203" width="479" height="21" uuid="f5f7d81d-9a8b-4e16-a132-f42ec4ea1b34"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[DISPOSISI KEPALA KANTOR WILAYAH KEPADA: ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="228" width="13" height="13" uuid="7aed4ffe-db07-46db-9909-5515d8c7d742"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="249" width="13" height="13" uuid="a565458e-20cf-4b33-9528-6d626de977b8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="270" width="13" height="13" uuid="665f4425-ef14-43ef-97d0-5154d31f2851"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="290" width="13" height="13" uuid="26f1899e-683c-4d3c-b55b-196dd81a296c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="249" y="228" width="13" height="13" uuid="2dd52bf1-20e5-47fb-924c-4ae48fb87e2c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="249" y="249" width="13" height="13" uuid="69949753-1c52-4f68-8167-55f7313ddfc9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="249" y="270" width="13" height="13" uuid="8b962835-a99d-4fb2-84e4-acab9cfef960"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="314" width="481" height="15" uuid="391a6fb6-8c51-4c3b-bd39-cc019a5e042c"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[PETUNJUK :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="129" y="378" width="13" height="13" uuid="8b23f84b-b71c-4c22-aa3c-d6dece644ae7"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="129" y="357" width="13" height="13" uuid="edf62621-91be-4b45-b6ff-ff30cb534858"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="9" y="398" width="13" height="13" uuid="37cd4075-3588-4d9d-bd40-380664151b9e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="9" y="357" width="13" height="13" uuid="23322897-983a-46aa-88cf-d70045c345f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="9" y="378" width="13" height="13" uuid="e83414ed-79f7-42c4-af56-cafb33c23375"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="129" y="336" width="13" height="13" uuid="6c2876a8-078d-415d-a4e3-9c17b39ec860"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="9" y="336" width="13" height="13" uuid="0316afaf-b64d-4915-8b1f-efdcb7990c1a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="427" width="479" height="13" uuid="42abf8a7-ec40-4f5e-972f-87ce49961c56"/>
+				<textElement>
+					<font fontName="Arial" isBold="true" isUnderline="true"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[CATATAN KAKANWIL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="228" width="190" height="13" uuid="de67a825-224c-4153-90d3-e37d2199c5a3"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Kepala Bagian Umum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="249" width="190" height="13" uuid="8f2dc720-9ecb-40a8-a61f-556590575a29"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Kabid Kepabeanan dan Cukai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="270" width="190" height="13" uuid="dbb16aeb-c203-46b0-8499-80e269691e42"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Kabid Fasilitas Kepabeanan dan Cukai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="290" width="190" height="13" uuid="377eceb3-6cf5-4d0c-8f7d-8bd4da5137e1"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Kabid Penindakan dan Penyidikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="265" y="228" width="170" height="13" uuid="14bca47d-13eb-4d99-8d54-ff7a9813ad13"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Kabid Kepatuhan Internal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="265" y="249" width="170" height="13" uuid="79751457-90b9-48cb-8418-580c479fe84d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Kelompok Jabatan Fungsional ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="265" y="270" width="170" height="13" uuid="e1f1d5d9-d159-41bc-bcaa-233e58b9de19"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Staf : ____________________________]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="129" y="398" width="13" height="13" uuid="2a71ab74-1d12-477b-8370-a02179ea24df"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="244" y="336" width="13" height="13" uuid="7c9ac0ee-2e48-454a-ae41-c157116c7edd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="244" y="398" width="13" height="13" uuid="7167e532-ac84-4e0b-9e35-eeb6239feb8b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="244" y="378" width="13" height="13" uuid="8f9fe9bc-7592-4352-a6be-f626c108705f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="244" y="357" width="13" height="13" uuid="7bfa8448-1e8a-475f-8ddc-500090f1bac6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="336" width="13" height="13" uuid="78d43ca7-ed95-4428-a18e-7c4a58b9acc5"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="398" width="13" height="13" uuid="3aefdab8-d35d-41be-93f5-8b38fb558fbd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="378" width="13" height="13" uuid="85a6cf90-2fce-4b8b-b059-1e41cbce8a6c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="369" y="357" width="13" height="13" uuid="04295b37-d902-4ed0-b47d-be7a40791605"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="28" y="336" width="95" height="13" uuid="60abae67-1eb3-4368-b18f-97598ff38786"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Teliti & Pendapat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="357" width="95" height="13" uuid="cd66bea8-e070-4564-9b90-1ba77f891c6f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Setuju]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="378" width="95" height="13" uuid="5757f130-0150-47e0-b945-d2ce0de24486"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Tolak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="398" width="95" height="13" uuid="569bed65-578c-435b-bc18-71c74b02edc5"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Untuk diketahui]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="336" width="84" height="13" uuid="3f8deedb-9c5f-44f8-9f9e-b943b0122b73"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Untuk Perhatian]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="357" width="84" height="13" uuid="210436c4-a23d-4487-9216-cda136df924e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Edarkan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="378" width="84" height="13" uuid="ddeda815-fcba-4061-8b60-1d42f7cf842f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Jawab]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="398" width="84" height="13" uuid="b56daf27-f176-48b9-9699-b0d8a65f57d1"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Selesaikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="336" width="103" height="13" uuid="adbb71de-3a19-4e93-b5e2-79982f37473c"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Perbaiki]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="357" width="103" height="13" uuid="9ccc831c-cfd4-49c4-bb42-7d5093f91ffa"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Bicarakan Dengan Saya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="378" width="103" height="13" uuid="f1fb44a4-e936-4bf3-ada2-3335c785f466"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Simpan/ File]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="398" width="103" height="13" uuid="fd48ed98-9901-44f3-ab0e-ed884db6b093"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Siapkan Administrasinya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="336" width="96" height="13" uuid="72b2076a-55db-4ba5-8496-5ef48fbe03a4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Ikuti Perkembangannya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="357" width="96" height="13" uuid="e10bcadd-bd0c-4d33-a47d-2f576e5f3822"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Untuk Hadir/ Mewakilkan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="378" width="96" height="13" uuid="ab503f1c-d13e-4a42-80af-b63aa15fe56e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Sesuai Catatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="398" width="96" height="13" uuid="8f7724e5-35d3-46e5-8fbc-ff5e1ac9506b"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Perbanyak ........ kali]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="573" width="287" height="13" uuid="b85bbdf6-ba9c-4c3b-9f25-80ad663b3d8c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Tgl. Penyelesaian :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="573" width="196" height="13" uuid="badf2a3c-a089-4760-b0d4-99f70e1aa956"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Diajukan kembali tgl. :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="586" width="287" height="13" uuid="7067580b-1970-46c6-8a3c-ac1bcb2a47db"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Penerima :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="586" width="196" height="13" uuid="775cf0a3-0542-466d-8bcb-af94d828be4e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Penerima :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="612" width="287" height="13" uuid="bc078580-895d-43e4-96ee-6afa7ff72c95"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Kepada :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="625" width="287" height="13" uuid="7c40150b-c7cc-4132-921c-89bfc31732bc"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Petunjuk : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="625" width="196" height="13" uuid="e77b5f90-4bc8-4b4b-bd50-d1031c4efdca"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Petunjuk : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="612" width="196" height="13" uuid="85af396f-2acf-4c2c-924f-3bd4454c4cd9"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Kepada :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="638" width="287" height="13" uuid="d1149d9a-f820-4b60-a0e7-3d12a8ad0ded"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Tgl. Penyelesaian :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="651" width="287" height="13" uuid="c4e0d1c8-3ad8-4d75-87da-5f09ba1319ff"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Penerima :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="651" width="196" height="13" uuid="09656a2e-7b95-457c-9507-35752d61fb57"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Penerima :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="638" width="196" height="13" uuid="ad0d9865-c2f9-4c71-95ee-7f8a039ad8c4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[Diajukan kembali tgl. :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="599" width="287" height="13" uuid="2ca467aa-bb25-41fd-8e37-d7c3f254dc01"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[DISPOSISI KABAG/KABID :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="599" width="196" height="13" uuid="3744c5be-cf65-464f-b6d7-103bdbb5a4ec"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+					<paragraph leftIndent="6"/>
+				</textElement>
+				<text><![CDATA[DISPOSISI KASUBAG/KASI :]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement x="-1" y="0" width="1" height="664" uuid="2de196a7-d549-41cc-bcb9-a66a633c51bd"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="482" y="107" width="1" height="466" uuid="5133f398-9b82-494b-b572-d803d4afe10d"/>
+			</line>
+		</band>
+		<band height="50"/>
+	</detail>
+</jasperReport>

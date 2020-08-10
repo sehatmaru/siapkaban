@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notadinas" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="42" bottomMargin="20" whenResourceMissingType="Empty" uuid="978a2e6d-72f1-434b-8b65-21768b715a8a">
+	<property name="ireport.zoom" value="2.59374246010002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nomor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Nomor : ND-001/WBC.07/BD.02/2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="yth" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Kepala Kantor"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dari" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Kepala Bidang Kepabeanan dan Cukai"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lampiran" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1 (satu) berkas"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hal" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Perubahan Surat Keputusan Penetapan Kawasan Pabean Atas Nama PT Vopak Terminal Merak"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Februari 2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kantor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Kantor Pengawasan dan Pelayanan Bea dan Cukai TMP Merak"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomor2" class="java.lang.String">
+		<defaultValueExpression><![CDATA["ND-87/WBC.07/KPP.MP.01/2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal2" class="java.lang.String">
+		<defaultValueExpression><![CDATA["17 Februari 2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomor3" class="java.lang.String">
+		<defaultValueExpression><![CDATA["001/VTM/SKEP-KP/I/2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perusahaan" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PT. Vopak Terminal"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal3" class="java.lang.String">
+		<defaultValueExpression><![CDATA["23 Januari 2020"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomor4" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KM-29/WBC.07/2018"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal4" class="java.lang.String">
+		<defaultValueExpression><![CDATA["13 Maret 2018"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="penetapan" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Penetapan Kawasan Ditempat Lain Sebagai Kawasan Pabean "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomor5" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KM-237/WBC.07/2019"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggal5" class="java.lang.String">
+		<defaultValueExpression><![CDATA["05 November 2019"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomor6" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["BX-480/PP008"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="suratkeputusan" class="java.lang.String">
+		<defaultValueExpression><![CDATA["perubahan ketiga atas Keputusan Menteri Keuangan Nomor KM-29/WBC.07/2018"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggalsk" class="java.lang.String">
+		<defaultValueExpression><![CDATA["13 Maret 2018"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tentangsk" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Penetapan Kawasan Di Tempat Lain Sebagai Kawasan Pabean"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ttd" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Arif"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["C:\\Users\\thahat\\Documents\\DATA\\thaha\\BEACUKAI\\report\\logo.jpg"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="780">
+			<printWhenExpression><![CDATA["1"=="1"]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="79" width="483" height="13" uuid="badfab7d-f084-4f61-8987-56acb1c1f1c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTA DINAS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="92" width="483" height="13" uuid="58173e4a-9719-438d-bb67-fee9e71736d4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="121" width="46" height="13" uuid="2001858f-e615-4a20-bce6-a2971d775a39"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Yth]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="134" width="46" height="13" uuid="d853e2b2-7f9c-48d2-a918-9e236e9fefa2"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Dari]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="147" width="46" height="13" uuid="4ac19dfd-1659-4185-b056-fe47f7cdd826"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Lampiran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="46" height="13" uuid="3e1935df-d065-4a40-aff4-1dd52cde7e96"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Hal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="174" width="46" height="13" uuid="9fad3703-d09b-49ae-a7d1-8f79fc813802"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="121" width="8" height="13" uuid="69558000-9df6-4f1f-97b9-a82689d2934e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="134" width="8" height="13" uuid="b7639da4-bef1-4812-b0c8-3d15b08d0fce"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="147" width="8" height="13" uuid="3ab4c777-729f-473e-a713-029b0968cffb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="160" width="8" height="13" uuid="54071ede-0fd4-444e-a4a3-9db0b809d994"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="46" y="174" width="8" height="13" uuid="966c57d9-ec70-4a08-8537-4d9509533749"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="54" y="147" width="429" height="13" uuid="e02992de-6a2f-4fb2-b1fc-d8ad199f81e5"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lampiran}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="121" width="429" height="13" uuid="45d62a7c-2bd0-45df-afb7-d237ab544e59"/>
+				<textFieldExpression><![CDATA[$P{yth}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="134" width="429" height="13" uuid="9064ec16-6b22-4b72-bef7-d8e6bac55417"/>
+				<textFieldExpression><![CDATA[$P{dari}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="54" y="174" width="429" height="13" uuid="514e2f24-a5c6-4844-a634-5efb0f019337"/>
+				<textFieldExpression><![CDATA[$P{tanggal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="54" y="160" width="429" height="13" uuid="bbaafbf8-159c-4aff-ae88-54137d88113e"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="173" width="100" height="1" forecolor="#FFFFFF" uuid="9f9cc09d-01f4-4b4d-a8e4-5f2de14bc08d"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="191" width="483" height="1" uuid="45f5ac1b-0a11-48dd-ac04-814d25153a1c"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="198" width="483" height="13" uuid="94a0fcfc-3d7a-4dd0-b2a0-fd18a62e1191"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sehubungan dengan Nota Dinas Kepala "+$P{kantor}+" Nomor: "+$P{nomor2}+" tanggal "+$P{tanggal2}+" perihal Rekomendasi Perubahan Penetapan Sebagai Kawasan Pabean, disampaikan hal-hal sebagai berikut:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="215" width="12" height="13" uuid="4758f62d-8cc0-4a4c-977b-782d68df240a"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="215" width="12" height="13" uuid="b58b6c0a-84ff-4915-945d-2c7c5cf5329d"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="215" width="441" height="13" uuid="56b685b5-3c02-4161-b96f-32ca2169aa72"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa nota dinas tersebut merupakan rekomendasi dari Kepala "+$P{kantor}+" sebagai tindak lanjut atas surat "+$P{perusahaan}+" Nomor : "+$P{nomor3}+" tanggal "+$P{tanggal3}+" hal "+$P{hal}+ "."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="229" width="12" height="13" uuid="74dbfbd4-0b11-47ff-b060-47580971e0f6"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="229" width="12" height="13" uuid="053ef2b0-3052-4129-ae88-971183742560"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="229" width="441" height="13" uuid="ba9b0b85-0675-4796-ad31-49cd5edbdecf"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa berdasarkan Pasal 51 Peraturan Direktur Jenderal Bea dan Cukai Nomor PER-6/BC/2015 tentang Tata Cara Penetapan Kawasan Pabean Dan Tempat Penimbunan Sementara, Pemindahan Lokasi Penimbunan Barang di Tempat Penimbunan Sementara,  dan Pengenaan Sanksi terkait segala kegiatan yang dilakukan pada Kawasan Pabean dan Tempat Penimbunan Sementara, unit yang melakukan proses penelitian dan proses administrasi atas permohonan penetapan sebagai Kawasan Pabean dan/atau Tempat Penimbunan Sementara, pengenaan sanksi administrasi, monitoring, dan evaluasi pada Kantor Wilayah adalah Bidang Kepabeanan dan Cukai. "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="243" width="12" height="13" uuid="e7c6acc8-6dd9-490e-a738-0e18b54099dc"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="243" width="441" height="13" uuid="91741f21-93da-4af6-95b8-a6e53d08f2ad"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kondisi yang ditemukan dari penelitian dokumen sebagai berikut :"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="243" width="12" height="13" uuid="e2166d5d-c5c9-4c05-b472-1496f2845aa9"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="228" width="483" height="1" forecolor="#FFFFFF" uuid="0e1e843d-9245-4b13-9b1c-922725338fb6"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="242" width="483" height="1" forecolor="#FFFFFF" uuid="5e756201-173d-426a-bdf9-78461644cfaf"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="256" width="483" height="1" forecolor="#FFFFFF" uuid="2c025b4f-38ce-404a-a325-5fbf1e787576"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="257" width="12" height="13" uuid="b377293b-4eab-4595-a8ac-2928022c6de7"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="257" width="429" height="13" uuid="be081680-b911-4da5-a7aa-b0c824a91a99"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perusahaan}+" merupakan Perusahaan yang telah memiliki ijin sebagai Kawasan Pabean berdasarkan Keputusan Menteri Keuangan Nomor "+$P{nomor4}+" tanggal "+$P{tanggal4}+" tentang "+$P{penetapan}+" Atas Nama "+$P{perusahaan}+" yang selanjutnya diubah terakhir dengan Keputusan Menteri Keuangan Nomor "+$P{nomor5}+" tanggal "+$P{tanggal5}+"."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="270" width="483" height="1" forecolor="#FFFFFF" uuid="0ca5c3f3-9547-455a-8587-9fbc9de9ddb3"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="271" width="12" height="13" uuid="d3946357-471d-4ba9-bfbf-1ac706274283"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="271" width="429" height="13" uuid="8c39dcfa-3b68-4416-9b95-2fc9d43c6372"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa "+$P{perusahaan}+" diketahui telah menyediakan sarana dan prasarana untuk terselenggaranya kegiatan pelayanan dan pengawasan kepabeanan sesuai Pasal 6 ayat (2) Peraturan Direktur Jenderal Bea dan Cukai Nomor PER-6/BC/2015 tentang Tata Cara Penetapan Kawasan Pabean dan Tempat Penimbunan Sementara, Pemindahan Lokasi Penimbunan Barang di Tempat Penimbunan Sementara dan Pengenaan Sanksi"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="284" width="483" height="1" forecolor="#FFFFFF" uuid="90daf2c8-9c28-4602-a71a-8c0842a0a6c0"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="285" width="12" height="13" uuid="7eb40dc6-a4ff-4dbc-bbd2-3d1b31a30430"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="285" width="429" height="13" uuid="a9560c4d-a2db-4783-b0d6-f3f8dd61fa88"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa berdasarkan uraian pada butir a dan b diatas "+$P{perusahaan}+" telah memenuhi persyaratan-persyaratan administrasi untuk mengajukan perubahan Kawasan Pabean."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="326" width="483" height="1" forecolor="#FFFFFF" uuid="c09a4885-8bde-485d-a2eb-3b9a4f419e12"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="312" width="483" height="1" forecolor="#FFFFFF" uuid="1a9db441-73f5-4fda-b553-f2873f4b7575"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="299" width="12" height="13" uuid="fc5cd55f-3755-4337-99d5-d0e16bed3aa2"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="298" width="483" height="1" forecolor="#FFFFFF" uuid="cea2b159-72ac-4bf8-8c0f-f5803592f4f7"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="341" width="12" height="13" uuid="95b4c435-4447-45e9-ae7e-5e093f2bd7ed"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="299" width="441" height="13" uuid="71c9a82a-6047-426c-80b7-39e93ddea5e7"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa berdasarkan ketentuan pada Peraturan Direktur Jenderal Bea dan Cukai Nomor PER-6/BC/2015 tentang Tata Cara Penetapan Kawasan Pabean dan Tempat Penimbunan Sementara, Pemindahan Lokasi Penimbunan Barang di Tempat Penimbunan Sementara dan Pengenaan Sanksi (PER-6/2015), disampaikan sebagai berikut:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="299" width="12" height="13" uuid="51a3f1cf-8274-4bd5-bb33-7c1acadb48c6"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="313" width="12" height="13" uuid="c65bdbb6-99f1-489b-a24a-4d20818039b1"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="341" width="429" height="13" uuid="d051fde7-7a18-4114-9521-cdeec628c24f"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pasal 8 ayat (2) PER-6/2015 berbunyi:"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="313" width="429" height="13" uuid="dc49c6bb-4678-4706-9656-bb4c466d0bef"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pasal 8 ayat (1) PER-6/2015 berbunyi:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="369" width="12" height="13" uuid="cc6f606a-8eb7-4282-9130-b279ff879776"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="354" width="483" height="1" forecolor="#FFFFFF" uuid="eacacf68-49da-4e25-ad8a-add5725808ce"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="369" width="429" height="13" uuid="11be5bb9-9d53-45c9-991a-17430f0b26b3"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pasal 8 ayat (5) PER-6/2015 berbunyi:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="107" y="0" width="376" height="45" uuid="f3e6d75a-faf4-4ce7-a25e-748df320aa8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
+DIREKTORAT JENDERAL BEA DAN CUKAI
+KANTOR WILAYAH BANTEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="45" width="376" height="18" uuid="9d76ab8b-ceb6-45d5-8314-54efe3ed03fc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Jl. Raya Serpong Damai Sektor VI Blok 201 No. 02 BSD, Tangerang, Banten
+Telepon (021) 53154661, Faksimile (021) 53154685, Email: kanwil.djbc.banten@gmail.com]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="71" width="485" height="1" forecolor="#FFFFFF" uuid="265c2988-5ef3-432f-8f97-84f48e0cd3de"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="327" width="429" height="13" uuid="74a1e6f8-7115-44b6-9194-8fdaf058920e"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["“Dalam hal terdapat perubahan terhadap data sebagaimana dimaksud dalam Pasal 4 ayat (2), pengelola Kawasan Pabean harus memberitahukan perubahan data tersebut kepada Kepala Kantor Pabean yang mengawasi Kawasan Pabean.”"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="1" y="340" width="483" height="1" forecolor="#FFFFFF" uuid="53a6c435-5e73-4a8e-8c84-093bc8186cc4"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="368" width="483" height="1" forecolor="#FFFFFF" uuid="7e850160-f752-4aae-a0f3-9fcfece4e568"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="355" width="429" height="13" uuid="d8e569d8-2d5d-4d06-9918-f27b0cdd564c"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["“Dalam hal perubahan data sebagaimana dimaksud pada ayat (1) menyangkut batas-batas dan pintu keluar/masuk Kawasan Pabean sebagaimana dimaksud pada Pasal 4 ayat (2) huruf d, Kepala Kantor Pabean yang mengawasi harus melakukan pemeriksaan lokasi.”"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="382" width="429" height="13" uuid="1de695dc-ff78-463c-be41-0942627ebec0"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["“Perubahan data yang diberitahukan sebagaimana dimaksud pada ayat (1) dijadikan sebagai dasar perubahan keputusan mengenai penetapan Kawasan Pabean yang bersangkutan”"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="395" width="483" height="1" forecolor="#FFFFFF" uuid="8fb7f245-8b84-4100-880f-4800bd0abfb8"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="396" width="12" height="13" uuid="643a4d54-3ae0-4c29-ab6f-9b183b2cdd06"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="396" width="12" height="13" uuid="3877ace2-165b-4baf-bdee-4541b70b6ba4"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="396" width="441" height="13" uuid="d33beded-0ac3-4bf1-b9d6-9d39d3dcd396"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Berdasarkan dokumen yang sudah diterima, disampaikan analisa sebagai berikut:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="409" width="12" height="13" uuid="18518c63-02bf-4b08-9287-0d904c5a8c28"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="409" width="429" height="13" uuid="36d6f9f4-3b06-47f6-8b73-c46a1ea07396"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa berdasarkan hasil penelitian dokumen ditemukan Kawasan Pabean "+$P{perusahaan}+" adalah Tempat Lain yang yang telah mendapatkan persetujuan pengelolaan terminal sesuai Keputusan Direktur Jenderal Perhubungan Laut nomor: "+$P{nomor6}+"."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="422" width="483" height="1" forecolor="#FFFFFF" uuid="31f1dee2-54a2-4e09-bada-151f46209f24"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="423" width="12" height="13" uuid="bfd66eeb-3211-427f-be9d-898ef9ae9a4f"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="423" width="429" height="13" uuid="4ec84710-1bbf-4017-9e96-d924e8621771"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa "+$P{perusahaan}+" diketahui telah menyediakan sarana dan prasarana untuk terselenggaranya kegiatan pelayanan dan pengawasan kepabeanan sesuai Pasal 6 ayat (2) Peraturan Direktur Jenderal Bea dan Cukai Nomor PER-6/BC/2015 tentang Tata Cara Penetapan Kawasan Pabean dan Tempat Penimbunan Sementara, Pemindahan Lokasi Penimbunan Barang di Tempat Penimbunan Sementara dan Pengenaan Sanksi"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="436" width="483" height="1" forecolor="#FFFFFF" uuid="48cb361e-d75e-4c98-b558-c48cf71bcd35"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="42" y="437" width="12" height="13" uuid="e20070d5-e188-4632-8406-05a9d5bfc5e3"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[c.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="54" y="437" width="429" height="13" uuid="d75b7ff6-78be-4f4d-b5ec-c84ab3b9d879"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bahwa berdasarkan uraian pada butir a dan b diatas "+$P{perusahaan}+" telah memenuhi persyaratan-persyaratan administrasi untuk mengajukan perubahan Kawasan Pabean."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="450" width="483" height="1" forecolor="#FFFFFF" uuid="f23c86d2-e93d-466c-a2b0-4f464f6b77a1"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="451" width="12" height="13" uuid="a9df5d1b-6eb2-4d94-8524-ddba1d1d95d8"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="451" width="441" height="13" uuid="e6ece05d-48a7-4195-b2a4-b6bc34c915ee"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Berdasarkan hal-hal tersebut diatas dapat disampaikan kesimpulan bahwa dengan terpenuhinya syarat administrasi tersebut, "+$P{perusahaan}+" berhak untuk mendapatkan persetujuan atas permohonan perluasan Kawasan Pabean."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="451" width="12" height="13" uuid="80d6180b-82d3-4d10-a427-6b8de87b8aa5"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="464" width="483" height="1" forecolor="#FFFFFF" uuid="e02046d3-fb76-4ced-bb5e-ba3bafcf923f"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="465" width="12" height="13" uuid="90029f00-3a62-47c3-8ee7-c7c217085b16"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="465" width="12" height="13" uuid="383f6b2f-c823-4008-9c8e-c01b1aa99a5e"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="465" width="441" height="13" uuid="097f5c94-1a55-4e1f-a16b-43e4ff33efba"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Berdasarkan hasil analisis dan kesimpulan diatas, apabila Bapak tidak berpendapat lain terlampir konsep surat keputusan "+$P{suratkeputusan}+" tanggal "+$P{tanggalsk}+" tentang "+$P{tentangsk}+" Atas Nama "+$P{perusahaan}+"."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="484" width="483" height="1" forecolor="#FFFFFF" uuid="c43d9804-6f7c-4d9c-9a47-1cbc2536dbbc"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="42" y="494" width="441" height="13" uuid="4b61b6fd-11ce-4352-a97f-ff95bcf0c9ef"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Demikian disampaikan, mohon keputusan setentangnya."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="564" width="483" height="1" forecolor="#FFFFFF" uuid="04f7bd7f-4694-4ead-afae-58ddf9e03da5"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="304" y="568" width="179" height="13" uuid="6dc0212b-0fd7-4d7c-9c04-cd78b079a682"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ttd}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="63" width="483" height="1" uuid="181f1450-15af-4173-bc3d-0db7af22cace"/>
+			</line>
+			<image onErrorType="Blank">
+				<reportElement x="18" y="0" width="82" height="63" uuid="8564774d-84b6-4e32-93b4-bc4be67e2dbc"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<noData>
+		<band height="235"/>
+	</noData>
+</jasperReport>
