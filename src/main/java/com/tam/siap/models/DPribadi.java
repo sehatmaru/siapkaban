@@ -31,11 +31,11 @@ public class DPribadi {
 	@Column(name="email")
 	private String email;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "account", referencedColumnName = "id")
 	private Account account;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "j_identitas", referencedColumnName = "id")
 	private JIdentitas jenis;
 
