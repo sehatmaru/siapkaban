@@ -1,9 +1,14 @@
 package com.tam.siap.models;
 
+import groovy.transform.builder.Builder;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
+@Builder
 @Entity
-@Table(name="data_pribadi")
+@Table(name = "data_pribadi", schema = "public")
+@DynamicUpdate
 public class DPribadi {
 
 	@Id
@@ -26,19 +31,20 @@ public class DPribadi {
 	@Column(name="email")
 	private String email;
 
-	@Column(name="user")
-	private int user;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "account", referencedColumnName = "id")
+	private Account account;
 
-	@Column(name="j_identitas")
-	private int jenis;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "j_identitas", referencedColumnName = "id")
+	private JIdentitas jenis;
 
-	public DPribadi(String nama, String nomor, String jabatan, String telepon, String email, int user, int jenis) {
+	public DPribadi(String nama, String nomor, String jabatan, String telepon, String email, JIdentitas jenis) {
 		this.nama = nama;
 		this.nomor = nomor;
 		this.jabatan = jabatan;
 		this.telepon = telepon;
 		this.email = email;
-		this.user = user;
 		this.jenis = jenis;
 	}
 
@@ -90,19 +96,19 @@ public class DPribadi {
 		this.email = email;
 	}
 
-	public int getUser() {
-		return user;
+	public Account getUser() {
+		return account;
 	}
 
-	public void setUser(int user) {
-		this.user = user;
+	public void setUser(Account account) {
+		this.account = account;
 	}
 
-	public int getJenis() {
+	public JIdentitas getJenis() {
 		return jenis;
 	}
 
-	public void setJenis(int jenis) {
+	public void setJenis(JIdentitas jenis) {
 		this.jenis = jenis;
 	}
 }

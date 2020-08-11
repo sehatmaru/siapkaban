@@ -1,9 +1,14 @@
 package com.tam.siap.models;
 
+import groovy.transform.builder.Builder;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
+@Builder
 @Entity
-@Table(name="jenis_perusahaan")
+@Table(name="jenis_perusahaan", schema = "public")
+@DynamicUpdate
 public class JPerusahaan {
 
 	@Id
@@ -14,10 +19,13 @@ public class JPerusahaan {
 	@Column(name="keterangan")
 	private String keterangan;
 
-
 	public JPerusahaan() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public JPerusahaan(String keterangan) {
+		this.keterangan = keterangan;
 	}
 
 	public int getId() {

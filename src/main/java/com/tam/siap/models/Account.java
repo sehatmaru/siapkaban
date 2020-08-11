@@ -1,10 +1,15 @@
 package com.tam.siap.models;
 
+import groovy.transform.builder.Builder;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
-public class User {
+@Builder
+@DynamicUpdate
+@Table(name="account", schema = "public")
+public class Account {
 
 	@Id
 	@Column(name="id", columnDefinition = "serial")
@@ -20,10 +25,14 @@ public class User {
 	@Column(name="status")
 	private int status;
 
-	@Column(name="role")
-	private int role;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "role", referencedColumnName = "id")
+	private Role role;
 
-	public User(String username, String password, int role) {
+	public Account() {
+	}
+
+	public Account(String username, String password, Role role) {
 		this.username = username;
 		this.password = password;
 		this.role = role;
@@ -61,11 +70,11 @@ public class User {
 		this.status = status;
 	}
 
-	public int getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 }

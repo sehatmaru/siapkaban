@@ -1,13 +1,11 @@
 package com.tam.siap.services;
 
-import com.tam.siap.models.DPerusahaan;
-import com.tam.siap.models.DPribadi;
-import com.tam.siap.models.User;
-import com.tam.siap.repos.DPerusahaanRepository;
-import com.tam.siap.repos.DPribadiRepository;
-import com.tam.siap.repos.UserRepository;
+import com.tam.siap.models.*;
+import com.tam.siap.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RegisterService {
@@ -19,31 +17,49 @@ public class RegisterService {
     DPerusahaanRepository dPerusahaanRepository;
 
     @Autowired
-    UserRepository userRepository;
+    AccountRepository accountRepository;
 
-    public boolean isUserExist(String username, int role) {
-        return userRepository.findByUsernameAndRole(username, role) != null;
+    @Autowired
+    JPerusahaanRepository jPerusahaanRepository;
+
+    @Autowired
+    JIdentitasRepository jIdentitasRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    public boolean isUserExist(String username, Role role) {
+        return accountRepository.findByUsernameAndRole(username, role) != null;
     }
 
-    public boolean isUserActive(String username, int role) {
-        return userRepository.findByUsernameAndRoleAndStatus(username, role, 1) != null;
+    public boolean isUserActive(String username, Role role) {
+        return accountRepository.findByUsernameAndRoleAndStatus(username, role, 1) != null;
     }
 
-    public void register(User user, DPribadi dPribadi, DPerusahaan dPerusahaan){
-        addUser(user);
-        addDataPribadi(dPribadi);
-        addDataPerusahaan(dPerusahaan);
+    public void register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
+        if (!isUserExist(account.getUsername(), account.getRole())){
+            addUser(account);
+            addDataPribadi(account.getUsername(), dPribadi);
+            addDataPerusahaan(account.getUsername(), dPerusahaan);
+        }
     }
 
-    private void addUser(User user){
-        userRepository.save(user);
+    private void addUser(Account account){
+        account.setStatus(2);
+        accountRepository.save(account);
     }
 
-    private void addDataPribadi(DPribadi dPribadi){
+    private void addDataPribadi(String accountname, DPribadi dPribadi){
+        Account account = accountRepository.findByUsername(accountname);
+        dPribadi.setUser(account);
+
         dPribadiRepository.save(dPribadi);
     }
 
-    private void addDataPerusahaan(DPerusahaan dPerusahaan){
+    private void addDataPerusahaan(String accountname, DPerusahaan dPerusahaan){
+        Account account = accountRepository.findByUsername(accountname);
+        dPerusahaan.setUser(account);
+
         dPerusahaanRepository.save(dPerusahaan);
     }
 }

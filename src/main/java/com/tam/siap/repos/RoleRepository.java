@@ -7,5 +7,6 @@ import com.tam.siap.models.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String>{
-	
+    Role findById(int id);
+
 }

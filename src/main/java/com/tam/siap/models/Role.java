@@ -1,9 +1,14 @@
 package com.tam.siap.models;
 
+import groovy.transform.builder.Builder;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="role")
+@Builder
+@DynamicUpdate
+@Table(name="role", schema = "public")
 public class Role {
 	
 	@Id
@@ -13,7 +18,6 @@ public class Role {
 	
 	@Column(name="keterangan")
 	private String keterangan;
-
 	
 	public Role() {
 		super();
