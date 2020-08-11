@@ -30,5 +30,20 @@ public class UIDGenerator {
                 return micros;
         }
     }
+	
+	public long getCustomUID(int digit) {
+        return getLastDigit(""+getUID(), digit);
+    }
+	
+	private long getLastDigit(String num, int digit) {
+		if (num.length() == digit) {
+			  return Long.parseLong(num);
+			} else if (num.length() > digit) {
+			  return Long.parseLong(num.substring(num.length() - digit));
+			} else {
+			  // whatever is appropriate in this case
+			  throw new IllegalArgumentException("word has less than 3 characters!");
+			}
+	}
     
 }

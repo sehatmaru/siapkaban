@@ -14,7 +14,12 @@ public enum RoleEnum {
 	ROLE_PIC_STAFF("picstaff", "Pic Staf"), 
 	ROLE_PIC_KEPALA_SEKSI("pickepalaseksi", "Pic Kepala Seksi"), 
 	ROLE_PIC_KEPALA_BIDANG("pickepalabidang", "Pic Kepala Bidang"),
-	ROLE_PIC_KEPALA_KANTOR("pickepalakantor", "Pic Kepala Kantor");
+	ROLE_PIC_KEPALA_KANTOR("pickepalakantor", "Pic Kepala Kantor"),
+	
+	ROLE_PIC_STAFFP2("picstaffp2", "Pic Staf P2"), 
+	ROLE_PIC_KEPALA_SEKSIP2("pickepalaseksip2", "Pic Kepala Seksi P2"), 
+	ROLE_PIC_KEPALA_BIDANGP2("pickepalabidangp2", "Pic Kepala Bidang P2"),
+	ROLE_PIC_KEPALA_KANTORP2("pickepalakantorp2", "Pic Kepala Kantor P2");
  
     private String key;
     private String label; 

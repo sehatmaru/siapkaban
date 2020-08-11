@@ -1,0 +1,126 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/chart.js"></script>
+
+
+<dom-module id="register-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css" href="../css/product.css" />
+<link rel="import" type="css" href="../css/chart.min.css" />
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<template>
+<style>
+.v-caption-my-style {
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+
+fieldset.scheduler-border {
+	border: 1px groove #ddd !important;
+	border-radius: 7px;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	-webkit-box-shadow: 0px 0px 0px 0px #000;
+	box-shadow: 0px 0px 0px 0px #000;
+	width: 100%;
+}
+
+legend.scheduler-border {
+	font-size: 1.2em !important;
+	font-weight: bold !important;
+	text-align: left !important;
+	padding: 0 10px;
+	width: auto;
+	color:white;
+	background-color:#283B65;
+	border: 1px solid #283B65;
+  	border-radius: 7px;
+}
+</style>
+<div class="body-class2">
+	<nav
+		class="site-header sticky-top py-1 navbar navbar-expand-md navbar-dark fixed-top navbar-expand-md-left">
+
+		<a class="py-2 reset-paddinghome" href="mainhome" aria-label="Product">
+			<img class="logo-home" src="./frontend/img/logosiapkaban.png"
+			width="60" height="60" />
+		</a> <a class="navbar-brand" href="mainhome"><img height="35"
+			src="./frontend/img/siapkaban.png" /></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarCollapse" aria-controls="navbarCollapse"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto page-title-center">
+				<li class="nav-item active"><a id="txtjudulapp"
+					class="nav-link">REGISTRASI</a></li>
+
+			</ul>
+			<label id="txttgl" class="navbar-brand" style="font-size: 14px;"
+				href="#">Senin, 20 April 2020</label>
+	</nav>
+
+	<div class="nav-scroller bg-white shadow-sm"
+		style="position: fixed; width: 100%;">
+		<nav id="menus" class="nav nav-underline"></nav>
+	</div>
+
+	<div class="container container-tpb" style="margin-top: 60px;">
+
+		<div class="row w-100">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">FORM REGISTRASI</legend>
+				<vaadin-vertical-layout class="row" id="vform">
+				</vaadin-vertical-layout>
+			</fieldset>
+		</div>
+
+		<footer class="my-5 pt-5 text-muted text-center text-small">
+			<p class="mb-1">SIAPKABAN - 2020</p>
+			<ul class="list-inline">
+				<li class="list-inline-item"><a href="#">Privacy</a></li>
+				<li class="list-inline-item"><a href="#">Terms</a></li>
+				<li class="list-inline-item"><a href="#">Support</a></li>
+			</ul>
+		</footer>
+	</div>
+</div>
+</template> <script>    	
+        class registerPage extends Polymer.Element {
+            static get is() {
+                return 'register-page'
+            }
+            
+            ready() {
+           		super.ready();
+           		console.log("start");
+           		var ctx = $(this.$.myChart);
+           		var btnGroupDrop1 = $(this.$.btnGroupDrop1);
+           		var menudropdown = $(this.$.menudropdown);
+           		//btnGroupDrop1.dropdown();
+           		btnGroupDrop1.click(function() {
+           			console.log("start w");
+           			if(menudropdown.hasClass("show")){
+           				menudropdown.removeClass("show");
+           			}else{
+           				menudropdown.addClass("show");
+           			}
+           		});           		
+            }
+        }
+        customElements.define(registerPage.is, registerPage);
+    </script> </dom-module>

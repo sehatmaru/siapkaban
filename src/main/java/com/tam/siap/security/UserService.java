@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -16,45 +15,43 @@ import org.springframework.stereotype.Service;
 
 import com.tam.siap.exceptions.UserNotFoundException;
 import com.tam.siap.exceptions.WrongPasswordException;
-import com.tam.siap.models.Role;
-import com.vaadin.flow.server.VaadinSession;
 
 @Service
 public class UserService {
-//	public static final String BCUSER = "bcuser";
-//	public static final String PICUSER = "picuser";
-//	public static final String USERID = "userid";
-//	public static final String PERUSAHAAN_ID = "perusid";
-//	public static final String ROLE = "role";
-//	public static final String PIC_ID = "picid";
-//	public static final String NAMEUSER = "nameuser";
-//	public static final String ADMIN_ROLE = "adminrole";
-//
-//	public static final String ADMINKB = "adminkb";
-//	public static final String ADMINGB = "admingb";
-//
-//	@Autowired
-//	private ApplicationContext context;
-//
+	public static final String BCUSER = "bcuser";
+	public static final String PICUSER = "picuser";
+	public static final String USERID = "userid";
+	public static final String PERUSAHAAN_ID = "perusid";
+	public static final String ROLE = "role";
+	public static final String PIC_ID = "picid";
+	public static final String NAMEUSER = "nameuser";
+	public static final String ADMIN_ROLE = "adminrole";
+
+	public static final String ADMINKB = "adminkb";
+	public static final String ADMINGB = "admingb";
+
+	@Autowired
+	private ApplicationContext context;
+
 //	@Autowired
 //	PicPerusahaanRepository picPerusahaanRepository;
 //
 //	@Autowired
 //	PicRepository picRepository;
-//
-//	private static SecureRandom random = new SecureRandom();
-//
-//	private Map<String, String> rememberedUsers = new HashMap<>();
-//
-//	public boolean isAuthenticatedUser(String username, String password)
-//			throws UserNotFoundException, WrongPasswordException {
-//		boolean success = false;
-//		boolean bcuser = false;
-//		boolean picperusahaan = false;
-//		DataSource siapKabanDatasource = (DataSource) context.getBean("siapKabanDatasource");
-//		Connection conn = null;
-//		PreparedStatement ps = null;
-//
+
+	private static SecureRandom random = new SecureRandom();
+
+	private Map<String, String> rememberedUsers = new HashMap<>();
+
+	public boolean isAuthenticatedUser(String username, String password)
+			throws UserNotFoundException, WrongPasswordException {
+		boolean success = false;
+		boolean bcuser = false;
+		boolean picperusahaan = false;
+		DataSource siapKabanDatasource = (DataSource) context.getBean("siapKabanDatasource");
+		Connection conn = null;
+		PreparedStatement ps = null;
+
 //		Pic picbc = picRepository.findByUsername(username);
 //		if (picbc != null) {
 //			success = true;
@@ -96,25 +93,25 @@ public class UserService {
 //				}
 //			}
 //		}
-//
-//		if (!picperusahaan && !bcuser) {
-//			throw new UserNotFoundException("Pengguna tidak ditemukan");
-//		}
-//
-//		return success;
-//	}
-//
-//	public String rememberUser(String username) {
-//		String randomId = new BigInteger(130, random).toString(32);
-//		rememberedUsers.put(randomId, username);
-//		return randomId;
-//	}
-//
-//	public String getRememberedUser(String id) {
-//		return rememberedUsers.get(id);
-//	}
-//
-//	public void removeRememberedUser(String id) {
-//		rememberedUsers.remove(id);
-//	}
+
+		if (!picperusahaan && !bcuser) {
+			throw new UserNotFoundException("Pengguna tidak ditemukan");
+		}
+
+		return success;
+	}
+
+	public String rememberUser(String username) {
+		String randomId = new BigInteger(130, random).toString(32);
+		rememberedUsers.put(randomId, username);
+		return randomId;
+	}
+
+	public String getRememberedUser(String id) {
+		return rememberedUsers.get(id);
+	}
+
+	public void removeRememberedUser(String id) {
+		rememberedUsers.remove(id);
+	}
 }
