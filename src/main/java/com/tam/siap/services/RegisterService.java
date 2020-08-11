@@ -28,38 +28,62 @@ public class RegisterService {
     @Autowired
     RoleRepository roleRepository;
 
-    public boolean isUserExist(String username, Role role) {
+    public boolean isAccountExist(String username, Role role) {
         return accountRepository.findByUsernameAndRole(username, role) != null;
     }
 
-    public boolean isUserActive(String username, Role role) {
+    public boolean isDataPerusahaanExist(Account account) {
+        return dPerusahaanRepository.findByAccount(account) != null;
+    }
+
+    public boolean isDataPribadiExist(Account account) {
+        return dPribadiRepository.findByAccount(account) != null;
+    }
+
+    public boolean isAccountActive(String username, Role role) {
         return accountRepository.findByUsernameAndRoleAndStatus(username, role, 1) != null;
     }
 
-    public void register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
-        if (!isUserExist(account.getUsername(), account.getRole())){
-            addUser(account);
-            addDataPribadi(account.getUsername(), dPribadi);
-            addDataPerusahaan(account.getUsername(), dPerusahaan);
+    public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
+        int result = 1;
+
+        if (!isAccountExist(account.getUsername(), account.getRole())){
+            if (addUser(account) == 0){
+                if (addDataPribadi(account.getUsername(), dPribadi) == 0){
+                    if (addDataPerusahaan(account.getUsername(), dPerusahaan) == 0) result = 0;
+                }
+            }
         }
+
+        return result;
     }
 
-    private void addUser(Account account){
+    private int addUser(Account account){
         account.setStatus(2);
+
         accountRepository.save(account);
+
+        if (isAccountExist(account.getUsername(), account.getRole())) return 0;
+        else return 1;
     }
 
-    private void addDataPribadi(String accountname, DPribadi dPribadi){
+    private int addDataPribadi(String accountname, DPribadi dPribadi){
         Account account = accountRepository.findByUsername(accountname);
         dPribadi.setUser(account);
 
         dPribadiRepository.save(dPribadi);
+
+        if (isDataPribadiExist(account)) return 0;
+        else return 1;
     }
 
-    private void addDataPerusahaan(String accountname, DPerusahaan dPerusahaan){
+    private int addDataPerusahaan(String accountname, DPerusahaan dPerusahaan){
         Account account = accountRepository.findByUsername(accountname);
         dPerusahaan.setUser(account);
 
         dPerusahaanRepository.save(dPerusahaan);
+
+        if (isDataPerusahaanExist(account)) return 0;
+        else return 1;
     }
 }
