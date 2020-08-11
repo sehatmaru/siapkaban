@@ -18,15 +18,14 @@ public class User {
 	private String password;
 
 	@Column(name="status")
-	private boolean status;
+	private int status;
 
 	@Column(name="role")
 	private int role;
 
-	public User(String username, String password, boolean status, int role) {
+	public User(String username, String password, int role) {
 		this.username = username;
 		this.password = password;
-		this.status = status;
 		this.role = role;
 	}
 
@@ -54,11 +53,11 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
