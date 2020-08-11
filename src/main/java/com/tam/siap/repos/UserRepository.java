@@ -1,11 +1,10 @@
 package com.tam.siap.repos;
 
+import com.tam.siap.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tam.siap.models.Jabatan;
-
 @Repository
-public interface JabatanRepository extends JpaRepository<Jabatan, Long>{
+public interface UserRepository extends JpaRepository<User, String>{
 	
 }

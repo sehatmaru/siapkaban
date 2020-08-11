@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.tam.siap.exceptions.UserNotFoundException;
 import com.tam.siap.exceptions.WrongPasswordException;
-import com.tam.siap.views.LoginPage;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
 
@@ -25,26 +23,26 @@ public class AuthService {
 	private static final String COOKIE_NAME = "remember-me";
 	public static final String SESSION_USERNAME = "username";
 
-	public  boolean isAuthenticated() {
-		return VaadinSession.getCurrent().getAttribute(SESSION_USERNAME) != null || loginRememberedUser();
-	}
+//	public  boolean isAuthenticated() {
+//		return VaadinSession.getCurrent().getAttribute(SESSION_USERNAME) != null || loginRememberedUser();
+//	}
 
 	public static String getSessionUsername() {
 		return "" + VaadinSession.getCurrent().getAttribute(SESSION_USERNAME);
 	}
 
-	public boolean login(String username, String password, boolean rememberMe) throws UserNotFoundException , WrongPasswordException{
-		if (userService.isAuthenticatedUser(username, password)) {
-			VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
-			return true;
-		}
-
-		return false;
-	}
+//	public boolean login(String username, String password, boolean rememberMe) throws UserNotFoundException , WrongPasswordException{
+//		if (userService.isAuthenticatedUser(username, password)) {
+//			VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
+//			return true;
+//		}
+//
+//		return false;
+//	}
 
 	public static void logOut() {
 		VaadinSession.getCurrent().close();
-		UI.getCurrent().navigate(LoginPage.class);
+//		UI.getCurrent().navigate(LoginPage.class);
 	}
 
 	private  Optional<Cookie> getRememberMeCookie() {
@@ -58,30 +56,30 @@ public class AuthService {
 		
 	}
 
-	private  boolean loginRememberedUser() {
-		Optional<Cookie> rememberMeCookie = getRememberMeCookie();
+//	private  boolean loginRememberedUser() {
+//		Optional<Cookie> rememberMeCookie = getRememberMeCookie();
+//
+//		if (rememberMeCookie!=null && rememberMeCookie.isPresent()) {
+//			String id = rememberMeCookie.get().getValue();
+//			String username = userService.getRememberedUser(id);
+//
+//			if (username != null) {
+//				VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
+//				return true;
+//			}
+//		}
+//
+//		return false;
+//	}
 
-		if (rememberMeCookie!=null && rememberMeCookie.isPresent()) {
-			String id = rememberMeCookie.get().getValue();
-			String username = userService.getRememberedUser(id);
-
-			if (username != null) {
-				VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private  void rememberUser(String username) {
-		String id = userService.rememberUser(username);
-
-		Cookie cookie = new Cookie(COOKIE_NAME, id);
-		cookie.setPath("/");
-		cookie.setMaxAge(60 * 60 * 24 * 30); // valid for 30 days
-		VaadinService.getCurrentResponse().addCookie(cookie);
-	}
+//	private  void rememberUser(String username) {
+//		String id = userService.rememberUser(username);
+//
+//		Cookie cookie = new Cookie(COOKIE_NAME, id);
+//		cookie.setPath("/");
+//		cookie.setMaxAge(60 * 60 * 24 * 30); // valid for 30 days
+//		VaadinService.getCurrentResponse().addCookie(cookie);
+//	}
 
 	private  void deleteRememberMeCookie() {
 		Cookie cookie = new Cookie(COOKIE_NAME, "");

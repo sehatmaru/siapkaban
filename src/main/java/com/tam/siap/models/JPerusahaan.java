@@ -3,19 +3,19 @@ package com.tam.siap.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name="role")
-public class Role {
-	
+@Table(name="jenis_perusahaan")
+public class JPerusahaan {
+
 	@Id
 	@Column(name="id", columnDefinition = "serial")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name="keterangan")
 	private String keterangan;
 
-	
-	public Role() {
+
+	public JPerusahaan() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

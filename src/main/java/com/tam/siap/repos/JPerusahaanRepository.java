@@ -1,11 +1,10 @@
 package com.tam.siap.repos;
 
+import com.tam.siap.models.JPerusahaan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tam.siap.models.JenisPerusahaan;
-
 @Repository
-public interface JenisPerusahaanRepository extends JpaRepository<JenisPerusahaan, Long>{
+public interface JPerusahaanRepository extends JpaRepository<JPerusahaan, String>{
 	
 }
