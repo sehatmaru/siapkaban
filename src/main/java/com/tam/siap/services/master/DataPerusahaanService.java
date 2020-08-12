@@ -16,6 +16,10 @@ public class DataPerusahaanService {
         return dPerusahaanRepository.findByAccount(account) != null;
     }
 
+    public DPerusahaan findDataPerusahaanByAccount(Account account) {
+        return dPerusahaanRepository.findByAccount(account);
+    }
+
     public void save(DPerusahaan dPerusahaan){
         dPerusahaanRepository.save(dPerusahaan);
     }

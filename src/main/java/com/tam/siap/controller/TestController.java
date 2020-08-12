@@ -41,11 +41,11 @@ public class TestController {
 
 	@PostMapping("/login/wrong/password")
 	public void loginWrongPassword() {
-		System.out.println("hasil regis = " + loginService.login("00000", "asd"));
+		System.out.println("hasil login = " + loginService.login("00000", "asd").toString());
 	}
 
 	@PostMapping("/login/success")
 	public void loginSuccess() {
-		System.out.println("hasil regis = " + loginService.login("00000", "[C@213c3426"));
+		System.out.println("hasil login = " + loginService.login("00000", "[C@213c3426").toString());
 	}
 }

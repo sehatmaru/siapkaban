@@ -16,6 +16,10 @@ public class DataPribadiService {
         return dPribadiRepository.findByAccount(account) != null;
     }
 
+    public DPribadi findDataPribadiByAccount(Account account) {
+        return dPribadiRepository.findByAccount(account);
+    }
+
     public void save(DPribadi dPribadi){
         dPribadiRepository.save(dPribadi);
     }
