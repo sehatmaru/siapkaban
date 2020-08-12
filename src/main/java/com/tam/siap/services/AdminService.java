@@ -55,28 +55,28 @@ public class AdminService {
 
             switch (status){
                 case 1 :
-                    account.setStatus(ACTIVE);
-
                     if (dataPerusahaanService.isDataPerusahaanExist(account)) {
                         DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
                         dPerusahaan.setStatus(ACTIVE);
 
-                        accountService.save(account);
                         dataPerusahaanService.save(dPerusahaan);
+
+                        account.setStatus(ACTIVE);
+                        accountService.save(account);
 
                         if (accountService.isAccountActive(username) &&
                                 dataPerusahaanService.isDataPerusahaanActive(account)) result = SUCCESS;
                     }
                     break;
                 case 2 :
-                    account.setStatus(PENDING);
-
                     if (dataPerusahaanService.isDataPerusahaanExist(account)) {
                         DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
                         dPerusahaan.setStatus(PENDING);
 
-                        accountService.save(account);
                         dataPerusahaanService.save(dPerusahaan);
+
+                        account.setStatus(PENDING);
+                        accountService.save(account);
 
                         if (accountService.isAccountPending(username) &&
                                 dataPerusahaanService.isDataPerusahaanPending(account)) result = SUCCESS;
@@ -84,28 +84,28 @@ public class AdminService {
                     break;
 
                 case 3 :
-                    account.setStatus(INACTIVE);
-
                     if (dataPerusahaanService.isDataPerusahaanExist(account)) {
                         DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
                         dPerusahaan.setStatus(INACTIVE);
 
-                        accountService.save(account);
                         dataPerusahaanService.save(dPerusahaan);
+
+                        account.setStatus(INACTIVE);
+                        accountService.save(account);
 
                         if (accountService.isAccountInactive(username) &&
                                 dataPerusahaanService.isDataPerusahaanInactive(account)) result = SUCCESS;
                     }
                     break;
                 case 4 :
-                    account.setStatus(REJECTED);
-
                     if (dataPerusahaanService.isDataPerusahaanExist(account)) {
                         DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
                         dPerusahaan.setStatus(REJECTED);
 
-                        accountService.save(account);
                         dataPerusahaanService.save(dPerusahaan);
+
+                        account.setStatus(REJECTED);
+                        accountService.save(account);
 
                         if (accountService.isAccountRejected(username) &&
                                 dataPerusahaanService.isDataPerusahaanRejected(account)) result = SUCCESS;
