@@ -6,6 +6,8 @@ import com.tam.siap.repos.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.tam.siap.utils.refs.Status.ACTIVE;
 
 @Service
@@ -32,6 +34,10 @@ public class AccountService {
 
     public Account findByUsername(String username){
         return accountRepository.findByUsername(username);
+    }
+
+    public List<Account> findByStatus(int status){
+        return accountRepository.findByStatus(status);
     }
 
     public void save(Account account){

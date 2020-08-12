@@ -10,6 +10,7 @@ public @interface Status{
     int ACTIVE = 1;
     int PENDING = 2;
     int INACTIVE = 3;
+    int REJECTED = 4;
 
     int SUCCESS = 0;
     int FAILED = 1;

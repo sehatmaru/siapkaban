@@ -1,6 +1,7 @@
 package com.tam.siap.controller;
 
 import com.tam.siap.models.*;
+import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
 import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.master.JenisIdentitasService;
@@ -34,6 +35,9 @@ public class TestController {
 	@Autowired
 	ProfileService profileService;
 
+	@Autowired
+	AdminService adminService;
+
 	@PostMapping("/register")
 	public void register() {
 		Account user = new Account("123456123", "123456", roleService.getRole(1));
@@ -61,5 +65,10 @@ public class TestController {
 	@PostMapping("/admin/verified/account/failed")
 	public void verifiedAccountFailed() {
 		System.out.println("hasil verified = " + profileService.setAccountVerified("0000012"));
+	}
+
+	@PostMapping("/admin/list/unverified")
+	public void getUnverified() {
+		System.out.println("hasil get unverified = " + adminService.getUnverifiedAccountList().toString());
 	}
 }
