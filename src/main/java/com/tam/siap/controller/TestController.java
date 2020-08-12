@@ -3,6 +3,7 @@ package com.tam.siap.controller;
 import com.tam.siap.models.*;
 import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
+import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
@@ -33,6 +34,9 @@ public class TestController {
 
 	@Autowired
 	AdminService adminService;
+
+	@Autowired
+	ProfileService profileService;
 
 	@PostMapping("/register")
 	public void register() {
@@ -76,5 +80,18 @@ public class TestController {
 	@PostMapping("/admin/list/unverified")
 	public void getUnverified() {
 		System.out.println("hasil get unverified = " + adminService.getUnverifiedAccountList().toString());
+	}
+
+	@PostMapping("/profile/update")
+	public void updateProfile() {
+		Account user = new Account("a", "a", roleService.getRole(2));
+		user.setId(20);
+		user.setStatus(1);
+		DPribadi pribadi = new DPribadi("renta", "a", "a", "a", "a", jenisIdentitasService.getJenisIdentitas(1));
+		pribadi.setId(13);
+		pribadi.setAccount(user);
+		pribadi.setGambar("C://Local Files/");
+
+		System.out.println("hasil update = " + profileService.updateProfile(pribadi));
 	}
 }
