@@ -1,5 +1,7 @@
 package com.tam.siap.views;
 
+import static com.tam.siap.utils.refs.Status.SUCCESS;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +18,9 @@ import com.tam.siap.models.DPribadi;
 import com.tam.siap.models.JIdentitas;
 import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.Role;
+import com.tam.siap.services.RegisterService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
-import com.tam.siap.services.RegisterService;
 import com.tam.siap.services.master.RoleService;
 import com.tam.siap.utils.TamUtils;
 import com.vaadin.flow.component.ClickEvent;
@@ -131,7 +133,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 	public RegisterPage() {
 		// TODO Auto-generated constructor stub
 		Locale id = new Locale("in", "ID");
-		txttgl.setText(new SimpleDateFormat("EEEE, dd-MMMM-yyyy", id).format(new Date()));
+		txttgl.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy", id).format(new Date()));
 		menus.appendChild(createLink("Login", "", false));
 		vform.setSizeFull();
 		setForm();
@@ -173,7 +175,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt);
 
 					int sukses = registerService.register(account, dPribadi, dPerusahaan);
-					if (sukses == 0) {
+					if (sukses == SUCCESS) {
 						Notification notification = new Notification("Terima kasih, pendaftaran berhasil", 3000,
 								Position.MIDDLE);
 						notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

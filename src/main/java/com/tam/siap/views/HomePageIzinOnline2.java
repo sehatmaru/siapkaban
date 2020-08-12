@@ -1,13 +1,18 @@
 package com.tam.siap.views;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.security.AuthService;
 import com.tam.siap.security.UserService;
+import com.tam.siap.utils.TamUtils;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
@@ -72,7 +77,7 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 
 	@Id("txtemail")
 	Element txtemail;
-	
+
 	@Id("txttgl")
 	Label txttgl;
 
@@ -80,32 +85,12 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 
 	@PostConstruct
 	private void init() {
-		boolean bcuser = false;
-		long userid = 0;
-		try {
-			bcuser = (boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER);
-			if (bcuser) {
-				userid = (long) VaadinSession.getCurrent().getAttribute(UserService.PIC_ID);
-//				Optional<Pic> picdata = picRepository.findById(userid);
-//				txtnamauser.setText(picdata.get().getNama());
-//				txtjabatan.setText(picdata.get().getJabatan().getNama());
-//				txtnip.setText(picdata.get().getNipuser());
-				txtemail.setVisible(false);
-			} else {
-				userid = (long) VaadinSession.getCurrent().getAttribute(UserService.USERID);
-//				Optional<PicPerusahaan> picdata = picPerusahaanRepository.findById(userid);
-//				txtnamauser.setText(picdata.get().getNama());
-//				txtjabatan.setText(picdata.get().getJabatan());
-//				txtnip.setText(picdata.get().getKtp());
-//				txtemail.setText(picdata.get().getEmail());
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
 	}
 
 	public HomePageIzinOnline2() {
-
+		Locale id = new Locale("in", "ID");
+		txttgl.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy", id).format(new Date()));
 		btnsignout.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
 			@Override
@@ -143,82 +128,45 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
 		// TODO Auto-generated method stub
-//		event.getLocation().getSubLocation().ifPresent(location -> 
-//			System.out.println(location.getSegments()
-//		));
+		String loc = event.getLocation().getFirstSegment();
+		menus.removeAllChildren();
 		if (!authService.isAuthenticated()) {
-			String loc =event.getLocation().getFirstSegment();
-			//event.forwardTo(LoginPage.class);
-			menus.removeAllChildren();
-			if(loc.equals("profil")) {
-				txtjudulapp.setText("Profil");
-				menus.appendChild(createLink("Home", "mainhome", false));
-				menus.appendChild(createLink("Profil", "profil", true));
-			}else if (loc.equals("izinonline")) {
-				txtjudulapp.setText("Perizinan Online");
-				menus.appendChild(createLink("Perizinan", "izinonline", true));
-				menus.appendChild(createLink("Status Layanan", "statuslayananpt", false));
-			}
+			event.forwardTo(LoginPage.class);
 		} else {
-			String loc =event.getLocation().getFirstSegment();
-			if ((boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER)) {
-				adminrole = (boolean) VaadinSession.getCurrent().getAttribute(UserService.ADMIN_ROLE);
-				menus.removeAllChildren();
-				if (!adminrole && loc.equals("statuslayananbc")) {
+			LoginResponse dataLogin = TamUtils.getLoginResponse();
+			menus.removeAllChildren();
+			if (dataLogin.getAccount().getRole().getId() == 2) {
+				if (loc.equals("adminuserpemohon")) {
+					txtjudulapp.setText("User Pemohon");
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("User Pemohon", "adminuserpemohon", false));
+				} else if (loc.equals("profil")) {
+					txtjudulapp.setText("Profil");
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("Profil", "profil", true));
+				} else if (loc.equals("izinonline")) {
 					txtjudulapp.setText("Perizinan Online");
-					menus.appendChild(createLink("Home", "mainhome", true));
-					menus.appendChild(createLink("Inbox", "statuslayananbc", true));
-				}else if (loc.equals("instan")) {
-					txtjudulapp.setText("Instan");
-					menus.appendChild(createLink("Home", "mainhome", true));
-					menus.appendChild(createLink("Instan", "instan", true));
-				}else if (loc.equals("statuslayanandetailbc")) {
-					txtjudulapp.setText("Detail pemohon");
-					menus.appendChild(createLink("Back", "statuslayananbc", true));
-				}else if (adminrole && loc.equals("statuslayananbc")) {
-					txtjudulapp.setText("(Admin) Perizinan Online");
-					menus.appendChild(createLink("Inbox", "statuslayananbc", true));
-					menus.appendChild(createLink("PIC Bea Cukai", "setpicbc", false));
-					menus.appendChild(createLink("PIC Perusahaan", "setpicpt", false));
-					menus.appendChild(createLink("Staf Bea Cukai", "setstafbc", false));
-				} else if (adminrole && loc.equals("setpicbc")) {
-					txtjudulapp.setText("(Admin) Perizinan Online");
-					menus.appendChild(createLink("Inbox", "statuslayananbc", false));
-					menus.appendChild(createLink("PIC Bea Cukai", "setpicbc", true));
-					menus.appendChild(createLink("PIC Perusahaan", "setpicpt", false));
-					menus.appendChild(createLink("Staf Bea Cukai", "setstafbc", false));
-				} else if (adminrole && loc.equals("setpicpt")) {
-					txtjudulapp.setText("(Admin) Perizinan Online");
-					menus.appendChild(createLink("Inbox", "statuslayananbc", false));
-					menus.appendChild(createLink("PIC Bea Cukai", "setpicbc", false));
-					menus.appendChild(createLink("PIC Perusahaan", "setpicpt", true));
-					menus.appendChild(createLink("Staf Bea Cukai", "setstafbc", false));
-				} else if (adminrole && loc.equals("setstafbc")) {
-					txtjudulapp.setText("(Admin) Perizinan Online");
-					menus.appendChild(createLink("Inbox", "statuslayananbc", false));
-					menus.appendChild(createLink("PIC Bea Cukai", "setpicbc", false));
-					menus.appendChild(createLink("PIC Perusahaan", "setpicpt", false));
-					menus.appendChild(createLink("Staf Bea Cukai", "setstafbc", true));
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("Perizinan", "izinonline", true));
+					menus.appendChild(createLink("Status Layanan", "statuslayananpt", false));
+				} else {
+					event.forwardTo(LoginPage.class);
+				}
+			} else if (dataLogin.getAccount().getRole().getId() == 1) {
+				if (loc.equals("profil")) {
+					txtjudulapp.setText("Profil");
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("Profil", "profil", true));
+				} else if (loc.equals("izinonline")) {
+					txtjudulapp.setText("Perizinan Online");
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("Perizinan", "izinonline", true));
+					menus.appendChild(createLink("Status Layanan", "statuslayananpt", false));
 				} else {
 					event.forwardTo(LoginPage.class);
 				}
 			} else {
-				menus.removeAllChildren();
-				if (loc.equals("izinonline")) {
-					txtjudulapp.setText("Perizinan Online");
-					menus.appendChild(createLink("Perizinan", "izinonline", true));
-					menus.appendChild(createLink("Status Layanan", "statuslayananpt", false));
-				} else if (loc.equals("statuslayananpt")) {
-					txtjudulapp.setText("Perizinan Online");
-					menus.appendChild(createLink("Perizinan", "izinonline", false));
-					menus.appendChild(createLink("Status Layanan", "statuslayananpt", true));
-				}else if(loc.equals("profil")) {
-					txtjudulapp.setText("Profil");
-					menus.appendChild(createLink("Home", "mainhome", false));
-					menus.appendChild(createLink("Profil", "profil", true));
-				} else {
-					event.forwardTo(LoginPage.class);
-				}
+				event.forwardTo(LoginPage.class);
 			}
 		}
 	}

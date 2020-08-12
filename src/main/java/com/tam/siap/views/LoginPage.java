@@ -1,15 +1,14 @@
 package com.tam.siap.views;
 
-import java.util.List;
+import static com.tam.siap.utils.refs.Status.SUCCESS;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tam.siap.exceptions.UserNotFoundException;
-import com.tam.siap.exceptions.WrongPasswordException;
-import com.tam.siap.security.AuthService;
-import com.tam.siap.security.UserService;
+import com.tam.siap.models.responses.LoginResponse;
+import com.tam.siap.services.AuthBEService;
+import com.tam.siap.utils.TamUtils;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
@@ -28,7 +27,6 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
 @Route(value = "")
@@ -42,11 +40,14 @@ public class LoginPage extends PolymerTemplate<TemplateModel> implements PageCon
 	 */
 	private static final long serialVersionUID = -3136313122260827045L;
 
-	@Autowired
-	AuthService authService;
+//	@Autowired
+//	AuthService authService;
 //
 //	@Autowired
 //	JenisPerusahaanRepository jenisPerusahaanRepository;
+	
+	@Autowired
+	AuthBEService authServices;
 
 	@Id("txtusername")
 	private Input txtusername;
@@ -81,27 +82,20 @@ public class LoginPage extends PolymerTemplate<TemplateModel> implements PageCon
 	private void LoginAction() {
 		String usernameval = txtusername.getValue();
 		String passwordval = txtpassword.getValue();
-//		List<JenisPerusahaan> jp = jenisPerusahaanRepository.findAll();
-//		try {
-//			if (authService.login(usernameval, passwordval, false) || true) {
-//				boolean bcuser = (boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER);
-////				picuser = (boolean)VaadinSession.getCurrent().getAttribute(UserService.PICUSER);
-//				if (bcuser) {
-//					getUI().get().navigate(HomeMainPage.class);
-//				} else {
-//					getUI().get().navigate(HomeMainPage.class);
-//				}
-//			}
-//		} catch (UserNotFoundException e) {
-//			// TODO: handle exception
-//			Notification notification = new Notification("Error login", 3000, Position.MIDDLE);
-//			notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//			notification.open();
-//		} catch (WrongPasswordException e) {
-//			// TODO: handle exception
-//		}
 		
-		getUI().get().navigate(HomeMainPage.class);
+		LoginResponse response =  authServices.login(usernameval, passwordval);
+		if(response.getCode() == SUCCESS) {
+			TamUtils.setSession(response);
+			Notification notification = new Notification("Selamat datang", 3000, Position.MIDDLE);
+			notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+			notification.open();
+			getUI().get().navigate(HomeMainPage.class);	
+		}else {
+			Notification notification = new Notification("Username / password salah", 3000, Position.MIDDLE);
+			notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+			notification.open();
+		}
+		//getUI().get().navigate(HomeMainPage.class);
 	}
 
 	@Override
