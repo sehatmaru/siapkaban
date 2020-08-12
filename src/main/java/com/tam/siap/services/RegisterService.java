@@ -36,7 +36,7 @@ public class RegisterService {
     }
 
     private int addUser(Account account){
-        account.setStatus(INACTIVE);
+        account.setStatus(PENDING);
 
         accountService.save(account);
 
@@ -57,6 +57,7 @@ public class RegisterService {
     private int addDataPerusahaan(String username, DPerusahaan dPerusahaan){
         Account account = accountService.findByUsername(username);
         dPerusahaan.setAccount(account);
+        dPerusahaan.setStatus(PENDING);
 
         dataPerusahaanService.save(dPerusahaan);
 
