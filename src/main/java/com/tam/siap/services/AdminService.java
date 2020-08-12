@@ -1,6 +1,7 @@
 package com.tam.siap.services;
 
 import com.tam.siap.models.Account;
+import com.tam.siap.models.DPerusahaan;
 import com.tam.siap.models.responses.AccountListResponse;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPerusahaanService;
@@ -14,8 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.tam.siap.utils.refs.Status.PENDING;
-import static com.tam.siap.utils.refs.Status.REJECTED;
+import static com.tam.siap.utils.refs.Status.*;
 
 @Service
 public class AdminService {
@@ -42,6 +42,76 @@ public class AdminService {
             acc.setDataPribadi(dataPribadiService.findDataPribadiByAccount(account));
 
             result.add(acc);
+        }
+
+        return result;
+    }
+
+    public int respondAccount(String username, int status) {
+        int result = FAILED;
+
+        if (accountService.isAccountExist(username)) {
+            Account account = accountService.findByUsername(username);
+
+            switch (status){
+                case 1 :
+                    account.setStatus(ACTIVE);
+
+                    if (dataPerusahaanService.isDataPerusahaanExist(account)) {
+                        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
+                        dPerusahaan.setStatus(ACTIVE);
+
+                        accountService.save(account);
+                        dataPerusahaanService.save(dPerusahaan);
+
+                        if (accountService.isAccountActive(username) &&
+                                dataPerusahaanService.isDataPerusahaanActive(account)) result = SUCCESS;
+                    }
+                    break;
+                case 2 :
+                    account.setStatus(PENDING);
+
+                    if (dataPerusahaanService.isDataPerusahaanExist(account)) {
+                        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
+                        dPerusahaan.setStatus(PENDING);
+
+                        accountService.save(account);
+                        dataPerusahaanService.save(dPerusahaan);
+
+                        if (accountService.isAccountPending(username) &&
+                                dataPerusahaanService.isDataPerusahaanPending(account)) result = SUCCESS;
+                    }
+                    break;
+
+                case 3 :
+                    account.setStatus(INACTIVE);
+
+                    if (dataPerusahaanService.isDataPerusahaanExist(account)) {
+                        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
+                        dPerusahaan.setStatus(INACTIVE);
+
+                        accountService.save(account);
+                        dataPerusahaanService.save(dPerusahaan);
+
+                        if (accountService.isAccountInactive(username) &&
+                                dataPerusahaanService.isDataPerusahaanInactive(account)) result = SUCCESS;
+                    }
+                    break;
+                case 4 :
+                    account.setStatus(REJECTED);
+
+                    if (dataPerusahaanService.isDataPerusahaanExist(account)) {
+                        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanByAccount(account);
+                        dPerusahaan.setStatus(REJECTED);
+
+                        accountService.save(account);
+                        dataPerusahaanService.save(dPerusahaan);
+
+                        if (accountService.isAccountRejected(username) &&
+                                dataPerusahaanService.isDataPerusahaanRejected(account)) result = SUCCESS;
+                    }
+                    break;
+            }
         }
 
         return result;

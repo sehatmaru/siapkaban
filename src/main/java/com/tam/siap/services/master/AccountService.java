@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tam.siap.utils.refs.Status.ACTIVE;
+import static com.tam.siap.utils.refs.Status.*;
 
 @Service
 public class AccountService {
@@ -30,6 +30,18 @@ public class AccountService {
 
     public boolean isAccountActive(String username) {
         return accountRepository.findByUsernameAndStatus(username, ACTIVE) != null;
+    }
+
+    public boolean isAccountPending(String username) {
+        return accountRepository.findByUsernameAndStatus(username, PENDING) != null;
+    }
+
+    public boolean isAccountRejected(String username) {
+        return accountRepository.findByUsernameAndStatus(username, REJECTED) != null;
+    }
+
+    public boolean isAccountInactive(String username) {
+        return accountRepository.findByUsernameAndStatus(username, INACTIVE) != null;
     }
 
     public Account findByUsername(String username){

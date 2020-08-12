@@ -3,7 +3,6 @@ package com.tam.siap.controller;
 import com.tam.siap.models.*;
 import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
-import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
@@ -33,9 +32,6 @@ public class TestController {
 	AuthBEService authService;
 
 	@Autowired
-	ProfileService profileService;
-
-	@Autowired
 	AdminService adminService;
 
 	@PostMapping("/register")
@@ -57,14 +53,24 @@ public class TestController {
 		System.out.println("hasil login = " + authService.login("00000", "[C@213c3426").toString());
 	}
 
-	@PostMapping("/admin/verified/account/success")
-	public void verifiedAccountSuccess() {
-		System.out.println("hasil verified = " + profileService.setAccountVerified("00000"));
+	@PostMapping("/admin/account/active")
+	public void accountActive() {
+		System.out.println("hasil verified = " + adminService.respondAccount("00000", 1));
 	}
 
-	@PostMapping("/admin/verified/account/failed")
-	public void verifiedAccountFailed() {
-		System.out.println("hasil verified = " + profileService.setAccountVerified("0000012"));
+	@PostMapping("/admin/account/pending")
+	public void accountPending() {
+		System.out.println("hasil verified = " + adminService.respondAccount("00000", 2));
+	}
+
+	@PostMapping("/admin/account/inactive")
+	public void accountInactive() {
+		System.out.println("hasil verified = " + adminService.respondAccount("00000", 3));
+	}
+
+	@PostMapping("/admin/account/rejected")
+	public void accountRejected() {
+		System.out.println("hasil verified = " + adminService.respondAccount("00000", 4));
 	}
 
 	@PostMapping("/admin/list/unverified")
