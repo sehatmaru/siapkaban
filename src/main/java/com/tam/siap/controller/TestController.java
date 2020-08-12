@@ -1,7 +1,7 @@
 package com.tam.siap.controller;
 
 import com.tam.siap.models.*;
-import com.tam.siap.services.LoginService;
+import com.tam.siap.services.AuthService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
@@ -28,7 +28,7 @@ public class TestController {
 	JenisPerusahaanService jenisPerusahaanService;
 
 	@Autowired
-	LoginService loginService;
+	AuthService authService;
 
 	@PostMapping("/register")
 	public void register() {
@@ -41,11 +41,11 @@ public class TestController {
 
 	@PostMapping("/login/wrong/password")
 	public void loginWrongPassword() {
-		System.out.println("hasil login = " + loginService.login("00000", "asd").toString());
+		System.out.println("hasil login = " + authService.login("00000", "asd").toString());
 	}
 
 	@PostMapping("/login/success")
 	public void loginSuccess() {
-		System.out.println("hasil login = " + loginService.login("00000", "[C@213c3426").toString());
+		System.out.println("hasil login = " + authService.login("00000", "[C@213c3426").toString());
 	}
 }

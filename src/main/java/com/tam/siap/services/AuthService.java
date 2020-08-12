@@ -12,7 +12,7 @@ import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
 
 @Service
-public class LoginService {
+public class AuthService {
 
     @Autowired
     AccountService accountService;
