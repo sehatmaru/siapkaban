@@ -1,4 +1,4 @@
-package com.tam.siap;
+package com.tam.siap.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;

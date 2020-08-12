@@ -1,56 +1,33 @@
 package com.tam.siap.services;
 
 import com.tam.siap.models.*;
-import com.tam.siap.repos.*;
+import com.tam.siap.services.master.DataPerusahaanService;
+import com.tam.siap.services.master.DataPribadiService;
+import com.tam.siap.services.master.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import static com.tam.siap.utils.refs.Status.*;
 
 @Service
 public class RegisterService {
 
     @Autowired
-    DPribadiRepository dPribadiRepository;
+    AccountService accountService;
 
     @Autowired
-    DPerusahaanRepository dPerusahaanRepository;
+    DataPerusahaanService dataPerusahaanService;
 
     @Autowired
-    AccountRepository accountRepository;
-
-    @Autowired
-    JPerusahaanRepository jPerusahaanRepository;
-
-    @Autowired
-    JIdentitasRepository jIdentitasRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    public boolean isAccountExist(String username, Role role) {
-        return accountRepository.findByUsernameAndRole(username, role) != null;
-    }
-
-    public boolean isDataPerusahaanExist(Account account) {
-        return dPerusahaanRepository.findByAccount(account) != null;
-    }
-
-    public boolean isDataPribadiExist(Account account) {
-        return dPribadiRepository.findByAccount(account) != null;
-    }
-
-    public boolean isAccountActive(String username, Role role) {
-        return accountRepository.findByUsernameAndRoleAndStatus(username, role, 1) != null;
-    }
+    DataPribadiService dataPribadiService;
 
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
-        int result = 1;
+        int result = FAILED;
 
-        if (!isAccountExist(account.getUsername(), account.getRole())){
-            if (addUser(account) == 0){
-                if (addDataPribadi(account.getUsername(), dPribadi) == 0){
-                    if (addDataPerusahaan(account.getUsername(), dPerusahaan) == 0) result = 0;
+        if (!accountService.isAccountExist(account.getUsername(), account.getRole())){
+            if (addUser(account) == SUCCESS){
+                if (addDataPribadi(account.getUsername(), dPribadi) == SUCCESS){
+                    if (addDataPerusahaan(account.getUsername(), dPerusahaan) == SUCCESS) result = SUCCESS;
                 }
             }
         }
@@ -59,31 +36,31 @@ public class RegisterService {
     }
 
     private int addUser(Account account){
-        account.setStatus(2);
+        account.setStatus(INACTIVE);
 
-        accountRepository.save(account);
+        accountService.save(account);
 
-        if (isAccountExist(account.getUsername(), account.getRole())) return 0;
-        else return 1;
+        if (accountService.isAccountExist(account.getUsername(), account.getRole())) return SUCCESS;
+        else return FAILED;
     }
 
-    private int addDataPribadi(String accountname, DPribadi dPribadi){
-        Account account = accountRepository.findByUsername(accountname);
-        dPribadi.setUser(account);
+    private int addDataPribadi(String username, DPribadi dPribadi){
+        Account account = accountService.findByUsername(username);
+        dPribadi.setAccount(account);
 
-        dPribadiRepository.save(dPribadi);
+        dataPribadiService.save(dPribadi);
 
-        if (isDataPribadiExist(account)) return 0;
-        else return 1;
+        if (dataPribadiService.isDataPribadiExist(account)) return SUCCESS;
+        else return FAILED;
     }
 
-    private int addDataPerusahaan(String accountname, DPerusahaan dPerusahaan){
-        Account account = accountRepository.findByUsername(accountname);
-        dPerusahaan.setUser(account);
+    private int addDataPerusahaan(String username, DPerusahaan dPerusahaan){
+        Account account = accountService.findByUsername(username);
+        dPerusahaan.setAccount(account);
 
-        dPerusahaanRepository.save(dPerusahaan);
+        dataPerusahaanService.save(dPerusahaan);
 
-        if (isDataPerusahaanExist(account)) return 0;
-        else return 1;
+        if (dataPerusahaanService.isDataPerusahaanExist(account)) return SUCCESS;
+        else return FAILED;
     }
 }

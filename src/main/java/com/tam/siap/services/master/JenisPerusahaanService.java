@@ -1,4 +1,4 @@
-package com.tam.siap.services;
+package com.tam.siap.services.master;
 
 import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.repos.JPerusahaanRepository;

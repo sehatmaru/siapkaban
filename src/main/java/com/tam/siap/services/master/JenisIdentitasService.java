@@ -1,4 +1,4 @@
-package com.tam.siap.services;
+package com.tam.siap.services.master;
 
 import com.tam.siap.models.JIdentitas;
 import com.tam.siap.repos.JIdentitasRepository;

@@ -39,6 +39,12 @@ public class DPribadi {
 	@JoinColumn(name = "j_identitas", referencedColumnName = "id")
 	private JIdentitas jenis;
 
+	@Column(name = "gambar")
+	private String gambar;
+
+	public DPribadi() {
+	}
+
 	public DPribadi(String nama, String nomor, String jabatan, String telepon, String email, JIdentitas jenis) {
 		this.nama = nama;
 		this.nomor = nomor;
@@ -46,6 +52,22 @@ public class DPribadi {
 		this.telepon = telepon;
 		this.email = email;
 		this.jenis = jenis;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public String getGambar() {
+		return gambar;
+	}
+
+	public void setGambar(String gambar) {
+		this.gambar = gambar;
 	}
 
 	public int getId() {
@@ -94,14 +116,6 @@ public class DPribadi {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Account getUser() {
-		return account;
-	}
-
-	public void setUser(Account account) {
-		this.account = account;
 	}
 
 	public JIdentitas getJenis() {

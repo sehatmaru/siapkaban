@@ -1,4 +1,4 @@
-package com.tam.siap;
+package com.tam.siap.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

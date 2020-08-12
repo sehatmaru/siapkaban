@@ -1,10 +1,10 @@
-package com.tam.siap;
+package com.tam.siap.controller;
 
 import com.tam.siap.models.*;
-import com.tam.siap.services.JenisIdentitasService;
-import com.tam.siap.services.JenisPerusahaanService;
+import com.tam.siap.services.master.JenisIdentitasService;
+import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
-import com.tam.siap.services.RoleService;
+import com.tam.siap.services.master.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

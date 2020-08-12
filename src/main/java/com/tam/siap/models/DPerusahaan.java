@@ -35,6 +35,12 @@ public class DPerusahaan {
 	@JoinColumn(name = "account", referencedColumnName = "id")
 	private Account account;
 
+	@Column(name="status")
+	private int status;
+
+	public DPerusahaan() {
+	}
+
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "j_perusahaan", referencedColumnName = "id")
 	private JPerusahaan jenis;
@@ -87,20 +93,28 @@ public class DPerusahaan {
 		this.email = email;
 	}
 
-	public Account getUser() {
-		return account;
-	}
-
-	public void setUser(Account account) {
-		this.account = account;
-	}
-
 	public JPerusahaan getJenis() {
 		return jenis;
 	}
 
 	public void setJenis(JPerusahaan jenis) {
 		this.jenis = jenis;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis) {
