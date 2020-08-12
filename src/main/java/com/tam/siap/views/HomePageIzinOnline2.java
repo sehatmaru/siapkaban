@@ -101,15 +101,6 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 	}
 
 	public HomePageIzinOnline2() {
-//		menus.setProperty("innerHTML", "<li class=\"nav-item active\">\r\n" + 
-//				"                        <a class=\"nav-link\">Home</a>\r\n" + 
-//				"                    </li>\r\n" + 
-//				"                    <li class=\"nav-item\">\r\n" + 
-//				"                        <a class=\"nav-link\" dataku=\"wewe\" on-click=\"clickmenu\">Perijinan</a>\r\n" + 
-//				"                    </li>\r\n" + 
-//				"                    <li class=\"nav-item\">\r\n" + 
-//				"                        <a class=\"nav-link\" >Transaksional</a>\r\n" + 
-//				"                    </li>");
 
 		btnsignout.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
@@ -152,7 +143,18 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 //			System.out.println(location.getSegments()
 //		));
 		if (!authService.isAuthenticated()) {
-			event.forwardTo(LoginPage.class);
+			String loc =event.getLocation().getFirstSegment();
+			//event.forwardTo(LoginPage.class);
+			menus.removeAllChildren();
+			if(loc.equals("profil")) {
+				txtjudulapp.setText("Profil");
+				menus.appendChild(createLink("Home", "mainhome", false));
+				menus.appendChild(createLink("Profil", "profil", true));
+			}else if (loc.equals("izinonline")) {
+				txtjudulapp.setText("Perizinan Online");
+				menus.appendChild(createLink("Perizinan", "izinonline", true));
+				menus.appendChild(createLink("Status Layanan", "statuslayananpt", false));
+			}
 		} else {
 			String loc =event.getLocation().getFirstSegment();
 			if ((boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER)) {
@@ -206,6 +208,10 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 					txtjudulapp.setText("Perizinan Online");
 					menus.appendChild(createLink("Perizinan", "izinonline", false));
 					menus.appendChild(createLink("Status Layanan", "statuslayananpt", true));
+				}else if(loc.equals("profil")) {
+					txtjudulapp.setText("Profil");
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("Profil", "profil", true));
 				} else {
 					event.forwardTo(LoginPage.class);
 				}

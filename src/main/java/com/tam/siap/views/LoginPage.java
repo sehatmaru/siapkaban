@@ -82,24 +82,26 @@ public class LoginPage extends PolymerTemplate<TemplateModel> implements PageCon
 		String usernameval = txtusername.getValue();
 		String passwordval = txtpassword.getValue();
 //		List<JenisPerusahaan> jp = jenisPerusahaanRepository.findAll();
-		try {
-			if (authService.login(usernameval, passwordval, false) || true) {
-				boolean bcuser = (boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER);
-//				picuser = (boolean)VaadinSession.getCurrent().getAttribute(UserService.PICUSER);
-				if (bcuser) {
-					getUI().get().navigate(HomeMainPage.class);
-				} else {
-					getUI().get().navigate(HomeMainPage.class);
-				}
-			}
-		} catch (UserNotFoundException e) {
-			// TODO: handle exception
-			Notification notification = new Notification("Error login", 3000, Position.MIDDLE);
-			notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-			notification.open();
-		} catch (WrongPasswordException e) {
-			// TODO: handle exception
-		}
+//		try {
+//			if (authService.login(usernameval, passwordval, false) || true) {
+//				boolean bcuser = (boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER);
+////				picuser = (boolean)VaadinSession.getCurrent().getAttribute(UserService.PICUSER);
+//				if (bcuser) {
+//					getUI().get().navigate(HomeMainPage.class);
+//				} else {
+//					getUI().get().navigate(HomeMainPage.class);
+//				}
+//			}
+//		} catch (UserNotFoundException e) {
+//			// TODO: handle exception
+//			Notification notification = new Notification("Error login", 3000, Position.MIDDLE);
+//			notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+//			notification.open();
+//		} catch (WrongPasswordException e) {
+//			// TODO: handle exception
+//		}
+		
+		getUI().get().navigate(HomeMainPage.class);
 	}
 
 	@Override

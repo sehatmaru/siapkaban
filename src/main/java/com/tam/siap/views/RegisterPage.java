@@ -20,6 +20,7 @@ import com.tam.siap.services.JenisIdentitasService;
 import com.tam.siap.services.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
 import com.tam.siap.services.RoleService;
+import com.tam.siap.utils.TamUtils;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -108,7 +109,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 	@Autowired
 	RegisterService registerService = new RegisterService();
-	
+
 	@Autowired
 	private RoleService roleService = new RoleService();
 
@@ -166,27 +167,36 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					notification.open();
 				} else {
 					Role r = roleService.getRole(1);
-					Account account = new Account(email, null, r);
-					
+					Account account = new Account(noid, TamUtils.generatePassword(8).toString(), r);
+
 					DPribadi dPribadi = new DPribadi(nama, noid, jabatan, notelp, email, datatipeid);
 					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt);
-					
-					registerService.register(account, dPribadi, dPerusahaan);
-					Notification notification = new Notification("Terima kasih, pendaftaran berhasil", 3000, Position.MIDDLE);
-					notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-					notification.open();
+
+					int sukses = registerService.register(account, dPribadi, dPerusahaan);
+					if (sukses == 0) {
+						Notification notification = new Notification("Terima kasih, pendaftaran berhasil", 3000,
+								Position.MIDDLE);
+						notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+						notification.open();
+						getUI().get().navigate(LoginPage.class);
+					} else {
+						Notification notification = new Notification("Mohon maaf, pendaftaran gagal", 3000,
+								Position.MIDDLE);
+						notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+						notification.open();
+					}
 				}
 			}
 		});
 	}
 
 	private void setForm() {
-		txtTipeAkun.setEnabled(false);
+		txtTipeAkun.setReadOnly(true);
 		txtTipeAkun.setValue("Akun baru");
 
 		txtConfirm.setValue(
 				"Dengan melakukan pengisian pada formulir isian, saya menyatakan bahwa data yang dituliskan dalam Formulir Registrasi ini adalah benar dan dapat dipertanggungjawabkan untuk permohonan akun baru");
-		txtConfirm.setEnabled(false);
+		txtConfirm.setReadOnly(true);
 
 		btnSubmit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 

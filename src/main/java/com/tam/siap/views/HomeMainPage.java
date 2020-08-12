@@ -1,23 +1,23 @@
 package com.tam.siap.views;
 
-import java.util.Optional;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tam.siap.security.AuthService;
-import com.tam.siap.security.UserService;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -27,7 +27,6 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
 @Route(value = "mainhome")
@@ -64,15 +63,21 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 
 	@Id("btnsignout")
 	Button btnsignout;
+	
+	@Id("btnprofil")
+	Button btnprofil;
 
-	@Id("txtbidang")
-	H6 txtbidang;
+//	@Id("txtbidang")
+//	H6 txtbidang;
 
 	@Id("txtemail")
 	Element txtemail;
+	
+	@Id("pnldetailinfo")
+	Div pnldetailinfo;
 
-	@Id("txtdscpbidang")
-	Element txtdscpbidang;
+//	@Id("txtdscpbidang")
+//	Element txtdscpbidang;
 	
 	@Id("menuapps")
 	Div menuapps;
@@ -83,41 +88,46 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 		boolean bcuser = false;
 		long userid = 0;
 		try {
-			bcuser = (boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER);
-			if (bcuser) {
-				userid = (long) VaadinSession.getCurrent().getAttribute(UserService.PIC_ID);
+//			bcuser = (boolean) VaadinSession.getCurrent().getAttribute(UserService.BCUSER);
+//			if (bcuser) {
+//				userid = (long) VaadinSession.getCurrent().getAttribute(UserService.PIC_ID);
 				//Optional<Pic> picdata = picRepository.findById(userid);
 //				txtnamauser.setText(picdata.get().getNama());
 //				txtjabatan.setText(picdata.get().getJabatan().getNama());
 //				txtnip.setText(picdata.get().getNipuser());
 //				txtbidang.setText(picdata.get().getJabatan().getBidang().getNama());
 //				txtemail.setVisible(false);
-				txtdscpbidang.setText("Bidang");
-				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "statuslayananbc"));
-				menuapps.getElement().appendChild(elmenu("Instan", "instan", "instan"));
-				menuapps.getElement().appendChild(elmenu("Survey Kepuasan", "survey", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Apps Manager", "appsmanager", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Executive Summary", "executive", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Ekspor", "ekspor", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Impor", "impor", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("TPB", "tpb", "tpb"));
-				menuapps.getElement().appendChild(elmenu("KITE", "kte", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Cukai", "cukai", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Kawasan Pabean & TPS", "pabean", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Pengawasan", "dataintel", "pengawasan"));
-			} else {
-				userid = (long) VaadinSession.getCurrent().getAttribute(UserService.USERID);
+//				txtnamauser.setText("Arezka May Fajri");
+//				txtjabatan.setText("Eselon III");
+//				txtnip.setText("1342342");
+//				txtbidang.setText("awdawdawd");
+//				txtemail.setVisible(false);
+//				txtdscpbidang.setText("Unit Kerja");
+//				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "statuslayananbc"));
+//				menuapps.getElement().appendChild(elmenu("Instan", "instan", "instan"));
+//				menuapps.getElement().appendChild(elmenu("Survey Kepuasan", "survey", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Apps Manager", "appsmanager", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Executive Summary", "executive", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Ekspor", "ekspor", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Impor", "impor", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("TPB", "tpb", "tpb"));
+//				menuapps.getElement().appendChild(elmenu("KITE", "kte", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Cukai", "cukai", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Kawasan Pabean & TPS", "pabean", "mainhome"));
+//				menuapps.getElement().appendChild(elmenu("Pengawasan", "dataintel", "pengawasan"));
+//			} else {
+				//userid = (long) VaadinSession.getCurrent().getAttribute(UserService.USERID);
 //				Optional<PicPerusahaan> picdata = picPerusahaanRepository.findById(userid);
-//				txtnamauser.setText(picdata.get().getNama());
-//				txtjabatan.setText(picdata.get().getJabatan());
-//				txtnip.setText(picdata.get().getKtp());
-//				txtbidang.setText(picdata.get().getPerusahaan().getNamaperusahaan() + " - "
-//						+ picdata.get().getPerusahaan().getNpwpperusahaan());
-//				txtemail.setText(picdata.get().getEmail());
-				txtdscpbidang.setText("Perusahaan");
+				txtnamauser.setText("Tamimi");
+				txtjabatan.setText("CTO");
+				txtnip.setText("123123123");
+//				txtbidang.setText("PT INSAN HIJRAH" + " - "
+//						+ "12313212");
+				txtemail.setText("adaw@adwdaw.com");
+//				txtdscpbidang.setText("Perusahaan");
 				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "izinonline"));
 				menuapps.getElement().appendChild(elmenu("Instan", "instan", "statuslayananpt"));
-			}
+//			}
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 			bcuser = false;
@@ -141,7 +151,9 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 					notification.addThemeVariants(NotificationVariant.LUMO_CONTRAST);
 					notification.open();
 				}else {
-					getUI().get().navigate(url);	
+//					getUI().get().navigate(url);
+					UI.getCurrent().getPage().open(url);
+					//UI.getCurrent().getPage().executeJs("window.open(http://localhost:8089/"+url+", \"_blank\", \"\");");
 				}
 			}
 		});
@@ -158,12 +170,23 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 	}
 
 	public HomeMainPage() {
+		btnsignout.addThemeVariants(ButtonVariant.LUMO_SMALL);
+		btnprofil.addThemeVariants(ButtonVariant.LUMO_SMALL);
 		btnsignout.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				// TODO Auto-generated method stub
 				AuthService.logOut();
+			}
+		});
+		
+		btnprofil.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+			
+			@Override
+			public void onComponentEvent(ClickEvent<Button> event) {
+				// TODO Auto-generated method stub
+				getUI().get().navigate(ProfilPage.class);
 			}
 		});
 
@@ -192,10 +215,10 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
 		// TODO Auto-generated method stub
-		if (authService.isAuthenticated()) {
-
-		} else {
-			event.forwardTo(LoginPage.class);
-		}
+//		if (authService.isAuthenticated()) {
+//
+//		} else {
+//			event.forwardTo(LoginPage.class);
+//		}
 	}
 }

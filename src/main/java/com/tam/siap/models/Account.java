@@ -25,7 +25,7 @@ public class Account {
 	@Column(name="status")
 	private int status;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", referencedColumnName = "id")
 	private Role role;
 
