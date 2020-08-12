@@ -1,7 +1,8 @@
 package com.tam.siap.controller;
 
 import com.tam.siap.models.*;
-import com.tam.siap.services.AuthService;
+import com.tam.siap.services.AuthBEService;
+import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
@@ -28,7 +29,10 @@ public class TestController {
 	JenisPerusahaanService jenisPerusahaanService;
 
 	@Autowired
-	AuthService authService;
+	AuthBEService authService;
+
+	@Autowired
+	ProfileService profileService;
 
 	@PostMapping("/register")
 	public void register() {
@@ -47,5 +51,15 @@ public class TestController {
 	@PostMapping("/login/success")
 	public void loginSuccess() {
 		System.out.println("hasil login = " + authService.login("00000", "[C@213c3426").toString());
+	}
+
+	@PostMapping("/admin/verified/account/success")
+	public void verifiedAccountSuccess() {
+		System.out.println("hasil verified = " + profileService.setAccountVerified("00000"));
+	}
+
+	@PostMapping("/admin/verified/account/failed")
+	public void verifiedAccountFailed() {
+		System.out.println("hasil verified = " + profileService.setAccountVerified("0000012"));
 	}
 }

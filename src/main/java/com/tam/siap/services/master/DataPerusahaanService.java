@@ -6,6 +6,8 @@ import com.tam.siap.repos.DPerusahaanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.tam.siap.utils.refs.Status.ACTIVE;
+
 @Service
 public class DataPerusahaanService {
 
@@ -14,6 +16,10 @@ public class DataPerusahaanService {
 
     public boolean isDataPerusahaanExist(Account account) {
         return dPerusahaanRepository.findByAccount(account) != null;
+    }
+
+    public boolean isAccountActive(Account account) {
+        return dPerusahaanRepository.findByAccountAndStatus(account, ACTIVE) != null;
     }
 
     public DPerusahaan findDataPerusahaanByAccount(Account account) {

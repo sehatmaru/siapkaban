@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DPerusahaanRepository extends JpaRepository<DPerusahaan, String>{
     DPerusahaan findByAccount(Account account);
+
+    DPerusahaan findByAccountAndStatus(Account account, int status);
 }

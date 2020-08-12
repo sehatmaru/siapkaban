@@ -18,6 +18,10 @@ public class AccountService {
         return accountRepository.findByUsernameAndRole(username, role) != null;
     }
 
+    public boolean isAccountExist(String username) {
+        return accountRepository.findByUsername(username) != null;
+    }
+
     public boolean isAccountExist(String username, String password){
         return accountRepository.findByUsernameAndPassword(username, password) != null;
     }
