@@ -6,6 +6,8 @@ import com.tam.siap.repos.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.tam.siap.utils.refs.Status.ACTIVE;
+
 @Service
 public class AccountService {
 
@@ -16,8 +18,12 @@ public class AccountService {
         return accountRepository.findByUsernameAndRole(username, role) != null;
     }
 
-    public boolean isAccountActive(String username, Role role) {
-        return accountRepository.findByUsernameAndRoleAndStatus(username, role, 1) != null;
+    public boolean isAccountExist(String username, String password){
+        return accountRepository.findByUsernameAndPassword(username, password) != null;
+    }
+
+    public boolean isAccountActive(String username) {
+        return accountRepository.findByUsernameAndStatus(username, ACTIVE) != null;
     }
 
     public Account findByUsername(String username){
