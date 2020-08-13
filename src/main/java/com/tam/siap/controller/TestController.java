@@ -1,6 +1,7 @@
 package com.tam.siap.controller;
 
 import com.tam.siap.models.*;
+import com.tam.siap.models.request.EditProfileRequest;
 import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
 import com.tam.siap.services.ProfileService;
@@ -82,16 +83,18 @@ public class TestController {
 		System.out.println("hasil get unverified = " + adminService.getUnverifiedAccountList().toString());
 	}
 
+
 	@PostMapping("/profile/update")
 	public void updateProfile() {
-		Account user = new Account("a", "a", roleService.getRole(2));
-		user.setId(20);
-		user.setStatus(1);
-		DPribadi pribadi = new DPribadi("renta", "a", "a", "a", "a", jenisIdentitasService.getJenisIdentitas(1));
-		pribadi.setId(13);
-		pribadi.setAccount(user);
-		pribadi.setGambar("C://Local Files/");
 
-		System.out.println("hasil update = " + profileService.updateProfile(pribadi));
+		EditProfileRequest profileRequest = new EditProfileRequest();
+		profileRequest.setUsername("a");
+		profileRequest.setPassword("ini");
+		profileRequest.setNomor("nomornya");
+		profileRequest.setNama("edit namanya");
+		profileRequest.setEmail("jadi email");
+		profileRequest.setGambar("gambarnya");
+
+		System.out.println("hasil update = " + profileService.updateProfile(profileRequest));
 	}
 }
