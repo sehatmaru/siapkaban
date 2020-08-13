@@ -12,12 +12,20 @@ public class DataPribadiService {
     @Autowired
     DPribadiRepository dPribadiRepository;
 
-    public boolean isDataPribadiExist(Account account) {
-        return dPribadiRepository.findByAccount(account) != null;
-    }
+//    public boolean isDataPribadiExist(Account account) {
+//        return dPribadiRepository.findByAccount(account) != null;
+//    }
 
-    public DPribadi findDataPribadiByAccount(Account account) {
-        return dPribadiRepository.findByAccount(account);
+    public boolean isDataPribadiExist(int id) {
+        return dPribadiRepository.findById(id) != null;
+    }
+//
+//    public DPribadi findDataPribadiByAccount(Account account) {
+//        return dPribadiRepository.findByAccount(account);
+//    }
+
+    public DPribadi findDataPribadiById(int id){
+        return dPribadiRepository.findById(id);
     }
 
     public void save(DPribadi dPribadi){

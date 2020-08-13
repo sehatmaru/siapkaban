@@ -33,8 +33,6 @@ public class AuthBEService {
 
                 response.setCode(SUCCESS);
                 response.setAccount(account);
-                response.setDataPribadi(dataPribadiService.findDataPribadiByAccount(account));
-                response.setDataPerusahaan(dataPerusahaanService.findDataPerusahaanByAccount(account));
             }
         }
 

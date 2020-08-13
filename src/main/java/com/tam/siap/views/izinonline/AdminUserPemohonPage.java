@@ -5,10 +5,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.tam.siap.models.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tam.siap.models.DPerusahaan;
-import com.tam.siap.models.responses.AccountListResponse;
 import com.tam.siap.repos.DPribadiRepository;
 import com.tam.siap.security.AuthService;
 import com.tam.siap.services.AdminService;
@@ -45,9 +44,9 @@ public class AdminUserPemohonPage extends VerticalLayout {
 	@Autowired
 	AdminService adminService;
 
-	Grid<AccountListResponse> gridPemohon = new Grid<>();
+	Grid<Account> gridPemohon = new Grid<>();
 
-	private List<AccountListResponse> listDataPemohon = new ArrayList<>();
+	private List<Account> listDataPemohon = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
@@ -58,15 +57,15 @@ public class AdminUserPemohonPage extends VerticalLayout {
 
 	public AdminUserPemohonPage() {
 		setSizeFull();
-		gridPemohon.addColumn(data -> data.getDataPerusahaan().getNama())
+		gridPemohon.addColumn(data -> data.getPerusahaan().getNama())
 				.setHeader(TamUtils.setCustomHerader("Nama PT"));
-		gridPemohon.addColumn(data -> data.getDataPerusahaan().getNpwp()).setHeader(TamUtils.setCustomHerader("NPWP"));
-		gridPemohon.addColumn(data -> data.getDataPerusahaan().getAlamat())
+		gridPemohon.addColumn(data -> data.getPerusahaan().getNpwp()).setHeader(TamUtils.setCustomHerader("NPWP"));
+		gridPemohon.addColumn(data -> data.getPerusahaan().getAlamat())
 				.setHeader(TamUtils.setCustomHerader("Alamat"));
-		gridPemohon.addColumn(data -> data.getDataPerusahaan().getJenis().getKeterangan())
+		gridPemohon.addColumn(data -> data.getPerusahaan().getJenis().getKeterangan())
 				.setHeader(TamUtils.setCustomHerader("Jenis PT"));
-		gridPemohon.addColumn(data -> data.getDataPribadi().getNama()).setHeader(TamUtils.setCustomHerader("Nama PIC"));
-		gridPemohon.addColumn(data -> data.getDataPribadi().getNomor())
+		gridPemohon.addColumn(data -> data.getPerusahaan().getNama()).setHeader(TamUtils.setCustomHerader("Nama PIC"));
+		gridPemohon.addColumn(data -> data.getPribadi().getNomor())
 				.setHeader(TamUtils.setCustomHerader("No Identitas"));
 		gridPemohon.addComponentColumn(item -> createRemoveButton2(gridPemohon, item))
 				.setHeader(TamUtils.setCustomHerader("Proses")).setWidth("6em");
@@ -76,7 +75,7 @@ public class AdminUserPemohonPage extends VerticalLayout {
 		add(gridPemohon);
 	}
 
-	private HorizontalLayout createRemoveButton2(Grid<AccountListResponse> grid, AccountListResponse item) {
+	private HorizontalLayout createRemoveButton2(Grid<Account> grid, Account item) {
 		Button btntolak = new Button("Tolak");
 		btntolak.addThemeVariants(ButtonVariant.LUMO_ERROR);
 		btntolak.addThemeVariants(ButtonVariant.LUMO_SMALL);
@@ -91,7 +90,7 @@ public class AdminUserPemohonPage extends VerticalLayout {
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				// getUI().get().navigate("detaildatapemohon/" + item.getId());
-				int status = adminService.respondAccount(item.getAccount().getUsername(), 1);
+				int status = adminService.respondAccount(item.getUsername(), 1);
 				if (status == SUCCESS) {
 					Notification notification = new Notification("Akun telah disetujui", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -110,7 +109,7 @@ public class AdminUserPemohonPage extends VerticalLayout {
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				// TODO Auto-generated method stub
-				int status = adminService.respondAccount(item.getAccount().getUsername(), 4);
+				int status = adminService.respondAccount(item.getUsername(), 4);
 				if (status == SUCCESS) {
 					Notification notification = new Notification("Akun telah ditolak", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

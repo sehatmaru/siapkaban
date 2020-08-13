@@ -26,8 +26,8 @@ public class ProfileService {
         if (accountService.isAccountExist(edit.getUsername())) {
           Account  account = accountService.findByUsername(edit.getUsername());
           account.setPassword(edit.getPassword());
-            if (dataPribadiService.isDataPribadiExist(account)){
-                DPribadi data = dataPribadiService.findDataPribadiByAccount(account);
+            if (dataPribadiService.isDataPribadiExist(account.getPribadi().getId())){
+                DPribadi data = dataPribadiService.findDataPribadiById(account.getPribadi().getId());
                 data.setNama(edit.getNama());
                 data.setNomor(edit.getNomor());
                 data.setEmail(edit.getEmail());

@@ -32,10 +32,6 @@ public class DPribadi {
 	private String email;
 
 	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "account", referencedColumnName = "id")
-	private Account account;
-
-	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "j_identitas", referencedColumnName = "id")
 	private JIdentitas jenis;
 
@@ -52,14 +48,6 @@ public class DPribadi {
 		this.telepon = telepon;
 		this.email = email;
 		this.jenis = jenis;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 	public String getGambar() {

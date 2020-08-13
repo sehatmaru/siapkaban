@@ -142,10 +142,10 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 								+ "							<small style=\"font-size: 0.7rem;\" class=\"text-muted\">Eselon IV :</small>\r\n"
 								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">Seksi Pelayanan Kepabeanan dan Cukai I</h6></br></br></br></br></br>");
 			} else {
-				txtnamauser.setText(datasLogin.getDataPribadi().getNama());
-				txtjabatan.setText(datasLogin.getDataPribadi().getJabatan());
-				txtnip.setText(datasLogin.getDataPribadi().getNomor());
-				txtemail.setText(datasLogin.getDataPribadi().getEmail());
+				txtnamauser.setText(datasLogin.getAccount().getPribadi().getNama());
+				txtjabatan.setText(datasLogin.getAccount().getPribadi().getJabatan());
+				txtnip.setText(datasLogin.getAccount().getPribadi().getNomor());
+				txtemail.setText(datasLogin.getAccount().getPribadi().getEmail());
 				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "izinonline"));
 				menuapps.getElement().appendChild(elmenu("Instan", "instan", "statuslayananpt"));
 				pnldetailinfo.getElement().setProperty("innerHTML",

@@ -31,10 +31,6 @@ public class DPerusahaan {
 	@Column(name="email")
 	private String email;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "account", referencedColumnName = "id")
-	private Account account;
-
 	@Column(name="status")
 	private int status;
 
@@ -99,14 +95,6 @@ public class DPerusahaan {
 
 	public void setJenis(JPerusahaan jenis) {
 		this.jenis = jenis;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 	public int getStatus() {

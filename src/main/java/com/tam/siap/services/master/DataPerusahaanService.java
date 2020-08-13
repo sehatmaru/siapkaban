@@ -1,6 +1,5 @@
 package com.tam.siap.services.master;
 
-import com.tam.siap.models.Account;
 import com.tam.siap.models.DPerusahaan;
 import com.tam.siap.repos.DPerusahaanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +13,32 @@ public class DataPerusahaanService {
     @Autowired
     DPerusahaanRepository dPerusahaanRepository;
 
-    public boolean isDataPerusahaanExist(Account account) {
-        return dPerusahaanRepository.findByAccount(account) != null;
+    public boolean isDataPerusahaanActive(String npwp) {
+        return dPerusahaanRepository.findByNpwpAndStatus(npwp, ACTIVE) != null;
     }
 
-    public boolean isDataPerusahaanActive(Account account) {
-        return dPerusahaanRepository.findByAccountAndStatus(account, ACTIVE) != null;
+    public boolean isDataPerusahaanPending(String npwp) {
+        return dPerusahaanRepository.findByNpwpAndStatus(npwp, PENDING) != null;
     }
 
-    public boolean isDataPerusahaanPending(Account account) {
-        return dPerusahaanRepository.findByAccountAndStatus(account, PENDING) != null;
+    public boolean isDataPerusahaanRejected(String npwp) {
+        return dPerusahaanRepository.findByNpwpAndStatus(npwp, REJECTED) != null;
     }
 
-    public boolean isDataPerusahaanRejected(Account account) {
-        return dPerusahaanRepository.findByAccountAndStatus(account, REJECTED) != null;
+    public boolean isDataPerusahaanInactive(String npwp) {
+        return dPerusahaanRepository.findByNpwpAndStatus(npwp, INACTIVE) != null;
+    }
+//
+//    public DPerusahaan findDataPerusahaanByAccount(Account account) {
+//        return dPerusahaanRepository.findByAccount(account);
+//    }
+
+    public DPerusahaan findDataPerusahaanById(int id){
+        return dPerusahaanRepository.findById(id);
     }
 
-    public boolean isDataPerusahaanInactive(Account account) {
-        return dPerusahaanRepository.findByAccountAndStatus(account, INACTIVE) != null;
-    }
-
-    public DPerusahaan findDataPerusahaanByAccount(Account account) {
-        return dPerusahaanRepository.findByAccount(account);
+    public boolean isDataPerusahaanExist(int id) {
+        return dPerusahaanRepository.findById(id) != null;
     }
 
     public void save(DPerusahaan dPerusahaan){

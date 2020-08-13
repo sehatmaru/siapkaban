@@ -25,9 +25,9 @@ public class RegisterService {
         int result = FAILED;
 
         if (!accountService.isAccountExist(account.getUsername(), account.getRole())){
-            if (addUser(account) == SUCCESS){
-                if (addDataPribadi(account.getUsername(), dPribadi) == SUCCESS){
-                    if (addDataPerusahaan(account.getUsername(), dPerusahaan) == SUCCESS) result = SUCCESS;
+            if (addDataPribadi(dPribadi) == SUCCESS){
+                if (addDataPerusahaan(dPerusahaan) == SUCCESS){
+                    if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) result = SUCCESS;
                 }
             }
         }
@@ -35,8 +35,10 @@ public class RegisterService {
         return result;
     }
 
-    private int addUser(Account account){
+    private int addUser(Account account, DPribadi pribadi, DPerusahaan perusahaan){
         account.setStatus(PENDING);
+        account.setPribadi(pribadi);
+        account.setPerusahaan(perusahaan);
 
         accountService.save(account);
 
@@ -44,24 +46,19 @@ public class RegisterService {
         else return FAILED;
     }
 
-    private int addDataPribadi(String username, DPribadi dPribadi){
-        Account account = accountService.findByUsername(username);
-        dPribadi.setAccount(account);
-
+    private int addDataPribadi(DPribadi dPribadi){
         dataPribadiService.save(dPribadi);
 
-        if (dataPribadiService.isDataPribadiExist(account)) return SUCCESS;
+        if (dataPribadiService.isDataPribadiExist(dPribadi.getId())) return SUCCESS;
         else return FAILED;
     }
 
-    private int addDataPerusahaan(String username, DPerusahaan dPerusahaan){
-        Account account = accountService.findByUsername(username);
-        dPerusahaan.setAccount(account);
+    private int addDataPerusahaan(DPerusahaan dPerusahaan){
         dPerusahaan.setStatus(PENDING);
 
         dataPerusahaanService.save(dPerusahaan);
 
-        if (dataPerusahaanService.isDataPerusahaanExist(account)) return SUCCESS;
+        if (dataPerusahaanService.isDataPerusahaanExist(dPerusahaan.getId())) return SUCCESS;
         else return FAILED;
     }
 }

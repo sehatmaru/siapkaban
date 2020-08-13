@@ -29,6 +29,14 @@ public class Account {
 	@JoinColumn(name = "role", referencedColumnName = "id")
 	private Role role;
 
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "d_perusahaan", referencedColumnName = "id")
+	private DPerusahaan perusahaan;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "d_pribadi", referencedColumnName = "id")
+	private DPribadi pribadi;
+
 	public Account() {
 	}
 
@@ -72,6 +80,22 @@ public class Account {
 
 	public Role getRole() {
 		return role;
+	}
+
+	public DPerusahaan getPerusahaan() {
+		return perusahaan;
+	}
+
+	public void setPerusahaan(DPerusahaan perusahaan) {
+		this.perusahaan = perusahaan;
+	}
+
+	public DPribadi getPribadi() {
+		return pribadi;
+	}
+
+	public void setPribadi(DPribadi pribadi) {
+		this.pribadi = pribadi;
 	}
 
 	public void setRole(Role role) {
