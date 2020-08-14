@@ -10,6 +10,7 @@ import com.tam.siap.services.master.DataPribadiService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +20,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -41,6 +43,8 @@ public class RegisterService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    ExportingService exportingService;
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
         int result = FAILED;
 
@@ -48,6 +52,13 @@ public class RegisterService {
             if (addDataPribadi(dPribadi) == SUCCESS) {
                 if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                     if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
+                        try {
+                            exportingService.print(dPribadi, dPerusahaan);
+                        } catch (JRException e) {
+                            e.printStackTrace();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         Map<String, String> model = new HashMap<>();
                         model.put("nama", dPribadi.getNama());
                         model.put("nomor", dPribadi.getNomor());

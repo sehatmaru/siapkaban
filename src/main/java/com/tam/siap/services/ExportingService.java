@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.tam.siap.models.DPerusahaan;
+import com.tam.siap.models.DPribadi;
 import com.tam.siap.models.Employee;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -28,21 +28,51 @@ public class ExportingService {
     @Autowired
     private Environment env;
 
-    public void print() throws JRException, FileNotFoundException {
+    public void print(DPribadi dPribadi, DPerusahaan dPerusahaan) throws JRException, FileNotFoundException {
+        Locale locale = new Locale("in", "ID");
         String reportDir = env.getProperty("project.home");
-
-        List<Employee> studentList = new ArrayList<Employee>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy", locale);
+        Date date = new Date();
+        String tanggal = dateFormat.format(date);
 
         Map<String, Object> parameter  = new HashMap<String, Object>();
 
-        studentList.add(new Employee(1, "Employee 1", "FY BSc"));
-        studentList.add(new Employee(2, "Employee 2", "TY BSc"));
-        studentList.add(new Employee(3, "Employee 3", "TY BBA"));
+        parameter.put("pemohonnama", dPribadi.getNama());
+        parameter.put("pemohonnomorktpnik", dPribadi.getNomor());
+        parameter.put("pemohonjabatan", dPribadi.getJabatan());
+        parameter.put("pemohontelp", dPribadi.getTelepon());
+        parameter.put("pemohonemail", dPribadi.getEmail());
+        parameter.put("perusahaannama", dPerusahaan.getNama());
+        parameter.put("perusahaannpwp", dPerusahaan.getNpwp());
+        parameter.put("perusahaanalamat", dPerusahaan.getAlamat());
+        parameter.put("perusahaantelp", dPerusahaan.getTelepon());
+        parameter.put("perusahaanemail", dPerusahaan.getEmail());
+        parameter.put("ttdpemohonnama", dPribadi.getNama());
+        parameter.put("tempattanggal", tanggal);
+        parameter.put("perusahaanjeniskb", " ");
+        parameter.put("perusahaanjenisgb", " ");
+        parameter.put("perusahaanjenisplb", " ");
+        parameter.put("perusahaanjenistppb", " ");
+        parameter.put("perusahaanjenistps", " ");
+        parameter.put("perusahaanjeniskp", " ");
 
-        Employee employee = new Employee(1, "Employee 1", "FY BSc");
+        if(dPerusahaan.getJenis().getId() == 1) {
+            parameter.put("perusahaanjeniskb", "X");
+        } else if(dPerusahaan.getJenis().getId() == 2) {
+            parameter.put("perusahaanjenisgb", "X");
+        } else if(dPerusahaan.getJenis().getId() == 3) {
+            parameter.put("perusahaanjenisplb", "X");
+        } else if(dPerusahaan.getJenis().getId() == 4) {
+            parameter.put("perusahaanjenistppb", "X");
+        } else if(dPerusahaan.getJenis().getId() == 5) {
+            parameter.put("perusahaanjenistps", "X");
+        } else if(dPerusahaan.getJenis().getId() == 6) {
+            parameter.put("perusahaanjeniskp", "X");
+        }
 
-        parameter.put("name", employee.getName());
-        parameter.put("std", employee.getStd());
+        parameter.put("tujuanbaru", "X");
+        parameter.put("tujuanpenambahanbaru", " ");
+        parameter.put("tujuanperubahan", " ");
 
         JasperReport jasperDesign = JasperCompileManager.compileReport(reportDir + "/src/main/resources/report/RegisterForm.jrxml");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
