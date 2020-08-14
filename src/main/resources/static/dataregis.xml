@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+    <tujuan>
+        <baru>true</baru>
+        <penambahan>false</penambahan>
+        <perubahan>false</perubahan>
+    </tujuan>
+
+    <pemohon>
+        <nama>Sehat Sentosa</nama>
+        <ktp>123456789</ktp>
+        <jabatan>Ketua RT</jabatan>
+        <telp>081234567890</telp>
+        <email>beliobat@apotek.com</email>
+    </pemohon>
+
+    <perusahaan>
+        <nama>PT Samosir</nama>
+        <npwp>343434343434</npwp>
+        <jenis>
+            <kb>true</kb>
+            <gb>false</gb>
+            <plb>false</plb>
+            <tppb>false</tppb>
+            <kp>false</kp>
+            <tps>false</tps>
+        </jenis>
+        <alamat>Jakarta</alamat>
+        <telp>9876543210</telp>
+        <email>perusahaan@jakarta.com</email>
+    </perusahaan>
+    <penandatanganan>
+        <tempat>Jakarta</tempat>
+        <tanggal>12 Agustus 2020</tanggal>
+        <namapemohon>Agus</namapemohon>
+        <namamengetahui>Shinta</namamengetahui>
+        <jabatan>Direktur</jabatan>
+    </penandatanganan>
+</root>

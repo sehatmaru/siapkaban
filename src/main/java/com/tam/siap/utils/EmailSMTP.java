@@ -1,5 +1,8 @@
 package com.tam.siap.utils;
 
+import org.springframework.core.io.FileSystemResource;
+
+import java.io.File;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -12,10 +15,10 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSMTP {
 
-	private String username = "kanwil.djbc.banten@gmail.com";
-	private String password = "kaban2020.";
+	private String username = "lokasi.forgotpass@gmail.com";
+	private String password = "Don'tforget!";
 	private Session session;
-	
+
 	public EmailSMTP() {
 		// TODO Auto-generated constructor stub
 		Properties prop = new Properties();
@@ -36,7 +39,7 @@ public class EmailSMTP {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("kanwil.djbc.banten@gmail.com"));
+			message.setFrom(new InternetAddress("Kaban"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			message.setSubject(subject);
 			message.setText(content);
