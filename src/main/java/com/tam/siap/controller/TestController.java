@@ -94,14 +94,14 @@ public class TestController {
 		System.out.println("hasil get unverified = " + adminService.getUnverifiedAccountList().toString());
 	}
 
-	@PostMapping("/print/pdf")
-	public void print() {
-		try{
-			exportingService.print();
-		} catch (JRException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+//	@PostMapping("/print/pdf")
+//	public void print() {
+//		try{
+//			exportingService.print(DPribadi, DPerusahaan);
+//		} catch (JRException | FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	@PostMapping("/profile/update")
 	public void updateProfile() {
