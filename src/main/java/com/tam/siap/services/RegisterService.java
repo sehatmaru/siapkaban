@@ -7,12 +7,10 @@ import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
-import com.tam.siap.utils.EmailSMTP;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -22,11 +20,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.tam.siap.utils.refs.Status.*;
 
@@ -42,30 +37,26 @@ public class RegisterService {
     @Autowired
     DataPribadiService dataPribadiService;
 
-    DocumentPrinter documentPrinter = new DocumentPrinter();
-
     @Autowired
-    private JavaMailSender mailSender;
+    JavaMailSender mailSender;
 
     @Autowired
     private Configuration configuration;
 
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
         int result = FAILED;
-        int id = 1;
-        String subject = "Pendaftaran Berhasil";
-        String content = "Terima kasih telah mendaftar";
-        String to = "rentayustika@gmail.com";
-        String attachement = "src/main/resources/report/LembarDisposisiKepalaKantor.docx";
 
-        if (!accountService.isAccountExist(account.getUsername(), account.getRole())){
-            if (addDataPribadi(dPribadi) == SUCCESS){
-                if (addDataPerusahaan(dPerusahaan) == SUCCESS){
+        if (!accountService.isAccountExist(account.getUsername(), account.getRole())) {
+            if (addDataPribadi(dPribadi) == SUCCESS) {
+                if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                     if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
+                        EmailRequestDto email = new EmailRequestDto("siapkaban@gmail.com", dPribadi.getEmail(), "Dokumen Pendaftaran", "Siapkaban");
 
-                        EmailSMTP emailSMTP = new EmailSMTP();
-                        emailSMTP.sendEmail(subject, content, to);
-                        result = SUCCESS;
+                        Map<String, String> model = new HashMap<>();
+                        model.put("name", email.getName());
+                        model.put("value", "Test Email");
+
+                        if (sendMail(email, model)) result = SUCCESS;
                     }
                 }
             }
@@ -74,9 +65,9 @@ public class RegisterService {
         return result;
     }
 
-    public String sendMail(EmailRequestDto request, Map<String, String> model) {
+    public boolean sendMail(EmailRequestDto request, Map<String, String> model) {
+        boolean result = false;
 
-        String response;
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
@@ -95,32 +86,12 @@ public class RegisterService {
 //            helper.addAttachment("attachment.pdf", pdf);
 
             mailSender.send(message);
-            response = "Email has been sent to :" + request.getTo();
+            result = true;
         } catch (MessagingException | IOException | TemplateException e) {
-            response = "Email send failure to :" + request.getTo() + ", messaging = " + e.toString();
+            e.printStackTrace();
         }
-        return response;
-    }
 
-    public void printPdf(){
-//        DPribadi dPribadi = dataPribadiService.findDataPribadiById(16);
-//        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanById(9);
-//
-//        List<Object> objList = new ArrayList<>();
-//        objList.add(0,dPribadi.getNama());
-//        objList.add(1,dPribadi.getNomor());
-//        objList.add(2,dPribadi.getJabatan());
-//        objList.add(3, dPribadi.getTelepon());
-//        objList.add(4, dPribadi.getEmail());
-//        objList.add(dPribadi.getJenis());
-//        objList.add(5, dPerusahaan.getNama());
-//        objList.add(6, dPerusahaan.getNpwp());
-//        objList.add(7, dPerusahaan.getAlamat());
-//        objList.add(8, dPerusahaan.getTelepon());
-//        objList.add(9, dPerusahaan.getEmail());
-//        objList.add(10, dPerusahaan.getJenis());
-
-        documentPrinter.printRegisForm(0,"pdf");
+        return result;
     }
 
     private int addUser(Account account, DPribadi pribadi, DPerusahaan perusahaan){
