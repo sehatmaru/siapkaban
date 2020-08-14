@@ -1,7 +1,8 @@
 package com.tam.siap.utils;
 
-import com.helger.commons.io.resource.FileSystemResource;
+import org.springframework.core.io.FileSystemResource;
 
+import java.io.File;
 import java.util.Properties;
 
 import javax.mail.Message;
