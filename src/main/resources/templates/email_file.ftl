@@ -55,36 +55,31 @@
 <body >
 <div class="header"></div>
 <div class="div-title-email">
-    <p class="title-email"><h3>Konfirmasi Akun Registrasi Siap Kaban</h3></p>
+    <p class="title-email"><h3>Dokumen Registrasi Siap Kaban</h3></p>
 </div>
 
 <div class="div-opening-email">
-    <p>Pengguna aplikasi yang kami hormati,<br />Berikut adalah data akun anda :</p>
+    <p>Pengguna aplikasi yang kami hormati,<br />Dengan data berikut :</p>
 </div>
 
 <div class="table-user-account">
     <table>
         <tr>
-            <td>Username</td>
+            <td>Nama</td>
             <td>:</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td>:</td>
-            <td></td>
+            <td>${nama}</td>
         </tr>
         <tr>
             <td>Nomor Identitas</td>
             <td>:</td>
-            <td></td>
+            <td>${nomor}</td>
         </tr>
     </table>
 </div>
 
 <div class="div-closing-email">
     <p>Terima kasih Anda sudah melakukan registrasi.<br />
-        Silahkan login pada aplikasi Siap Kaban menggunakan username dan password di atas.</p>
+        Silahkan print dokumen berikut dan kirim ke alamat tertera.</p>
 </div>
 
 <div class="div-admin-email">

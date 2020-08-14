@@ -119,11 +119,11 @@ public class TestController {
 
 	@PostMapping("email/send")
 	public void sendMail() {
-		EmailRequestDto email = new EmailRequestDto("siapkaban@gmail.com", "maruzhaky@gmail.com", "Test Email", "Sehats");
-
-		Map<String, String> model = new HashMap<>();
-		model.put("name", email.getName());
-		model.put("value", "Test Email");
-		System.out.println("hasil email = " + registerService.sendMail(email, model));
+//		EmailRequestDto email = new EmailRequestDto("siapkaban@gmail.com", "maruzhaky@gmail.com", "Test Email", "Sehats");
+//
+//		Map<String, String> model = new HashMap<>();
+//		model.put("name", email.getName());
+//		model.put("value", "Test Email");
+//		System.out.println("hasil email = " + registerService.sendMail(email, model));
 	}
 }

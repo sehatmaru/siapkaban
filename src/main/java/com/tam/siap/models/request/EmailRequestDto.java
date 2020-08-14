@@ -1,17 +1,21 @@
 package com.tam.siap.models.request;
 
+import java.util.Map;
+
 public class EmailRequestDto {
 
 	private String from;
 	private String to;
 	private String subject;
-	private String name;
+	private String type;
+	private Map<String, String> model;
 
-	public EmailRequestDto(String from, String to, String subject, String name) {
+	public EmailRequestDto(String from, String to, String subject, String type, Map<String, String> model) {
 		this.from = from;
 		this.to = to;
 		this.subject = subject;
-		this.name = name;
+		this.type = type;
+		this.model = model;
 	}
 
 	public String getFrom() {
@@ -38,11 +42,19 @@ public class EmailRequestDto {
 		this.subject = subject;
 	}
 
-	public String getName() {
-		return name;
+	public String getType() {
+		return type;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Map<String, String> getModel() {
+		return model;
+	}
+
+	public void setModel(Map<String, String> model) {
+		this.model = model;
 	}
 }

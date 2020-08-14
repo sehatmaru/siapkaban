@@ -2,15 +2,14 @@ package com.tam.siap.services;
 
 import com.tam.siap.models.Account;
 import com.tam.siap.models.DPerusahaan;
+import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,6 +26,9 @@ public class AdminService {
 
     @Autowired
     DataPribadiService dataPribadiService;
+
+    @Autowired
+    EmailService emailService;
 
     public List<Account> getUnverifiedAccountList(){
         return Stream.of(getPendingAccountList(), getRejectedAccountList())
@@ -51,7 +53,23 @@ public class AdminService {
                         dataPerusahaanService.save(perusahaan);
 
                         if (accountService.isAccountActive(username) &&
-                            dataPerusahaanService.isDataPerusahaanActive(account.getPerusahaan().getNpwp())) result = SUCCESS;
+                            dataPerusahaanService.isDataPerusahaanActive(account.getPerusahaan().getNpwp())) {
+
+                            Map<String, String> model = new HashMap<>();
+                            model.put("username", account.getUsername());
+                            model.put("password", account.getPassword());
+                            model.put("nomor", account.getPribadi().getNomor());
+
+                            EmailRequestDto request = new EmailRequestDto(
+                                    "siapkaban@gmail.com",
+                                    account.getPribadi().getEmail(),
+                                    "Permohonan Registrasi Disetujui",
+                                    "email_account.ftl",
+                                    model
+                            );
+
+                            if (emailService.sendMail(request)) result = SUCCESS;
+                        }
                     }
                     break;
                 case 2 :
