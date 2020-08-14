@@ -1,5 +1,11 @@
 package com.tam.siap.services;
 
+import com.tam.siap.document.DocumentPrinter;
+import com.tam.siap.models.*;
+import com.tam.siap.services.master.DataPerusahaanService;
+import com.tam.siap.services.master.DataPribadiService;
+import com.tam.siap.services.master.AccountService;
+import com.tam.siap.utils.EmailSMTP;
 import com.tam.siap.models.Account;
 import com.tam.siap.models.DPerusahaan;
 import com.tam.siap.models.DPribadi;
@@ -23,6 +29,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.tam.siap.utils.refs.Status.*;
 
 @Service
@@ -45,6 +55,11 @@ public class RegisterService {
 
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
         int result = FAILED;
+        int id = 1;
+        String subject = "Pendaftaran Berhasil";
+        String content = "Terima kasih telah mendaftar";
+        String to = "rentayustika@gmail.com";
+        String attachement = "src/main/resources/report/LembarDisposisiKepalaKantor.docx";
 
         if (!accountService.isAccountExist(account.getUsername(), account.getRole())) {
             if (addDataPribadi(dPribadi) == SUCCESS) {
