@@ -6,8 +6,28 @@ import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.utils.EmailSMTP;
+import com.tam.siap.models.Account;
+import com.tam.siap.models.DPerusahaan;
+import com.tam.siap.models.DPribadi;
+import com.tam.siap.models.request.EmailRequestDto;
+import com.tam.siap.services.master.AccountService;
+import com.tam.siap.services.master.DataPerusahaanService;
+import com.tam.siap.services.master.DataPribadiService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +47,11 @@ public class RegisterService {
     @Autowired
     DataPribadiService dataPribadiService;
 
-    DocumentPrinter documentPrinter = new DocumentPrinter();
+    @Autowired
+    JavaMailSender mailSender;
+
+    @Autowired
+    private Configuration configuration;
 
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
         int result = FAILED;
@@ -37,15 +61,18 @@ public class RegisterService {
         String to = "rentayustika@gmail.com";
         String attachement = "src/main/resources/report/LembarDisposisiKepalaKantor.docx";
 
-        if (!accountService.isAccountExist(account.getUsername(), account.getRole())){
-            if (addDataPribadi(dPribadi) == SUCCESS){
-                if (addDataPerusahaan(dPerusahaan) == SUCCESS){
+        if (!accountService.isAccountExist(account.getUsername(), account.getRole())) {
+            if (addDataPribadi(dPribadi) == SUCCESS) {
+                if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                     if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
+                        EmailRequestDto email = new EmailRequestDto("siapkaban@gmail.com", dPribadi.getEmail(), "Dokumen Pendaftaran", "Siapkaban");
 
-                        EmailSMTP emailSMTP = new EmailSMTP();
-                        emailSMTP.sendEmail(subject, content, to);
-                        result = SUCCESS;
-                    };
+                        Map<String, String> model = new HashMap<>();
+                        model.put("name", email.getName());
+                        model.put("value", "Test Email");
+
+                        if (sendMail(email, model)) result = SUCCESS;
+                    }
                 }
             }
         }
@@ -53,25 +80,33 @@ public class RegisterService {
         return result;
     }
 
-    public void printPdf(){
-//        DPribadi dPribadi = dataPribadiService.findDataPribadiById(16);
-//        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanById(9);
-//
-//        List<Object> objList = new ArrayList<>();
-//        objList.add(0,dPribadi.getNama());
-//        objList.add(1,dPribadi.getNomor());
-//        objList.add(2,dPribadi.getJabatan());
-//        objList.add(3, dPribadi.getTelepon());
-//        objList.add(4, dPribadi.getEmail());
-//        objList.add(dPribadi.getJenis());
-//        objList.add(5, dPerusahaan.getNama());
-//        objList.add(6, dPerusahaan.getNpwp());
-//        objList.add(7, dPerusahaan.getAlamat());
-//        objList.add(8, dPerusahaan.getTelepon());
-//        objList.add(9, dPerusahaan.getEmail());
-//        objList.add(10, dPerusahaan.getJenis());
+    public boolean sendMail(EmailRequestDto request, Map<String, String> model) {
+        boolean result = false;
 
-        documentPrinter.printRegisForm(0,"pdf");
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+
+//            ClassPathResource pdf = new ClassPathResource("static/attachment.pdf");
+//            ClassPathResource image = new ClassPathResource("static/asbnotebook.png");
+            Template template = configuration.getTemplate("email.ftl");
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+
+            helper.setTo(request.getTo());
+            helper.setFrom(request.getFrom());
+            helper.setSubject(request.getSubject());
+            helper.setText(html, true);
+//            helper.addInline("asbnotebook", image);
+//            helper.addAttachment("attachment.pdf", pdf);
+
+            mailSender.send(message);
+            result = true;
+        } catch (MessagingException | IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     private int addUser(Account account, DPribadi pribadi, DPerusahaan perusahaan){

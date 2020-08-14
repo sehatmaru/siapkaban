@@ -36,6 +36,21 @@ spring:
         generate-ddl: true
         hibernate:
             ddl-auto: update
+
+    mail:
+        default-encoding: UTF-8
+        host: smtp.gmail.com
+        username: siapkaban@gmail.com
+        password: Bckaban01#
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+        protocol: smtp
+
 vaadin:
     compatibilityMode: true
     original:
