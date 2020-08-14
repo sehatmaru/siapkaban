@@ -9,10 +9,14 @@ import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.RegisterService;
 import com.tam.siap.services.master.RoleService;
+import com.tam.siap.utils.EmailSMTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.mail.Session;
+import java.util.Properties;
 
 @RestController
 @RequestMapping(value = "test")

@@ -37,6 +37,7 @@ public class DocumentPrinter {
 	public static final String NOTA_DINAS = "_NOTA_DINAS";
 	public static final String SKEP_PERUBAHAN = "_SKEP_PERUBAHAN";
 	public static final String TANDA_TERIMA = "_TANDA_TERIMA";
+	public static final String REGISTER_FORM = "REGISTER_FORM";
 
 	public byte[]  printNotaDinas(long id, String dokumen, String type) {
 		
@@ -52,6 +53,8 @@ public class DocumentPrinter {
 				jrxmlFileName = "SKEPPerubahan.jrxml";
 			}else if(dokumen.equals(DocumentPrinter.TANDA_TERIMA)) {
 				jrxmlFileName = "TandaTerima.jrxml";
+			} else if(dokumen.equals(DocumentPrinter.REGISTER_FORM)) {
+				jrxmlFileName = "RegisterForm.jrxml";
 			}
 			
 			String filename = id+dokumen;

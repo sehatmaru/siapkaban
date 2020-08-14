@@ -3,10 +3,7 @@ package com.tam.siap.views;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 

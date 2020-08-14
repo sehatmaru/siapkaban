@@ -1,9 +1,11 @@
 package com.tam.siap.services;
 
+import com.tam.siap.document.DocumentPrinter;
 import com.tam.siap.models.*;
 import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
 import com.tam.siap.services.master.AccountService;
+import com.tam.siap.utils.EmailSMTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,20 @@ public class RegisterService {
 
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
         int result = FAILED;
+        int id = 1;
+        String dokumen = "REGISTER_FORM";
+        String subject = "Pendaftaran Berhasil";
+        String content = "Terima kasih telah mendaftar";
+        String to = "maruzhaky@gmail.com";
 
         if (!accountService.isAccountExist(account.getUsername(), account.getRole())){
             if (addDataPribadi(dPribadi) == SUCCESS){
                 if (addDataPerusahaan(dPerusahaan) == SUCCESS){
-                    if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) result = SUCCESS;
+                    if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
+                        EmailSMTP emailSMTP = new EmailSMTP();
+                        emailSMTP.sendEmail(subject, content, to);
+                        result = SUCCESS;
+                    };
                 }
             }
         }
@@ -61,4 +72,5 @@ public class RegisterService {
         if (dataPerusahaanService.isDataPerusahaanExist(dPerusahaan.getId())) return SUCCESS;
         else return FAILED;
     }
+
 }
