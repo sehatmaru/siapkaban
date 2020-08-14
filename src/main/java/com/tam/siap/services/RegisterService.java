@@ -53,15 +53,16 @@ public class RegisterService {
                 if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                     if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
                         try {
-                            exportingService.print(dPribadi, dPerusahaan);
+                            exportingService.print(account.getPribadi(), account.getPerusahaan());
                         } catch (JRException e) {
                             e.printStackTrace();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+
                         Map<String, String> model = new HashMap<>();
-                        model.put("nama", dPribadi.getNama());
-                        model.put("nomor", dPribadi.getNomor());
+                        model.put("nama", account.getPribadi().getNama());
+                        model.put("nomor", account.getPribadi().getNomor());
 
                         EmailRequestDto request = new EmailRequestDto(
                                 "siapkaban@gmail.com",

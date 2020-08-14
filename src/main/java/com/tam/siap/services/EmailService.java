@@ -42,7 +42,7 @@ public class EmailService {
             helper.setSubject(request.getSubject());
             helper.setText(html, true);
 
-            if (request.getType().equals("email_file")) {
+            if (request.getType().equals("email_file.ftl")) {
                 ClassPathResource pdf = new ClassPathResource("report/RegisterForm.pdf");
                 helper.addAttachment("RegistrasiForm.pdf", pdf);
             }

@@ -722,7 +722,7 @@
 				</textField>
 				<textField>
 					<reportElement x="171" y="422" width="270" height="18" uuid="0f553d65-b596-43a5-8f04-454fbf87fce7"/>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Left">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{perusahaanemail}]]></textFieldExpression>
