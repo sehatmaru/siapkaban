@@ -41,21 +41,6 @@ public class RegisterService {
             if (addDataPribadi(dPribadi) == SUCCESS){
                 if (addDataPerusahaan(dPerusahaan) == SUCCESS){
                     if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
-                        List<Object> objList = new ArrayList<>();
-                        objList.add(0,dPribadi.getNama());
-                        objList.add(1,dPribadi.getNomor());
-                        objList.add(2,dPribadi.getJabatan());
-                        objList.add(3, dPribadi.getTelepon());
-                        objList.add(4, dPribadi.getEmail());
-                        objList.add(dPribadi.getJenis());
-                        objList.add(5, dPerusahaan.getNama());
-                        objList.add(6, dPerusahaan.getNpwp());
-                        objList.add(7, dPerusahaan.getAlamat());
-                        objList.add(8, dPerusahaan.getTelepon());
-                        objList.add(9, dPerusahaan.getEmail());
-                        objList.add(10, dPerusahaan.getJenis());
-
-                        documentPrinter.printRegisForm(id,"pdf", objList);
 
                         EmailSMTP emailSMTP = new EmailSMTP();
                         emailSMTP.sendEmail(subject, content, to);
@@ -66,6 +51,27 @@ public class RegisterService {
         }
 
         return result;
+    }
+
+    public void printPdf(){
+//        DPribadi dPribadi = dataPribadiService.findDataPribadiById(16);
+//        DPerusahaan dPerusahaan = dataPerusahaanService.findDataPerusahaanById(9);
+//
+//        List<Object> objList = new ArrayList<>();
+//        objList.add(0,dPribadi.getNama());
+//        objList.add(1,dPribadi.getNomor());
+//        objList.add(2,dPribadi.getJabatan());
+//        objList.add(3, dPribadi.getTelepon());
+//        objList.add(4, dPribadi.getEmail());
+//        objList.add(dPribadi.getJenis());
+//        objList.add(5, dPerusahaan.getNama());
+//        objList.add(6, dPerusahaan.getNpwp());
+//        objList.add(7, dPerusahaan.getAlamat());
+//        objList.add(8, dPerusahaan.getTelepon());
+//        objList.add(9, dPerusahaan.getEmail());
+//        objList.add(10, dPerusahaan.getJenis());
+
+        documentPrinter.printRegisForm(0,"pdf");
     }
 
     private int addUser(Account account, DPribadi pribadi, DPerusahaan perusahaan){

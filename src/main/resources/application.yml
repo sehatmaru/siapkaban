@@ -1,0 +1,44 @@
+project.home: /Users/whee/sehat/workspace/siapkaban/be/siapkaban
+
+layanan:
+    document:
+        bc:
+            logo: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\logo\logo.jpeg
+        path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\report
+    generated:
+        report:
+            path: ${project.home}/resources/report
+server:
+    port: 8089
+siapkaban:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban
+        password: sehatmaru
+        username: postgres
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        generate-ddl: true
+        hibernate:
+            ddl-auto: update
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            connectionTimeout: 20000
+            maximumPoolSize: 5
+        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban
+        password: sehatmaru
+        url: jdbc:postgresql://localhost:5432/siapkaban
+        username: postgres
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        generate-ddl: true
+        hibernate:
+            ddl-auto: update
+vaadin:
+    compatibilityMode: true
+    original:
+        frontend:
+            resources: true
+    productionMode: true

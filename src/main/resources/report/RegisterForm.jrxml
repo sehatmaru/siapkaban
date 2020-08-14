@@ -11,10 +11,10 @@
 			<![CDATA[]]>
 		</queryString>
 	</subDataset>
-	<parameter name="pemohonnama" class="java.lang.String">
+	<parameter name="name" class="java.lang.String">
 		<parameterDescription><![CDATA[Nama Pemohon]]></parameterDescription>
 	</parameter>
-	<parameter name="pemohonnomorktpnik" class="java.lang.String">
+	<parameter name="std" class="java.lang.String">
 		<parameterDescription><![CDATA[Nomor KTP (NIK)]]></parameterDescription>
 	</parameter>
 	<parameter name="pemohonjabatan" class="java.lang.String">
@@ -539,14 +539,14 @@
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{pemohonnama}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="170" y="160" width="270" height="20" uuid="b3f290e8-6459-4667-8189-16abb99ff386"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{pemohonnomorktpnik}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{std}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="170" y="170" width="270" height="20" uuid="9dbdc023-5346-4cd5-9701-34054aa5914d"/>
