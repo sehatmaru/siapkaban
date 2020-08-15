@@ -14,8 +14,8 @@ siapkaban:
     datasource:
         driver-class-name: org.postgresql.Driver
         jdbc-url: jdbc:postgresql://localhost:5432/siapkaban
-        password: sehatmaru
-        username: postgres
+        password: tamimi1017590
+        username: kwbc_banten
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         generate-ddl: true
@@ -28,9 +28,9 @@ spring:
             connectionTimeout: 20000
             maximumPoolSize: 5
         jdbc-url: jdbc:postgresql://localhost:5432/siapkaban
-        password: sehatmaru
+        password: tamimi1017590
         url: jdbc:postgresql://localhost:5432/siapkaban
-        username: postgres
+        username: kwbc_banten
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         generate-ddl: true

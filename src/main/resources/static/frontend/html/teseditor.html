@@ -1,0 +1,74 @@
+<link rel="import"
+	href="../bower_components/polymer/polymer-element.html">
+<link rel="import"
+	href="../bower_components/vaadin-icons/vaadin-icons.html">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/chart.js"></script>
+<!-- <script src="../js/ckeditor.js"></script> -->
+<!-- <script
+	src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
+	referrerpolicy="origin"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+
+<dom-module id="inboxbcdetail-page">
+<link rel="import" type="css" href="../css/bootstrap.min.css" />
+<link rel="import" type="css" href="../css/main.css" />
+<link rel="import" type="css" href="../css/product.css" />
+<link rel="import" type="css" href="../css/chart.min.css" />
+<!-- <link rel="import" type="css" href="../css/sample.css" /> -->
+<link rel="import" type="css"
+	href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+<link type="css"
+	href="https://fonts.googleapis.com/css?family=Kaushan+Script"
+	rel="import">
+<link rel="import" type="css"
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" />
+<template>
+<style>
+.v-caption-my-style {
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+</style>
+<div id="summernote">Hello Summernote</div>
+</template> <script>    	
+        class inboxbcdetailPage extends Polymer.Element {
+            static get is() {
+                return 'inboxbcdetail-page'
+            }
+            
+            ready() {
+           		super.ready();
+           		console.log("start");
+           		var ctx = $(this.$.myChart);
+           		var btnGroupDrop1 = $(this.$.btnGroupDrop1);
+           		var menudropdown = $(this.$.menudropdown);
+           		//btnGroupDrop1.dropdown();
+           		btnGroupDrop1.click(function() {
+           			console.log("start w");
+           			if(menudropdown.hasClass("show")){
+           				menudropdown.removeClass("show");
+           			}else{
+           				menudropdown.addClass("show");
+           			}
+           		});
+           		$(this.$.summernote).summernote();
+           		//tinymce.init({selector:this.$.editor1});
+           		/* ClassicEditor
+        		.create( this.$.editor, {
+        			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+        		} )
+        		.catch( err => {
+        			console.error( err.stack );
+        		} ); */
+        		
+            }
+        }
+        customElements.define(inboxbcdetailPage.is, inboxbcdetailPage);
+    </script> </dom-module>
