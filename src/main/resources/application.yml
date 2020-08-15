@@ -8,6 +8,8 @@ layanan:
     generated:
         report:
             path: ${project.home}/resources/report
+    images:
+        path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\images
 server:
     port: 8089
 siapkaban:
@@ -18,9 +20,9 @@ siapkaban:
         username: kwbc_banten
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
-        generate-ddl: true
-        hibernate:
-            ddl-auto: update
+#        generate-ddl: true
+#        hibernate:
+#            ddl-auto: update
 spring:
     datasource:
         driver-class-name: org.postgresql.Driver
@@ -33,9 +35,9 @@ spring:
         username: kwbc_banten
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
-        generate-ddl: true
-        hibernate:
-            ddl-auto: update
+#        generate-ddl: true
+#        hibernate:
+#            ddl-auto: update
 
     mail:
         default-encoding: UTF-8
