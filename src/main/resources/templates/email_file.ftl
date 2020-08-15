@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <div style="border: 1px solid #314AB2; align-content: center; width: 460px; font-size: 13pt;">
-    <div style="background-color: #02275D; height: 70px;"></div>
+    <div style="background-color: #02275D; height: 70px;">
+        <img width="60px" height="60px" src="https://i.ibb.co/h2k3hdy/logosiapkaban.png">
+        <img width="250px" height="60px" src="https://i.ibb.co/Bg6ZRc6/siapkaban.png">
+    </div>
     <div style="display: flex; justify-content: center; height: 30px; margin-top: 20px;">
         <h3 style="color: #0b2e13; position: absolute; display: table; margin: 0 auto; text-align: center;">Dokumen Registrasi Siap Kaban</h3>
     </div>
