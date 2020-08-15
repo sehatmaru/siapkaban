@@ -3,7 +3,9 @@ package com.tam.siap.views.izinonline;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,14 +13,21 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import com.tam.siap.components.TamCard;
 import com.tam.siap.components.TamSetField;
+import com.tam.siap.models.JLayanan;
+import com.tam.siap.models.JPerusahaan;
+import com.tam.siap.models.SJLayanan;
+import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.security.AuthService;
+import com.tam.siap.services.master.JenisPerusahaanService;
+import com.tam.siap.services.master.LayananService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.utils.UIDGenerator;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -49,6 +58,12 @@ public class IzinOnline extends VerticalLayout {
 	@Id("txtjudulapp")
 	Element txtjudulapp;
 
+	@Autowired
+	LayananService layananService;
+
+	@Autowired
+	JenisPerusahaanService jenisPerusahaanService;
+
 	// identitas perusahaan
 	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
 	private TextField txtfnamapt = new TextField("Nama Perusahaan");
@@ -60,9 +75,9 @@ public class IzinOnline extends VerticalLayout {
 	private EmailField txtemail = new EmailField("Email");
 	TextField txtnohp = new TextField("No Handphone");
 
-	private ComboBox<String> combofasilitas = new ComboBox<String>("Jenis Perusahaan");
-	private ComboBox<String> combojnslayanan = new ComboBox<String>("Jenis Layanan");
-	private ComboBox<String> combosubjenislayanan = new ComboBox<String>("Sub Jenis Layanan");
+	private ComboBox<JPerusahaan> combojnsperusahaan = new ComboBox<JPerusahaan>("Jenis Perusahaan");
+	private ComboBox<JLayanan> combojnslayanan = new ComboBox<JLayanan>("Jenis Layanan");
+	private ComboBox<SJLayanan> combosubjenislayanan = new ComboBox<SJLayanan>("Sub Jenis Layanan");
 
 	private VerticalLayout docandconfirmation = new VerticalLayout();
 	private VerticalLayout layconfirmation = new VerticalLayout();
@@ -73,6 +88,10 @@ public class IzinOnline extends VerticalLayout {
 
 	private Checkbox checbok = new Checkbox("Menyetujui");
 
+	private List<JPerusahaan> listJPerusahaans = new ArrayList<>();
+	private List<JLayanan> listJLayanans = new ArrayList<>();
+	private List<SJLayanan> listSjLayanans = new ArrayList<>();
+
 	@Autowired
 	private Environment env;
 
@@ -82,7 +101,36 @@ public class IzinOnline extends VerticalLayout {
 	@PostConstruct
 	public void init() {
 		// TODO Auto-generated constructor stub
+		LoginResponse response = TamUtils.getLoginResponse();
+		if (response != null) {
+			listJPerusahaans = jenisPerusahaanService.findAllJenisPerusahaan();
+			combojnsperusahaan.setItems(listJPerusahaans);
+			combojnsperusahaan.setValue(response.getAccount().getPerusahaan().getJenis());
+			combojnsperusahaan.setItemLabelGenerator(JPerusahaan::getKeterangan);
+			combojnsperusahaan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
 
+				@Override
+				public void valueChanged(ValueChangeEvent<?> event) {
+					// TODO Auto-generated method stub
+					listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
+					System.out.println("size : " + listJLayanans.size());
+					combojnslayanan.setItems(layananService.findLayanan(combojnsperusahaan.getValue()));
+					combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+					combojnslayanan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+						@Override
+						public void valueChanged(ValueChangeEvent<?> event) {
+							// TODO Auto-generated method stub
+							listSjLayanans = layananService.findSubLayanan(combojnsperusahaan.getValue(),
+									combojnslayanan.getValue());
+							System.out.println("size sjlay : " + listSjLayanans.size());
+							combosubjenislayanan.setItemLabelGenerator(SJLayanan::getKeterangan);
+							combosubjenislayanan.setItems(listSjLayanans);
+						}
+					});
+				}
+			});
+		}
 		try {
 			submit = new Button("Submit");
 			submit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
@@ -91,17 +139,6 @@ public class IzinOnline extends VerticalLayout {
 				public void onComponentEvent(ClickEvent<Button> event) {
 
 					if (checbok.getValue()) {
-						Long id = UIDGenerator.getInstance().getUID();
-						String nomor = "" + UIDGenerator.getInstance().getCustomUID(6);
-						Date tanggal = new Date();
-
-						String janjilayanan = "";
-						String penerimadok = "";
-						Long picstafid = null;
-						Long pickplseksiid = null;
-						Long pickplbidangid = null;
-						Long pickplkantorid = null;
-						String ket = "";
 
 					} else {
 						Notification notification = new Notification("Anda herus menyetujui disclaimer", 3000,
@@ -129,6 +166,7 @@ public class IzinOnline extends VerticalLayout {
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
+
 	}
 
 	public IzinOnline() {
@@ -206,7 +244,7 @@ public class IzinOnline extends VerticalLayout {
 //		card.addComp(docandconfirmation);
 //
 //		lay.add(card);
-		
+
 		lay.add(dokumenUploads());
 
 		return lay;
@@ -217,13 +255,13 @@ public class IzinOnline extends VerticalLayout {
 		lay.setWidthFull();
 		combojnslayanan.setWidthFull();
 		combosubjenislayanan.setWidthFull();
-		combofasilitas.setWidthFull();
+		combojnsperusahaan.setWidthFull();
 //		TamCard card = new TamCard("Jenis Layanan");
 //		card.addComp(combofasilitas,combojnslayanan, combosubjenislayanan);
 //
 //		lay.add(card);
 
-		lay.add(combofasilitas, combojnslayanan, combosubjenislayanan);
+		lay.add(combojnsperusahaan, combojnslayanan, combosubjenislayanan);
 
 		return lay;
 	}

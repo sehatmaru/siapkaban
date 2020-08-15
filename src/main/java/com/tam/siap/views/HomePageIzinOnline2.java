@@ -144,11 +144,13 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 					txtjudulapp.setText("Profil");
 					menus.appendChild(createLink("Home", "mainhome", false));
 					menus.appendChild(createLink("Profil", "profil", true));
-				} else if (loc.equals("izinonline")) {
+				} else if (loc.equals("inboxbc")) {
 					txtjudulapp.setText("Perizinan Online");
 					menus.appendChild(createLink("Home", "mainhome", false));
-					menus.appendChild(createLink("Perizinan", "izinonline", true));
-					menus.appendChild(createLink("Status Layanan", "statuslayananpt", false));
+					menus.appendChild(createLink("Inbox", "inboxbc", true));
+				}else if (loc.equals("inboxbcdetail")) {
+					txtjudulapp.setText("Inbox Detail");
+					menus.appendChild(createLink("Back", "inboxbc", false));
 				} else {
 					event.forwardTo(LoginPage.class);
 				}

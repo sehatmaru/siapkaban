@@ -1,9 +1,18 @@
 package com.tam.siap.views;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tam.siap.models.DPribadi;
 import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.security.AuthService;
 import com.tam.siap.utils.TamUtils;
@@ -16,6 +25,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -29,6 +39,7 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
 @Route(value = "mainhome")
@@ -68,6 +79,9 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 
 	@Id("menuapps")
 	Div menuapps;
+	
+	@Id("imgavatar")
+	Image imgavatar;
 
 	@PostConstruct
 	private void init() {
@@ -114,12 +128,14 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 	public HomeMainPage() {
 		LoginResponse datasLogin = TamUtils.getLoginResponse();
 		if (datasLogin != null) {
+			setImage(datasLogin.getAccount().getPribadi());
 			if (datasLogin.getAccount().getRole().getId() != 1) {
-				txtnamauser.setText("Arezka May Fajri");
-				txtjabatan.setText("Eselon III");
-				txtnip.setText("1342342");
+				txtnamauser.setText(datasLogin.getAccount().getPribadi().getNama());
+				txtjabatan.setText(datasLogin.getAccount().getPribadi().getJabatan());
+				txtnip.setText(datasLogin.getAccount().getPribadi().getNomor());
+				txtemail.setText(datasLogin.getAccount().getPribadi().getEmail());
 				txtemail.setVisible(false);
-				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "statuslayananbc"));
+				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "inboxbc"));
 				menuapps.getElement().appendChild(elmenu("Instan", "instan", "instan"));
 				menuapps.getElement().appendChild(elmenu("Survey Kepuasan", "survey", "mainhome"));
 				menuapps.getElement().appendChild(elmenu("Apps Manager", "appsmanager", "adminuserpemohon"));
@@ -223,6 +239,30 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 
 		} else {
 			event.forwardTo(LoginPage.class);
+		}
+	}
+	
+	private void setImage(DPribadi dpribadi) {
+		if(dpribadi.getGambar() == null) {
+			imgavatar.setSrc("http://localhost:8089/frontend/img/avatar.jpg");
+		}else {
+			try {
+				File initialFile = new File(dpribadi.getGambar());
+				InputStream in = new FileInputStream(initialFile);
+				byte[] imageBytes = IOUtils.toByteArray(in);
+				StreamResource resource = new StreamResource(dpribadi.getId() + ".jpg",
+						() -> new ByteArrayInputStream(imageBytes));
+				imgavatar.setSrc(resource);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
 	}
 }
