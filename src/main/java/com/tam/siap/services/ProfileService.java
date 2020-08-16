@@ -33,9 +33,8 @@ public class ProfileService {
                 data.setEmail(edit.getEmail());
                 data.setGambar(edit.getGambar());
 
-                dataPribadiService.save(data);
                 accountService.save(account);
-
+                dataPribadiService.save(data);
                 result = SUCCESS;
             }
         }
