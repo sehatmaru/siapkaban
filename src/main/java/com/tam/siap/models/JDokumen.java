@@ -7,9 +7,9 @@ import javax.persistence.*;
 
 @Builder
 @Entity
-@Table(name = "jenis_fasilitas", schema = "public")
+@Table(name = "jenis_dokumen", schema = "public")
 @DynamicUpdate
-public class JFasilitas {
+public class JDokumen {
 
 	@Id
 	@Column(name="id", columnDefinition = "serial")
@@ -20,18 +20,18 @@ public class JFasilitas {
 	private String keterangan;
 
 	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_jenis_perusahaan", referencedColumnName = "id")
-	private JPerusahaan perusahaan;
+	@JoinColumn(name = "id_sub_jenis_layanan", referencedColumnName = "id")
+	private SJLayanan subLayanan;
 
-	public JPerusahaan getPerusahaan() {
-		return perusahaan;
+	public SJLayanan getSubLayanan() {
+		return subLayanan;
 	}
 
-	public void setPerusahaan(JPerusahaan perusahaan) {
-		this.perusahaan = perusahaan;
+	public void setSubLayanan(SJLayanan subLayanan) {
+		this.subLayanan = subLayanan;
 	}
 
-	public JFasilitas() {
+	public JDokumen() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

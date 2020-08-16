@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.tam.siap.services.master.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -19,8 +20,6 @@ import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.security.AuthService;
-import com.tam.siap.services.master.JenisPerusahaanService;
-import com.tam.siap.services.master.LayananService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.utils.UIDGenerator;
 import com.tam.siap.views.HomePageIzinOnline2;
@@ -60,6 +59,21 @@ public class IzinOnline extends VerticalLayout {
 
 	@Autowired
 	LayananService layananService;
+
+	@Autowired
+	JenisFasilitasService fasilitasService;
+
+	@Autowired
+	JenisPengelolaService pengelolaService;
+
+	@Autowired
+	JenisPenimbunanService penimbunanService;
+
+	@Autowired
+	JenisLayananService jenisLayananService;
+
+	@Autowired
+	SubJenisLayananService subJenisLayananService;
 
 	@Autowired
 	JenisPerusahaanService jenisPerusahaanService;
@@ -114,15 +128,14 @@ public class IzinOnline extends VerticalLayout {
 					// TODO Auto-generated method stub
 					listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
 					System.out.println("size : " + listJLayanans.size());
-					combojnslayanan.setItems(layananService.findLayanan(combojnsperusahaan.getValue()));
+					combojnslayanan.setItems(jenisLayananService.findJenisLayanan(combojnsperusahaan.getValue()));
 					combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
 					combojnslayanan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
 
 						@Override
 						public void valueChanged(ValueChangeEvent<?> event) {
 							// TODO Auto-generated method stub
-							listSjLayanans = layananService.findSubLayanan(combojnsperusahaan.getValue(),
-									combojnslayanan.getValue());
+							listSjLayanans = subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue());
 							System.out.println("size sjlay : " + listSjLayanans.size());
 							combosubjenislayanan.setItemLabelGenerator(SJLayanan::getKeterangan);
 							combosubjenislayanan.setItems(listSjLayanans);

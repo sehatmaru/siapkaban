@@ -1,6 +1,7 @@
 package com.tam.siap.services.master;
 
 import com.tam.siap.models.JFasilitas;
+import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.repos.JFasilitasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,8 @@ public class JenisFasilitasService {
     }
 
     public JFasilitas getJenisFasilitas(int id){ return fasilitasRepository.findById(id); }
+
+    public List<JFasilitas> findJenisFasilitas(JPerusahaan perusahaan) {
+        return fasilitasRepository.findByPerusahaan(perusahaan);
+    }
 }

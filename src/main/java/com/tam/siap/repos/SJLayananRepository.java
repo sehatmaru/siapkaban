@@ -1,5 +1,6 @@
 package com.tam.siap.repos;
 
+import com.tam.siap.models.JLayanan;
 import com.tam.siap.models.SJLayanan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,6 @@ public interface SJLayananRepository extends JpaRepository<SJLayanan, String>{
     List<SJLayanan> findAll();
 
     SJLayanan findById(int id);
+
+    List<SJLayanan> findByLayanan(JLayanan layanan);
 }

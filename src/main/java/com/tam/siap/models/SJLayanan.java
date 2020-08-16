@@ -19,6 +19,18 @@ public class SJLayanan {
 	@Column(name="keterangan")
 	private String keterangan;
 
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_jenis_layanan", referencedColumnName = "id")
+	private JLayanan layanan;
+
+	public JLayanan getLayanan() {
+		return layanan;
+	}
+
+	public void setLayanan(JLayanan layanan) {
+		this.layanan = layanan;
+	}
+
 	public SJLayanan() {
 		super();
 		// TODO Auto-generated constructor stub

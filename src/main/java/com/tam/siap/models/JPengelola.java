@@ -19,6 +19,18 @@ public class JPengelola {
 	@Column(name="keterangan")
 	private String keterangan;
 
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_jenis_perusahaan", referencedColumnName = "id")
+	private JPerusahaan perusahaan;
+
+	public JPerusahaan getPerusahaan() {
+		return perusahaan;
+	}
+
+	public void setPerusahaan(JPerusahaan perusahaan) {
+		this.perusahaan = perusahaan;
+	}
+
 	public JPengelola() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -1,5 +1,6 @@
 package com.tam.siap.services.master;
 
+import com.tam.siap.models.JLayanan;
 import com.tam.siap.models.SJLayanan;
 import com.tam.siap.repos.SJLayananRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,4 +19,8 @@ public class SubJenisLayananService {
     }
 
     public SJLayanan getSubJenisLayanan(int id){ return subJenisLayananRepository.findById(id); }
+
+    public List<SJLayanan> findSubJenisLayanan(JLayanan layanan) {
+        return subJenisLayananRepository.findByLayanan(layanan);
+    }
 }
