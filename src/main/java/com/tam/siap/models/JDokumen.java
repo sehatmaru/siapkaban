@@ -19,6 +19,17 @@ public class JDokumen {
 	@Column(name="keterangan")
 	private String keterangan;
 
+	@Column(name = "deskripsi_dokumen")
+	private String deskripsi;
+
+	public String getDeskripsi() {
+		return deskripsi;
+	}
+
+	public void setDeskripsi(String deskripsi) {
+		this.deskripsi = deskripsi;
+	}
+
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_sub_jenis_layanan", referencedColumnName = "id")
 	private SJLayanan subLayanan;

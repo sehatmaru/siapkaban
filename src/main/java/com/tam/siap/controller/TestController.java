@@ -7,9 +7,7 @@ import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
 import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
-import com.tam.siap.services.master.JenisIdentitasService;
-import com.tam.siap.services.master.JenisPerusahaanService;
-import com.tam.siap.services.master.RoleService;
+import com.tam.siap.services.master.*;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +47,15 @@ public class TestController {
 
 	@Autowired
     ExportingService exportingService;
+
+	@Autowired
+	JenisDokumenService jenisDokumenService;
+
+	@Autowired
+	SubJenisLayananService subJenisLayananService;
+
+	@Autowired
+	IzinOnlineService izinOnlineService;
 
 	@PostMapping("/register")
 	public void register() {
@@ -125,5 +132,10 @@ public class TestController {
 //		model.put("name", email.getName());
 //		model.put("value", "Test Email");
 //		System.out.println("hasil email = " + registerService.sendMail(email, model));
+	}
+
+	@PostMapping("dok/filter")
+	public void filterDok(){
+		System.out.println("hasil filter = " + izinOnlineService.docFilter(subJenisLayananService.getSubJenisLayanan(1)).toString());
 	}
 }
