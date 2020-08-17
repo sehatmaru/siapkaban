@@ -34,6 +34,15 @@ public class DPerusahaan {
 	@Column(name="status")
 	private int status;
 
+	@Column(name = "komoditi_utama")
+	private String komoditi;
+
+	@Column(name = "no_skep")
+	private String nomorSkep;
+
+	@Column(name = "tgl_skep")
+	private String tanggalSkep;
+
 	public DPerusahaan() {
 	}
 
@@ -103,6 +112,30 @@ public class DPerusahaan {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getKomoditi() {
+		return komoditi;
+	}
+
+	public void setKomoditi(String komoditi) {
+		this.komoditi = komoditi;
+	}
+
+	public String getNomorSkep() {
+		return nomorSkep;
+	}
+
+	public void setNomorSkep(String nomorSkep) {
+		this.nomorSkep = nomorSkep;
+	}
+
+	public String getTanggalSkep() {
+		return tanggalSkep;
+	}
+
+	public void setTanggalSkep(String tanggalSkep) {
+		this.tanggalSkep = tanggalSkep;
 	}
 
 	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis) {
