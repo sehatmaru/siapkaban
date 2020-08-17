@@ -12,13 +12,16 @@ import org.springframework.core.env.Environment;
 
 import com.tam.siap.components.TamSetField;
 import com.tam.siap.models.Account;
+import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.JFasilitas;
 import com.tam.siap.models.JLayanan;
 import com.tam.siap.models.JPengelola;
 import com.tam.siap.models.JPenimbunan;
 import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.SJLayanan;
+import com.tam.siap.models.responses.DokumenListResponse;
 import com.tam.siap.models.responses.LoginResponse;
+import com.tam.siap.services.IzinOnlineService;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.JenisDokumenService;
 import com.tam.siap.services.master.JenisFasilitasService;
@@ -38,6 +41,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
@@ -84,12 +88,15 @@ public class IzinOnline extends VerticalLayout {
 
 	@Autowired
 	SubJenisLayananService subJenisLayananService;
-	
+
 	@Autowired
 	JenisPengelolaService jenisPengelolaService;
-	
+
 	@Autowired
 	JenisPenimbunanService jenisPenimbunanService;
+
+	@Autowired
+	IzinOnlineService izinOnlineService;
 
 	// identitas perusahaan
 	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
@@ -102,19 +109,23 @@ public class IzinOnline extends VerticalLayout {
 	private EmailField txtemail = new EmailField("Email");
 	private TextField txtnohp = new TextField("No Handphone");
 	private VerticalLayout lay = new VerticalLayout();
+	private VerticalLayout layDok = new VerticalLayout();
 
 	private ComboBox<JPerusahaan> combojnsperusahaan = new ComboBox<JPerusahaan>("Jenis Perusahaan");
+	private ComboBox<JPerusahaan> combojnsperusahaan2 = new ComboBox<JPerusahaan>("Jenis Perusahaan");
 	private ComboBox<JFasilitas> combojnsfasilitas = new ComboBox<JFasilitas>("Jenis Fasilitas");// KITE
 	private ComboBox<JPengelola> combojnspengelola = new ComboBox<JPengelola>("Jenis Pengelola");// KP
 	private ComboBox<JPenimbunan> combotmppenimbunan = new ComboBox<JPenimbunan>("Tempat Penimbunan");// TPS
 	private ComboBox<JLayanan> combojnslayanan = new ComboBox<JLayanan>("Jenis Layanan");
 	private ComboBox<SJLayanan> combosubjenislayanan = new ComboBox<SJLayanan>("Sub Jenis Layanan");
 
-	private VerticalLayout docandconfirmation = new VerticalLayout();
+//	private VerticalLayout docandconfirmation = new VerticalLayout();
 	private VerticalLayout layconfirmation = new VerticalLayout();
-	private Label[] lblDokumen = new Label[10];
-	private Upload[] upload = new Upload[10];
-	private MemoryBuffer[] membuff = new MemoryBuffer[10];
+//	private Label[] lblDokumen = new Label[10];
+//	private Upload[] upload = new Upload[10];
+	private MemoryBuffer[] membuffDokPemohon = new MemoryBuffer[10];
+	private MemoryBuffer[] membuffDokSyarat = new MemoryBuffer[10];
+	private MemoryBuffer[] membuffDokLainnya = new MemoryBuffer[10];
 	private Button submit = new Button();
 
 	private Checkbox checbok = new Checkbox("Menyetujui");
@@ -141,6 +152,8 @@ public class IzinOnline extends VerticalLayout {
 
 			Account account = accountService.findByUsername(response.getAccount().getUsername());
 			// listJPerusahaans = jenisPerusahaanService.findAllJenisPerusahaan();
+			combojnsperusahaan2.setItems(jenisPerusahaanService.findAllJenisPerusahaan());
+			combojnsperusahaan2.setItemLabelGenerator(JPerusahaan::getKeterangan);
 			combojnsperusahaan.setItems(jenisPerusahaanService.findAllJenisPerusahaan());
 			combojnsperusahaan.setItemLabelGenerator(JPerusahaan::getKeterangan);
 			combojnsperusahaan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
@@ -170,13 +183,22 @@ public class IzinOnline extends VerticalLayout {
 
 												@Override
 												public void valueChanged(ValueChangeEvent<?> event) {
-													combosubjenislayanan.setItems(
-															subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(subJenisLayananService
+															.findSubJenisLayanan(combojnslayanan.getValue()));
 													combosubjenislayanan
 															.setItemLabelGenerator(SJLayanan::getKeterangan);
 //													combosubjenislayanan.setItems(layananService.findSubLayanan(
 //															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
-													
+													combosubjenislayanan.addValueChangeListener(
+															new ValueChangeListener<ValueChangeEvent<?>>() {
+
+																@Override
+																public void valueChanged(ValueChangeEvent<?> event) {
+																	// TODO Auto-generated method stub
+																	dokumenUploads(combosubjenislayanan.getValue());
+																}
+															});
+
 												}
 											});
 								}
@@ -184,7 +206,7 @@ public class IzinOnline extends VerticalLayout {
 						});
 					} else if (datajp.getId() == 5) {
 						jenisLayanan(datajp.getId());
-						//combotmppenimpunan.setItems(layananService.findPenimbunan(datajp));
+						// combotmppenimpunan.setItems(layananService.findPenimbunan(datajp));
 						combotmppenimbunan.setItems(jenisPenimbunanService.findJenisPenimbunan(datajp));
 						combotmppenimbunan.setItemLabelGenerator(JPenimbunan::getKeterangan);
 						combotmppenimbunan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
@@ -205,8 +227,17 @@ public class IzinOnline extends VerticalLayout {
 															.setItemLabelGenerator(SJLayanan::getKeterangan);
 //													combosubjenislayanan.setItems(layananService.findSubLayanan(
 //															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
-													combosubjenislayanan.setItems(
-															subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(subJenisLayananService
+															.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.addValueChangeListener(
+															new ValueChangeListener<ValueChangeEvent<?>>() {
+
+																@Override
+																public void valueChanged(ValueChangeEvent<?> event) {
+																	// TODO Auto-generated method stub
+																	dokumenUploads(combosubjenislayanan.getValue());
+																}
+															});
 												}
 											});
 								}
@@ -235,8 +266,17 @@ public class IzinOnline extends VerticalLayout {
 															.setItemLabelGenerator(SJLayanan::getKeterangan);
 //													combosubjenislayanan.setItems(layananService.findSubLayanan(
 //															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
-													combosubjenislayanan.setItems(
-															subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(subJenisLayananService
+															.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.addValueChangeListener(
+															new ValueChangeListener<ValueChangeEvent<?>>() {
+
+																@Override
+																public void valueChanged(ValueChangeEvent<?> event) {
+																	// TODO Auto-generated method stub
+																	dokumenUploads(combosubjenislayanan.getValue());
+																}
+															});
 												}
 											});
 								}
@@ -254,6 +294,15 @@ public class IzinOnline extends VerticalLayout {
 								combosubjenislayanan.setItems(
 										subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
 								combosubjenislayanan.setItemLabelGenerator(SJLayanan::getKeterangan);
+								combosubjenislayanan
+										.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+											@Override
+											public void valueChanged(ValueChangeEvent<?> event) {
+												// TODO Auto-generated method stub
+												dokumenUploads(combosubjenislayanan.getValue());
+											}
+										});
 //								combosubjenislayanan.setItems(layananService
 //										.findSubLayanan(combojnsperusahaan.getValue(), combojnslayanan.getValue()));
 							}
@@ -262,6 +311,7 @@ public class IzinOnline extends VerticalLayout {
 				}
 			});
 			combojnsperusahaan.setValue(account.getPerusahaan().getJenis());
+			combojnsperusahaan2.setValue(account.getPerusahaan().getJenis());
 
 			submit = new Button("Submit");
 			submit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
@@ -312,25 +362,58 @@ public class IzinOnline extends VerticalLayout {
 		vl1.setSpacing(true);
 		VerticalLayout vl2 = new VerticalLayout(vl1, layconfirmation);
 		HorizontalLayout f1 = new HorizontalLayout(vl2, inputChekclist());
+		f1.setWidthFull();
 		add(f1);
 	}
 
-	private VerticalLayout dokumenUploads() {
-		VerticalLayout lay = new VerticalLayout();
+	private VerticalLayout dokumenUploads(SJLayanan subLayanan) {
+//		VerticalLayout lay = new VerticalLayout();
+		layDok.removeAll();
+		layDok.setWidthFull();
+		if (subLayanan == null) {
 
-		Label lbl = new Label("Dokumen Persyaratan");
-		lbl.getElement().setAttribute("style", "color:blue");
+		} else {
+			Label lbl = new Label("Dokumen Persyaratan");
+			lbl.getElement().setAttribute("style", "color:blue");
+			lbl.setWidthFull();
 
-		Label lbl2 = new Label("Dokumen Lainnya");
-		lbl2.getElement().setAttribute("style", "color:blue");
+			Label lbl2 = new Label("Dokumen Lainnya");
+			lbl2.getElement().setAttribute("style", "color:blue");
+			lbl2.setWidthFull();
 
-		lay.add(TamUtils.setInlinetext(new Upload(), "1. Dokumen Permohonan"), lbl,
-				TamUtils.setInlinetext(new Upload(), "2. Akta Perubahan dan surat pengesahannya"),
-				TamUtils.setInlinetext(new Upload(), "3. NPWP dan surat pengukuhan PKP baru"), lbl2,
-				TamUtils.setInlinetext(new Upload(),
-						"4. Dokumen tambahan (SKEP penetapan dan perubahan;NPWP lama, dll)"));
+			DokumenListResponse doklist = izinOnlineService.docFilter(subLayanan);
+			membuffDokPemohon = new MemoryBuffer[doklist.getPermohonan().size()];
+			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
+				JDokumen dokpemohon = doklist.getPermohonan().get(i);
+				membuffDokPemohon[i] = new MemoryBuffer();
+				Upload up = new Upload(membuffDokPemohon[i]);
+				up.setAcceptedFileTypes("application/pdf");
+				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getDeskripsi()));
+			}
 
-		return lay;
+			layDok.add(new FormLayout(lbl));
+
+			membuffDokSyarat = new MemoryBuffer[doklist.getPersyaratan().size()];
+			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
+				JDokumen dokpemohon = doklist.getPersyaratan().get(i);
+				membuffDokSyarat[i] = new MemoryBuffer();
+				Upload up = new Upload(membuffDokSyarat[i]);
+				up.setAcceptedFileTypes("application/pdf");
+				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getDeskripsi()));
+			}
+
+			layDok.add(lbl2);
+
+			membuffDokLainnya = new MemoryBuffer[doklist.getLainnya().size()];
+			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
+				JDokumen dokpemohon = doklist.getLainnya().get(i);
+				membuffDokLainnya[i] = new MemoryBuffer();
+				Upload up = new Upload(membuffDokLainnya[i]);
+				up.setAcceptedFileTypes("application/pdf");
+				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getDeskripsi()));
+			}
+		}
+		return layDok;
 	}
 
 	private VerticalLayout identitasPerusahaan() {
@@ -342,9 +425,9 @@ public class IzinOnline extends VerticalLayout {
 
 		txtfnpwp.setReadOnly(true);
 		txtfnamapt.setReadOnly(true);
+		combojnsperusahaan2.setReadOnly(true);
 		txtalamatpt.setReadOnly(true);
-		;
-		lay.add(txtfnpwp, txtfnamapt, txtalamatpt);
+		lay.add(txtfnpwp, txtfnamapt, combojnsperusahaan2, txtalamatpt);
 
 		return lay;
 	}
@@ -369,13 +452,13 @@ public class IzinOnline extends VerticalLayout {
 	private VerticalLayout inputChekclist() {
 		VerticalLayout lay = new VerticalLayout();
 		lay.setWidthFull();
-		docandconfirmation.setWidthFull();
+//		docandconfirmation.setWidthFull();
 //		TamCard card = new TamCard("Upload dokumen");
 //		card.addComp(docandconfirmation);
 //
 //		lay.add(card);
 
-		lay.add(dokumenUploads());
+		lay.add(dokumenUploads(null));
 
 		return lay;
 	}
@@ -399,7 +482,7 @@ public class IzinOnline extends VerticalLayout {
 		combojnsfasilitas.setWidthFull();
 		combojnspengelola.setWidthFull();
 		combotmppenimbunan.setWidthFull();
-		
+
 		combojnslayanan.setValue(null);
 		combosubjenislayanan.setValue(null);
 		combojnsfasilitas.setValue(null);

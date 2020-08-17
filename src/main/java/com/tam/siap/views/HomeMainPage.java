@@ -167,26 +167,25 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 				pnldetailinfo.getElement().setProperty("innerHTML",
 						"<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Nama\r\n"
 								+ "								Perusahaan</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">PT. Adis Dimension\r\n"
-								+ "								Footwear</h6>\r\n" + "\r\n"
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+datasLogin.getAccount().getPerusahaan().getNama()+"\r\n"
+								+ "								</h6>\r\n" + "\r\n"
 								+ "							<small style=\"font-size: 0.625rem;\" class=\"text-muted\">NPWP</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">018827378057000</h6>\r\n"
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+datasLogin.getAccount().getPerusahaan().getNpwp()+"</h6>\r\n"
 								+ "\r\n"
 								+ "							<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Alamat</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">Jl. Raya Serang\r\n"
-								+ "								No.Km, Balaraja, Kec. Balaraja, Tangerang, Banten 15610</h6>\r\n"
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+datasLogin.getAccount().getPerusahaan().getAlamat()+"</h6>\r\n"
 								+ "\r\n"
 								+ "							<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Komoditi Utama</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">Sepatu</h6>\r\n"
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+(datasLogin.getAccount().getPerusahaan().getKomoditi()==null?"-":datasLogin.getAccount().getPerusahaan().getKomoditi())+"</h6>\r\n"
 								+ "							\r\n"
 								+ "							<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Jenis Perusahaan</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">Kawasan Berikat</h6>\r\n"
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+datasLogin.getAccount().getPerusahaan().getJenis().getKeterangan()+"</h6>\r\n"
 								+ "							\r\n"
 								+ "							<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Nomor Dokumen Penetapan</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">476/KMK.04/2004</h6>\r\n"
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+(datasLogin.getAccount().getPerusahaan().getNomorSkep()== null?"-":datasLogin.getAccount().getPerusahaan().getNomorSkep())+"</h6>\r\n"
 								+ "\r\n"
 								+ "							<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Tanggal Izin Penetapan</small>\r\n"
-								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">14 Oktober 2004</h6>");
+								+ "							<h6 style=\"font-size: 10px;\" class=\"my-0\">"+(datasLogin.getAccount().getPerusahaan().getTanggalSkep()== null ? "-" : datasLogin.getAccount().getPerusahaan().getTanggalSkep())+"</h6>");
 			}
 		}
 
