@@ -3,25 +3,32 @@ package com.tam.siap.views.izinonline;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import com.tam.siap.services.master.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import com.tam.siap.components.TamSetField;
+import com.tam.siap.models.Account;
+import com.tam.siap.models.JFasilitas;
 import com.tam.siap.models.JLayanan;
+import com.tam.siap.models.JPengelola;
+import com.tam.siap.models.JPenimbunan;
 import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.responses.LoginResponse;
-import com.tam.siap.security.AuthService;
+import com.tam.siap.services.master.AccountService;
+import com.tam.siap.services.master.JenisDokumenService;
+import com.tam.siap.services.master.JenisFasilitasService;
+import com.tam.siap.services.master.JenisLayananService;
+import com.tam.siap.services.master.JenisPengelolaService;
+import com.tam.siap.services.master.JenisPenimbunanService;
+import com.tam.siap.services.master.JenisPerusahaanService;
+import com.tam.siap.services.master.LayananService;
+import com.tam.siap.services.master.SubJenisLayananService;
 import com.tam.siap.utils.TamUtils;
-import com.tam.siap.utils.UIDGenerator;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -61,22 +68,28 @@ public class IzinOnline extends VerticalLayout {
 	LayananService layananService;
 
 	@Autowired
-	JenisFasilitasService fasilitasService;
+	JenisPerusahaanService jenisPerusahaanService;
 
 	@Autowired
-	JenisPengelolaService pengelolaService;
+	AccountService accountService;
 
 	@Autowired
-	JenisPenimbunanService penimbunanService;
+	JenisDokumenService jenisDokumenService;
+
+	@Autowired
+	JenisFasilitasService jenisFasilitasService;
 
 	@Autowired
 	JenisLayananService jenisLayananService;
 
 	@Autowired
 	SubJenisLayananService subJenisLayananService;
-
+	
 	@Autowired
-	JenisPerusahaanService jenisPerusahaanService;
+	JenisPengelolaService jenisPengelolaService;
+	
+	@Autowired
+	JenisPenimbunanService jenisPenimbunanService;
 
 	// identitas perusahaan
 	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
@@ -87,9 +100,13 @@ public class IzinOnline extends VerticalLayout {
 	private TextField picname = new TextField("Nama PIC");
 	private TextField txtjabtan = new TextField("Jabatan");
 	private EmailField txtemail = new EmailField("Email");
-	TextField txtnohp = new TextField("No Handphone");
+	private TextField txtnohp = new TextField("No Handphone");
+	private VerticalLayout lay = new VerticalLayout();
 
 	private ComboBox<JPerusahaan> combojnsperusahaan = new ComboBox<JPerusahaan>("Jenis Perusahaan");
+	private ComboBox<JFasilitas> combojnsfasilitas = new ComboBox<JFasilitas>("Jenis Fasilitas");// KITE
+	private ComboBox<JPengelola> combojnspengelola = new ComboBox<JPengelola>("Jenis Pengelola");// KP
+	private ComboBox<JPenimbunan> combotmppenimbunan = new ComboBox<JPenimbunan>("Tempat Penimbunan");// TPS
 	private ComboBox<JLayanan> combojnslayanan = new ComboBox<JLayanan>("Jenis Layanan");
 	private ComboBox<SJLayanan> combosubjenislayanan = new ComboBox<SJLayanan>("Sub Jenis Layanan");
 
@@ -102,49 +119,150 @@ public class IzinOnline extends VerticalLayout {
 
 	private Checkbox checbok = new Checkbox("Menyetujui");
 
-	private List<JPerusahaan> listJPerusahaans = new ArrayList<>();
-	private List<JLayanan> listJLayanans = new ArrayList<>();
-	private List<SJLayanan> listSjLayanans = new ArrayList<>();
+//	private List<JPerusahaan> listJPerusahaans = new ArrayList<>();
+//	private List<JLayanan> listJLayanans = new ArrayList<>();
+//	private List<SJLayanan> listSjLayanans = new ArrayList<>();
 
 	@Autowired
 	private Environment env;
-
-	@Autowired
-	AuthService authService;
 
 	@PostConstruct
 	public void init() {
 		// TODO Auto-generated constructor stub
 		LoginResponse response = TamUtils.getLoginResponse();
 		if (response != null) {
-			listJPerusahaans = jenisPerusahaanService.findAllJenisPerusahaan();
-			combojnsperusahaan.setItems(listJPerusahaans);
-			combojnsperusahaan.setValue(response.getAccount().getPerusahaan().getJenis());
+			txtalamatpt.setValue(response.getAccount().getPerusahaan().getAlamat());
+			txtemail.setValue(response.getAccount().getPribadi().getEmail());
+			txtfnamapt.setValue(response.getAccount().getPerusahaan().getNama());
+			txtfnpwp.setValue(response.getAccount().getPerusahaan().getNpwp());
+			txtjabtan.setValue(response.getAccount().getPribadi().getJabatan());
+			txtnohp.setValue(response.getAccount().getPribadi().getTelepon());
+			picname.setValue(response.getAccount().getPribadi().getNama());
+
+			Account account = accountService.findByUsername(response.getAccount().getUsername());
+			// listJPerusahaans = jenisPerusahaanService.findAllJenisPerusahaan();
+			combojnsperusahaan.setItems(jenisPerusahaanService.findAllJenisPerusahaan());
 			combojnsperusahaan.setItemLabelGenerator(JPerusahaan::getKeterangan);
 			combojnsperusahaan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
 
 				@Override
 				public void valueChanged(ValueChangeEvent<?> event) {
 					// TODO Auto-generated method stub
-					listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
-					System.out.println("size : " + listJLayanans.size());
-					combojnslayanan.setItems(jenisLayananService.findJenisLayanan(combojnsperusahaan.getValue()));
-					combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
-					combojnslayanan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+					// listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
+					JPerusahaan datajp = combojnsperusahaan.getValue();
+					if (datajp.getId() == 4 || datajp.getId() == 5 || datajp.getId() == 6) {
+						jenisLayanan(datajp.getId());
+//						combojnsfasilitas.setItems(layananService.findFasilitas(datajp));
+						combojnsfasilitas.setItems(jenisFasilitasService.findJenisFasilitas(datajp));
+						combojnsfasilitas.setItemLabelGenerator(JFasilitas::getKeterangan);
+						combojnsfasilitas.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
 
-						@Override
-						public void valueChanged(ValueChangeEvent<?> event) {
-							// TODO Auto-generated method stub
-							listSjLayanans = subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue());
-							System.out.println("size sjlay : " + listSjLayanans.size());
-							combosubjenislayanan.setItemLabelGenerator(SJLayanan::getKeterangan);
-							combosubjenislayanan.setItems(listSjLayanans);
-						}
-					});
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								// TODO Auto-generated method stub
+								JFasilitas datafasilitas = combojnsfasilitas.getValue();
+								if (datafasilitas != null) {
+//									combojnslayanan.setItems(layananService.findLayanan(datajp, datafasilitas));
+									combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datafasilitas));
+									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+									combojnslayanan
+											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+												@Override
+												public void valueChanged(ValueChangeEvent<?> event) {
+													combosubjenislayanan.setItems(
+															subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan
+															.setItemLabelGenerator(SJLayanan::getKeterangan);
+//													combosubjenislayanan.setItems(layananService.findSubLayanan(
+//															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+													
+												}
+											});
+								}
+							}
+						});
+					} else if (datajp.getId() == 5) {
+						jenisLayanan(datajp.getId());
+						//combotmppenimpunan.setItems(layananService.findPenimbunan(datajp));
+						combotmppenimbunan.setItems(jenisPenimbunanService.findJenisPenimbunan(datajp));
+						combotmppenimbunan.setItemLabelGenerator(JPenimbunan::getKeterangan);
+						combotmppenimbunan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								// TODO Auto-generated method stub
+								JPenimbunan datapenimbunan = combotmppenimbunan.getValue();
+								if (datapenimbunan != null) {
+									combojnslayanan.setItems(layananService.findLayanan(datajp, datapenimbunan));
+									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+									combojnslayanan
+											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+												@Override
+												public void valueChanged(ValueChangeEvent<?> event) {
+													combosubjenislayanan
+															.setItemLabelGenerator(SJLayanan::getKeterangan);
+//													combosubjenislayanan.setItems(layananService.findSubLayanan(
+//															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(
+															subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+												}
+											});
+								}
+							}
+						});
+					} else if (datajp.getId() == 6) {
+						jenisLayanan(datajp.getId());
+						combojnspengelola.setItems(jenisPengelolaService.findJenisPengelola(datajp));
+//						combojnspengelola.setItems(layananService.findPengelola(datajp));
+						combojnspengelola.setItemLabelGenerator(JPengelola::getKeterangan);
+						combojnspengelola.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								// TODO Auto-generated method stub
+								JPengelola datapengelola = combojnspengelola.getValue();
+								if (datapengelola != null) {
+									combojnslayanan.setItems(layananService.findLayanan(datajp, datapengelola));
+									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+									combojnslayanan
+											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+												@Override
+												public void valueChanged(ValueChangeEvent<?> event) {
+													combosubjenislayanan
+															.setItemLabelGenerator(SJLayanan::getKeterangan);
+//													combosubjenislayanan.setItems(layananService.findSubLayanan(
+//															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(
+															subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+												}
+											});
+								}
+							}
+						});
+					} else {
+						jenisLayanan(datajp.getId());
+						combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datajp));
+//						combojnslayanan.setItems(layananService.findLayanan(datajp));
+						combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+						combojnslayanan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								combosubjenislayanan.setItems(
+										subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+								combosubjenislayanan.setItemLabelGenerator(SJLayanan::getKeterangan);
+//								combosubjenislayanan.setItems(layananService
+//										.findSubLayanan(combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+							}
+						});
+					}
 				}
 			});
-		}
-		try {
+			combojnsperusahaan.setValue(account.getPerusahaan().getJenis());
+
 			submit = new Button("Submit");
 			submit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
@@ -175,9 +293,6 @@ public class IzinOnline extends VerticalLayout {
 			submit.setWidthFull();
 			submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 			layconfirmation.add(submit);
-
-		} catch (Exception e) {
-			// e.printStackTrace();
 		}
 
 	}
@@ -191,7 +306,7 @@ public class IzinOnline extends VerticalLayout {
 		setField.addTamCom(hll);
 
 		TamSetField setFieldJnsLay = new TamSetField("Pilih Layanan");
-		setFieldJnsLay.addTamCom(jenisLayanan());
+		setFieldJnsLay.addTamCom(jenisLayanan(0));
 
 		HorizontalLayout vl1 = new HorizontalLayout(setField, setFieldJnsLay);
 		vl1.setSpacing(true);
@@ -224,10 +339,11 @@ public class IzinOnline extends VerticalLayout {
 		txtfnpwp.setWidthFull();
 		txtfnamapt.setWidthFull();
 		txtalamatpt.setWidthFull();
-		// TamCard card = new TamCard("Identitas Perusahaan");
-		// card.addComp(txtfnpwp, txtfnamapt, combofasilitas, txtalamatpt);
 
-		// lay.add(card);
+		txtfnpwp.setReadOnly(true);
+		txtfnamapt.setReadOnly(true);
+		txtalamatpt.setReadOnly(true);
+		;
 		lay.add(txtfnpwp, txtfnamapt, txtalamatpt);
 
 		return lay;
@@ -240,10 +356,11 @@ public class IzinOnline extends VerticalLayout {
 		txtjabtan.setWidthFull();
 		txtemail.setWidthFull();
 		txtnohp.setWidthFull();
-		// TamCard card = new TamCard("Identitas Pic");
-//		card.addComp(picname, txtjabtan, txtemail, txtnohp);
-//
-//		lay.add(card);
+
+		picname.setReadOnly(true);
+		txtjabtan.setReadOnly(true);
+		txtemail.setReadOnly(true);
+		txtnohp.setReadOnly(true);
 		lay.add(picname, txtjabtan, txtemail, txtnohp);
 
 		return lay;
@@ -263,18 +380,41 @@ public class IzinOnline extends VerticalLayout {
 		return lay;
 	}
 
-	private VerticalLayout jenisLayanan() {
-		VerticalLayout lay = new VerticalLayout();
+	private VerticalLayout jenisLayanan(int jnsperusahaan) {
+		// VerticalLayout lay = new VerticalLayout();
+		if (lay.getComponentCount() < 1) {
+			lay.add(combojnsperusahaan);
+		}
+		for (int i = 0; i < lay.getComponentCount(); i++) {
+			if (i != 0) {
+				lay.remove(lay.getComponentAt(i));
+			}
+		}
+
 		lay.setWidthFull();
+		lay.setSpacing(true);
 		combojnslayanan.setWidthFull();
 		combosubjenislayanan.setWidthFull();
 		combojnsperusahaan.setWidthFull();
-//		TamCard card = new TamCard("Jenis Layanan");
-//		card.addComp(combofasilitas,combojnslayanan, combosubjenislayanan);
-//
-//		lay.add(card);
+		combojnsfasilitas.setWidthFull();
+		combojnspengelola.setWidthFull();
+		combotmppenimbunan.setWidthFull();
+		
+		combojnslayanan.setValue(null);
+		combosubjenislayanan.setValue(null);
+		combojnsfasilitas.setValue(null);
+		combojnspengelola.setValue(null);
+		combotmppenimbunan.setValue(null);
 
-		lay.add(combojnsperusahaan, combojnslayanan, combosubjenislayanan);
+		if (jnsperusahaan == 4) {
+			lay.add(combojnsfasilitas, combojnslayanan, combosubjenislayanan);
+		} else if (jnsperusahaan == 5) {
+			lay.add(combotmppenimbunan, combojnslayanan, combosubjenislayanan);
+		} else if (jnsperusahaan == 6) {
+			lay.add(combojnspengelola, combojnslayanan, combosubjenislayanan);
+		} else {
+			lay.add(combojnslayanan, combosubjenislayanan);
+		}
 
 		return lay;
 	}

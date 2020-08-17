@@ -142,7 +142,7 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						gambar = filaPath;
+						gambar = filaPath + "\\" + filename;
 					}
 					EditProfileRequest editProfileRequest = new EditProfileRequest(nama, email, password, gambar, nomor,
 							username);
@@ -152,6 +152,9 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 						Notification notification = new Notification("Update profil berhasil", 3000, Position.MIDDLE);
 						notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 						notification.open();
+						
+						response.setAccount(accountService.findByUsername(response.getAccount().getUsername()));
+						
 						getUI().get().navigate(HomeMainPage.class);
 					} else {
 						Notification notification = new Notification("Update profil tidak berhasil", 3000,
