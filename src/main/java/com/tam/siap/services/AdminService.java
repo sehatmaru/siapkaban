@@ -6,6 +6,7 @@ import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
+import com.tam.siap.utils.TamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,11 @@ public class AdminService {
                     if (dataPerusahaanService.isDataPerusahaanExist(account.getPerusahaan().getId())) {
                         DPerusahaan perusahaan = dataPerusahaanService.findDataPerusahaanById(account.getPerusahaan().getId());
                         perusahaan.setStatus(ACTIVE);
+
+                        String originalPassword = account.getPassword();
+
                         account.setStatus(ACTIVE);
+                        account.setPassword(TamUtils.encrypt(originalPassword));
 
                         accountService.save(account);
                         dataPerusahaanService.save(perusahaan);
@@ -57,7 +62,7 @@ public class AdminService {
 
                             Map<String, String> model = new HashMap<>();
                             model.put("username", account.getUsername());
-                            model.put("password", account.getPassword());
+                            model.put("password", originalPassword);
                             model.put("nomor", account.getPribadi().getNomor());
 
                             EmailRequestDto request = new EmailRequestDto(

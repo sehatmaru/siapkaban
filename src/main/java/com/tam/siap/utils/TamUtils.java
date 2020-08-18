@@ -2,10 +2,12 @@ package com.tam.siap.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardCopyOption;
 import java.util.Random;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -18,6 +20,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.server.VaadinSession;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 public class TamUtils {
 	
 	@Autowired
@@ -25,6 +31,8 @@ public class TamUtils {
 
 	public static final String SESSION_USERNAME = "username";
 	public static final String LOGIN_RESPONSE = "logrespon";
+	private static final String key = "aesEncryptionKey";
+	private static final String initVector = "encryptionIntVec";
 
 	public static char[] generatePassword(int length) {
 		String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -77,6 +85,39 @@ public class TamUtils {
 	
 	public static LoginResponse getLoginResponse() {
 		return (LoginResponse) VaadinSession.getCurrent().getAttribute(LOGIN_RESPONSE);
+	}
+
+	public static String encrypt(String value) {
+		try {
+			IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(StandardCharsets.UTF_8));
+			SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+
+			byte[] encrypted = cipher.doFinal(value.getBytes());
+			return Base64.encodeBase64String(encrypted);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String decrypt(String encrypted) {
+		try {
+			IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(StandardCharsets.UTF_8));
+			SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+			byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
+
+			return new String(original);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return null;
 	}
 	
 	public static void saveDoc(MemoryBuffer mem,String filename,String folderid, long subjenislayananid) throws IOException {

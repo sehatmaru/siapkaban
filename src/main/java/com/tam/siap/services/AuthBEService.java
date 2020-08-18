@@ -5,6 +5,7 @@ import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
+import com.tam.siap.utils.TamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,14 @@ public class AuthBEService {
         LoginResponse response = new LoginResponse();
         response.setCode(FAILED);
 
-        if (accountService.isAccountExist(username, password)){
+        if (accountService.isAccountExist(username)){
             if (accountService.isAccountActive(username)) {
                 Account account = accountService.findByUsername(username);
 
-                response.setCode(SUCCESS);
-                response.setAccount(account);
+                if (password.equals(TamUtils.decrypt(account.getPassword()))) {
+                    response.setCode(SUCCESS);
+                    response.setAccount(account);
+                }
             }
         }
 

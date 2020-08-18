@@ -7,22 +7,11 @@ import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPerusahaanService;
 import com.tam.siap.services.master.DataPribadiService;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 

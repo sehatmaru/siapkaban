@@ -5,6 +5,7 @@ import com.tam.siap.models.DPribadi;
 import com.tam.siap.models.request.EditProfileRequest;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.DataPribadiService;
+import com.tam.siap.utils.TamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class ProfileService {
 
         if (accountService.isAccountExist(edit.getUsername())) {
           Account  account = accountService.findByUsername(edit.getUsername());
-          account.setPassword(edit.getPassword());
+          account.setPassword(TamUtils.encrypt(edit.getPassword()));
             if (dataPribadiService.isDataPribadiExist(account.getPribadi().getId())){
                 DPribadi data = dataPribadiService.findDataPribadiById(account.getPribadi().getId());
                 data.setNama(edit.getNama());
