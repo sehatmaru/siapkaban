@@ -383,34 +383,37 @@ public class IzinOnline extends VerticalLayout {
 
 			DokumenListResponse doklist = izinOnlineService.docFilter(subLayanan);
 			membuffDokPemohon = new MemoryBuffer[doklist.getPermohonan().size()];
+			//System.out.println("dok pemohon : "+doklist.getPermohonan().size());
 			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
 				JDokumen dokpemohon = doklist.getPermohonan().get(i);
 				membuffDokPemohon[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokPemohon[i]);
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getDeskripsi()));
+				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
 			}
 
 			layDok.add(new FormLayout(lbl));
 
 			membuffDokSyarat = new MemoryBuffer[doklist.getPersyaratan().size()];
-			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
+			//System.out.println("dok getPersyaratan : "+doklist.getPersyaratan().size());
+			for (int i = 0; i < doklist.getPersyaratan().size(); i++) {
 				JDokumen dokpemohon = doklist.getPersyaratan().get(i);
 				membuffDokSyarat[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokSyarat[i]);
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getDeskripsi()));
+				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
 			}
 
 			layDok.add(lbl2);
 
 			membuffDokLainnya = new MemoryBuffer[doklist.getLainnya().size()];
-			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
+			//System.out.println("dok getLainnya : "+doklist.getLainnya().size());
+			for (int i = 0; i < doklist.getLainnya().size(); i++) {
 				JDokumen dokpemohon = doklist.getLainnya().get(i);
 				membuffDokLainnya[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokLainnya[i]);
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getDeskripsi()));
+				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
 			}
 		}
 		return layDok;
