@@ -96,6 +96,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 	private TextField txtAlamatPt = new TextField();
 	private TextField txtHandphonePt = new TextField();
 	private TextField txtEmailPt = new TextField();
+	private TextField txtNamaPenggungJwb = new TextField();
 
 	private TextArea txtConfirm = new TextArea();
 	private Button btnSubmit = new Button("Submit");
@@ -155,6 +156,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String alamatpt = txtAlamatPt.getValue();
 				String notelppt = txtHandphonePt.getValue();
 				String emailpt = txtEmailPt.getValue();
+				String tgJawab = txtNamaPenggungJwb.getValue();
 
 				if (datatipeid == null) {
 					Notification notification = new Notification("Jenis identitas harus diisi", 3000, Position.MIDDLE);
@@ -169,7 +171,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					Account account = new Account(noid, TamUtils.generatePassword(8).toString(), r);
 
 					DPribadi dPribadi = new DPribadi(nama, noid, jabatan, notelp, email, datatipeid);
-					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt);
+					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt,tgJawab);
 
 					int sukses = registerService.register(account, dPribadi, dPerusahaan);
 					if (sukses == SUCCESS) {
@@ -214,6 +216,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		txtNpwpPt.setWidth("100%");
 		txtHandphonePt.setWidth("100%");
 		txtEmailPt.setWidth("100%");
+		txtNamaPenggungJwb.setWidth("100%");
 		txtConfirm.setWidth("49.3%");
 
 //		vform.add(txtTipeAkun, new Label(""), lblPemohon, txtNama, comboJnsIdentitas, txtNoidentitas, txtJabatan,
@@ -224,7 +227,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				setInlinetext(comboJnsIdentitas, "Jenis Identitas"), setInlinetext(txtNoidentitas, "Nomor Identitas"),
 				setInlinetext(txtJabatan, "Jabatan"), setInlinetext(txtHandphone, "No. Telepon"),
 				setInlinetext(txtEmail, "Email"), new Label(), lblPerusahaan, setInlinetext(txtNamaPt, "Nama"),
-				setInlinetext(txtNpwpPt, "NPWP"), setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"),
+				setInlinetext(txtNpwpPt, "NPWP"),setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"), setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"),
 				setInlinetext(txtAlamatPt, "Alamat"), setInlinetext(txtHandphonePt, "No. Telepon"),
 				setInlinetext(txtEmailPt, "Email"), txtConfirm, btnSubmit);
 
