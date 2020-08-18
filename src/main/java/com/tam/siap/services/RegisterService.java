@@ -53,7 +53,7 @@ public class RegisterService {
                 if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                     if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
                         try {
-                            exportingService.print(account.getPribadi(), account.getPerusahaan());
+                            exportingService.print(account);
                         } catch (JRException e) {
                             e.printStackTrace();
                         } catch (FileNotFoundException e) {
@@ -69,6 +69,7 @@ public class RegisterService {
                                 dPribadi.getEmail(),
                                 "Dokumen Pendaftaran",
                                 "email_file.ftl",
+                                account.getUsername(),
                                 model
                         );
 

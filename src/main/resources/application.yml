@@ -1,4 +1,5 @@
-project.home: /Users/whee/sehat/workspace/siapkaban/be/siapkaban
+project:
+    home: /Users/whee/sehat/workspace/siapkaban/be/siapkaban
 
 layanan:
     document:
@@ -7,17 +8,19 @@ layanan:
         path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\report
     generated:
         report:
-            path: ${project.home}/resources/report
+            path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
     images:
         path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\images
+    jasper:
+        path: ${project.home}/src/main/resources/report
 server:
     port: 8089
 siapkaban:
     datasource:
         driver-class-name: org.postgresql.Driver
-        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban
-        password: tamimi1017590
-        username: kwbc_banten
+        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
+        password: sehatmaru
+        username: postgres
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 #        generate-ddl: true
@@ -29,10 +32,10 @@ spring:
         hikari:
             connectionTimeout: 20000
             maximumPoolSize: 5
-        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban
-        password: tamimi1017590
-        url: jdbc:postgresql://localhost:5432/siapkaban
-        username: kwbc_banten
+        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
+        url: jdbc:postgresql://localhost:5432/siapkaban2
+        password: sehatmaru
+        username: postgres
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 #        generate-ddl: true

@@ -43,12 +43,15 @@ public class DPerusahaan {
 	@Column(name = "tgl_skep")
 	private String tanggalSkep;
 
-	public DPerusahaan() {
-	}
+	@Column(name = "penanggung_jawab")
+	private String penanggungJawab;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "j_perusahaan", referencedColumnName = "id")
 	private JPerusahaan jenis;
+
+	public DPerusahaan() {
+	}
 
 	public int getId() {
 		return id;
@@ -136,6 +139,14 @@ public class DPerusahaan {
 
 	public void setTanggalSkep(String tanggalSkep) {
 		this.tanggalSkep = tanggalSkep;
+	}
+
+	public String getPenanggungJawab() {
+		return penanggungJawab;
+	}
+
+	public void setPenanggungJawab(String penanggungJawab) {
+		this.penanggungJawab = penanggungJawab;
 	}
 
 	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis) {

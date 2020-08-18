@@ -5,7 +5,9 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,10 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @Service
@@ -24,6 +29,9 @@ public class EmailService {
 
     @Autowired
     Configuration configuration;
+
+    @Autowired
+    private Environment env;
 
     public boolean sendMail(EmailRequestDto request) {
         boolean result = false;
@@ -43,8 +51,9 @@ public class EmailService {
             helper.setText(html, true);
 
             if (request.getType().equals("email_file.ftl")) {
-                ClassPathResource pdf = new ClassPathResource("report/RegisterForm.pdf");
-                helper.addAttachment("RegistrasiForm.pdf", pdf);
+                String reportDir = env.getProperty("layanan.generated.report.path") + "/" + request.getUsername() + "/RegisterForm.pdf";
+                File report = new File(reportDir);
+                helper.addAttachment(request.getUsername() + "_form.pdf", report);
             }
 
             mailSender.send(message);

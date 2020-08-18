@@ -65,6 +65,7 @@ public class AdminService {
                                     account.getPribadi().getEmail(),
                                     "Permohonan Registrasi Disetujui",
                                     "email_account.ftl",
+                                    account.getUsername(),
                                     model
                             );
 
