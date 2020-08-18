@@ -12,26 +12,26 @@ import javax.persistence.*;
 public class DPerusahaan {
 
 	@Id
-	@Column(name="id", columnDefinition = "serial")
+	@Column(name = "id", columnDefinition = "serial")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="nama")
+	@Column(name = "nama")
 	private String nama;
 
-	@Column(name="npwp")
+	@Column(name = "npwp")
 	private String npwp;
 
-	@Column(name="alamat")
+	@Column(name = "alamat")
 	private String alamat;
 
-	@Column(name="telepon")
+	@Column(name = "telepon")
 	private String telepon;
 
-	@Column(name="email")
+	@Column(name = "email")
 	private String email;
 
-	@Column(name="status")
+	@Column(name = "status")
 	private int status;
 
 	@Column(name = "komoditi_utama")
@@ -149,12 +149,14 @@ public class DPerusahaan {
 		this.penanggungJawab = penanggungJawab;
 	}
 
-	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis) {
+	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis,
+			String penanggungJawab) {
 		this.nama = nama;
 		this.npwp = npwp;
 		this.alamat = alamat;
 		this.telepon = telepon;
 		this.email = email;
 		this.jenis = jenis;
+		this.penanggungJawab = penanggungJawab;
 	}
 }
