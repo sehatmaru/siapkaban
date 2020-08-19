@@ -26,13 +26,15 @@ public class ProfileService {
 
         if (accountService.isAccountExist(edit.getUsername())) {
           Account  account = accountService.findByUsername(edit.getUsername());
-          account.setPassword(TamUtils.encrypt(edit.getPassword()));
             if (dataPribadiService.isDataPribadiExist(account.getPribadi().getId())){
                 DPribadi data = dataPribadiService.findDataPribadiById(account.getPribadi().getId());
                 data.setNama(edit.getNama());
                 data.setNomor(edit.getNomor());
                 data.setEmail(edit.getEmail());
                 data.setGambar(edit.getGambar());
+
+                if (!account.getPassword().equals(edit.getPassword()))
+                    account.setPassword(TamUtils.encrypt(edit.getPassword()));
 
                 accountService.save(account);
                 dataPribadiService.save(data);

@@ -5,7 +5,7 @@ layanan:
     document:
         bc:
             logo: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\logo\logo.jpeg
-        path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\report
+        path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
     generated:
         report:
             path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
