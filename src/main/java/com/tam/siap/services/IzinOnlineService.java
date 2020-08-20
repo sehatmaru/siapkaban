@@ -65,7 +65,7 @@ public class IzinOnlineService {
         return response;
     }
 
-    public int submit(MemoryBuffer memoryBuffer, Layanan layanan, List<Dokumen> dokumen) {
+    public int submit(List<MemoryBuffer> memoryBuffer, Layanan layanan, List<Dokumen> dokumen) {
         int result = FAILED;
 
         uploadDoc(memoryBuffer, dokumen);
@@ -76,14 +76,14 @@ public class IzinOnlineService {
         return result;
     }
 
-    public void uploadDoc(MemoryBuffer memoryBuffer, List<Dokumen> dokumen) {
-        for (Dokumen dokuman : dokumen) {
-            if (saveDB(dokuman)) {
+    public void uploadDoc(List<MemoryBuffer> memoryBuffer, List<Dokumen> dokumen) {
+        for (int i=0; i<dokumen.size(); i++) {
+            if (saveDB(dokumen.get(i))) {
                 uploadService.saveFile(
-                        memoryBuffer,
-                        dokuman.getNamaDokumen(),
-                        dokuman.getPemohon().getUsername(),
-                        dokuman.getJenisDokumen());
+                        memoryBuffer.get(i),
+                        dokumen.get(i).getNamaDokumen(),
+                        dokumen.get(i).getPemohon().getUsername(),
+                        dokumen.get(i).getJenisDokumen());
             }
         }
     }
