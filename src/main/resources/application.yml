@@ -5,16 +5,18 @@ layanan:
     document:
         bc:
             logo: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\logo\logo.jpeg
-        path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\report
+        path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
     generated:
         report:
             path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
     images:
-        path: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\images
+        path: /Users/whee/sehat/workspace/siapkaban/be/file/images
     jasper:
         path: ${project.home}/src/main/resources/report
+
 server:
     port: 8089
+
 siapkaban:
     datasource:
         driver-class-name: org.postgresql.Driver

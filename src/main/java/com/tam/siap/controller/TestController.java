@@ -57,14 +57,14 @@ public class TestController {
 	@Autowired
 	IzinOnlineService izinOnlineService;
 
-	@PostMapping("/register")
-	public void register() {
-		Account user = new Account("123456123", "123456", roleService.getRole(1));
-		DPribadi pribadi = new DPribadi("test", "NGSPKWE@#124", "CEO", "0812352", "email", jenisIdentitasService.getJenisIdentitas(1));
-		DPerusahaan perusahaan = new DPerusahaan("asd", "1sgdsda", "jakarta", "0623463", "email", jenisPerusahaanService.getJenisPerusahaan(1));
-
-		System.out.println("hasil regis = " + registerService.register(user, pribadi, perusahaan));
-	}
+//	@PostMapping("/register")
+//	public void register() {
+//		Account user = new Account("123456123", "123456", roleService.getRole(1));
+//		DPribadi pribadi = new DPribadi("test", "NGSPKWE@#124", "CEO", "0812352", "email", jenisIdentitasService.getJenisIdentitas(1));
+//		DPerusahaan perusahaan = new DPerusahaan("asd", "1sgdsda", "jakarta", "0623463", "email", jenisPerusahaanService.getJenisPerusahaan(1));
+//
+//		System.out.println("hasil regis = " + registerService.register(user, pribadi, perusahaan));
+//	}
 
 	@PostMapping("/login/wrong/password")
 	public void loginWrongPassword() {

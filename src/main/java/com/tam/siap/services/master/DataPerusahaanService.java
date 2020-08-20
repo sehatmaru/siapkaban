@@ -41,6 +41,10 @@ public class DataPerusahaanService {
         return dPerusahaanRepository.findById(id) != null;
     }
 
+    public boolean isDataPerusahaanExist(String npwp) {
+        return dPerusahaanRepository.findByNpwp(npwp) != null;
+    }
+
     public void save(DPerusahaan dPerusahaan){
         dPerusahaanRepository.save(dPerusahaan);
     }
