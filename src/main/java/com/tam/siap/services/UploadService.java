@@ -30,13 +30,11 @@ public class UploadService {
         return file;
     }
 
-    public String saveFile(MemoryBuffer memoryBuffer, String fileName, String username, JDokumen dokumen) {
+    public void saveFile(MemoryBuffer memoryBuffer, String fileName, String username, JDokumen dokumen) {
         String path = environment.getProperty("layanan.document.path");
         String file = path + "/" + username +"/" + dokumen.getId() + "_" + fileName;
 
         saveFile(memoryBuffer, path, file);
-
-        return file;
     }
 
     private void saveFile(MemoryBuffer memoryBuffer, String path, String file){

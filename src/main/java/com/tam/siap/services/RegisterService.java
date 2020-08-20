@@ -38,31 +38,33 @@ public class RegisterService {
         int result = FAILED;
 
         if (!accountService.isAccountExist(account.getUsername(), account.getRole())) {
-            if (addDataPribadi(dPribadi) == SUCCESS) {
-                if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
-                    if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
-                        try {
-                            exportingService.print(account);
-                        } catch (JRException e) {
-                            e.printStackTrace();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+            if (!dataPerusahaanService.isDataPerusahaanExist(dPerusahaan.getNpwp())) {
+                if (addDataPribadi(dPribadi) == SUCCESS) {
+                    if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
+                        if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
+                            try {
+                                exportingService.print(account);
+                            } catch (JRException e) {
+                                e.printStackTrace();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+                            Map<String, String> model = new HashMap<>();
+                            model.put("nama", account.getPribadi().getNama());
+                            model.put("nomor", account.getPribadi().getNomor());
+
+                            EmailRequestDto request = new EmailRequestDto(
+                                    "siapkaban@gmail.com",
+                                    dPribadi.getEmail(),
+                                    "Dokumen Pendaftaran",
+                                    "email_file.ftl",
+                                    account.getUsername(),
+                                    model
+                            );
+
+                            if (emailService.sendMail(request)) result = SUCCESS;
                         }
-
-                        Map<String, String> model = new HashMap<>();
-                        model.put("nama", account.getPribadi().getNama());
-                        model.put("nomor", account.getPribadi().getNomor());
-
-                        EmailRequestDto request = new EmailRequestDto(
-                                "siapkaban@gmail.com",
-                                dPribadi.getEmail(),
-                                "Dokumen Pendaftaran",
-                                "email_file.ftl",
-                                account.getUsername(),
-                                model
-                        );
-
-                        if (emailService.sendMail(request)) result = SUCCESS;
                     }
                 }
             }

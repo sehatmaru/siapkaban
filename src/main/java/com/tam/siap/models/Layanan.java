@@ -17,40 +17,38 @@ public class Layanan {
 	private int id;
 
 	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "j_perusahaan", referencedColumnName = "id")
-	private JPerusahaan perusahaan;
-
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "j_layanan", referencedColumnName = "id")
-	private JLayanan layanan;
+	@JoinColumn(name = "pemohon", referencedColumnName = "id")
+	private Account pemohonon;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "s_j_layanan", referencedColumnName = "id")
-	private SJLayanan subJenisLayanan;
+	private SJLayanan subLayanan;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "penerima", referencedColumnName = "id")
+	private Account penerima;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "j_fasilitas", referencedColumnName = "id")
-    private JFasilitas fasilitas;
+    @JoinColumn(name = "pemeriksa", referencedColumnName = "id")
+    private Account pemeriksa;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "j_pengelola", referencedColumnName = "id")
-    private JPengelola pengelola;
+    @JoinColumn(name = "k_seksi", referencedColumnName = "id")
+    private Account kepalaSeksi;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "j_penimbunan", referencedColumnName = "id")
-    private JPenimbunan penimbunan;
+    @JoinColumn(name = "k_kantor", referencedColumnName = "id")
+    private Account kepalaKantor;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "k_s_seksi", referencedColumnName = "id")
+    private Account kepalaSubSeksi;
+
+    @Column(name = "tgl_request")
+    private String tanggal;
 
 	public Layanan() {
 	}
-
-    public Layanan(JPerusahaan perusahaan, JLayanan layanan, SJLayanan subJenisLayanan, JFasilitas fasilitas, JPengelola pengelola, JPenimbunan penimbunan) {
-        this.perusahaan = perusahaan;
-        this.layanan = layanan;
-        this.subJenisLayanan = subJenisLayanan;
-        this.fasilitas = fasilitas;
-        this.pengelola = pengelola;
-        this.penimbunan = penimbunan;
-    }
 
     public int getId() {
         return id;
@@ -60,51 +58,67 @@ public class Layanan {
         this.id = id;
     }
 
-    public JPerusahaan getPerusahaan() {
-        return perusahaan;
+    public Account getPemohonon() {
+        return pemohonon;
     }
 
-    public void setPerusahaan(JPerusahaan perusahaan) {
-        this.perusahaan = perusahaan;
+    public void setPemohonon(Account pemohonon) {
+        this.pemohonon = pemohonon;
     }
 
-    public JLayanan getLayanan() {
-        return layanan;
+    public SJLayanan getSubLayanan() {
+        return subLayanan;
     }
 
-    public void setLayanan(JLayanan layanan) {
-        this.layanan = layanan;
+    public void setSubLayanan(SJLayanan subLayanan) {
+        this.subLayanan = subLayanan;
     }
 
-    public SJLayanan getSubJenisLayanan() {
-        return subJenisLayanan;
+    public Account getPenerima() {
+        return penerima;
     }
 
-    public void setSubJenisLayanan(SJLayanan subJenisLayanan) {
-        this.subJenisLayanan = subJenisLayanan;
+    public void setPenerima(Account penerima) {
+        this.penerima = penerima;
     }
 
-    public JFasilitas getFasilitas() {
-        return fasilitas;
+    public Account getPemeriksa() {
+        return pemeriksa;
     }
 
-    public void setFasilitas(JFasilitas fasilitas) {
-        this.fasilitas = fasilitas;
+    public void setPemeriksa(Account pemeriksa) {
+        this.pemeriksa = pemeriksa;
     }
 
-    public JPengelola getPengelola() {
-        return pengelola;
+    public Account getKepalaSeksi() {
+        return kepalaSeksi;
     }
 
-    public void setPengelola(JPengelola pengelola) {
-        this.pengelola = pengelola;
+    public void setKepalaSeksi(Account kepalaSeksi) {
+        this.kepalaSeksi = kepalaSeksi;
     }
 
-    public JPenimbunan getPenimbunan() {
-        return penimbunan;
+    public Account getKepalaKantor() {
+        return kepalaKantor;
     }
 
-    public void setPenimbunan(JPenimbunan penimbunan) {
-        this.penimbunan = penimbunan;
+    public void setKepalaKantor(Account kepalaKantor) {
+        this.kepalaKantor = kepalaKantor;
+    }
+
+    public Account getKepalaSubSeksi() {
+        return kepalaSubSeksi;
+    }
+
+    public void setKepalaSubSeksi(Account kepalaSubSeksi) {
+        this.kepalaSubSeksi = kepalaSubSeksi;
+    }
+
+    public String getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
     }
 }
