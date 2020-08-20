@@ -35,6 +35,7 @@ import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
@@ -54,6 +55,8 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.dom.DomEvent;
+import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 
@@ -126,6 +129,10 @@ public class IzinOnline extends VerticalLayout {
 	private MemoryBuffer[] membuffDokPemohon = new MemoryBuffer[10];
 	private MemoryBuffer[] membuffDokSyarat = new MemoryBuffer[10];
 	private MemoryBuffer[] membuffDokLainnya = new MemoryBuffer[10];
+
+	private String[] strDokPemohon = new String[10];
+	private String[] strDokSyarat = new String[10];
+	private String[] strDokLainnya = new String[10];
 	private Button submit = new Button();
 
 	private Checkbox checbok = new Checkbox("Menyetujui");
@@ -320,7 +327,12 @@ public class IzinOnline extends VerticalLayout {
 				public void onComponentEvent(ClickEvent<Button> event) {
 
 					if (checbok.getValue()) {
-
+						if (checkingDokumen()) {
+							Notification notification = new Notification("Data berhasil tersimpan", 3000,
+									Position.MIDDLE);
+							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+							notification.open();
+						}
 					} else {
 						Notification notification = new Notification("Anda herus menyetujui disclaimer", 3000,
 								Position.MIDDLE);
@@ -366,6 +378,44 @@ public class IzinOnline extends VerticalLayout {
 		add(f1);
 	}
 
+	private boolean checkingDokumen() {
+		boolean ok = true;
+		// check dokumen
+		for (int h = 0; h < membuffDokPemohon.length; h++) {
+			if (membuffDokPemohon[h].getFileName().isEmpty()) {
+				Notification notification = new Notification(strDokPemohon[h] + " belum diupload", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+				notification.open();
+				ok = false;
+				return ok;
+			}
+		}
+
+		for (int h = 0; h < membuffDokSyarat.length; h++) {
+			if (membuffDokSyarat[h].getFileName().isEmpty()) {
+				Notification notification = new Notification(strDokSyarat[h] + " belum diupload", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+				notification.open();
+				ok = false;
+				return ok;
+			}
+		}
+
+		for (int h = 0; h < membuffDokLainnya.length; h++) {
+			if (membuffDokLainnya[h].getFileName().isEmpty()) {
+				Notification notification = new Notification(strDokLainnya[h] + " belum diupload", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+				notification.open();
+				ok = false;
+				return ok;
+			}
+		}
+		return ok;
+	}
+
 	private VerticalLayout dokumenUploads(SJLayanan subLayanan) {
 //		VerticalLayout lay = new VerticalLayout();
 		layDok.removeAll();
@@ -383,37 +433,67 @@ public class IzinOnline extends VerticalLayout {
 
 			DokumenListResponse doklist = izinOnlineService.docFilter(subLayanan);
 			membuffDokPemohon = new MemoryBuffer[doklist.getPermohonan().size()];
-			//System.out.println("dok pemohon : "+doklist.getPermohonan().size());
+			strDokPemohon = new String[doklist.getPermohonan().size()];
+			// System.out.println("dok pemohon : "+doklist.getPermohonan().size());
 			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
 				JDokumen dokpemohon = doklist.getPermohonan().get(i);
 				membuffDokPemohon[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokPemohon[i]);
+				final int pos = i;
+				up.getElement().addEventListener("file-remove", new DomEventListener() {
+					@Override
+					public void handleEvent(DomEvent event) {
+						membuffDokPemohon[pos] = new MemoryBuffer();
+						up.setReceiver(membuffDokPemohon[pos]);
+					}
+				});
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
+				strDokPemohon[i] = dokpemohon.getKeterangan();
 			}
 
 			layDok.add(new FormLayout(lbl));
 
 			membuffDokSyarat = new MemoryBuffer[doklist.getPersyaratan().size()];
-			//System.out.println("dok getPersyaratan : "+doklist.getPersyaratan().size());
+			strDokSyarat = new String[doklist.getPersyaratan().size()];
+			// System.out.println("dok getPersyaratan : "+doklist.getPersyaratan().size());
 			for (int i = 0; i < doklist.getPersyaratan().size(); i++) {
 				JDokumen dokpemohon = doklist.getPersyaratan().get(i);
 				membuffDokSyarat[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokSyarat[i]);
+				final int pos = i;
+				up.getElement().addEventListener("file-remove", new DomEventListener() {
+					@Override
+					public void handleEvent(DomEvent event) {
+						membuffDokSyarat[pos] = new MemoryBuffer();
+						up.setReceiver(membuffDokSyarat[pos]);
+					}
+				});
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
+				strDokSyarat[i] = dokpemohon.getKeterangan();
 			}
 
 			layDok.add(lbl2);
 
 			membuffDokLainnya = new MemoryBuffer[doklist.getLainnya().size()];
-			//System.out.println("dok getLainnya : "+doklist.getLainnya().size());
+			strDokLainnya = new String[doklist.getLainnya().size()];
+			// System.out.println("dok getLainnya : "+doklist.getLainnya().size());
 			for (int i = 0; i < doklist.getLainnya().size(); i++) {
 				JDokumen dokpemohon = doklist.getLainnya().get(i);
 				membuffDokLainnya[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokLainnya[i]);
+				final int pos = i;
+				up.getElement().addEventListener("file-remove", new DomEventListener() {
+					@Override
+					public void handleEvent(DomEvent event) {
+						membuffDokLainnya[pos] = new MemoryBuffer();
+						up.setReceiver(membuffDokLainnya[pos]);
+					}
+				});
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
+				strDokLainnya[i] = dokpemohon.getKeterangan();
 			}
 		}
 		return layDok;
