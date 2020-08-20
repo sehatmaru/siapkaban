@@ -4,7 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -20,12 +27,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.server.VaadinSession;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
 public class TamUtils {
-	
+
 	@Autowired
 	private static Environment env;
 
@@ -82,7 +85,7 @@ public class TamUtils {
 	public static boolean isAuthenticated() {
 		return VaadinSession.getCurrent().getAttribute(SESSION_USERNAME) != null;
 	}
-	
+
 	public static LoginResponse getLoginResponse() {
 		return (LoginResponse) VaadinSession.getCurrent().getAttribute(LOGIN_RESPONSE);
 	}
@@ -119,19 +122,20 @@ public class TamUtils {
 
 		return null;
 	}
-	
-	public static void saveDoc(MemoryBuffer mem,String filename,String folderid, long subjenislayananid) throws IOException {
+
+	public static void saveDoc(MemoryBuffer mem, String filename, String folderid, long subjenislayananid)
+			throws IOException {
 
 		String filaPath = env.getProperty("layanan.document.path") + "\\" + folderid;
-		//String filenamePath = filaPath + "\\" + filename;
-		saveDocToServer(mem,filaPath,filename);
+		// String filenamePath = filaPath + "\\" + filename;
+		saveDocToServer(mem, filaPath, filename);
 	}
-	
-	public static void saveImage(MemoryBuffer mem,String filaPath,String filename) throws IOException {
 
-		//String filaPath = env.getProperty("layanan.images.path") + "\\" + filename;
-		//String filenamePath = filaPath + "\\" + filename;
-		saveDocToServer(mem,filaPath,filename);
+	public static void saveImage(MemoryBuffer mem, String filaPath, String filename) throws IOException {
+
+		// String filaPath = env.getProperty("layanan.images.path") + "\\" + filename;
+		// String filenamePath = filaPath + "\\" + filename;
+		saveDocToServer(mem, filaPath, filename);
 	}
 
 	public static boolean saveDocToServer(MemoryBuffer mem, String filepath, String filename) throws IOException {
@@ -150,6 +154,12 @@ public class TamUtils {
 		// System.out.println("File saved in : "+targetFile.getAbsolutePath());
 		filepath = targetFile.getAbsolutePath();
 		return ok;
+	}
+
+	public static <T> List<T> convertArrayToList(T array[]) {
+		List<T> list = new ArrayList<>();
+		Collections.addAll(list, array);
+		return list;
 	}
 
 }

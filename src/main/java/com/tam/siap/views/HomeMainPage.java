@@ -205,7 +205,8 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				// TODO Auto-generated method stub
-				getUI().get().navigate(ProfilPage.class);
+//				getUI().get().navigate(ProfilPage.class);
+				UI.getCurrent().getPage().open("profil");
 			}
 		});
 

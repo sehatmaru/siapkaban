@@ -11,7 +11,6 @@ import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 
-import com.tam.siap.services.UploadService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -66,9 +65,6 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 
 	@Autowired
 	ProfileService profileService;
-
-	@Autowired
-	UploadService uploadService;
 
 	private TextField txtNama = new TextField();
 	private ComboBox<JIdentitas> comboJnsIdentitas = new ComboBox<>();
@@ -138,9 +134,15 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 						System.out.println("membuff null");
 						gambar = response.getAccount().getPribadi().getGambar();
 					} else {
-						String filename = response.getAccount().getUsername() + "_" + memoryBuf.getFileName();
-
-						gambar = uploadService.saveFile(memoryBuf, filename);
+						String filename = response.getAccount().getPribadi().getId() + "_" + memoryBuf.getFileName();
+						String filaPath = env.getProperty("layanan.images.path");
+						try {
+							TamUtils.saveImage(memoryBuf, filaPath, filename);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						gambar = filaPath + "\\" + filename;
 					}
 					EditProfileRequest editProfileRequest = new EditProfileRequest(nama, email, password, gambar, nomor,
 							username);

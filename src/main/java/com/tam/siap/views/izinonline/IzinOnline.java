@@ -3,6 +3,10 @@ package com.tam.siap.views.izinonline;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -12,12 +16,14 @@ import org.springframework.core.env.Environment;
 
 import com.tam.siap.components.TamSetField;
 import com.tam.siap.models.Account;
+import com.tam.siap.models.Dokumen;
 import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.JFasilitas;
 import com.tam.siap.models.JLayanan;
 import com.tam.siap.models.JPengelola;
 import com.tam.siap.models.JPenimbunan;
 import com.tam.siap.models.JPerusahaan;
+import com.tam.siap.models.Layanan;
 import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.responses.DokumenListResponse;
 import com.tam.siap.models.responses.LoginResponse;
@@ -31,6 +37,7 @@ import com.tam.siap.services.master.JenisPenimbunanService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.master.SubJenisLayananService;
 import com.tam.siap.utils.TamUtils;
+import com.tam.siap.utils.refs.JenisDokumen;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -57,6 +64,8 @@ import com.vaadin.flow.dom.DomEvent;
 import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
+
+import freemarker.template.SimpleDate;
 
 @Route(value = "izinonline", layout = HomePageIzinOnline2.class)
 public class IzinOnline extends VerticalLayout {
@@ -96,6 +105,8 @@ public class IzinOnline extends VerticalLayout {
 	@Autowired
 	IzinOnlineService izinOnlineService;
 
+	private DokumenListResponse doklist = new DokumenListResponse();
+
 	// identitas perusahaan
 	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
 	private TextField txtfnamapt = new TextField("Nama Perusahaan");
@@ -128,6 +139,11 @@ public class IzinOnline extends VerticalLayout {
 	private String[] strDokPemohon = new String[10];
 	private String[] strDokSyarat = new String[10];
 	private String[] strDokLainnya = new String[10];
+
+//	private String[] jDokIdPemohon = new String[10];
+//	private String[] jDokIdSyarat = new String[10];
+//	private String[] jDokIdLainnya = new String[10];
+
 	private Button submit = new Button();
 
 	private Checkbox checbok = new Checkbox("Menyetujui");
@@ -323,6 +339,26 @@ public class IzinOnline extends VerticalLayout {
 
 					if (checbok.getValue()) {
 						if (checkingDokumen()) {
+							Layanan dataLay = new Layanan();
+							dataLay.setPenerima(null);
+							dataLay.setPemeriksa(null);
+							dataLay.setKepalaSubSeksi(null);
+							dataLay.setKepalaSeksi(null);
+							dataLay.setKepalaKantor(null);
+							dataLay.setPemohonon(account);
+							//dataLay.setStatusPenerima(true);
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							dataLay.setTanggal(dateFormat.format(new Date()));
+							dataLay.setTanggalPenerima(dateFormat.format(new Date()));
+							dataLay.setSubLayanan(combosubjenislayanan.getValue());
+
+							List<MemoryBuffer> listMemBuff = new ArrayList<>();
+							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokPemohon));
+							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokSyarat));
+							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokLainnya));
+
+							izinOnlineService.submit(listMemBuff, dataLay, getListdokumen());
+
 							Notification notification = new Notification("Data berhasil tersimpan", 3000,
 									Position.MIDDLE);
 							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -352,6 +388,34 @@ public class IzinOnline extends VerticalLayout {
 			layconfirmation.add(submit);
 		}
 
+	}
+
+	private List<Dokumen> getListdokumen() {
+		List<Dokumen> dokumens = new ArrayList<Dokumen>();
+		String path = env.getProperty("layanan.document.path");
+		LoginResponse logRes = TamUtils.getLoginResponse();
+		DokumenListResponse doklist = izinOnlineService.docFilter(combosubjenislayanan.getValue());
+		for (int h = 0; h < membuffDokPemohon.length; h++) {
+			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPermohonan().get(h).getId()
+					+ "_" + membuffDokPemohon[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getPermohonan().get(h).getKeterangan(), file,
+					doklist.getPermohonan().get(h), logRes.getAccount(), 1));
+		}
+
+		for (int h = 0; h < membuffDokSyarat.length; h++) {
+			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPersyaratan().get(h).getId()
+					+ "_" + membuffDokSyarat[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getPersyaratan().get(h).getKeterangan(), file,
+					doklist.getPersyaratan().get(h), logRes.getAccount(), 1));
+		}
+
+		for (int h = 0; h < membuffDokLainnya.length; h++) {
+			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getLainnya().get(h).getId()
+					+ "_" + membuffDokLainnya[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getLainnya().get(h).getKeterangan(), file, doklist.getLainnya().get(h),
+					logRes.getAccount(), 1));
+		}
+		return dokumens;
 	}
 
 	public IzinOnline() {
@@ -426,7 +490,7 @@ public class IzinOnline extends VerticalLayout {
 			lbl2.getElement().setAttribute("style", "color:blue");
 			lbl2.setWidthFull();
 
-			DokumenListResponse doklist = izinOnlineService.docFilter(subLayanan);
+			doklist = izinOnlineService.docFilter(subLayanan);
 			membuffDokPemohon = new MemoryBuffer[doklist.getPermohonan().size()];
 			strDokPemohon = new String[doklist.getPermohonan().size()];
 			// System.out.println("dok pemohon : "+doklist.getPermohonan().size());
@@ -445,6 +509,7 @@ public class IzinOnline extends VerticalLayout {
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
 				strDokPemohon[i] = dokpemohon.getKeterangan();
+//				jDokIdPemohon[i] = ""+dokpemohon.getId();
 			}
 
 			layDok.add(new FormLayout(lbl));
@@ -467,6 +532,7 @@ public class IzinOnline extends VerticalLayout {
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
 				strDokSyarat[i] = dokpemohon.getKeterangan();
+//				jDokIdSyarat[i] = ""+dokpemohon.getId();
 			}
 
 			layDok.add(lbl2);
@@ -489,6 +555,7 @@ public class IzinOnline extends VerticalLayout {
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
 				strDokLainnya[i] = dokpemohon.getKeterangan();
+//				jDokIdLainnya[i] = ""+dokpemohon.getId();
 			}
 		}
 		return layDok;
