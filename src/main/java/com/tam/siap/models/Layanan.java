@@ -47,6 +47,39 @@ public class Layanan {
     @Column(name = "tgl_request")
     private String tanggal;
 
+    @Column(name = "tgl_penerima")
+    private String tanggalPenerima;
+
+    @Column(name = "tgl_pemeriksa")
+    private String tanggalPemeriksa;
+
+    @Column(name = "tgl_k_seksi")
+    private String tanggalKepalaSeksi;
+
+    @Column(name = "tgl_k_s_seksi")
+    private String tanggalKepalaSubSeksi;
+
+    @Column(name = "tgl_k_kantor")
+    private String tanggalKepalaKantor;
+
+    @Column(name = "status")
+    private boolean status;
+
+    @Column(name = "status_penerima")
+    private boolean statusPenerima;
+
+    @Column(name = "status_pemeriksa")
+    private boolean statusPemeriksa;
+
+    @Column(name = "status_k_seksi")
+    private boolean statusKepalaSeksi;
+
+    @Column(name = "status_k_s_seksi")
+    private boolean statusKepalaSubSeksi;
+
+    @Column(name = "status_k_kantor")
+    private boolean statusKepalaKantor;
+
 	public Layanan() {
 	}
 
@@ -120,5 +153,93 @@ public class Layanan {
 
     public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
+    }
+
+    public String getTanggalPenerima() {
+        return tanggalPenerima;
+    }
+
+    public void setTanggalPenerima(String tanggalPenerima) {
+        this.tanggalPenerima = tanggalPenerima;
+    }
+
+    public String getTanggalPemeriksa() {
+        return tanggalPemeriksa;
+    }
+
+    public void setTanggalPemeriksa(String tanggalPemeriksa) {
+        this.tanggalPemeriksa = tanggalPemeriksa;
+    }
+
+    public String getTanggalKepalaSeksi() {
+        return tanggalKepalaSeksi;
+    }
+
+    public void setTanggalKepalaSeksi(String tanggalKepalaSeksi) {
+        this.tanggalKepalaSeksi = tanggalKepalaSeksi;
+    }
+
+    public String getTanggalKepalaSubSeksi() {
+        return tanggalKepalaSubSeksi;
+    }
+
+    public void setTanggalKepalaSubSeksi(String tanggalKepalaSubSeksi) {
+        this.tanggalKepalaSubSeksi = tanggalKepalaSubSeksi;
+    }
+
+    public String getTanggalKepalaKantor() {
+        return tanggalKepalaKantor;
+    }
+
+    public void setTanggalKepalaKantor(String tanggalKepalaKantor) {
+        this.tanggalKepalaKantor = tanggalKepalaKantor;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isStatusPenerima() {
+        return statusPenerima;
+    }
+
+    public void setStatusPenerima(boolean statusPenerima) {
+        this.statusPenerima = statusPenerima;
+    }
+
+    public boolean isStatusPemeriksa() {
+        return statusPemeriksa;
+    }
+
+    public void setStatusPemeriksa(boolean statusPemeriksa) {
+        this.statusPemeriksa = statusPemeriksa;
+    }
+
+    public boolean isStatusKepalaSeksi() {
+        return statusKepalaSeksi;
+    }
+
+    public void setStatusKepalaSeksi(boolean statusKepalaSeksi) {
+        this.statusKepalaSeksi = statusKepalaSeksi;
+    }
+
+    public boolean isStatusKepalaSubSeksi() {
+        return statusKepalaSubSeksi;
+    }
+
+    public void setStatusKepalaSubSeksi(boolean statusKepalaSubSeksi) {
+        this.statusKepalaSubSeksi = statusKepalaSubSeksi;
+    }
+
+    public boolean isStatusKepalaKantor() {
+        return statusKepalaKantor;
+    }
+
+    public void setStatusKepalaKantor(boolean statusKepalaKantor) {
+        this.statusKepalaKantor = statusKepalaKantor;
     }
 }
