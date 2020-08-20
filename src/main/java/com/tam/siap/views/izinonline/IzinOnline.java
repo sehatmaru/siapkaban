@@ -29,13 +29,11 @@ import com.tam.siap.services.master.JenisLayananService;
 import com.tam.siap.services.master.JenisPengelolaService;
 import com.tam.siap.services.master.JenisPenimbunanService;
 import com.tam.siap.services.master.JenisPerusahaanService;
-import com.tam.siap.services.master.LayananService;
 import com.tam.siap.services.master.SubJenisLayananService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
@@ -70,9 +68,6 @@ public class IzinOnline extends VerticalLayout {
 
 	@Id("txtjudulapp")
 	Element txtjudulapp;
-
-	@Autowired
-	LayananService layananService;
 
 	@Autowired
 	JenisPerusahaanService jenisPerusahaanService;
@@ -223,7 +218,7 @@ public class IzinOnline extends VerticalLayout {
 								// TODO Auto-generated method stub
 								JPenimbunan datapenimbunan = combotmppenimbunan.getValue();
 								if (datapenimbunan != null) {
-									combojnslayanan.setItems(layananService.findLayanan(datajp, datapenimbunan));
+									combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datapenimbunan));
 									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
 									combojnslayanan
 											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
@@ -262,7 +257,7 @@ public class IzinOnline extends VerticalLayout {
 								// TODO Auto-generated method stub
 								JPengelola datapengelola = combojnspengelola.getValue();
 								if (datapengelola != null) {
-									combojnslayanan.setItems(layananService.findLayanan(datajp, datapengelola));
+									combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datapengelola));
 									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
 									combojnslayanan
 											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
