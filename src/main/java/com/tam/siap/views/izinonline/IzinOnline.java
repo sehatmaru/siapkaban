@@ -346,7 +346,7 @@ public class IzinOnline extends VerticalLayout {
 							dataLay.setKepalaSeksi(null);
 							dataLay.setKepalaKantor(null);
 							dataLay.setPemohonon(account);
-							//dataLay.setStatusPenerima(true);
+							dataLay.setStatusPenerima(true);
 							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							dataLay.setTanggal(dateFormat.format(new Date()));
 							dataLay.setTanggalPenerima(dateFormat.format(new Date()));
