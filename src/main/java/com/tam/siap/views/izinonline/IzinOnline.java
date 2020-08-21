@@ -37,7 +37,6 @@ import com.tam.siap.services.master.JenisPenimbunanService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.master.SubJenisLayananService;
 import com.tam.siap.utils.TamUtils;
-import com.tam.siap.utils.refs.JenisDokumen;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -64,8 +63,6 @@ import com.vaadin.flow.dom.DomEvent;
 import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
-
-import freemarker.template.SimpleDate;
 
 @Route(value = "izinonline", layout = HomePageIzinOnline2.class)
 public class IzinOnline extends VerticalLayout {
@@ -152,9 +149,6 @@ public class IzinOnline extends VerticalLayout {
 //	private List<JLayanan> listJLayanans = new ArrayList<>();
 //	private List<SJLayanan> listSjLayanans = new ArrayList<>();
 
-	@Autowired
-	private Environment env;
-
 	@PostConstruct
 	public void init() {
 		// TODO Auto-generated constructor stub
@@ -181,7 +175,7 @@ public class IzinOnline extends VerticalLayout {
 					// TODO Auto-generated method stub
 					// listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
 					JPerusahaan datajp = combojnsperusahaan.getValue();
-					if (datajp.getId() == 4 || datajp.getId() == 5 || datajp.getId() == 6) {
+					if (datajp.getId() == 4 || datajp.getId() == 5) {
 						jenisLayanan(datajp.getId());
 //						combojnsfasilitas.setItems(layananService.findFasilitas(datajp));
 						combojnsfasilitas.setItems(jenisFasilitasService.findJenisFasilitas(datajp));
@@ -392,27 +386,27 @@ public class IzinOnline extends VerticalLayout {
 
 	private List<Dokumen> getListdokumen() {
 		List<Dokumen> dokumens = new ArrayList<Dokumen>();
-		String path = env.getProperty("layanan.document.path");
+		// String path = env.getProperty("layanan.document.path");
 		LoginResponse logRes = TamUtils.getLoginResponse();
 		DokumenListResponse doklist = izinOnlineService.docFilter(combosubjenislayanan.getValue());
 		for (int h = 0; h < membuffDokPemohon.length; h++) {
-			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPermohonan().get(h).getId()
-					+ "_" + membuffDokPemohon[h].getFileName();
-			dokumens.add(new Dokumen(doklist.getPermohonan().get(h).getKeterangan(), file,
+//			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPermohonan().get(h).getId()
+//					+ "_" + membuffDokPemohon[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getPermohonan().get(h).getKeterangan(), null,
 					doklist.getPermohonan().get(h), logRes.getAccount(), 1));
 		}
 
 		for (int h = 0; h < membuffDokSyarat.length; h++) {
-			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPersyaratan().get(h).getId()
-					+ "_" + membuffDokSyarat[h].getFileName();
-			dokumens.add(new Dokumen(doklist.getPersyaratan().get(h).getKeterangan(), file,
+//			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPersyaratan().get(h).getId()
+//					+ "_" + membuffDokSyarat[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getPersyaratan().get(h).getKeterangan(), null,
 					doklist.getPersyaratan().get(h), logRes.getAccount(), 1));
 		}
 
 		for (int h = 0; h < membuffDokLainnya.length; h++) {
-			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getLainnya().get(h).getId()
-					+ "_" + membuffDokLainnya[h].getFileName();
-			dokumens.add(new Dokumen(doklist.getLainnya().get(h).getKeterangan(), file, doklist.getLainnya().get(h),
+//			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getLainnya().get(h).getId()
+//					+ "_" + membuffDokLainnya[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getLainnya().get(h).getKeterangan(), null, doklist.getLainnya().get(h),
 					logRes.getAccount(), 1));
 		}
 		return dokumens;
@@ -478,7 +472,6 @@ public class IzinOnline extends VerticalLayout {
 	private VerticalLayout dokumenUploads(SJLayanan subLayanan) {
 //		VerticalLayout lay = new VerticalLayout();
 		layDok.removeAll();
-		layDok.setWidthFull();
 		if (subLayanan == null) {
 
 		} else {
@@ -558,6 +551,8 @@ public class IzinOnline extends VerticalLayout {
 //				jDokIdLainnya[i] = ""+dokpemohon.getId();
 			}
 		}
+		layDok.setWidthFull();
+		layDok.getStyle().set("overflow-y", "auto");
 		return layDok;
 	}
 
@@ -596,7 +591,11 @@ public class IzinOnline extends VerticalLayout {
 
 	private VerticalLayout inputChekclist() {
 		VerticalLayout lay = new VerticalLayout();
+		// lay.setSizeFull();
+		lay.setHeight("700px");
 		lay.setWidthFull();
+		// lay.getStyle().set("overflow-y", "auto");
+		// lay.getStyle().set("overflow", "auto");
 //		docandconfirmation.setWidthFull();
 //		TamCard card = new TamCard("Upload dokumen");
 //		card.addComp(docandconfirmation);
