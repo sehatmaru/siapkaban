@@ -162,4 +162,11 @@ public class TamUtils {
 		return list;
 	}
 
+	public static boolean createDir(String dir){
+		File folder = new File(dir);
+
+		if (!folder.exists()){
+			return folder.mkdirs();
+		} else return false;
+	}
 }

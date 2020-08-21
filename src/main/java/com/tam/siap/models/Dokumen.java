@@ -30,6 +30,10 @@ public class Dokumen {
 	@JoinColumn(name = "pemohon", referencedColumnName = "id")
 	private Account pemohon;
 
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "layanan", referencedColumnName = "id")
+	private Layanan layanan;
+
 	@Column(name="status")
 	private int status;
 
@@ -62,6 +66,22 @@ public class Dokumen {
 
 	public String getPath() {
 		return path;
+	}
+
+	public Layanan getLayanan() {
+		return layanan;
+	}
+
+	public void setLayanan(Layanan layanan) {
+		this.layanan = layanan;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public void setPath(String path) {

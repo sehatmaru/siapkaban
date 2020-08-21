@@ -23,7 +23,15 @@ public class LayananService {
         return layananRepository.findByPemohononAndSubLayananAndTanggal(account, subLayanan, tanggal) != null;
     }
 
+    public Layanan findLayananById(int id) {
+        return layananRepository.findById(id);
+    }
+
     public void save(Layanan layanan){
         layananRepository.save(layanan);
+    }
+
+    public void flush(){
+        layananRepository.flush();
     }
 }

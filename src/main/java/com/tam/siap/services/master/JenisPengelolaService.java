@@ -21,6 +21,7 @@ public class JenisPengelolaService {
     public JPengelola getJenisPengelola(int id){ return pengelolaRepository.findById(id); }
 
     public List<JPengelola> findJenisPengelola(JPerusahaan perusahaan) {
+        System.out.println("pengelola = " + pengelolaRepository.findByPerusahaan(perusahaan).toString());
         return pengelolaRepository.findByPerusahaan(perusahaan);
     }
 }

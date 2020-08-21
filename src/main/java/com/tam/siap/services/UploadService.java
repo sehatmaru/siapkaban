@@ -1,8 +1,7 @@
 package com.tam.siap.services;
 
-import com.tam.siap.models.Account;
+import com.tam.siap.models.Dokumen;
 import com.tam.siap.models.JDokumen;
-import com.tam.siap.models.SJLayanan;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Objects;
+
+import static com.tam.siap.utils.TamUtils.createDir;
 
 @Service
 public class UploadService {
@@ -30,16 +30,17 @@ public class UploadService {
         return file;
     }
 
-    public void saveFile(MemoryBuffer memoryBuffer, String fileName, String username, JDokumen dokumen) {
-        String path = environment.getProperty("layanan.document.path");
-        String file = path + "/" + username +"/" + dokumen.getId() + "_" + fileName;
+    public String saveFile(MemoryBuffer memoryBuffer, Dokumen dokumen, int id) {
+        String path = environment.getProperty("layanan.document.path") + "/" + dokumen.getPemohon().getUsername() + "/" + id;
+        String file = path + "/" + dokumen.getNamaDokumen() + ".pdf";
 
         saveFile(memoryBuffer, path, file);
+
+        return file;
     }
 
     private void saveFile(MemoryBuffer memoryBuffer, String path, String file){
-        File dir = new File(path);
-        if (!dir.exists()) dir.mkdirs();
+        createDir(path);
 
         File targetFile = new File(file);
 

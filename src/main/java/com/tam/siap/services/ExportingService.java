@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.tam.siap.utils.TamUtils.createDir;
+
 @Service
 public class ExportingService {
 
@@ -77,13 +79,5 @@ public class ExportingService {
             OutputStream outputSteam = new FileOutputStream(file);
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
         }
-    }
-
-    private boolean createDir(String dir){
-        File folder = new File(dir);
-
-        if (!folder.exists()){
-            return folder.mkdirs();
-        } else return false;
     }
 }

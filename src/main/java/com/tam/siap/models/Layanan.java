@@ -63,7 +63,7 @@ public class Layanan {
     private String tanggalKepalaKantor;
 
     @Column(name = "status")
-    private boolean status;
+    private int status;
 
     @Column(name = "status_penerima")
     private boolean statusPenerima;
@@ -79,6 +79,9 @@ public class Layanan {
 
     @Column(name = "status_k_kantor")
     private boolean statusKepalaKantor;
+
+    @Column(name = "nomor")
+    private int nomor;
 
 	public Layanan() {
 	}
@@ -195,11 +198,11 @@ public class Layanan {
         this.tanggalKepalaKantor = tanggalKepalaKantor;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -241,5 +244,13 @@ public class Layanan {
 
     public void setStatusKepalaKantor(boolean statusKepalaKantor) {
         this.statusKepalaKantor = statusKepalaKantor;
+    }
+
+    public int getNomor() {
+        return nomor;
+    }
+
+    public void setNomor(int nomor) {
+        this.nomor = nomor;
     }
 }

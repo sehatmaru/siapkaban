@@ -18,6 +18,7 @@ import java.util.List;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
 import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
+import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
 
 @Service
 public class IzinOnlineService {
@@ -33,6 +34,8 @@ public class IzinOnlineService {
 
     @Autowired
     LayananService layananService;
+
+    private int id = 0;
 
     public DokumenListResponse docFilter(SJLayanan subLayanan) {
         List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subLayanan);
@@ -68,29 +71,29 @@ public class IzinOnlineService {
     public int submit(List<MemoryBuffer> memoryBuffer, Layanan layanan, List<Dokumen> dokumen) {
         int result = FAILED;
 
-        uploadDoc(memoryBuffer, dokumen);
+        layanan.setStatus(ON_PROGRESS);
         layananService.save(layanan);
+        layananService.flush();
+        id = layanan.getId();
+        uploadDoc(memoryBuffer, dokumen, id);
 
         if (layananService.isLayananExist(layanan.getPemohonon(), layanan.getSubLayanan(), layanan.getTanggal())) result = SUCCESS;
 
         return result;
     }
 
-    public void uploadDoc(List<MemoryBuffer> memoryBuffer, List<Dokumen> dokumen) {
+    public void uploadDoc(List<MemoryBuffer> memoryBuffer, List<Dokumen> dokumen, int id) {
         for (int i=0; i<dokumen.size(); i++) {
-            if (saveDB(dokumen.get(i))) {
-                uploadService.saveFile(
-                        memoryBuffer.get(i),
-                        dokumen.get(i).getNamaDokumen(),
-                        dokumen.get(i).getPemohon().getUsername(),
-                        dokumen.get(i).getJenisDokumen());
-            }
+            dokumen.get(i).setPath(uploadService.saveFile(
+                    memoryBuffer.get(i),
+                    dokumen.get(i),
+                    id));
+            saveDB(dokumen.get(i));
         }
     }
 
-    private boolean saveDB(Dokumen dokumen){
+    private void saveDB(Dokumen dokumen){
+        dokumen.setLayanan(layananService.findLayananById(id));
         dokumenService.save(dokumen);
-
-        return dokumenService.isDocumentExist(dokumen.getNamaDokumen());
     }
 }
