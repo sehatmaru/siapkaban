@@ -334,16 +334,7 @@ public class IzinOnline extends VerticalLayout {
 					if (checbok.getValue()) {
 						if (checkingDokumen()) {
 							Layanan dataLay = new Layanan();
-							dataLay.setPenerima(null);
-							dataLay.setPemeriksa(null);
-							dataLay.setKepalaSubSeksi(null);
-							dataLay.setKepalaSeksi(null);
-							dataLay.setKepalaKantor(null);
 							dataLay.setPemohonon(account);
-							dataLay.setStatusPenerima(true);
-							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-							dataLay.setTanggal(dateFormat.format(new Date()));
-							dataLay.setTanggalPenerima(dateFormat.format(new Date()));
 							dataLay.setSubLayanan(combosubjenislayanan.getValue());
 
 							List<MemoryBuffer> listMemBuff = new ArrayList<>();
