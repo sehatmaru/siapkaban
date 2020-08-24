@@ -175,7 +175,7 @@ public class IzinOnline extends VerticalLayout {
 					// TODO Auto-generated method stub
 					// listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
 					JPerusahaan datajp = combojnsperusahaan.getValue();
-					if (datajp.getId() == 4 || datajp.getId() == 5) {
+					if (datajp.getId() == 4) {
 						jenisLayanan(datajp.getId());
 //						combojnsfasilitas.setItems(layananService.findFasilitas(datajp));
 						combojnsfasilitas.setItems(jenisFasilitasService.findJenisFasilitas(datajp));
