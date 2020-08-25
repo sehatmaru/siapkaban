@@ -24,64 +24,47 @@ public class Layanan {
 	@JoinColumn(name = "s_j_layanan", referencedColumnName = "id")
 	private SJLayanan subLayanan;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "penerima", referencedColumnName = "id")
-	private Account penerima;
+	@Column(name = "penerima")
+	private String penerima;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "pemeriksa", referencedColumnName = "id")
-    private Account pemeriksa;
+    @Column(name = "pemeriksa_p2")
+    private String pemeriksaP2;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "k_seksi", referencedColumnName = "id")
-    private Account kepalaSeksi;
+    @Column(name = "pemeriksa_perbend")
+    private String pemeriksaPerbend;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "k_kantor", referencedColumnName = "id")
-    private Account kepalaKantor;
+    @Column(name = "pemeriksa_pkc")
+    private String pemeriksaPkc;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "k_s_seksi", referencedColumnName = "id")
-    private Account kepalaSubSeksi;
+    @Column(name = "k_seksi_p2")
+    private String kSeksiP2;
 
-    @Column(name = "tgl_request")
-    private String tanggal;
+    @Column(name = "k_seksi_perbend")
+    private String kSeksiPerbend;
 
-    @Column(name = "tgl_penerima")
-    private String tanggalPenerima;
+    @Column(name = "k_seksi_pkc")
+    private String kSeksiPkc;
 
-    @Column(name = "tgl_pemeriksa")
-    private String tanggalPemeriksa;
+    @Column(name = "k_s_seksi_p2")
+    private String ksSeksiP2;
 
-    @Column(name = "tgl_k_seksi")
-    private String tanggalKepalaSeksi;
+    @Column(name = "k_s_seksi_perbend")
+    private String ksSeksiPerbend;
 
-    @Column(name = "tgl_k_s_seksi")
-    private String tanggalKepalaSubSeksi;
+    @Column(name = "k_s_seksi_pkc")
+    private String ksSeksiPkc;
 
-    @Column(name = "tgl_k_kantor")
-    private String tanggalKepalaKantor;
+    @Column(name = "k_kantor")
+    private String kKantor;
 
     @Column(name = "status")
     private int status;
 
-    @Column(name = "status_penerima")
-    private boolean statusPenerima;
-
-    @Column(name = "status_pemeriksa")
-    private boolean statusPemeriksa;
-
-    @Column(name = "status_k_seksi")
-    private boolean statusKepalaSeksi;
-
-    @Column(name = "status_k_s_seksi")
-    private boolean statusKepalaSubSeksi;
-
-    @Column(name = "status_k_kantor")
-    private boolean statusKepalaKantor;
-
     @Column(name = "nomor")
-    private int nomor;
+    private String nomor;
+
+    @Column(name = "tanggal")
+    private String tanggal;
 
 	public Layanan() {
 	}
@@ -110,92 +93,92 @@ public class Layanan {
         this.subLayanan = subLayanan;
     }
 
-    public Account getPenerima() {
+    public String getPenerima() {
         return penerima;
     }
 
-    public void setPenerima(Account penerima) {
+    public void setPenerima(String penerima) {
         this.penerima = penerima;
     }
 
-    public Account getPemeriksa() {
-        return pemeriksa;
+    public String getPemeriksaP2() {
+        return pemeriksaP2;
     }
 
-    public void setPemeriksa(Account pemeriksa) {
-        this.pemeriksa = pemeriksa;
+    public void setPemeriksaP2(String pemeriksaP2) {
+        this.pemeriksaP2 = pemeriksaP2;
     }
 
-    public Account getKepalaSeksi() {
-        return kepalaSeksi;
+    public String getPemeriksaPerbend() {
+        return pemeriksaPerbend;
     }
 
-    public void setKepalaSeksi(Account kepalaSeksi) {
-        this.kepalaSeksi = kepalaSeksi;
+    public void setPemeriksaPerbend(String pemeriksaPerbend) {
+        this.pemeriksaPerbend = pemeriksaPerbend;
     }
 
-    public Account getKepalaKantor() {
-        return kepalaKantor;
+    public String getPemeriksaPkc() {
+        return pemeriksaPkc;
     }
 
-    public void setKepalaKantor(Account kepalaKantor) {
-        this.kepalaKantor = kepalaKantor;
+    public void setPemeriksaPkc(String pemeriksaPkc) {
+        this.pemeriksaPkc = pemeriksaPkc;
     }
 
-    public Account getKepalaSubSeksi() {
-        return kepalaSubSeksi;
+    public String getkSeksiP2() {
+        return kSeksiP2;
     }
 
-    public void setKepalaSubSeksi(Account kepalaSubSeksi) {
-        this.kepalaSubSeksi = kepalaSubSeksi;
+    public void setkSeksiP2(String kSeksiP2) {
+        this.kSeksiP2 = kSeksiP2;
     }
 
-    public String getTanggal() {
-        return tanggal;
+    public String getkSeksiPerbend() {
+        return kSeksiPerbend;
     }
 
-    public void setTanggal(String tanggal) {
-        this.tanggal = tanggal;
+    public void setkSeksiPerbend(String kSeksiPerbend) {
+        this.kSeksiPerbend = kSeksiPerbend;
     }
 
-    public String getTanggalPenerima() {
-        return tanggalPenerima;
+    public String getkSeksiPkc() {
+        return kSeksiPkc;
     }
 
-    public void setTanggalPenerima(String tanggalPenerima) {
-        this.tanggalPenerima = tanggalPenerima;
+    public void setkSeksiPkc(String kSeksiPkc) {
+        this.kSeksiPkc = kSeksiPkc;
     }
 
-    public String getTanggalPemeriksa() {
-        return tanggalPemeriksa;
+    public String getKsSeksiP2() {
+        return ksSeksiP2;
     }
 
-    public void setTanggalPemeriksa(String tanggalPemeriksa) {
-        this.tanggalPemeriksa = tanggalPemeriksa;
+    public void setKsSeksiP2(String ksSeksiP2) {
+        this.ksSeksiP2 = ksSeksiP2;
     }
 
-    public String getTanggalKepalaSeksi() {
-        return tanggalKepalaSeksi;
+    public String getKsSeksiPerbend() {
+        return ksSeksiPerbend;
     }
 
-    public void setTanggalKepalaSeksi(String tanggalKepalaSeksi) {
-        this.tanggalKepalaSeksi = tanggalKepalaSeksi;
+    public void setKsSeksiPerbend(String ksSeksiPerbend) {
+        this.ksSeksiPerbend = ksSeksiPerbend;
     }
 
-    public String getTanggalKepalaSubSeksi() {
-        return tanggalKepalaSubSeksi;
+    public String getKsSeksiPkc() {
+        return ksSeksiPkc;
     }
 
-    public void setTanggalKepalaSubSeksi(String tanggalKepalaSubSeksi) {
-        this.tanggalKepalaSubSeksi = tanggalKepalaSubSeksi;
+    public void setKsSeksiPkc(String ksSeksiPkc) {
+        this.ksSeksiPkc = ksSeksiPkc;
     }
 
-    public String getTanggalKepalaKantor() {
-        return tanggalKepalaKantor;
+    public String getkKantor() {
+        return kKantor;
     }
 
-    public void setTanggalKepalaKantor(String tanggalKepalaKantor) {
-        this.tanggalKepalaKantor = tanggalKepalaKantor;
+    public void setkKantor(String kKantor) {
+        this.kKantor = kKantor;
     }
 
     public int getStatus() {
@@ -206,51 +189,19 @@ public class Layanan {
         this.status = status;
     }
 
-    public boolean isStatusPenerima() {
-        return statusPenerima;
-    }
-
-    public void setStatusPenerima(boolean statusPenerima) {
-        this.statusPenerima = statusPenerima;
-    }
-
-    public boolean isStatusPemeriksa() {
-        return statusPemeriksa;
-    }
-
-    public void setStatusPemeriksa(boolean statusPemeriksa) {
-        this.statusPemeriksa = statusPemeriksa;
-    }
-
-    public boolean isStatusKepalaSeksi() {
-        return statusKepalaSeksi;
-    }
-
-    public void setStatusKepalaSeksi(boolean statusKepalaSeksi) {
-        this.statusKepalaSeksi = statusKepalaSeksi;
-    }
-
-    public boolean isStatusKepalaSubSeksi() {
-        return statusKepalaSubSeksi;
-    }
-
-    public void setStatusKepalaSubSeksi(boolean statusKepalaSubSeksi) {
-        this.statusKepalaSubSeksi = statusKepalaSubSeksi;
-    }
-
-    public boolean isStatusKepalaKantor() {
-        return statusKepalaKantor;
-    }
-
-    public void setStatusKepalaKantor(boolean statusKepalaKantor) {
-        this.statusKepalaKantor = statusKepalaKantor;
-    }
-
-    public int getNomor() {
+    public String getNomor() {
         return nomor;
     }
 
-    public void setNomor(int nomor) {
+    public void setNomor(String nomor) {
         this.nomor = nomor;
+    }
+
+    public String getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
     }
 }

@@ -13,6 +13,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.tam.siap.models.StatusLayanan;
 import org.apache.commons.io.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,5 +169,22 @@ public class TamUtils {
 		if (!folder.exists()){
 			return folder.mkdirs();
 		} else return false;
+	}
+
+	public static String fetchStringWithColon(String one, String two, String three, String four) {
+		return one + ";" + two + ";" + three + ";" + four;
+	}
+
+	public static String fetchStringWithColon(StatusLayanan status) {
+		return status.getAccountId()
+				+ ";" + status.getTanggal()
+				+ ";" + status.getStatus()
+				+ ";" + status.getCatatan();
+	}
+
+	public static StatusLayanan splitStringWithColon(String data) {
+		String[] datas = data.split(";");
+
+		return new StatusLayanan(datas[0], datas[1], datas[2], datas[3]);
 	}
 }

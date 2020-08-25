@@ -2,6 +2,7 @@ package com.tam.siap.repos;
 
 import com.tam.siap.models.Account;
 import com.tam.siap.models.Dokumen;
+import com.tam.siap.models.Layanan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,6 @@ public interface DokumenRepository extends JpaRepository<Dokumen, String>{
 	List<Dokumen> findByPemohon(Account pemohon);
 
 	List<Dokumen> findByPemohonAndStatus(Account account, int status);
+
+	List<Dokumen> findByLayanan(Layanan layanan);
 }

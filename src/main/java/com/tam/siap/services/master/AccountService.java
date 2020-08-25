@@ -48,6 +48,10 @@ public class AccountService {
         return accountRepository.findByUsername(username);
     }
 
+    public Account findById(String id){
+        return accountRepository.findById(Integer.parseInt(id));
+    }
+
     public List<Account> findByStatus(int status){
         return accountRepository.findByStatus(status);
     }
