@@ -17,6 +17,7 @@ import java.util.List;
 
 import static com.tam.siap.utils.TamUtils.fetchStringWithColon;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
+import static com.tam.siap.utils.refs.Role.*;
 import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
 import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
@@ -113,17 +114,17 @@ public class IzinOnlineService {
         );
 
         switch (account.getRole().getId()) {
-            case 3 : layanan.setPenerima(status);
-            case 4 : layanan.setPemeriksaP2(status);
-            case 5 : layanan.setPemeriksaPerbend(status);
-            case 6 : layanan.setPemeriksaPkc(status);
-            case 7 : layanan.setkSeksiP2(status);
-            case 8 : layanan.setkSeksiPerbend(status);
-            case 9 : layanan.setkSeksiPkc(status);
-            case 10 : layanan.setKsSeksiP2(status);
-            case 11 : layanan.setKsSeksiPerbend(status);
-            case 12 : layanan.setKsSeksiPkc(status);
-            case 13 : layanan.setkKantor(status);
+            case PENERIMA_DOKUMEN : layanan.setPenerima(status);
+            case PEMERIKSA_P2 : layanan.setPemeriksaP2(status);
+            case PEMERIKSA_PERBEND : layanan.setPemeriksaPerbend(status);
+            case PEMERIKSA_PKC : layanan.setPemeriksaPkc(status);
+            case KEPALA_SEKSI_P2 : layanan.setkSeksiP2(status);
+            case KEPALA_SEKSI_PERBEND : layanan.setkSeksiPerbend(status);
+            case KEPALA_SEKSI_PKC : layanan.setkSeksiPkc(status);
+            case KEPALA_SUB_SEKSI_P2 : layanan.setKsSeksiP2(status);
+            case KEPALA_SUB_SEKSI_PERBEND : layanan.setKsSeksiPerbend(status);
+            case KEPALA_SUB_SEKSI_PKC : layanan.setKsSeksiPkc(status);
+            case KEPALA_KANTOR : layanan.setkKantor(status);
             default: result = FAILED;
         }
 
