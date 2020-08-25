@@ -56,6 +56,10 @@ public class AccountService {
         return accountRepository.findByStatus(status);
     }
 
+    public List<Account> getAccountList(Role role){
+        return accountRepository.findByRoleAndStatus(role, ACTIVE);
+    }
+
     public void save(Account account){
         accountRepository.save(account);
     }
