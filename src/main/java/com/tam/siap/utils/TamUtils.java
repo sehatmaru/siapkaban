@@ -187,4 +187,11 @@ public class TamUtils {
 
 		return new StatusLayanan(datas[0], datas[1], datas[2], datas[3]);
 	}
+
+	public static String getRandomNumber() {
+		Random rnd = new Random();
+		int number = rnd.nextInt(999999);
+
+		return String.format("%06d", number);
+	}
 }

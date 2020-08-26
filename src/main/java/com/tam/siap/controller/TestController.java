@@ -1,24 +1,26 @@
 package com.tam.siap.controller;
 
-import com.tam.siap.models.*;
+import com.tam.siap.models.Account;
+import com.tam.siap.models.Layanan;
+import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.request.EditProfileRequest;
-import com.tam.siap.models.request.EmailRequestDto;
+import com.tam.siap.models.responses.LayananResponse;
+import com.tam.siap.repos.JLayananRepository;
 import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
 import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
-import javax.mail.Session;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.tam.siap.utils.TamUtils.getRandomNumber;
 
 @RestController
 @RequestMapping(value = "test")
@@ -56,6 +58,16 @@ public class TestController {
 
 	@Autowired
 	IzinOnlineService izinOnlineService;
+
+	@Autowired
+	DataViewService dataViewService;
+
+	@Autowired
+	LayananService layananService;
+
+	@Autowired
+	ViewService viewService;
+
 
 //	@PostMapping("/register")
 //	public void register() {
@@ -137,5 +149,60 @@ public class TestController {
 	@PostMapping("dok/filter")
 	public void filterDok(){
 		System.out.println("hasil filter = " + izinOnlineService.docFilter(subJenisLayananService.getSubJenisLayanan(1)).toString());
+	}
+
+	@GetMapping("view/data")
+	public void viewData(){
+
+
+		LayananResponse layanan = new LayananResponse();
+		Layanan layanan1 = new Layanan();
+		SJLayanan sjLayanan = new SJLayanan();
+
+		/*
+
+		layanan.getAccount().getPribadi().getNomor();
+		layanan.getSjLayanan().getKeterangan();
+		layanan.getLayanan().getTanggal();
+		layanan.getLayanan().getPemohonon().getPerusahaan().getNama();
+		layanan.getLayanan().getPemohonon().getPerusahaan().getJenis();
+		layanan.getLayanan().getPenerima().getPribadi().getNama();
+		layanan.getLayanan().getTanggalPenerima();
+		layanan.getLayanan().getPemeriksa().getPribadi().getNama();
+		layanan.getLayanan().getTanggalPemeriksa();
+		layanan.getLayanan().getKepalaSubSeksi().getPribadi().getNama();
+		layanan.getLayanan().getTanggalKepalaSubSeksi();
+		layanan.getLayanan().getKepalaSeksi().getPribadi().getNama();
+		layanan.getLayanan().getTanggalKepalaSeksi();
+		layanan.getLayanan().getKepalaKantor().getPribadi().getNama();
+		layanan.getLayanan().getTanggalKepalaKantor();
+
+
+		 */
+		layanan1.setId(1);
+		layanan.getLayanan().setNomor(layanan1.getNomor());
+		layanan.getSjLayanan().setKeterangan(sjLayanan.getKeterangan());
+		layanan.getLayanan().setTanggal(layanan1.getTanggal());
+		layanan.getLayanan().getPemohonon().getPerusahaan().setNama(layanan1.getPemohonon().getPerusahaan().getNama());
+		layanan.getLayanan().getPemohonon().getPerusahaan().setJenis(layanan1.getPemohonon().getPerusahaan().getJenis());
+		layanan.getLayanan().setPenerima(layanan1.getPenerima());
+		layanan.getLayanan().setTanggal(layanan1.getTanggal());
+		layanan.getLayanan().setPemeriksaP2(layanan1.getPemeriksaP2());
+		layanan.getLayanan().setPemeriksaPerbend(layanan1.getPemeriksaPerbend());
+		layanan.getLayanan().setPemeriksaPkc(layanan1.getPemeriksaPkc());
+		layanan.getLayanan().setKsSeksiPkc(layanan1.getKsSeksiPkc());
+		layanan.getLayanan().setKsSeksiPerbend(layanan1.getKsSeksiPerbend());
+		layanan.getLayanan().setKsSeksiP2(layanan1.getKsSeksiP2());
+		layanan.getLayanan().setkSeksiPkc(layanan1.getkSeksiPkc());
+		layanan.getLayanan().setkSeksiPerbend(layanan1.getkSeksiPerbend());
+		layanan.getLayanan().setkSeksiP2(layanan1.getkSeksiP2());
+		layanan.getLayanan().setkKantor(layanan1.getkKantor());
+
+		System.out.println("Hasil view" + dataViewService.viewData(layanan).toString());
+	}
+
+	@GetMapping("view/random")
+	public void getNumber(){
+		System.out.println("Hasil Random " + getRandomNumber());
 	}
 }
