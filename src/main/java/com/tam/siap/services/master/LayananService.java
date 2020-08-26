@@ -27,6 +27,10 @@ public class LayananService {
         return layananRepository.findById(id);
     }
 
+    public Layanan findLayananByNomor(String nomor) {
+        return layananRepository.findByNomor(nomor);
+    }
+
     public void save(Layanan layanan){
         layananRepository.save(layanan);
     }

@@ -13,6 +13,8 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     Layanan findById(int id);
 
+    Layanan findByNomor(String nomor);
+
     Layanan findByPemohononAndSubLayananAndTanggal(Account account, SJLayanan subLayanan, String tanggal);
 
 }
