@@ -170,10 +170,10 @@ public class IzinOnlineService {
     }
 
     //for pemeriksa, kep seksi, kep sub seksi
-    public List<LayananResponse> viewPerizinanOnline(Role role, Account account) {
+    public List<LayananResponse> viewPerizinanOnline(Account account) {
         List<LayananResponse> responses = new ArrayList<>();
 
-        switch (role.getId()) {
+        switch (account.getRole().getId()) {
             case PEMERIKSA_P2:
                 List<Layanan> pemeriksaP2 = layananService.findLayananByPemeriksaP2IsNotNull();
 
