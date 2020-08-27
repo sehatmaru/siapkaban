@@ -1,24 +1,26 @@
 package com.tam.siap.controller;
 
-import com.tam.siap.models.*;
+import com.tam.siap.models.Account;
+import com.tam.siap.models.Layanan;
+import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.request.EditProfileRequest;
-import com.tam.siap.models.request.EmailRequestDto;
+import com.tam.siap.models.responses.LayananResponse;
+import com.tam.siap.repos.JLayananRepository;
 import com.tam.siap.services.AdminService;
 import com.tam.siap.services.AuthBEService;
 import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
-import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
-import javax.mail.Session;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.tam.siap.utils.TamUtils.getRandomNumber;
 
 @RestController
 @RequestMapping(value = "test")
@@ -56,6 +58,9 @@ public class TestController {
 
 	@Autowired
 	IzinOnlineService izinOnlineService;
+
+	@Autowired
+	LayananService layananService;
 
 //	@PostMapping("/register")
 //	public void register() {
@@ -137,5 +142,15 @@ public class TestController {
 	@PostMapping("dok/filter")
 	public void filterDok(){
 		System.out.println("hasil filter = " + izinOnlineService.docFilter(subJenisLayananService.getSubJenisLayanan(1)).toString());
+	}
+
+	@GetMapping("izin/view")
+	public void datanya(){
+		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
+	}
+
+	@GetMapping("utils/rannum")
+	public void getNumber(){
+		System.out.println("Hasil Random " + getRandomNumber());
 	}
 }

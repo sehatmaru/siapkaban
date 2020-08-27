@@ -23,6 +23,10 @@ public class LayananService {
         return layananRepository.findByPemohononAndSubLayananAndTanggal(account, subLayanan, tanggal) != null;
     }
 
+    public boolean isLayananExist(String nomor) {
+        return layananRepository.findByNomor(nomor) != null;
+    }
+
     public Layanan findLayananById(int id) {
         return layananRepository.findById(id);
     }
@@ -37,5 +41,53 @@ public class LayananService {
 
     public void flush(){
         layananRepository.flush();
+    }
+
+    public List<Layanan> findLayananByPenerimaIsNull() {
+        return layananRepository.findByPenerimaIsNull();
+    }
+
+    public List<Layanan> findLayananByPenerimaIsNotNull() {
+        return layananRepository.findByPenerimaIsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepKantorIsNotNull() {
+        return layananRepository.findByKepKantorIsNotNull();
+    }
+
+    public List<Layanan> findLayananByPemeriksaP2IsNotNull() {
+        return layananRepository.findByPemeriksaP2IsNotNull();
+    }
+
+    public List<Layanan> findLayananByPemeriksaPerbendIsNotNull() {
+        return layananRepository.findByPemeriksaPerbendIsNotNull();
+    }
+
+    public List<Layanan> findLayananByPemeriksaPkcIsNotNull() {
+        return layananRepository.findByPemeriksaPkcIsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepSeksiP2IsNotNull() {
+        return layananRepository.findByKepSeksiP2IsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepSeksiPerbendIsNotNull() {
+        return layananRepository.findByKepSeksiPerbendIsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepSeksiPkcIsNotNull() {
+        return layananRepository.findByKepSeksiPkcIsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepSubSeksiP2IsNotNull() {
+        return layananRepository.findByKepSubSeksiP2IsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepSubSeksiPerbendIsNotNull() {
+        return layananRepository.findByKepSubSeksiPerbendIsNotNull();
+    }
+
+    public List<Layanan> findLayananByKepSubSeksiPkcIsNotNull() {
+        return layananRepository.findByKepSubSeksiPkcIsNotNull();
     }
 }

@@ -30,9 +30,9 @@ public class UploadService {
         return file;
     }
 
-    public String saveFile(MemoryBuffer memoryBuffer, Dokumen dokumen, int id) {
-        String path = environment.getProperty("layanan.document.path") + "/" + dokumen.getPemohon().getUsername() + "/" + id;
-//windows        String path = environment.getProperty("layanan.document.path") + "\\" + dokumen.getPemohon().getUsername() + "\\" + id;
+    public String saveFile(MemoryBuffer memoryBuffer, Dokumen dokumen, String nomor) {
+        String path = environment.getProperty("layanan.document.path") + "/" + dokumen.getPemohon().getUsername() + "/" + nomor;
+//windows        String path = environment.getProperty("layanan.document.path") + "\\" + dokumen.getPemohon().getUsername() + "\\" + nomor;
         String file = path + "/" + dokumen.getNamaDokumen() + ".pdf";
 //windows        String file = path + "\\" + dokumen.getNamaDokumen() + ".pdf";
 
