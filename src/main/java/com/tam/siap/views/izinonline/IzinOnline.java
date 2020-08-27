@@ -336,8 +336,6 @@ public class IzinOnline extends VerticalLayout {
 							Layanan dataLay = new Layanan();
 							dataLay.setPemohonon(account);
 							dataLay.setSubLayanan(combosubjenislayanan.getValue());
-							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-							dataLay.setTanggal(dateFormat.format(new Date()));
 
 							List<MemoryBuffer> listMemBuff = new ArrayList<>();
 							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokPemohon));
