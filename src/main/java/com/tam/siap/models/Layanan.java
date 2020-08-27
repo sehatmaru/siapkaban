@@ -37,25 +37,25 @@ public class Layanan {
     private String pemeriksaPkc;
 
     @Column(name = "k_seksi_p2")
-    private String kSeksiP2;
+    private String kepSeksiP2;
 
     @Column(name = "k_seksi_perbend")
-    private String kSeksiPerbend;
+    private String kepSeksiPerbend;
 
     @Column(name = "k_seksi_pkc")
-    private String kSeksiPkc;
+    private String kepSeksiPkc;
 
     @Column(name = "k_s_seksi_p2")
-    private String ksSeksiP2;
+    private String kepSubSeksiP2;
 
     @Column(name = "k_s_seksi_perbend")
-    private String ksSeksiPerbend;
+    private String kepSubSeksiPerbend;
 
     @Column(name = "k_s_seksi_pkc")
-    private String ksSeksiPkc;
+    private String kepSubSeksiPkc;
 
     @Column(name = "k_kantor")
-    private String kKantor;
+    private String kepKantor;
 
     @Column(name = "status")
     private int status;
@@ -125,60 +125,60 @@ public class Layanan {
         this.pemeriksaPkc = pemeriksaPkc;
     }
 
-    public String getkSeksiP2() {
-        return kSeksiP2;
+    public String getKepSeksiP2() {
+        return kepSeksiP2;
     }
 
-    public void setkSeksiP2(String kSeksiP2) {
-        this.kSeksiP2 = kSeksiP2;
+    public void setKepSeksiP2(String kepSeksiP2) {
+        this.kepSeksiP2 = kepSeksiP2;
     }
 
-    public String getkSeksiPerbend() {
-        return kSeksiPerbend;
+    public String getKepSeksiPerbend() {
+        return kepSeksiPerbend;
     }
 
-    public void setkSeksiPerbend(String kSeksiPerbend) {
-        this.kSeksiPerbend = kSeksiPerbend;
+    public void setKepSeksiPerbend(String kepSeksiPerbend) {
+        this.kepSeksiPerbend = kepSeksiPerbend;
     }
 
-    public String getkSeksiPkc() {
-        return kSeksiPkc;
+    public String getKepSeksiPkc() {
+        return kepSeksiPkc;
     }
 
-    public void setkSeksiPkc(String kSeksiPkc) {
-        this.kSeksiPkc = kSeksiPkc;
+    public void setKepSeksiPkc(String kepSeksiPkc) {
+        this.kepSeksiPkc = kepSeksiPkc;
     }
 
-    public String getKsSeksiP2() {
-        return ksSeksiP2;
+    public String getKepSubSeksiP2() {
+        return kepSubSeksiP2;
     }
 
-    public void setKsSeksiP2(String ksSeksiP2) {
-        this.ksSeksiP2 = ksSeksiP2;
+    public void setKepSubSeksiP2(String kepSubSeksiP2) {
+        this.kepSubSeksiP2 = kepSubSeksiP2;
     }
 
-    public String getKsSeksiPerbend() {
-        return ksSeksiPerbend;
+    public String getKepSubSeksiPerbend() {
+        return kepSubSeksiPerbend;
     }
 
-    public void setKsSeksiPerbend(String ksSeksiPerbend) {
-        this.ksSeksiPerbend = ksSeksiPerbend;
+    public void setKepSubSeksiPerbend(String kepSubSeksiPerbend) {
+        this.kepSubSeksiPerbend = kepSubSeksiPerbend;
     }
 
-    public String getKsSeksiPkc() {
-        return ksSeksiPkc;
+    public String getKepSubSeksiPkc() {
+        return kepSubSeksiPkc;
     }
 
-    public void setKsSeksiPkc(String ksSeksiPkc) {
-        this.ksSeksiPkc = ksSeksiPkc;
+    public void setKepSubSeksiPkc(String kepSubSeksiPkc) {
+        this.kepSubSeksiPkc = kepSubSeksiPkc;
     }
 
-    public String getkKantor() {
-        return kKantor;
+    public String getKepKantor() {
+        return kepKantor;
     }
 
-    public void setkKantor(String kKantor) {
-        this.kKantor = kKantor;
+    public void setKepKantor(String kepKantor) {
+        this.kepKantor = kepKantor;
     }
 
     public int getStatus() {

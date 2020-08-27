@@ -60,14 +60,7 @@ public class TestController {
 	IzinOnlineService izinOnlineService;
 
 	@Autowired
-	DataViewService dataViewService;
-
-	@Autowired
 	LayananService layananService;
-
-	@Autowired
-	ViewService viewService;
-
 
 //	@PostMapping("/register")
 //	public void register() {
@@ -151,74 +144,12 @@ public class TestController {
 		System.out.println("hasil filter = " + izinOnlineService.docFilter(subJenisLayananService.getSubJenisLayanan(1)).toString());
 	}
 
-	@GetMapping("view/data")
-	public void viewData(){
-
-/*
-		Layanan layanan1 = layananService.findLayananById(1);
-		LayananResponse layanan = new LayananResponse();
-		//SJLayanan sjLayanan = new SJLayanan();
-
-		layanan.getLayanan().setId(layanan1.getId());
-		layanan.getAccount().getPribadi().getNomor();
-		layanan.getSjLayanan().getKeterangan();
-		layanan.getLayanan().getTanggal();
-		layanan.getLayanan().getPemohonon().getPerusahaan().getNama();
-		layanan.getLayanan().getPemohonon().getPerusahaan().getJenis();
-		layanan.getLayanan().getPenerima();
-		layanan.getLayanan().getPemeriksaP2();
-		layanan.getLayanan().getPemeriksaPerbend();
-		layanan.getLayanan().getPemeriksaPkc();
-		layanan.getLayanan().getKsSeksiPkc();
-		layanan.getLayanan().getKsSeksiPerbend();
-		layanan.getLayanan().getKsSeksiP2();
-		layanan.getLayanan().getkSeksiPkc();
-		layanan.getLayanan().getkSeksiPerbend();
-		layanan.getLayanan().getkSeksiP2();
-		layanan.getLayanan().getkKantor();
-
-		/*
-
-
-		layanan1.setId(1);
-		layanan.getLayanan().setNomor(layanan1.getNomor());
-		layanan.getSjLayanan().setKeterangan(sjLayanan.getKeterangan());
-		layanan.getLayanan().setTanggal(layanan1.getTanggal());
-		layanan.getLayanan().getPemohonon().getPerusahaan().setNama(layanan1.getPemohonon().getPerusahaan().getNama());
-		layanan.getLayanan().getPemohonon().getPerusahaan().setJenis(layanan1.getPemohonon().getPerusahaan().getJenis());
-		layanan.getLayanan().setPenerima(layanan1.getPenerima());
-		layanan.getLayanan().setTanggal(layanan1.getTanggal());
-		layanan.getLayanan().setPemeriksaP2(layanan1.getPemeriksaP2());
-		layanan.getLayanan().setPemeriksaPerbend(layanan1.getPemeriksaPerbend());
-		layanan.getLayanan().setPemeriksaPkc(layanan1.getPemeriksaPkc());
-		layanan.getLayanan().setKsSeksiPkc(layanan1.getKsSeksiPkc());
-		layanan.getLayanan().setKsSeksiPerbend(layanan1.getKsSeksiPerbend());
-		layanan.getLayanan().setKsSeksiP2(layanan1.getKsSeksiP2());
-		layanan.getLayanan().setkSeksiPkc(layanan1.getkSeksiPkc());
-		layanan.getLayanan().setkSeksiPerbend(layanan1.getkSeksiPerbend());
-		layanan.getLayanan().setkSeksiP2(layanan1.getkSeksiP2());
-		layanan.getLayanan().setkKantor(layanan1.getkKantor());
-
-
-
-		System.out.println("Hasil view" + dataViewService.viewData(layanan).toString());
-
-
- */
-	}
-
-	@GetMapping("view/data2")
+	@GetMapping("izin/view")
 	public void datanya(){
-		Iterable<Layanan> layanans = layananService.getAllLayanan();
-		List<Layanan> list = new ArrayList<>();
-		for (Layanan layanan1 : layanans){
-			list.add(layanan1);
-		}
-		System.out.println("Hasil View = " + dataViewService.viewData());
+		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
 	}
 
-
-	@GetMapping("view/random")
+	@GetMapping("utils/rannum")
 	public void getNumber(){
 		System.out.println("Hasil Random " + getRandomNumber());
 	}
