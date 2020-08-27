@@ -1,6 +1,8 @@
 package com.tam.siap.repos;
 
+import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.Layanan;
+import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.responses.LayananResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -10,5 +12,6 @@ import java.util.List;
 
 @Repository
 public interface DataViewRepos extends JpaRepository<Layanan, String> {
+
 
 }

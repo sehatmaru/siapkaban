@@ -8,6 +8,7 @@ import com.tam.siap.repos.DataViewRepos;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.LayananService;
 import com.tam.siap.services.master.SubJenisLayananService;
+import com.tam.siap.services.master.ViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,25 +31,23 @@ public class DataViewService {
     AccountService accountService;
 
     @Autowired
-    DataViewRepos dataViewRepos;
+    ViewService viewService;
 
 
+    private int id = 0;
 
-    public LayananResponse viewData(LayananResponse layananResponse) {
-       /*
-        if(accountService.isAccountExist(layananResponse.getAccount().getUsername())) {
+
+    public int viewData() {
+
+        int result = FAILED;
+/*
+        if (accountService.isAccountExist(layananResponse.getAccount().getUsername())) {
             Account account = accountService.findByUsername(layananResponse.getAccount().getUsername());
             if (layananService.isLayananExist(layananResponse.getAccount(), layananResponse.getSjLayanan(), layananResponse.getLayanan().getTanggal())) {
                 Layanan layanan2 = layananService.findLayananById(layananResponse.getLayanan().getId());
 
+                LayananResponse layanan = new LayananResponse();
 
-        */
-
-        LayananResponse layanan = new LayananResponse();
-        Layanan layanan1 = new Layanan();
-        SJLayanan sjLayanan = new SJLayanan();
-
-                /*
 
                 layanan.getLayanan().getNomor();
                 layanan.getSjLayanan().getKeterangan();
@@ -70,9 +69,8 @@ public class DataViewService {
                 layananResponse.setLayanan(layanan.getLayanan());
                 layananResponse.setSjLayanan(layanan.getSjLayanan());
 
-                 */
 
-        layanan1.setId(1);
+
         layanan.getLayanan().setNomor(layanan1.getNomor());
         layanan.getSjLayanan().setKeterangan(sjLayanan.getKeterangan());
         layanan.getLayanan().setTanggal(layanan1.getTanggal());
@@ -91,13 +89,22 @@ public class DataViewService {
         layanan.getLayanan().setkSeksiP2(layanan1.getkSeksiP2());
         layanan.getLayanan().setkKantor(layanan1.getkKantor());
 
-        layananService.findLayananById(1);
-        subJenisLayananService.findAllSubJenisLayanan();
 
-        System.out.println(layanan.toString());
+                //layananService.getAllLayanan();
+                //subJenisLayananService.findAllSubJenisLayanan();
 
-                return layanan;
-
+                //layananResponse.setLayanan(layanans);
+                //System.out.println(layanan.toString());
             }
+        }
 
+
+    }
+
+         */
+        viewService.dataSjLayanan();
+        viewService.dataLayanan();
+        result = SUCCESS;
+        return result;
+    }
 }

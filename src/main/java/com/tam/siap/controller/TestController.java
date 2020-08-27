@@ -154,31 +154,32 @@ public class TestController {
 	@GetMapping("view/data")
 	public void viewData(){
 
-
+/*
+		Layanan layanan1 = layananService.findLayananById(1);
 		LayananResponse layanan = new LayananResponse();
-		Layanan layanan1 = new Layanan();
-		SJLayanan sjLayanan = new SJLayanan();
+		//SJLayanan sjLayanan = new SJLayanan();
 
-		/*
-
+		layanan.getLayanan().setId(layanan1.getId());
 		layanan.getAccount().getPribadi().getNomor();
 		layanan.getSjLayanan().getKeterangan();
 		layanan.getLayanan().getTanggal();
 		layanan.getLayanan().getPemohonon().getPerusahaan().getNama();
 		layanan.getLayanan().getPemohonon().getPerusahaan().getJenis();
-		layanan.getLayanan().getPenerima().getPribadi().getNama();
-		layanan.getLayanan().getTanggalPenerima();
-		layanan.getLayanan().getPemeriksa().getPribadi().getNama();
-		layanan.getLayanan().getTanggalPemeriksa();
-		layanan.getLayanan().getKepalaSubSeksi().getPribadi().getNama();
-		layanan.getLayanan().getTanggalKepalaSubSeksi();
-		layanan.getLayanan().getKepalaSeksi().getPribadi().getNama();
-		layanan.getLayanan().getTanggalKepalaSeksi();
-		layanan.getLayanan().getKepalaKantor().getPribadi().getNama();
-		layanan.getLayanan().getTanggalKepalaKantor();
+		layanan.getLayanan().getPenerima();
+		layanan.getLayanan().getPemeriksaP2();
+		layanan.getLayanan().getPemeriksaPerbend();
+		layanan.getLayanan().getPemeriksaPkc();
+		layanan.getLayanan().getKsSeksiPkc();
+		layanan.getLayanan().getKsSeksiPerbend();
+		layanan.getLayanan().getKsSeksiP2();
+		layanan.getLayanan().getkSeksiPkc();
+		layanan.getLayanan().getkSeksiPerbend();
+		layanan.getLayanan().getkSeksiP2();
+		layanan.getLayanan().getkKantor();
+
+		/*
 
 
-		 */
 		layanan1.setId(1);
 		layanan.getLayanan().setNomor(layanan1.getNomor());
 		layanan.getSjLayanan().setKeterangan(sjLayanan.getKeterangan());
@@ -198,8 +199,24 @@ public class TestController {
 		layanan.getLayanan().setkSeksiP2(layanan1.getkSeksiP2());
 		layanan.getLayanan().setkKantor(layanan1.getkKantor());
 
+
+
 		System.out.println("Hasil view" + dataViewService.viewData(layanan).toString());
+
+
+ */
 	}
+
+	@GetMapping("view/data2")
+	public void datanya(){
+		Iterable<Layanan> layanans = layananService.getAllLayanan();
+		List<Layanan> list = new ArrayList<>();
+		for (Layanan layanan1 : layanans){
+			list.add(layanan1);
+		}
+		System.out.println("Hasil View = " + dataViewService.viewData());
+	}
+
 
 	@GetMapping("view/random")
 	public void getNumber(){
