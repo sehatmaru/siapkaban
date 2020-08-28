@@ -171,10 +171,10 @@ public class InboxBCPage extends VerticalLayout {
 					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalPemeriksaP2(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
+					span2.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalPemeriksaPerbend(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
+					span3.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
 
 					dialog.add(new H5("P2"));
@@ -193,10 +193,10 @@ public class InboxBCPage extends VerticalLayout {
 					span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiP2(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalKepSubSeksiP2(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPerbend(), "-")
+					span2.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPerbend(), "-")
 							+ "</br>" + getNullorWhat(data.getTanggalKepSubSeksiPerbend(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
+					span3.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalKepSubSeksiPkc(), "-"));
 
 					dialog.add(new H5("P2"));
@@ -215,10 +215,10 @@ public class InboxBCPage extends VerticalLayout {
 					span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiP2(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalKepSeksiP2(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPerbend(), "-") + "</br>"
+					span2.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPerbend(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalKepSeksiPerbend(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkc(), "-") + "</br>"
+					span3.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkc(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalKepSeksiPkc(), "-"));
 
 					dialog.add(new H5("P2"));
