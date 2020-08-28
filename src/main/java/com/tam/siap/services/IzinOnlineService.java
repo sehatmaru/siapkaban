@@ -146,32 +146,26 @@ public class IzinOnlineService {
         return result;
     }
 
-    //for penerima dok & kep kantor
-    public List<LayananResponse> viewPerizinanOnline(Role role) {
-        List<LayananResponse> responses = new ArrayList<>();
-        List<Layanan> layanans = new ArrayList<>();
-
-        switch (role.getId()) {
-            case PENERIMA_DOKUMEN:
-                layanans = layananService.findLayananByPenerimaIsNull();
-                break;
-            case KEPALA_KANTOR:
-                layanans = layananService.findLayananByPenerimaIsNotNull();
-                break;
-        }
-
-        for (Layanan layanan : layanans) {
-            responses.add(setDataLayananToResponse(layanan));
-        }
-
-        return responses;
-    }
-
-    //for pemohon, pemeriksa, kep seksi, kep sub seksi
     public List<LayananResponse> viewPerizinanOnline(Account account) {
         List<LayananResponse> responses = new ArrayList<>();
 
         switch (account.getRole().getId()) {
+            case KEPALA_KANTOR:
+                List<Layanan> kepKantor = layananService.findLayananByPenerimaIsNotNull();
+
+                for (Layanan data : kepKantor) {
+                    responses.add(setDataLayananToResponse(data));
+                }
+
+                break;
+            case PENERIMA_DOKUMEN:
+                List<Layanan> penerima = layananService.findLayananByPenerimaIsNull();
+
+                for (Layanan data : penerima) {
+                    responses.add(setDataLayananToResponse(data));
+                }
+
+                break;
             case PEMOHON:
                 List<Layanan> pemohon = layananService.findLayananByPemohon(account);
 
