@@ -12,12 +12,11 @@ import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.services.IzinOnlineService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
-import com.vaadin.componentfactory.Tooltip;
-import com.vaadin.componentfactory.TooltipAlignment;
-import com.vaadin.componentfactory.TooltipPosition;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H5;
@@ -36,7 +35,7 @@ public class InboxBCPage extends VerticalLayout {
 	private Grid<LayananResponse> gridsattus = new Grid<LayananResponse>();
 	private List<LayananResponse> layRes = new ArrayList<>();
 
-	private Tooltip tooltip = new Tooltip();
+	private Dialog dialog = new Dialog();
 
 	@Autowired
 	IzinOnlineService izinOnlineService;
@@ -59,6 +58,7 @@ public class InboxBCPage extends VerticalLayout {
 
 	public InboxBCPage() {
 		setSizeFull();
+		gridsattus.getElement().setAttribute("style", "font-size: 12px;");
 		gridsattus.addColumn(LayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
 		gridsattus.addColumn(LayananResponse::getTanggalRequest).setHeader(TamUtils.setCustomHerader("Tanggal"))
 				.setWidth("7em");
@@ -84,15 +84,13 @@ public class InboxBCPage extends VerticalLayout {
 		gridsattus.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
 		gridsattus.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
 
-		tooltip.setPosition(TooltipPosition.RIGHT);
-		tooltip.setAlignment(TooltipAlignment.LEFT);
-		tooltip.setManualMode(true);
-
 		add(gridsattus);
 	}
 
 	private Button createRemoveButton2(LayananResponse item) {
 		Button btnproses = new Button("Proses");
+		btnproses.getElement().setProperty("style", "font-size:12px;");
+		btnproses.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 		btnproses.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
@@ -109,60 +107,62 @@ public class InboxBCPage extends VerticalLayout {
 		VerticalLayout vel = new VerticalLayout();
 		Span span = new Span();
 		if (col == 0) {
-			span.getElement().setProperty("innerHTML", data.getPenerima() + "</br>" + data.getTanggalPenerima());
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getPenerima(), "-") + "</br>" + getNullorWhat(data.getTanggalPenerima(), "-"));
 		} else if (col == 1) {
-			if (data.getPemeriksaP2() != null || !data.getPemeriksaP2().isEmpty()) {
-				span.getElement().setProperty("innerHTML",
-						data.getPemeriksaP2() + "</br>" + data.getTanggalPemeriksaP2());
-			} else if (data.getPemeriksaPerbend() != null || !data.getPemeriksaPerbend().isEmpty()) {
-				span.getElement().setProperty("innerHTML",
-						data.getPemeriksaPerbend() + "</br>" + data.getTanggalPemeriksaPerbend());
+			if (data.getPemeriksaP2() != null) {
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalPemeriksaP2(), "-"));
+			} else if (data.getPemeriksaPerbend() != null) {
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalPemeriksaPerbend(), "-"));
 			} else {
-				span.getElement().setProperty("innerHTML",
-						data.getPemeriksaPkc() + "</br>" + data.getTanggalPemeriksaPkc());
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
 			}
 		} else if (col == 2) {
-			if (data.getKepSubSeksiP2() != null || !data.getKepSubSeksiP2().isEmpty()) {
-				span.getElement().setProperty("innerHTML",
-						data.getKepSubSeksiP2() + "</br>" + data.getTanggalKepSubSeksiP2());
-			} else if (data.getKepSubSeksiPerbend() != null || !data.getKepSubSeksiPerbend().isEmpty()) {
-				span.getElement().setProperty("innerHTML",
-						data.getKepSubSeksiPerbend() + "</br>" + data.getTanggalKepSubSeksiPerbend());
+			if (data.getKepSubSeksiP2() != null) {
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiP2(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalKepSubSeksiP2(), "-"));
+			} else if (data.getKepSubSeksiPerbend() != null) {
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPerbend(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalKepSubSeksiPerbend(), "-"));
 			} else {
-				span.getElement().setProperty("innerHTML",
-						data.getKepSubSeksiPkc() + "</br>" + data.getTanggalKepSubSeksiPkc());
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalKepSubSeksiPkc(), "-"));
 			}
 		} else if (col == 3) {
-			if (data.getKepSeksiP2() != null || !data.getKepSeksiP2().isEmpty()) {
-				span.getElement().setProperty("innerHTML",
-						data.getKepSeksiP2() + "</br>" + data.getTanggalKepSeksiP2());
-			} else if (data.getKepSeksiPerbend() != null || !data.getKepSeksiPerbend().isEmpty()) {
-				span.getElement().setProperty("innerHTML",
-						data.getKepSeksiPerbend() + "</br>" + data.getTanggalKepSeksiPerbend());
+			if (data.getKepSeksiP2() != null) {
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiP2(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalKepSeksiP2(), "-"));
+			} else if (data.getKepSeksiPerbend() != null) {
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPerbend(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalKepSeksiPerbend(), "-"));
 			} else {
-				span.getElement().setProperty("innerHTML",
-						data.getKepSeksiPkc() + "</br>" + data.getTanggalKepSeksiPkc());
+				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkc(), "-") + "</br>"
+						+ getNullorWhat(data.getTanggalKepSeksiPkc(), "-"));
 			}
 		} else {
-			span.getElement().setProperty("innerHTML", data.getKepKantor() + "</br>" + data.getTanggalKepKantor());
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepKantor(), "-") + "</br>" + getNullorWhat(data.getTanggalKepKantor(), "-"));
 		}
 
 		Button btnSeeAll = new Button("Detail");
+		btnSeeAll.getElement().setProperty("style", "font-size:12px;");
 		btnSeeAll.setWidthFull();
 		btnSeeAll.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				// TODO Auto-generated method stub
-				tooltip.removeAll();
+				dialog.removeAll();
 				if (col == 0) {
 					Span span = new Span();
 					span.getElement().setProperty("innerHTML",
 							data.getPenerima() + "</br>" + data.getTanggalPenerima());
-					tooltip.add(new H5("History"));
-					tooltip.add(span);
-					tooltip.open();
-					// tooltip.setEnabled(!tooltip.isEnabled());
+					dialog.add(new H5("Pendok"));
+					dialog.add(span);
+					dialog.open();
 				} else if (col == 1) {
 					Span span = new Span();
 					Span span2 = new Span();
@@ -173,13 +173,13 @@ public class InboxBCPage extends VerticalLayout {
 							data.getPemeriksaPerbend() + "</br>" + data.getTanggalPemeriksaPerbend());
 					span3.getElement().setProperty("innerHTML",
 							data.getPemeriksaPkc() + "</br>" + data.getTanggalPemeriksaPkc());
-					tooltip.add(new H5("P2"));
-					tooltip.add(span);
-					tooltip.add(new H5("Perbend"));
-					tooltip.add(span2);
-					tooltip.add(new H5("PKC"));
-					tooltip.add(span3);
-					tooltip.open();
+					dialog.add(new H5("P2"));
+					dialog.add(span);
+					dialog.add(new H5("Perbend"));
+					dialog.add(span2);
+					dialog.add(new H5("PKC"));
+					dialog.add(span3);
+					dialog.open();
 					// tooltip.setEnabled(!tooltip.isEnabled());
 				} else if (col == 2) {
 					Span span = new Span();
@@ -193,13 +193,13 @@ public class InboxBCPage extends VerticalLayout {
 					span3.getElement().setProperty("innerHTML",
 							data.getKepSubSeksiPkc() + "</br>" + data.getTanggalKepSubSeksiPkc());
 
-					tooltip.add(new H5("P2"));
-					tooltip.add(span);
-					tooltip.add(new H5("Perbend"));
-					tooltip.add(span2);
-					tooltip.add(new H5("PKC"));
-					tooltip.add(span3);
-					tooltip.open();
+					dialog.add(new H5("P2"));
+					dialog.add(span);
+					dialog.add(new H5("Perbend"));
+					dialog.add(span2);
+					dialog.add(new H5("PKC"));
+					dialog.add(span3);
+					dialog.open();
 					// tooltip.setEnabled(!tooltip.isEnabled());
 				} else if (col == 3) {
 					Span span = new Span();
@@ -215,21 +215,21 @@ public class InboxBCPage extends VerticalLayout {
 					span3.getElement().setProperty("innerHTML",
 							data.getKepSeksiPkc() + "</br>" + data.getTanggalKepSeksiPkc());
 
-					tooltip.add(new H5("P2"));
-					tooltip.add(span);
-					tooltip.add(new H5("Perbend"));
-					tooltip.add(span2);
-					tooltip.add(new H5("PKC"));
-					tooltip.add(span3);
-					tooltip.open();
+					dialog.add(new H5("P2"));
+					dialog.add(span);
+					dialog.add(new H5("Perbend"));
+					dialog.add(span2);
+					dialog.add(new H5("PKC"));
+					dialog.add(span3);
+					dialog.open();
 					// tooltip.setEnabled(!tooltip.isEnabled());
 				} else {
 					Span span = new Span();
 					span.getElement().setProperty("innerHTML",
 							data.getKepKantor() + "</br>" + data.getTanggalKepKantor());
-					tooltip.add(new H5("History"));
-					tooltip.add(span);
-					tooltip.open();
+					dialog.add(new H5("Kep. Kantor"));
+					dialog.add(span);
+					dialog.open();
 				}
 
 			}
@@ -238,5 +238,10 @@ public class InboxBCPage extends VerticalLayout {
 		vel.add(span);
 		vel.add(btnSeeAll);
 		return vel;
+	}
+
+	private String getNullorWhat(String text, String change) {
+		String hasil = text == null ? change : text;
+		return hasil;
 	}
 }
