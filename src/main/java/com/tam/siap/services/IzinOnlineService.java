@@ -4,10 +4,7 @@ import com.tam.siap.models.*;
 import com.tam.siap.models.responses.DokumenListResponse;
 import com.tam.siap.models.responses.LayananResponse;
 import com.tam.siap.models.responses.ViewDokumenResponse;
-import com.tam.siap.services.master.AccountService;
-import com.tam.siap.services.master.DokumenService;
-import com.tam.siap.services.master.JenisDokumenService;
-import com.tam.siap.services.master.LayananService;
+import com.tam.siap.services.master.*;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +37,9 @@ public class IzinOnlineService {
 
     @Autowired
     LayananService layananService;
+
+    @Autowired
+    RoleService roleService;
 
     private int id = 0;
 
@@ -267,6 +267,36 @@ public class IzinOnlineService {
         }
 
         return responses;
+    }
+
+    public List<Account> getNextPic(Account account) {
+        List<Account> response = new ArrayList<>();
+
+        switch (account.getRole().getId()) {
+            case KEPALA_KANTOR:
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SEKSI_PKC));
+                break;
+            case KEPALA_SEKSI_P2:
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_P2));
+                break;
+            case KEPALA_SEKSI_PERBEND:
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_PERBEND));
+                break;
+            case KEPALA_SEKSI_PKC:
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_PKC));
+                break;
+            case KEPALA_SUB_SEKSI_P2:
+                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_P2));
+                break;
+            case KEPALA_SUB_SEKSI_PERBEND:
+                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PERBEND));
+                break;
+            case KEPALA_SUB_SEKSI_PKC:
+                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PKC));
+                break;
+        }
+
+        return response;
     }
 
     private LayananResponse setDataLayananToResponse(Layanan layanan) {
