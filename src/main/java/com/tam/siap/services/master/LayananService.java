@@ -43,6 +43,10 @@ public class LayananService {
         layananRepository.flush();
     }
 
+    public List<Layanan> findLayananByPemohon(Account account) {
+        return layananRepository.findByPemohonon(account);
+    }
+
     public List<Layanan> findLayananByPenerimaIsNull() {
         return layananRepository.findByPenerimaIsNull();
     }

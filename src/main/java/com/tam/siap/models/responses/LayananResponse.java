@@ -2,6 +2,7 @@ package com.tam.siap.models.responses;
 
 public class LayananResponse {
 
+    private String id;
     private String nomor;
     private String tanggalRequest;
     private String namaPerusahaan;
@@ -31,6 +32,14 @@ public class LayananResponse {
     private String tanggalKepKantor;
 
     public LayananResponse() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNomor() {

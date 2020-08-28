@@ -17,6 +17,8 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     Layanan findByPemohononAndSubLayananAndTanggal(Account account, SJLayanan subLayanan, String tanggal);
 
+    List<Layanan> findByPemohonon(Account account);
+
     List<Layanan> findByPenerimaIsNull();
 
     List<Layanan> findByPenerimaIsNotNull();

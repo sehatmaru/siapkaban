@@ -9,9 +9,7 @@ import com.tam.siap.services.master.DokumenService;
 import com.tam.siap.services.master.JenisDokumenService;
 import com.tam.siap.services.master.LayananService;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import org.codehaus.groovy.reflection.stdclasses.CachedSAMClass;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.interceptor.CacheAspectSupport;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -169,11 +167,19 @@ public class IzinOnlineService {
         return responses;
     }
 
-    //for pemeriksa, kep seksi, kep sub seksi
+    //for pemohon, pemeriksa, kep seksi, kep sub seksi
     public List<LayananResponse> viewPerizinanOnline(Account account) {
         List<LayananResponse> responses = new ArrayList<>();
 
         switch (account.getRole().getId()) {
+            case PEMOHON:
+                List<Layanan> pemohon = layananService.findLayananByPemohon(account);
+
+                for (Layanan data : pemohon) {
+                    responses.add(setDataLayananToResponse(data));
+                }
+
+                break;
             case PEMERIKSA_P2:
                 List<Layanan> pemeriksaP2 = layananService.findLayananByPemeriksaP2IsNotNull();
 
@@ -271,6 +277,7 @@ public class IzinOnlineService {
 
     private LayananResponse setDataLayananToResponse(Layanan layanan) {
         LayananResponse response = new LayananResponse();
+        response.setId(Integer.toString(layanan.getId()));
         response.setNomor(layanan.getNomor());
         response.setTanggalRequest(layanan.getTanggal());
         response.setNamaPerusahaan(layanan.getPemohonon().getPerusahaan().getNama());
