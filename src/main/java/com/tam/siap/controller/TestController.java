@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.tam.siap.utils.TamUtils.getRandomNumber;
+import static com.tam.siap.views.WordEditor.convDocx;
+import static com.tam.siap.views.WordEditor.convHTML;
 
 @RestController
 @RequestMapping(value = "test")
@@ -144,9 +147,22 @@ public class TestController {
 		System.out.println("hasil filter = " + izinOnlineService.docFilter(subJenisLayananService.getSubJenisLayanan(1)).toString());
 	}
 
-	@GetMapping("izin/view")
-	public void datanya(){
-		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
+//	@GetMapping("izin/view")
+//	public void datanya(){
+//		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
+//	}
+	@PostMapping("export/wordtohtml")
+	public void convertDocx(){
+		System.out.println("Convert docx to html "+convDocx());
+	}
+
+	@PostMapping("export/htmltodocx")
+	public void convertHTML(){
+		try {
+			System.out.println("Convert docx to html "+convHTML());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@GetMapping("utils/rannum")
