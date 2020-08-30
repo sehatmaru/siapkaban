@@ -4,6 +4,7 @@ import com.tam.siap.models.Account;
 import com.tam.siap.models.Layanan;
 import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.request.EditProfileRequest;
+import com.tam.siap.models.request.InsertPegawaiRequest;
 import com.tam.siap.models.responses.LayananResponse;
 import com.tam.siap.repos.JLayananRepository;
 import com.tam.siap.services.AdminService;
@@ -12,10 +13,8 @@ import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,13 +143,18 @@ public class TestController {
 		System.out.println("hasil filter = " + izinOnlineService.docFilter(subJenisLayananService.getSubJenisLayanan(1)).toString());
 	}
 
-	@GetMapping("izin/view")
-	public void datanya(){
-		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
-	}
+//	@GetMapping("izin/view")
+//	public void datanya(){
+//		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
+//	}
 
 	@GetMapping("utils/rannum")
 	public void getNumber(){
 		System.out.println("Hasil Random " + getRandomNumber());
+	}
+
+	@PostMapping("insert/pegawai")
+	public void insertPegawai(@RequestBody @Validated InsertPegawaiRequest request) {
+		registerService.insertPegawai(request);
 	}
 }

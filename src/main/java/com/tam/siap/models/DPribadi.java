@@ -38,6 +38,15 @@ public class DPribadi {
 	@Column(name = "gambar")
 	private String gambar;
 
+	@Column(name = "eselon_2")
+	private String eselon2;
+
+	@Column(name = "eselon_3")
+	private String eselon3;
+
+	@Column(name = "eselon_4")
+	private String eselon4;
+
 	public DPribadi() {
 	}
 
@@ -112,5 +121,29 @@ public class DPribadi {
 
 	public void setJenis(JIdentitas jenis) {
 		this.jenis = jenis;
+	}
+
+	public String getEselon2() {
+		return eselon2;
+	}
+
+	public void setEselon2(String eselon2) {
+		this.eselon2 = eselon2;
+	}
+
+	public String getEselon3() {
+		return eselon3;
+	}
+
+	public void setEselon3(String eselon3) {
+		this.eselon3 = eselon3;
+	}
+
+	public String getEselon4() {
+		return eselon4;
+	}
+
+	public void setEselon4(String eselon4) {
+		this.eselon4 = eselon4;
 	}
 }

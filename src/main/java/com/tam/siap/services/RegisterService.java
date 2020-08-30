@@ -4,9 +4,8 @@ import com.tam.siap.models.Account;
 import com.tam.siap.models.DPerusahaan;
 import com.tam.siap.models.DPribadi;
 import com.tam.siap.models.request.EmailRequestDto;
-import com.tam.siap.services.master.AccountService;
-import com.tam.siap.services.master.DataPerusahaanService;
-import com.tam.siap.services.master.DataPribadiService;
+import com.tam.siap.models.request.InsertPegawaiRequest;
+import com.tam.siap.services.master.*;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.tam.siap.utils.TamUtils.encrypt;
 import static com.tam.siap.utils.refs.Status.*;
 
 @Service
@@ -34,6 +34,13 @@ public class RegisterService {
 
     @Autowired
     ExportingService exportingService;
+
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    JenisIdentitasService jenisIdentitasService;
+
     public int register(Account account, DPribadi dPribadi, DPerusahaan dPerusahaan){
         int result = FAILED;
 
@@ -71,6 +78,35 @@ public class RegisterService {
         }
 
         return result;
+    }
+
+    public void insertPegawai(InsertPegawaiRequest request){
+        Account account = new Account();
+        account.setUsername(request.getNip());
+        account.setPassword(encrypt("siapkaban123"));
+        account.setStatus(ACTIVE);
+        account.setRole(roleService.getRole(request.getRole()));
+
+        DPribadi pribadi = new DPribadi();
+        pribadi.setNama(request.getNama());
+        pribadi.setNomor(request.getNip());
+        pribadi.setJabatan(request.getJabatan());
+        pribadi.setJenis(jenisIdentitasService.getJenisIdentitas(6));
+        pribadi.setEselon2(request.getEselon2());
+        pribadi.setEselon3(request.getEselon3());
+        pribadi.setEselon4(request.getEselon4());
+
+
+        if (addDataPribadi(pribadi) == SUCCESS) addUser(account, pribadi);
+    }
+
+    private int addUser(Account account, DPribadi pribadi){
+        account.setPribadi(pribadi);
+
+        accountService.save(account);
+
+        if (accountService.isAccountExist(account.getUsername(), account.getRole())) return SUCCESS;
+        else return FAILED;
     }
 
     private int addUser(Account account, DPribadi pribadi, DPerusahaan perusahaan){
