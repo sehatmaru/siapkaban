@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.tam.siap.models.responses.LayananResponse;
 import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.services.IzinOnlineService;
+import com.tam.siap.services.master.AccountService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
@@ -45,13 +46,7 @@ public class InboxBCPage extends VerticalLayout {
 		// TODO Auto-generated constructor stub
 		LoginResponse logRes = TamUtils.getLoginResponse();
 		if (logRes != null) {
-			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount().getRole());
-			System.out.println("Size : " + layRes.size());
-			if (layRes.size() <= 0) {
-				layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount());
-				System.out.println("Size 2: " + layRes.size());
-			}
-
+			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount());
 			gridsattus.setItems(layRes);
 		}
 	}
@@ -96,7 +91,7 @@ public class InboxBCPage extends VerticalLayout {
 
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
-				getUI().get().navigate("inboxbcdetail/" + item.getLayanan());
+				getUI().get().navigate("inboxbcdetail/" + item.getId());
 			}
 		});
 

@@ -335,6 +335,8 @@ public class IzinOnline extends VerticalLayout {
 						if (checkingDokumen()) {
 							Layanan dataLay = new Layanan();
 							dataLay.setPemohonon(account);
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							dataLay.setTanggal(dateFormat.format(new Date()));
 							dataLay.setSubLayanan(combosubjenislayanan.getValue());
 
 							List<MemoryBuffer> listMemBuff = new ArrayList<>();
@@ -416,6 +418,7 @@ public class IzinOnline extends VerticalLayout {
 
 		HorizontalLayout vl1 = new HorizontalLayout(setField, setFieldJnsLay);
 		vl1.setSpacing(true);
+		vl1.setWidthFull();
 		VerticalLayout vl2 = new VerticalLayout(vl1, layconfirmation);
 		HorizontalLayout f1 = new HorizontalLayout(vl2, inputChekclist());
 		f1.setWidthFull();
@@ -482,6 +485,11 @@ public class IzinOnline extends VerticalLayout {
 				JDokumen dokpemohon = doklist.getPermohonan().get(i);
 				membuffDokPemohon[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokPemohon[i]);
+				up.setDropAllowed(false);
+				up.setWidthFull();
+				Button btn = new Button("upload");
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				up.setUploadButton(btn);
 				final int pos = i;
 				up.getElement().addEventListener("file-remove", new DomEventListener() {
 					@Override
@@ -491,7 +499,7 @@ public class IzinOnline extends VerticalLayout {
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
+				layDok.add(TamUtils.setInlinetext2(up, (1+i)+". "+dokpemohon.getKeterangan()));
 				strDokPemohon[i] = dokpemohon.getKeterangan();
 //				jDokIdPemohon[i] = ""+dokpemohon.getId();
 			}
@@ -505,6 +513,11 @@ public class IzinOnline extends VerticalLayout {
 				JDokumen dokpemohon = doklist.getPersyaratan().get(i);
 				membuffDokSyarat[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokSyarat[i]);
+				up.setDropAllowed(false);
+				up.setWidthFull();
+				Button btn = new Button("upload");
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				up.setUploadButton(btn);
 				final int pos = i;
 				up.getElement().addEventListener("file-remove", new DomEventListener() {
 					@Override
@@ -514,7 +527,7 @@ public class IzinOnline extends VerticalLayout {
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
+				layDok.add(TamUtils.setInlinetext2(up, (doklist.getPermohonan().size()+i+1)+". "+dokpemohon.getKeterangan()));
 				strDokSyarat[i] = dokpemohon.getKeterangan();
 //				jDokIdSyarat[i] = ""+dokpemohon.getId();
 			}
@@ -528,6 +541,11 @@ public class IzinOnline extends VerticalLayout {
 				JDokumen dokpemohon = doklist.getLainnya().get(i);
 				membuffDokLainnya[i] = new MemoryBuffer();
 				Upload up = new Upload(membuffDokLainnya[i]);
+				up.setDropAllowed(false);
+				up.setWidthFull();
+				Button btn = new Button("upload");
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				up.setUploadButton(btn);
 				final int pos = i;
 				up.getElement().addEventListener("file-remove", new DomEventListener() {
 					@Override
@@ -537,13 +555,14 @@ public class IzinOnline extends VerticalLayout {
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext(up, dokpemohon.getKeterangan()));
+				layDok.add(TamUtils.setInlinetext2(up, (doklist.getPersyaratan().size()+2+i)+". "+dokpemohon.getKeterangan()));
 				strDokLainnya[i] = dokpemohon.getKeterangan();
 //				jDokIdLainnya[i] = ""+dokpemohon.getId();
 			}
 		}
 		layDok.setWidthFull();
 		layDok.getStyle().set("overflow-y", "auto");
+		layDok.setSpacing(false);
 		return layDok;
 	}
 

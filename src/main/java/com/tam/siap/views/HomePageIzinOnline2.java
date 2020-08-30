@@ -135,7 +135,7 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 		} else {
 			LoginResponse dataLogin = TamUtils.getLoginResponse();
 			menus.removeAllChildren();
-			if (dataLogin.getAccount().getRole().getId() == 2) {
+			if (dataLogin.getAccount().getRole().getId() != 1) {
 				if (loc.equals("adminuserpemohon")) {
 					txtjudulapp.setText("User Pemohon");
 					menus.appendChild(createLink("Home", "mainhome", false));
