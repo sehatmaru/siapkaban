@@ -207,4 +207,14 @@ public class TestController {
 	public void htmltoDoc() {
 		System.out.println("string = " + izinOnlineService.getTemplate(layananService.findLayananById(15), jenisDokumenService.getJenisDokumen(298)));
 	}
+
+	@GetMapping("editor/html")
+	public void toHtml() {
+		exportingService.convertToHtml();
+	}
+
+	@GetMapping("editor/docx")
+	public void toDocx() {
+		exportingService.convertToDocx();
+	}
 }
