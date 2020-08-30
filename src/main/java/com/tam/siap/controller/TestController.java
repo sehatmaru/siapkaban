@@ -169,4 +169,14 @@ public class TestController {
 	public void getNumber(){
 		System.out.println("Hasil Random " + getRandomNumber());
 	}
+
+	@GetMapping("editor/html")
+	public void toHtml() {
+		exportingService.convertToHtml();
+	}
+
+	@GetMapping("editor/docx")
+	public void toDocx() {
+		exportingService.convertToDocx();
+	}
 }

@@ -1,20 +1,26 @@
 package com.tam.siap.services;
 
 import com.tam.siap.models.Account;
+import it.grabz.grabzit.GrabzItClient;
 import net.sf.jasperreports.engine.*;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static com.tam.siap.utils.TamUtils.createDir;
 
@@ -81,6 +87,63 @@ public class ExportingService {
 //windows            File file = new File(reportDir + "\\RegisterForm.pdf");
             OutputStream outputSteam = new FileOutputStream(file);
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
+        }
+    }
+
+    public void convertToDocx() {
+        String path = env.getProperty("layanan.document.path");
+        String file = path + "/html/a.html";
+
+        StringBuilder contentBuilder = new StringBuilder();
+
+        try (Stream<String> stream = Files.lines( Paths.get(file), StandardCharsets.UTF_8)) {
+            stream.forEach(s -> contentBuilder.append(s).append("\n"));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        String content = contentBuilder.toString();
+
+        System.out.println("filename "+content);
+
+        try{
+            GrabzItClient grabzIt = new GrabzItClient("ZDkxODg1M2FmMzU3NDk4NzhkZWVlOGZmOGUyMTc4ZTg=", "Pz9gUCo/Pz8/Pz97bURkbT8/Lz8/Uz8/Pz9ZKz8/Pz8=");
+            try {
+                grabzIt.HTMLToDOCX(content);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            grabzIt.SaveTo(path + "/html/result.docx");
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void convertToHtml()  {
+        try {
+            String path = env.getProperty("layanan.document.path");
+
+            long start = System.currentTimeMillis();
+
+            // 1) Load DOCX into XWPFDocument
+            InputStream is = new FileInputStream(new File(path + "/docx/test.docx"));
+            XWPFDocument document = new XWPFDocument(is);
+
+            // 2) Prepare Html options
+            XHTMLOptions options = XHTMLOptions.create();
+
+            // 3) Convert XWPFDocument to HTML
+            OutputStream out = new FileOutputStream(new File(path + "/docx/result.html"));
+            XHTMLConverter.getInstance().convert(document, out, options);
+
+            System.out.println("Sukses");
+
+            System.err.println("Generate html/regsiapkaban.html with "
+                    + (System.currentTimeMillis() - start) + "ms");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
