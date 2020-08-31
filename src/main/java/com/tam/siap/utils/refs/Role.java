@@ -19,6 +19,6 @@ public @interface Role {
     int KEPALA_SUB_SEKSI_P2 = 10;
     int KEPALA_SUB_SEKSI_PERBEND = 11;
     int KEPALA_SUB_SEKSI_PKC = 12;
-    int KEPALA_KANTOR = 15;
+    int KEPALA_KANTOR = 13;
 }
 
