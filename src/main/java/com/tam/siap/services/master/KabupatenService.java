@@ -1,6 +1,7 @@
 package com.tam.siap.services.master;
 
-import com.tam.siap.models.Dokumen;
+import com.tam.siap.models.Kabupaten;
+import com.tam.siap.repos.KabupatenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.List;
 public class KabupatenService {
 
     @Autowired
-    KabupatenService kabupatenService;
+    KabupatenRepository kabupatenRepository;
 
-    public List<Dokumen> findAll() {
-        return kabupatenService.findAll();
+    public List<Kabupaten> findAll() {
+        return kabupatenRepository.findAll();
     }
 }
