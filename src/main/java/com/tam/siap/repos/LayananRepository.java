@@ -19,28 +19,28 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     List<Layanan> findByPemohonon(Account account);
 
-    List<Layanan> findByPenerimaIsNull();
+    List<Layanan> findByPenerimaIsNullAndLokasi(int lokasi);
 
-    List<Layanan> findByPenerimaIsNotNull();
+    List<Layanan> findByPenerimaIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByPemeriksaP2IsNotNull();
+    List<Layanan> findByPemeriksaP2IsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByPemeriksaPerbendIsNotNull();
+    List<Layanan> findByPemeriksaPerbendIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByPemeriksaPkcIsNotNull();
+    List<Layanan> findByPemeriksaPkcIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepSeksiP2IsNotNull();
+    List<Layanan> findByKepSeksiP2IsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepSeksiPerbendIsNotNull();
+    List<Layanan> findByKepSeksiPerbendIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepSeksiPkcIsNotNull();
+    List<Layanan> findByKepSeksiPkcIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepSubSeksiP2IsNotNull();
+    List<Layanan> findByKepSubSeksiP2IsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepSubSeksiPerbendIsNotNull();
+    List<Layanan> findByKepSubSeksiPerbendIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepSubSeksiPkcIsNotNull();
+    List<Layanan> findByKepSubSeksiPkcIsNotNullAndLokasi(int lokasi);
 
-    List<Layanan> findByKepKantorIsNotNull();
+    List<Layanan> findByKepKantorIsNotNullAndLokasi(int lokasi);
 
 }

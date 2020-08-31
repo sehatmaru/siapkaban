@@ -4,6 +4,7 @@ import groovy.transform.builder.Builder;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Builder
@@ -64,7 +65,10 @@ public class Layanan {
     private String nomor;
 
     @Column(name = "tanggal")
-    private String tanggal;
+    private Date tanggal;
+
+    @Column(name = "j_lokasi")
+    private int lokasi;
 
 	public Layanan() {
 	}
@@ -197,11 +201,19 @@ public class Layanan {
         this.nomor = nomor;
     }
 
-    public String getTanggal() {
+    public Date getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(String tanggal) {
+    public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
+    }
+
+    public int getLokasi() {
+        return lokasi;
+    }
+
+    public void setLokasi(int lokasi) {
+        this.lokasi = lokasi;
     }
 }

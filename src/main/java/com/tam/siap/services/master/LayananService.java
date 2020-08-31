@@ -47,51 +47,51 @@ public class LayananService {
         return layananRepository.findByPemohonon(account);
     }
 
-    public List<Layanan> findLayananByPenerimaIsNull() {
-        return layananRepository.findByPenerimaIsNull();
+    public List<Layanan> findLayananByPenerimaIsNull(int lokasi) {
+        return layananRepository.findByPenerimaIsNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByPenerimaIsNotNull() {
-        return layananRepository.findByPenerimaIsNotNull();
+    public List<Layanan> findLayananByPenerimaIsNotNull(int lokasi) {
+        return layananRepository.findByPenerimaIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepKantorIsNotNull() {
-        return layananRepository.findByKepKantorIsNotNull();
+    public List<Layanan> findLayananByKepKantorIsNotNull(int lokasi) {
+        return layananRepository.findByKepKantorIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByPemeriksaP2IsNotNull() {
-        return layananRepository.findByPemeriksaP2IsNotNull();
+    public List<Layanan> findLayananByPemeriksaP2IsNotNull(int lokasi) {
+        return layananRepository.findByPemeriksaP2IsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByPemeriksaPerbendIsNotNull() {
-        return layananRepository.findByPemeriksaPerbendIsNotNull();
+    public List<Layanan> findLayananByPemeriksaPerbendIsNotNull(int lokasi) {
+        return layananRepository.findByPemeriksaPerbendIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByPemeriksaPkcIsNotNull() {
-        return layananRepository.findByPemeriksaPkcIsNotNull();
+    public List<Layanan> findLayananByPemeriksaPkcIsNotNull(int lokasi) {
+        return layananRepository.findByPemeriksaPkcIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepSeksiP2IsNotNull() {
-        return layananRepository.findByKepSeksiP2IsNotNull();
+    public List<Layanan> findLayananByKepSeksiP2IsNotNull(int lokasi) {
+        return layananRepository.findByKepSeksiP2IsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepSeksiPerbendIsNotNull() {
-        return layananRepository.findByKepSeksiPerbendIsNotNull();
+    public List<Layanan> findLayananByKepSeksiPerbendIsNotNull(int lokasi) {
+        return layananRepository.findByKepSeksiPerbendIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepSeksiPkcIsNotNull() {
-        return layananRepository.findByKepSeksiPkcIsNotNull();
+    public List<Layanan> findLayananByKepSeksiPkcIsNotNull(int lokasi) {
+        return layananRepository.findByKepSeksiPkcIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepSubSeksiP2IsNotNull() {
-        return layananRepository.findByKepSubSeksiP2IsNotNull();
+    public List<Layanan> findLayananByKepSubSeksiP2IsNotNull(int lokasi) {
+        return layananRepository.findByKepSubSeksiP2IsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepSubSeksiPerbendIsNotNull() {
-        return layananRepository.findByKepSubSeksiPerbendIsNotNull();
+    public List<Layanan> findLayananByKepSubSeksiPerbendIsNotNull(int lokasi) {
+        return layananRepository.findByKepSubSeksiPerbendIsNotNullAndLokasi(lokasi);
     }
 
-    public List<Layanan> findLayananByKepSubSeksiPkcIsNotNull() {
-        return layananRepository.findByKepSubSeksiPkcIsNotNull();
+    public List<Layanan> findLayananByKepSubSeksiPkcIsNotNull(int lokasi) {
+        return layananRepository.findByKepSubSeksiPkcIsNotNullAndLokasi(lokasi);
     }
 }

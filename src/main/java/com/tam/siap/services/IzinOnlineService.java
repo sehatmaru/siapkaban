@@ -151,7 +151,7 @@ public class IzinOnlineService {
 
         switch (account.getRole().getId()) {
             case KEPALA_KANTOR:
-                List<Layanan> kepKantor = layananService.findLayananByPenerimaIsNotNull();
+                List<Layanan> kepKantor = layananService.findLayananByPenerimaIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepKantor) {
                     responses.add(setDataLayananToResponse(data));
@@ -159,7 +159,7 @@ public class IzinOnlineService {
 
                 break;
             case PENERIMA_DOKUMEN:
-                List<Layanan> penerima = layananService.findLayananByPenerimaIsNull();
+                List<Layanan> penerima = layananService.findLayananByPenerimaIsNull(account.getLokasi());
 
                 for (Layanan data : penerima) {
                     responses.add(setDataLayananToResponse(data));
@@ -175,7 +175,7 @@ public class IzinOnlineService {
 
                 break;
             case PEMERIKSA_P2:
-                List<Layanan> pemeriksaP2 = layananService.findLayananByPemeriksaP2IsNotNull();
+                List<Layanan> pemeriksaP2 = layananService.findLayananByPemeriksaP2IsNotNull(account.getLokasi());
 
                 for (Layanan data : pemeriksaP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaP2()).getAccountId())) {
@@ -185,7 +185,7 @@ public class IzinOnlineService {
 
                 break;
             case PEMERIKSA_PERBEND:
-                List<Layanan> pemeriksaPerbend = layananService.findLayananByPemeriksaPerbendIsNotNull();
+                List<Layanan> pemeriksaPerbend = layananService.findLayananByPemeriksaPerbendIsNotNull(account.getLokasi());
 
                 for (Layanan data : pemeriksaPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPerbend()).getAccountId())) {
@@ -195,7 +195,7 @@ public class IzinOnlineService {
 
                 break;
             case PEMERIKSA_PKC:
-                List<Layanan> pemeriksaPkc = layananService.findLayananByPemeriksaPkcIsNotNull();
+                List<Layanan> pemeriksaPkc = layananService.findLayananByPemeriksaPkcIsNotNull(account.getLokasi());
 
                 for (Layanan data : pemeriksaPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPkc()).getAccountId())) {
@@ -205,7 +205,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SEKSI_P2:
-                List<Layanan> kepSeksiP2 = layananService.findLayananByKepSeksiP2IsNotNull();
+                List<Layanan> kepSeksiP2 = layananService.findLayananByKepSeksiP2IsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiP2()).getAccountId())) {
@@ -215,7 +215,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SEKSI_PERBEND:
-                List<Layanan> kepSeksiPerbend = layananService.findLayananByKepSeksiPerbendIsNotNull();
+                List<Layanan> kepSeksiPerbend = layananService.findLayananByKepSeksiPerbendIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPerbend()).getAccountId())) {
@@ -225,7 +225,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SEKSI_PKC:
-                List<Layanan> kepSeksiPkc = layananService.findLayananByKepSeksiPkcIsNotNull();
+                List<Layanan> kepSeksiPkc = layananService.findLayananByKepSeksiPkcIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
@@ -235,7 +235,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SUB_SEKSI_P2:
-                List<Layanan> kepSubSeksiP2 = layananService.findLayananByKepSubSeksiP2IsNotNull();
+                List<Layanan> kepSubSeksiP2 = layananService.findLayananByKepSubSeksiP2IsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSubSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiP2()).getAccountId())) {
@@ -245,7 +245,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SUB_SEKSI_PERBEND:
-                List<Layanan> kepSubSeksiPerbend = layananService.findLayananByKepSubSeksiPerbendIsNotNull();
+                List<Layanan> kepSubSeksiPerbend = layananService.findLayananByKepSubSeksiPerbendIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSubSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPerbend()).getAccountId())) {
@@ -255,7 +255,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SUB_SEKSI_PKC:
-                List<Layanan> kepSubSeksiPkc = layananService.findLayananByKepSubSeksiPkcIsNotNull();
+                List<Layanan> kepSubSeksiPkc = layananService.findLayananByKepSubSeksiPkcIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSubSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPkc()).getAccountId())) {
@@ -306,7 +306,7 @@ public class IzinOnlineService {
         LayananResponse response = new LayananResponse();
         response.setId(Integer.toString(layanan.getId()));
         response.setNomor(layanan.getNomor());
-        response.setTanggalRequest(layanan.getTanggal());
+        response.setTanggalRequest(layanan.getTanggal().toString());
         response.setNamaPerusahaan(layanan.getPemohonon().getPerusahaan().getNama());
         response.setJenisPerusahaan(layanan.getPemohonon().getPerusahaan().getJenis().getKeterangan());
         response.setLayanan(layanan.getSubLayanan().getKeterangan());
