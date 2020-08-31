@@ -273,6 +273,9 @@ public class IzinOnlineService {
         List<Account> response = new ArrayList<>();
 
         switch (account.getRole().getId()) {
+            case PENERIMA_DOKUMEN:
+                response = accountService.getAccountList(roleService.getRole(KEPALA_KANTOR));
+                break;
             case KEPALA_KANTOR:
                 response = accountService.getAccountList(roleService.getRole(KEPALA_SEKSI_PKC));
                 break;

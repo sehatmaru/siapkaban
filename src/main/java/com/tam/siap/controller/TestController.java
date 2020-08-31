@@ -61,6 +61,9 @@ public class TestController {
 	@Autowired
 	LayananService layananService;
 
+	@Autowired
+	AccountService accountService;
+
 //	@PostMapping("/register")
 //	public void register() {
 //		Account user = new Account("123456123", "123456", roleService.getRole(1));
@@ -151,6 +154,11 @@ public class TestController {
 	@GetMapping("utils/rannum")
 	public void getNumber(){
 		System.out.println("Hasil Random " + getRandomNumber());
+	}
+
+	@GetMapping("get/nextpic")
+	public void getNextPic(){
+		System.out.println("Hasil Next Pic " + izinOnlineService.getNextPic(accountService.findById("283")).toString());
 	}
 
 	@PostMapping("insert/pegawai")

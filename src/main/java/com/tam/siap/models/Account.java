@@ -25,6 +25,9 @@ public class Account {
 	@Column(name="status")
 	private int status;
 
+	@Column(name="j_lokasi")
+	private int lokasi;
+
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role", referencedColumnName = "id")
 	private Role role;
@@ -100,5 +103,13 @@ public class Account {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public int getLokasi() {
+		return lokasi;
+	}
+
+	public void setLokasi(int lokasi) {
+		this.lokasi = lokasi;
 	}
 }
