@@ -87,16 +87,19 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 		// TODO Auto-generated constructor stub
 		setSizeFull();
 		LoginResponse response = TamUtils.getLoginResponse();
-		if (response == null) {
+		if (response == null || response.getAccount() == null) {
 			// getUI().get().navigate(LoginPage.class);
 		} else {
 //			setSpacing(false);
+			String nama = ""+response.getAccount().getPribadi().getNama();
+			String noid = ""+response.getAccount().getPribadi().getNomor();
+			String email = ""+response.getAccount().getPribadi().getEmail();
 			txtNama.setReadOnly(true);
 			txtNoidentitas.setReadOnly(true);
 
-			txtNama.setValue(response.getAccount().getPribadi().getNama());
-			txtNoidentitas.setValue(response.getAccount().getPribadi().getNomor());
-			txtEmail.setValue(response.getAccount().getPribadi().getEmail());
+			txtNama.setValue(email);
+			txtNoidentitas.setValue(noid);
+			txtEmail.setValue(email);
 			// txtPass.setValue(response.getAccount().getPassword());
 			txtPass.setPlaceholder("ketik untuk merubah password saat ini");
 //			imgprof.setSrc(env.getProperty("layanan.images.baseurl") + response.getAccount().getPribadi().getGambar());

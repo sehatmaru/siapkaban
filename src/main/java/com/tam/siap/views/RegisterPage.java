@@ -175,7 +175,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String notelppt = txtHandphonePt.getValue();
 				String emailpt = txtEmailPt.getValue();
 				String tgJawab = txtNamaPenggungJwb.getValue();
-				
+
 				Kabupaten datakKabupaten = comboKabupaten.getValue();
 				Kecamatan dataKecamatan = comboKecamatan.getValue();
 
@@ -187,11 +187,11 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					Notification notification = new Notification("Jenis perusahaan harus diisi", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 					notification.open();
-				}else if(datakKabupaten==null) {
+				} else if (datakKabupaten == null) {
 					Notification notification = new Notification("Kabupaten harus dipilih", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 					notification.open();
-				}else if(dataKecamatan==null) {
+				} else if (dataKecamatan == null) {
 					Notification notification = new Notification("Kecamatan harus dipilih", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 					notification.open();
@@ -201,8 +201,8 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					account.setLokasi(datakKabupaten.getLokasi());
 
 					DPribadi dPribadi = new DPribadi(nama, noid, jabatan, notelp, email, datatipeid);
-					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt,
-							tgJawab);
+					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt, tgJawab,
+							dataKecamatan, datakKabupaten);
 
 					int sukses = registerService.register(account, dPribadi, dPerusahaan);
 					if (sukses == SUCCESS) {
@@ -249,7 +249,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		txtEmailPt.setWidth("100%");
 		txtNamaPenggungJwb.setWidth("100%");
 		txtConfirm.setWidth("49.3%");
-		
+
 		comboKabupaten.setItemLabelGenerator(Kabupaten::getKeterangan);
 		comboKecamatan.setItemLabelGenerator(Kecamatan::getKeterangan);
 		comboKabupaten.setWidthFull();

@@ -1,7 +1,5 @@
 package com.tam.siap.views.izinonline;
 
-import static com.tam.siap.utils.refs.Role.KEPALA_KANTOR;
-import static com.tam.siap.utils.refs.Role.PENERIMA_DOKUMEN;
 import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
 
 import java.io.File;
@@ -12,12 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.gatanaso.MultiselectComboBox;
 import org.vaadin.pekka.WysiwygE;
 
 import com.tam.siap.EmbeddedPdfDocument;
@@ -33,11 +29,10 @@ import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.HasValue.ValueChangeEvent;
-import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.grid.Grid;
@@ -65,8 +60,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	 */
 	private static final long serialVersionUID = 7272302887998337493L;
 
-	private MultiselectComboBox<Account> picBox = new MultiselectComboBox<Account>();
-	// private ComboBox<Account> picBox = new ComboBox<Account>("PIC Selanjutnya");
+//	private MultiselectComboBox<Account> picBox = new MultiselectComboBox<Account>();
+	private ComboBox<Account> picBox = new ComboBox<Account>("PIC Selanjutnya");
 
 	private List<Account> nextPic = new ArrayList();
 
@@ -134,29 +129,29 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 		picBox.setLabel("PIC Selanjutnya");
 		picBox.setItemLabelGenerator(data -> data.getPribadi().getNama());
-		picBox.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
-
-			@Override
-			public void valueChanged(ValueChangeEvent<?> event) {
-				// TODO Auto-generated method stub
-				LoginResponse dataLogin = TamUtils.getLoginResponse();
-				Set<Account> selectedItems = picBox.getValue();
-				if (dataLogin.getAccount().getRole().getId() == KEPALA_KANTOR) {
-
-				} else {
-					if (selectedItems.size() > 1) {
-//						List<Account> dd = new ArrayList<>(selectedItems);
-//						for (int i = 1; i < dd.size(); i++) {
-//							picBox.deselect(dd.get(i));
-//						}
-						picBox.deselectAll();
-						Notification notification = new Notification("Pilih salah satu", 3000, Position.MIDDLE);
-						notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
-						notification.open();
-					}
-				}
-			}
-		});
+//		picBox.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+//
+//			@Override
+//			public void valueChanged(ValueChangeEvent<?> event) {
+//				// TODO Auto-generated method stub
+//				LoginResponse dataLogin = TamUtils.getLoginResponse();
+//				Set<Account> selectedItems = picBox.getValue();
+//				if (dataLogin.getAccount().getRole().getId() == KEPALA_KANTOR) {
+//
+//				} else {
+//					if (selectedItems.size() > 1) {
+////						List<Account> dd = new ArrayList<>(selectedItems);
+////						for (int i = 1; i < dd.size(); i++) {
+////							picBox.deselect(dd.get(i));
+////						}
+//						picBox.deselectAll();
+//						Notification notification = new Notification("Pilih salah satu", 3000, Position.MIDDLE);
+//						notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+//						notification.open();
+//					}
+//				}
+//			}
+//		});
 
 		HorizontalLayout fl = new HorizontalLayout(btnLanjut);
 		fl.setWidthFull();
@@ -179,14 +174,17 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				if (checkList()) {
-					Set<Account> acc = picBox.getValue();
-					List<Account> accs = new ArrayList<>(acc);
-					if (accs.size() > 0) {
+//					Set<Account> acc = picBox.getValue();
+					// List<Account> accs = new ArrayList<>(acc);
+					Account acc = picBox.getValue();
+					if (acc != null) {
 						LoginResponse dataLogin = TamUtils.getLoginResponse();
 						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 						String catatan = txtCatatan.getValue();
+//						StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+//								dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
 						StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-								dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
+								dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
 
 						// Account acc = picBox.getValue();
 //						dataLay.setKepKantor(accs.get(0).getUsername());
