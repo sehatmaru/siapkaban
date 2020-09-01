@@ -1,6 +1,7 @@
 package com.tam.siap.services;
 
 import com.tam.siap.models.*;
+import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.models.responses.DokumenListResponse;
 import com.tam.siap.models.responses.LayananResponse;
 import com.tam.siap.models.responses.ViewDokumenResponse;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.tam.siap.utils.TamUtils.*;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
@@ -19,6 +22,7 @@ import static com.tam.siap.utils.refs.Role.*;
 import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
 import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
+import static com.tam.siap.utils.refs.StatusLayanan.REJECTED;
 
 @Service
 public class IzinOnlineService {
@@ -40,6 +44,9 @@ public class IzinOnlineService {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    EmailService emailService;
 
     private int id = 0;
 
@@ -118,6 +125,35 @@ public class IzinOnlineService {
         switch (account.getRole().getId()) {
             case PENERIMA_DOKUMEN :
                 layanan.setPenerima(status);
+
+                layanan.setKepKantor(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
+                if (statusLayanan.getStatus().equals(Integer.toString(REJECTED))) {
+                    Map<String, String> model = new HashMap<>();
+                    model.put("nomor_pengajuan", layanan.getNomor());
+                    model.put("waktu_response", statusLayanan.getTanggal());
+                    model.put("npwp_pemohon", layanan.getPemohonon().getPerusahaan().getNpwp());
+                    model.put("nama_pemohon", layanan.getPemohonon().getPerusahaan().getNama());
+                    model.put("alamat_pemohon", layanan.getPemohonon().getPerusahaan().getAlamat());
+                    model.put("daftar_perbaikan", statusLayanan.getCatatan());
+
+                    EmailRequestDto request = new EmailRequestDto(
+                            "siapkaban@gmail.com",
+                            account.getPribadi().getEmail(),
+                            "Penolakan Permohonan",
+                            3,
+                            account.getUsername(),
+                            model
+                    );
+
+                    if (!emailService.sendMail(request)) result = FAILED;
+                }
+
                 break;
             case PEMERIKSA_P2 :
                 layanan.setPemeriksaP2(status);

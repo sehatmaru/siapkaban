@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import static com.tam.siap.utils.refs.JenisEmail.EMAIL_ACCOUNT;
+import static com.tam.siap.utils.refs.JenisEmail.EMAIL_REGISTRASI;
+
 @Service
 public class EmailService {
 
@@ -41,16 +44,29 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
 
-            Template template = configuration.getTemplate(request.getType());
+            Template template;
 
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, request.getModel());
+            if (request.getType() == EMAIL_REGISTRASI) {
+                template = configuration.getTemplate("email_file.ftl");
+            } else if (request.getType() == EMAIL_ACCOUNT) {
+                template = configuration.getTemplate("email_account.ftl");
+            } else {
+                template = configuration.getTemplate("email_penolakan.ftl");
+            }
+
+            String html = null;
+            if (template != null) {
+                html = FreeMarkerTemplateUtils.processTemplateIntoString(template, request.getModel());
+            }
 
             helper.setTo(request.getTo());
             helper.setFrom(request.getFrom());
             helper.setSubject(request.getSubject());
-            helper.setText(html, true);
+            if (html != null) {
+                helper.setText(html, true);
+            }
 
-            if (request.getType().equals("email_file.ftl")) {
+            if (request.getType() == EMAIL_REGISTRASI) {
                 String reportDir = env.getProperty("layanan.generated.report.path") + "/" + request.getUsername() + "/RegisterForm.pdf";
                 File report = new File(reportDir);
                 helper.addAttachment(request.getUsername() + "_form.pdf", report);

@@ -7,11 +7,11 @@ public class EmailRequestDto {
 	private String from;
 	private String to;
 	private String subject;
-	private String type;
+	private int type;
 	private String username;
 	private Map<String, String> model;
 
-	public EmailRequestDto(String from, String to, String subject, String type, String username, Map<String, String> model) {
+	public EmailRequestDto(String from, String to, String subject, int type, String username, Map<String, String> model) {
 		this.from = from;
 		this.to = to;
 		this.subject = subject;
@@ -44,11 +44,11 @@ public class EmailRequestDto {
 		this.subject = subject;
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 

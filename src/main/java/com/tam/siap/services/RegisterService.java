@@ -65,7 +65,7 @@ public class RegisterService {
                                     "siapkaban@gmail.com",
                                     dPribadi.getEmail(),
                                     "Dokumen Pendaftaran",
-                                    "email_file.ftl",
+                                    1,
                                     account.getUsername(),
                                     model
                             );

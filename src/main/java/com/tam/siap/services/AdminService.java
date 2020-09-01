@@ -69,7 +69,7 @@ public class AdminService {
                                     "siapkaban@gmail.com",
                                     account.getPribadi().getEmail(),
                                     "Permohonan Registrasi Disetujui",
-                                    "email_account.ftl",
+                                    2,
                                     account.getUsername(),
                                     model
                             );
