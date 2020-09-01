@@ -231,9 +231,9 @@ public class TamUtils {
 		StatusLayanan result = new StatusLayanan();
 
 		if (datas[0] != null) result.setAccountId(datas[0]);
-		if (datas[1] != null) result.setAccountId(datas[1]);
-		if (datas[2] != null) result.setAccountId(datas[2]);
-		if (datas[3] != null) result.setAccountId(datas[3]);
+		if (datas[1] != null) result.setTanggal(datas[1]);
+		if (datas[2] != null) result.setStatus(datas[2]);
+		if (datas[3] != null) result.setCatatan(datas[3]);
 
 		return result;
 	}
