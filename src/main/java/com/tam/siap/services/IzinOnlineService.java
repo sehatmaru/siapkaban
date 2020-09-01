@@ -116,17 +116,38 @@ public class IzinOnlineService {
         );
 
         switch (account.getRole().getId()) {
-            case PENERIMA_DOKUMEN : layanan.setPenerima(status);
-            case PEMERIKSA_P2 : layanan.setPemeriksaP2(status);
-            case PEMERIKSA_PERBEND : layanan.setPemeriksaPerbend(status);
-            case PEMERIKSA_PKC : layanan.setPemeriksaPkc(status);
-            case KEPALA_SEKSI_P2 : layanan.setKepSeksiP2(status);
-            case KEPALA_SEKSI_PERBEND : layanan.setKepSeksiPerbend(status);
-            case KEPALA_SEKSI_PKC : layanan.setKepSeksiPkc(status);
-            case KEPALA_SUB_SEKSI_P2 : layanan.setKepSubSeksiP2(status);
-            case KEPALA_SUB_SEKSI_PERBEND : layanan.setKepSubSeksiPerbend(status);
-            case KEPALA_SUB_SEKSI_PKC : layanan.setKepSubSeksiPkc(status);
+            case PENERIMA_DOKUMEN :
+                layanan.setPenerima(status);
+                break;
+            case PEMERIKSA_P2 :
+                layanan.setPemeriksaP2(status);
+                break;
+            case PEMERIKSA_PERBEND :
+                layanan.setPemeriksaPerbend(status);
+                break;
+            case PEMERIKSA_PKC :
+                layanan.setPemeriksaPkc(status);
+                break;
+            case KEPALA_SEKSI_P2 :
+                layanan.setKepSeksiP2(status);
+                break;
+            case KEPALA_SEKSI_PERBEND :
+                layanan.setKepSeksiPerbend(status);
+                break;
+            case KEPALA_SEKSI_PKC :
+                layanan.setKepSeksiPkc(status);
+                break;
+            case KEPALA_SUB_SEKSI_P2 :
+                layanan.setKepSubSeksiP2(status);
+                break;
+            case KEPALA_SUB_SEKSI_PERBEND :
+                layanan.setKepSubSeksiPerbend(status);
+                break;
+            case KEPALA_SUB_SEKSI_PKC :
+                layanan.setKepSubSeksiPkc(status);
+                break;
             case KEPALA_KANTOR : layanan.setKepKantor(status);
+                break;
             default: result = FAILED;
         }
 

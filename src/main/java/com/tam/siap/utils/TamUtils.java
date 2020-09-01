@@ -228,8 +228,14 @@ public class TamUtils {
 
 	public static StatusLayanan splitStringWithColon(String data) {
 		String[] datas = data.split(";");
+		StatusLayanan result = new StatusLayanan();
 
-		return new StatusLayanan(datas[0], datas[1], datas[2], datas[3]);
+		if (datas[0] != null) result.setAccountId(datas[0]);
+		if (datas[1] != null) result.setAccountId(datas[1]);
+		if (datas[2] != null) result.setAccountId(datas[2]);
+		if (datas[3] != null) result.setAccountId(datas[3]);
+
+		return result;
 	}
 
 	public static String getRandomNumber() {

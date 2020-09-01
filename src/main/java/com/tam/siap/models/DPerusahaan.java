@@ -50,6 +50,14 @@ public class DPerusahaan {
 	@JoinColumn(name = "j_perusahaan", referencedColumnName = "id")
 	private JPerusahaan jenis;
 
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "kecamatan", referencedColumnName = "id")
+	private Kecamatan kecamatan;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "kabupaten", referencedColumnName = "id")
+	private Kabupaten kabupaten;
+
 	public DPerusahaan() {
 	}
 
@@ -149,8 +157,24 @@ public class DPerusahaan {
 		this.penanggungJawab = penanggungJawab;
 	}
 
+	public Kecamatan getKecamatan() {
+		return kecamatan;
+	}
+
+	public void setKecamatan(Kecamatan kecamatan) {
+		this.kecamatan = kecamatan;
+	}
+
+	public Kabupaten getKabupaten() {
+		return kabupaten;
+	}
+
+	public void setKabupaten(Kabupaten kabupaten) {
+		this.kabupaten = kabupaten;
+	}
+
 	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis,
-			String penanggungJawab) {
+					   String penanggungJawab) {
 		this.nama = nama;
 		this.npwp = npwp;
 		this.alamat = alamat;
