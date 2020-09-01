@@ -1,6 +1,6 @@
 package com.tam.siap.views.izinonline;
 
-import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
+import static com.tam.siap.utils.refs.StatusLayanan.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,6 +45,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
@@ -82,6 +83,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 	private Grid<ViewDokumenResponse> gridDokumen = new Grid<ViewDokumenResponse>();
 
+	private Grid<CheklistModel2> gridDokumenHasil = new Grid<CheklistModel2>();
+
 	private VerticalLayout vldok = new VerticalLayout();
 	private Label lbltitledok = new Label();
 	// private Button btnTolak = new Button("Tolak");
@@ -117,6 +120,9 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		gridDokumen.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 		gridDokumen.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
 		gridDokumen.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
+		
+//		gridDokumenHasil.addColumn(data->data.getNamadoc()).setHeader("Dokumen");
+//		gridDokumenHasil.addComponentColumn(data->).setHeader("Dokumen");
 
 		listVDocs = izinOnlineService.viewDocs(dataLay);
 		for (int h = 0; h < listVDocs.size(); h++) {
@@ -199,6 +205,14 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 						notification.open();
 					}
 				} else {
+					Account acc = picBox.getValue();
+					LoginResponse dataLogin = TamUtils.getLoginResponse();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+					String catatan = txtCatatan.getValue();
+					StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+							dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
+					izinOnlineService.processLayanan(dataLay, statusLayanan);
+
 					Notification notification = new Notification("Layanan telah ditolak", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 					notification.open();
@@ -219,7 +233,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		vldok.setSizeFull();
 		vldok.setHeight("600px");
 		wysiwygE.setSizeFull();
-		wysiwygE.setVisible(false);
+
 		VerticalLayout vl2 = new VerticalLayout(menuBar, lbltitledok, vldok);
 		FormLayout hl = new FormLayout(vl1, vl2);
 //		hl.setPadding(false);
@@ -301,6 +315,38 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		});
 		return ch;
 	}
+	
+	private Checkbox gridCheck2(ViewDokumenResponse data) {
+		Checkbox ch = new Checkbox();
+		ch.addClickListener(new ComponentEventListener<ClickEvent<Checkbox>>() {
+
+			@Override
+			public void onComponentEvent(ClickEvent<Checkbox> event) {
+				// TODO Auto-generated method stub
+				if (ch.getValue() == true) {
+					// data.setAda(1);
+					int in = listVDocs.indexOf(data);
+					listChecks.get(in).setCheck(true);
+				} else {
+					// data.setAda(0);
+					int in = listVDocs.indexOf(data);
+					listChecks.get(in).setCheck(false);
+				}
+
+//				if (checkList()) {
+//					btnLanjut.setText("Proses Lanjut");
+//					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+//				} else {
+//					btnLanjut.setText("Tolak");
+//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+//				}
+			}
+		});
+		return ch;
+	}
 
 	private boolean checkList() {
 		boolean h = true;
@@ -352,6 +398,44 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 		public void setDoc(ViewDokumenResponse doc) {
 			this.doc = doc;
+		}
+
+	}
+
+	class CheklistModel2 {
+		private boolean check;
+		private String namadoc;
+		private MemoryBuffer membuffer;
+
+		public CheklistModel2(boolean check, String namadoc, MemoryBuffer membuffer) {
+			super();
+			this.check = check;
+			this.namadoc = namadoc;
+			this.membuffer = membuffer;
+		}
+
+		public boolean isCheck() {
+			return check;
+		}
+
+		public void setCheck(boolean check) {
+			this.check = check;
+		}
+
+		public String getNamadoc() {
+			return namadoc;
+		}
+
+		public void setNamadoc(String namadoc) {
+			this.namadoc = namadoc;
+		}
+
+		public MemoryBuffer getMembuffer() {
+			return membuffer;
+		}
+
+		public void setMembuffer(MemoryBuffer membuffer) {
+			this.membuffer = membuffer;
 		}
 
 	}
