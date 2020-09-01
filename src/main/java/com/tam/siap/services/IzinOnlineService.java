@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static com.tam.siap.utils.TamUtils.*;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
+import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
 import static com.tam.siap.utils.refs.Role.*;
 import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
@@ -126,13 +127,6 @@ public class IzinOnlineService {
             case PENERIMA_DOKUMEN :
                 layanan.setPenerima(status);
 
-                layanan.setKepKantor(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
-
                 if (statusLayanan.getStatus().equals(Integer.toString(REJECTED))) {
                     Map<String, String> model = new HashMap<>();
                     model.put("nomor_pengajuan", layanan.getNomor());
@@ -144,14 +138,26 @@ public class IzinOnlineService {
 
                     EmailRequestDto request = new EmailRequestDto(
                             "siapkaban@gmail.com",
-                            account.getPribadi().getEmail(),
+                            layanan.getPemohonon().getPribadi().getEmail(),
                             "Penolakan Permohonan",
                             3,
                             account.getUsername(),
                             model
                     );
 
+                    layanan.setStatus(REJECTED);
+
+                    if (layanan.getLokasi() == TANGERANG) model.put("jenis_kppbc", "A TANGERANG");
+                    else model.put("jenis_kppbc", "MERAK");
+
                     if (!emailService.sendMail(request)) result = FAILED;
+                } else {
+                    layanan.setKepKantor(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
                 }
 
                 break;

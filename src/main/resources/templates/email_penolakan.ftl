@@ -7,17 +7,14 @@
 </head>
 <div style="border: 1px solid #314AB2; align-content: center; width: 460px; font-size: 11pt;">
     <div style="background-color: #02275D; height: 70px;">
-        <table>
-            <tr>
-                <td style="padding-bottom: 20px!important;"><img src="../static/frontend/img/logosiapkaban.png" style="width: 80px;" /></td>
-                <td style="padding-bottom: 20px!important;"><img src="../static/frontend/img/siapkaban.png" style="width: 270px;"/></td>
-            </tr>
-        </table>
+        <img width="60px" height="60px" src="https://i.ibb.co/h2k3hdy/logosiapkaban.png">
+        <img width="250px" height="60px" src="https://i.ibb.co/Bg6ZRc6/siapkaban.png">
     </div>
-    <div style="height: 30px; margin-top: 20px; margin-left: 10px;">
-        <p style="font-size: 9pt;">KEMENTERIAN KEUANGAN REPUBLIK INDONESIA <br \>
+    <div style="height: 50px; margin-top: 20px; margin-left: 10px;">
+        <p style="font-size: 8pt;">KEMENTERIAN KEUANGAN REPUBLIK INDONESIA <br \>
         DIREKTORAT JENDERAL BEA DAN CUKAI <br \>
-        KANTOR WILAYAH DAN PELAYANAN BEA DAN CUKAI TMP A TANGERANG</p>
+        KANTOR WILAYAH DJBC BANTEN <br \>
+        KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI TMP ${jenis_kppbc}</p>
     </div>
 
     <div style="display: flex; justify-content: center; height: 30px; margin-top: 30px; border-top: 1px solid;">
