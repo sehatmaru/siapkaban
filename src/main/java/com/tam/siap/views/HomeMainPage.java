@@ -150,13 +150,13 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 				pnldetailinfo.getElement().setProperty("innerHTML",
 						"<center><strong>Unit Kerja</strong></center>\r\n<small style=\"font-size: 0.7rem;\" class=\"text-muted\">Eselon II :\r\n"
 								+ "								</small>\r\n"
-								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">Kantor Wilayah DJBC Banten\r\n"
+								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">"+datasLogin.getAccount().getPribadi().getEselon2()+"\r\n"
 								+ "								</h6>\r\n" + "\r\n"
 								+ "							<small style=\"font-size: 0.7rem;\" class=\"text-muted\">Eselon III :</small>\r\n"
-								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">Kantor Pengawasan dan Pelayanan Bea Cukai TMP A Tangerang</h6>\r\n"
+								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">"+datasLogin.getAccount().getPribadi().getEselon3()+"</h6>\r\n"
 								+ "\r\n"
 								+ "							<small style=\"font-size: 0.7rem;\" class=\"text-muted\">Eselon IV :</small>\r\n"
-								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">Seksi Pelayanan Kepabeanan dan Cukai I</h6></br></br></br></br></br>");
+								+ "							<h6 style=\"font-size: 12px;\" class=\"my-0\">"+datasLogin.getAccount().getPribadi().getEselon4()+"</h6></br></br></br></br></br>");
 			} else {
 				txtnamauser.setText(datasLogin.getAccount().getPribadi().getNama());
 				txtjabatan.setText(datasLogin.getAccount().getPribadi().getJabatan());

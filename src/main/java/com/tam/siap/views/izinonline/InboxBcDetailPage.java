@@ -1,5 +1,7 @@
 package com.tam.siap.views.izinonline;
 
+import static com.tam.siap.utils.refs.Role.KEPALA_KANTOR;
+import static com.tam.siap.utils.refs.Role.PENERIMA_DOKUMEN;
 import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
 
 import java.io.File;
@@ -10,10 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.gatanaso.MultiselectComboBox;
 import org.vaadin.pekka.WysiwygE;
 
 import com.tam.siap.EmbeddedPdfDocument;
@@ -29,16 +33,20 @@ import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -57,7 +65,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	 */
 	private static final long serialVersionUID = 7272302887998337493L;
 
-	private ComboBox<Account> picBox = new ComboBox<Account>("PIC Selanjutnya");
+	private MultiselectComboBox<Account> picBox = new MultiselectComboBox<Account>();
+	// private ComboBox<Account> picBox = new ComboBox<Account>("PIC Selanjutnya");
 
 	private List<Account> nextPic = new ArrayList();
 
@@ -98,8 +107,9 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			dataLay = (Layanan) VaadinSession.getCurrent().getAttribute("paramnya");
 			System.out.println(dataLay);
 			nextPic = izinOnlineService.getNextPic(dataLogin.getAccount());
-			System.out.println("Size nexpic : "+nextPic.size());
+			System.out.println("Size nexpic : " + nextPic.size());
 			picBox.setItems(nextPic);
+
 		}
 	}
 
@@ -119,10 +129,34 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			listChecks.add(new CheklistModel(false, data));
 			menuBar.addItem(data.getDokumen().getNamaDokumen(), e -> showDoc(data));
 		}
-		
+
 		gridDokumen.setItems(listVDocs);
 
+		picBox.setLabel("PIC Selanjutnya");
 		picBox.setItemLabelGenerator(data -> data.getPribadi().getNama());
+		picBox.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+			@Override
+			public void valueChanged(ValueChangeEvent<?> event) {
+				// TODO Auto-generated method stub
+				LoginResponse dataLogin = TamUtils.getLoginResponse();
+				Set<Account> selectedItems = picBox.getValue();
+				if (dataLogin.getAccount().getRole().getId() == KEPALA_KANTOR) {
+
+				} else {
+					if (selectedItems.size() > 1) {
+//						List<Account> dd = new ArrayList<>(selectedItems);
+//						for (int i = 1; i < dd.size(); i++) {
+//							picBox.deselect(dd.get(i));
+//						}
+						picBox.deselectAll();
+						Notification notification = new Notification("Pilih salah satu", 3000, Position.MIDDLE);
+						notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+						notification.open();
+					}
+				}
+			}
+		});
 
 		HorizontalLayout fl = new HorizontalLayout(btnLanjut);
 		fl.setWidthFull();
@@ -130,11 +164,11 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		fl.setJustifyContentMode(JustifyContentMode.CENTER);
 		btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 //		btnTolak.addThemeVariants(ButtonVariant.LUMO_ERROR);
-		if(checkList()) {
+		if (checkList()) {
 			btnLanjut.setText("Proses Lanjut");
-			btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);	
+			btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 			btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-		}else {
+		} else {
 			btnLanjut.setText("Tolak");
 			btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 			btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -144,17 +178,32 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
-				if(checkList()) {
-					Account acc = picBox.getValue();
-					LoginResponse dataLogin = TamUtils.getLoginResponse();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-					String catatan = txtCatatan.getValue();
-					StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-							dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
-					dataLay.setKepKantor(acc.getUsername());
-					izinOnlineService.processLayanan(dataLay, statusLayanan);	
-				}else {
-					
+				if (checkList()) {
+					Set<Account> acc = picBox.getValue();
+					List<Account> accs = new ArrayList<>(acc);
+					if (accs.size() > 0) {
+						LoginResponse dataLogin = TamUtils.getLoginResponse();
+						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+						String catatan = txtCatatan.getValue();
+						StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+								dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
+
+						// Account acc = picBox.getValue();
+//						dataLay.setKepKantor(accs.get(0).getUsername());
+						izinOnlineService.processLayanan(dataLay, statusLayanan);
+
+						Notification notification = new Notification("Layanan telah diproses", 3000, Position.MIDDLE);
+						notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+						notification.open();
+					} else {
+						Notification notification = new Notification("Pilih pic selanjutnya", 3000, Position.MIDDLE);
+						notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+						notification.open();
+					}
+				} else {
+					Notification notification = new Notification("Layanan telah ditolak", 3000, Position.MIDDLE);
+					notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+					notification.open();
 				}
 			}
 		});
@@ -239,12 +288,13 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					int in = listVDocs.indexOf(data);
 					listChecks.get(in).setCheck(false);
 				}
-				
-				if(checkList()) {
+
+				if (checkList()) {
 					btnLanjut.setText("Proses Lanjut");
-					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);	
-					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);	
-				}else {
+					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+				} else {
 					btnLanjut.setText("Tolak");
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -257,8 +307,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	private boolean checkList() {
 		boolean h = true;
 		for (CheklistModel data : listChecks) {
-			if(!data.isCheck()) {
-				h=false;
+			if (!data.isCheck()) {
+				h = false;
 			}
 		}
 		return h;

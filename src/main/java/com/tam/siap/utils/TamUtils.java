@@ -13,17 +13,25 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.tam.siap.models.StatusLayanan;
 import org.apache.commons.io.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import com.tam.siap.models.StatusLayanan;
 import com.tam.siap.models.responses.LoginResponse;
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.server.VaadinSession;
@@ -60,7 +68,8 @@ public class TamUtils {
 
 	public static VerticalLayout setCustomHerader(String text) {
 		Label head1 = new Label();
-		head1.getElement().setProperty("innerHTML", "<center><strong>" + text + "</strong></center>");
+		head1.getElement().setProperty("innerHTML",
+				"<center style='font-size:12px;'><strong>" + text + "</strong></center>");
 		VerticalLayout headerContent = new VerticalLayout();
 		headerContent.setSizeFull();
 		headerContent.setPadding(false);
@@ -74,6 +83,43 @@ public class TamUtils {
 	public static FormLayout setInlinetext(Component comp, String text) {
 		FormLayout fl = new FormLayout();
 		fl.addFormItem(comp, text);
+		fl.setWidthFull();
+		return fl;
+	}
+
+	public static HorizontalLayout setInlinetext2(Component comp, String text) {
+		HorizontalLayout fl = new HorizontalLayout();
+		fl.setAlignItems(Alignment.CENTER);
+		fl.setJustifyContentMode(JustifyContentMode.END);
+		fl.setSpacing(false);
+		//String txt2 = text;
+//		HorizontalLayout hl = new HorizontalLayout();
+		//Icon logoV = new Icon(VaadinIcon.QUESTION_CIRCLE);
+//		logoV.getStyle().set("cursor", "pointer");
+//		logoV.getElement().setAttribute("style", "cursor:pointer;width:10px;height:10px");
+//		logoV.addClickListener(new ComponentEventListener<ClickEvent<Icon>>() {
+//
+//			@Override
+//			public void onComponentEvent(ClickEvent<Icon> event) {
+//				// TODO Auto-generated method stub
+//				Dialog d = new Dialog();
+//				d.add(txt2);
+//				d.open();
+//			}
+//		});
+//		hl.setAlignItems(Alignment.CENTER);
+//		hl.setJustifyContentMode(JustifyContentMode.END);
+		int ll = text.length() > 100 ? 100 : text.length();
+		text = text.substring(0, ll);
+		Label lbl = new Label(text);
+		lbl.setWidthFull();
+		lbl.getElement().setAttribute("style", "width:100%;text-align: justify;text-justify: inter-word;font-size:14px");
+		//hl.add(logoV);
+//		hl.add(lbl);
+//		hl.setWidthFull();
+		//fl.addFormItem(comp, hl);
+		comp.getElement().setAttribute("style", "margin:0 10px 0 5px");
+		fl.add(lbl,comp);
 		fl.setWidthFull();
 		return fl;
 	}
@@ -163,12 +209,13 @@ public class TamUtils {
 		return list;
 	}
 
-	public static boolean createDir(String dir){
+	public static boolean createDir(String dir) {
 		File folder = new File(dir);
 
-		if (!folder.exists()){
+		if (!folder.exists()) {
 			return folder.mkdirs();
-		} else return false;
+		} else
+			return false;
 	}
 
 	public static String fetchStringWithColon(String one, String two, String three, String four) {
@@ -176,10 +223,7 @@ public class TamUtils {
 	}
 
 	public static String fetchStringWithColon(StatusLayanan status) {
-		return status.getAccountId()
-				+ ";" + status.getTanggal()
-				+ ";" + status.getStatus()
-				+ ";" + status.getCatatan();
+		return status.getAccountId() + ";" + status.getTanggal() + ";" + status.getStatus() + ";" + status.getCatatan();
 	}
 
 	public static StatusLayanan splitStringWithColon(String data) {

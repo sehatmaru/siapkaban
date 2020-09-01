@@ -14,15 +14,21 @@ import com.tam.siap.models.DPerusahaan;
 import com.tam.siap.models.DPribadi;
 import com.tam.siap.models.JIdentitas;
 import com.tam.siap.models.JPerusahaan;
+import com.tam.siap.models.Kabupaten;
+import com.tam.siap.models.Kecamatan;
 import com.tam.siap.models.Role;
 import com.tam.siap.services.RegisterService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
+import com.tam.siap.services.master.KabupatenService;
+import com.tam.siap.services.master.KecamatanService;
 import com.tam.siap.services.master.RoleService;
 import com.tam.siap.utils.TamUtils;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -65,22 +71,6 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 	@Id("txttgl")
 	Label txttgl;
 
-//	private TextField txtTipeAkun = new TextField("TUJUAN");
-//	private Label lblPemohon = new Label("DATA PEMOHON");
-//	private TextField txtNama = new TextField("Nama");
-//	private ComboBox<String> comboJnsIdentitas = new ComboBox<>("Jenis Identitas");
-//	private TextField txtNoidentitas = new TextField("Nomor Identitas");
-//	private TextField txtJabatan = new TextField("Jabatan");
-//	private TextField txtHandphone = new TextField("No. Telepon");
-//	private TextField txtEmail = new TextField("Email");
-//	private Label lblPerusahaan = new Label("DATA PERUSAHAAN");
-//	private TextField txtNamaPt = new TextField("Nama");
-//	private TextField txtNpwpPt = new TextField("Nama");
-//	private ComboBox<String> comboJnsPerusahaan = new ComboBox<>("Jenis Perusahaan");
-//	private TextField txtAlamatPt = new TextField("Alamat");
-//	private TextField txtHandphonePt = new TextField("No. Telepon");
-//	private TextField txtEmailPt = new TextField("Email");
-
 	private TextField txtTipeAkun = new TextField();
 	private Label lblPemohon = new Label("DATA PEMOHON");
 	private TextField txtNama = new TextField();
@@ -97,6 +87,8 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 	private TextField txtHandphonePt = new TextField();
 	private TextField txtEmailPt = new TextField();
 	private TextField txtNamaPenggungJwb = new TextField();
+	private ComboBox<Kabupaten> comboKabupaten = new ComboBox<>();
+	private ComboBox<Kecamatan> comboKecamatan = new ComboBox<>();
 
 	private TextArea txtConfirm = new TextArea();
 	private Button btnSubmit = new Button("Submit");
@@ -111,10 +103,18 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 	RegisterService registerService = new RegisterService();
 
 	@Autowired
-	private RoleService roleService = new RoleService();
+	RoleService roleService = new RoleService();
+
+	@Autowired
+	KabupatenService kabupatenService;
+
+	@Autowired
+	KecamatanService kecamatanService;
 
 	private List<JIdentitas> lisidentitas = new ArrayList<>();
 	private List<JPerusahaan> listperusahaans = new ArrayList<>();
+	private List<Kabupaten> listKabupatens = new ArrayList<>();
+	private List<Kecamatan> listKecamatans = new ArrayList<>();
 
 	@PostConstruct
 	private void init() {
@@ -126,6 +126,9 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 		comboJnsPerusahaan.setItems(listperusahaans);
 		comboJnsPerusahaan.setItemLabelGenerator(JPerusahaan::getKeterangan);
+
+		listKabupatens = kabupatenService.findAll();
+		comboKabupaten.setItems(listKabupatens);
 	}
 
 	public RegisterPage() {
@@ -135,6 +138,21 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		menus.appendChild(createLink("Login", "", false));
 		vform.setSizeFull();
 		setForm();
+
+		comboKabupaten.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+			@Override
+			public void valueChanged(ValueChangeEvent<?> event) {
+				Kabupaten dataKabupaten = comboKabupaten.getValue();
+				if (dataKabupaten != null) {
+					listKecamatans = kecamatanService.getKecamatanList(dataKabupaten);
+					comboKecamatan.setItems(listKecamatans);
+					if (listKecamatans.size() > 0) {
+						comboKecamatan.setValue(listKecamatans.get(0));
+					}
+				}
+			}
+		});
 
 		btnSubmit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
@@ -157,6 +175,9 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String notelppt = txtHandphonePt.getValue();
 				String emailpt = txtEmailPt.getValue();
 				String tgJawab = txtNamaPenggungJwb.getValue();
+				
+				Kabupaten datakKabupaten = comboKabupaten.getValue();
+				Kecamatan dataKecamatan = comboKecamatan.getValue();
 
 				if (datatipeid == null) {
 					Notification notification = new Notification("Jenis identitas harus diisi", 3000, Position.MIDDLE);
@@ -166,12 +187,22 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					Notification notification = new Notification("Jenis perusahaan harus diisi", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 					notification.open();
+				}else if(datakKabupaten==null) {
+					Notification notification = new Notification("Kabupaten harus dipilih", 3000, Position.MIDDLE);
+					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+					notification.open();
+				}else if(dataKecamatan==null) {
+					Notification notification = new Notification("Kecamatan harus dipilih", 3000, Position.MIDDLE);
+					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+					notification.open();
 				} else {
 					Role r = roleService.getRole(1);
 					Account account = new Account(noid, TamUtils.generatePassword(8).toString(), r);
+					account.setLokasi(datakKabupaten.getLokasi());
 
 					DPribadi dPribadi = new DPribadi(nama, noid, jabatan, notelp, email, datatipeid);
-					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt,tgJawab);
+					DPerusahaan dPerusahaan = new DPerusahaan(namapt, npwp, alamatpt, notelppt, emailpt, jnsPt,
+							tgJawab);
 
 					int sukses = registerService.register(account, dPribadi, dPerusahaan);
 					if (sukses == SUCCESS) {
@@ -218,6 +249,11 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		txtEmailPt.setWidth("100%");
 		txtNamaPenggungJwb.setWidth("100%");
 		txtConfirm.setWidth("49.3%");
+		
+		comboKabupaten.setItemLabelGenerator(Kabupaten::getKeterangan);
+		comboKecamatan.setItemLabelGenerator(Kecamatan::getKeterangan);
+		comboKabupaten.setWidthFull();
+		comboKecamatan.setWidthFull();
 
 //		vform.add(txtTipeAkun, new Label(""), lblPemohon, txtNama, comboJnsIdentitas, txtNoidentitas, txtJabatan,
 //				txtHandphone, txtEmail, new Label(), lblPerusahaan, txtNamaPt, txtNpwpPt, comboJnsPerusahaan,
@@ -227,9 +263,11 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				setInlinetext(comboJnsIdentitas, "Jenis Identitas"), setInlinetext(txtNoidentitas, "Nomor Identitas"),
 				setInlinetext(txtJabatan, "Jabatan"), setInlinetext(txtHandphone, "No. Telepon"),
 				setInlinetext(txtEmail, "Email"), new Label(), lblPerusahaan, setInlinetext(txtNamaPt, "Nama"),
-				setInlinetext(txtNpwpPt, "NPWP"),setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"), setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"),
-				setInlinetext(txtAlamatPt, "Alamat"), setInlinetext(txtHandphonePt, "No. Telepon"),
-				setInlinetext(txtEmailPt, "Email"), txtConfirm, btnSubmit);
+				setInlinetext(txtNpwpPt, "NPWP"), setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"),
+				setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"), setInlinetext(comboKabupaten, "Kabupaten"),
+				setInlinetext(comboKecamatan, "Kecamatan"), setInlinetext(txtAlamatPt, "Alamat"),
+				setInlinetext(txtHandphonePt, "No. Telepon"), setInlinetext(txtEmailPt, "Email"), txtConfirm,
+				btnSubmit);
 
 		vform.setSpacing(false);
 	}
