@@ -4,6 +4,7 @@ import com.tam.siap.models.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -15,7 +16,7 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     Layanan findByNomor(String nomor);
 
-    Layanan findByPemohononAndSubLayananAndTanggal(Account account, SJLayanan subLayanan, String tanggal);
+    Layanan findByPemohononAndSubLayananAndTanggal(Account account, SJLayanan subLayanan, Date tanggal);
 
     List<Layanan> findByPemohonon(Account account);
 

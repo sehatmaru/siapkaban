@@ -13,6 +13,8 @@ public interface AccountRepository extends JpaRepository<Account, String>{
 
 	Account findByUsername(String username);
 
+	Account findByRoleAndLokasi(Role role, int lokasi);
+
 	Account findByUsernameAndStatus(String username, int status);
 
 	Account findByUsernameAndRole(String username, Role role);
@@ -23,5 +25,5 @@ public interface AccountRepository extends JpaRepository<Account, String>{
 
 	List<Account> findByStatus(int status);
 
-	List<Account> findByRoleAndStatus(Role role, int status);
+	List<Account> findByRoleAndLokasiAndStatus(Role role, int lokasi, int status);
 }

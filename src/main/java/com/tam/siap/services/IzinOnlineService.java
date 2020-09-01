@@ -130,23 +130,97 @@ public class IzinOnlineService {
                 break;
             case KEPALA_SEKSI_P2 :
                 layanan.setKepSeksiP2(status);
+
+                layanan.setKepSubSeksiP2(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
             case KEPALA_SEKSI_PERBEND :
                 layanan.setKepSeksiPerbend(status);
+
+                layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
             case KEPALA_SEKSI_PKC :
                 layanan.setKepSeksiPkc(status);
+
+                layanan.setKepSubSeksiPkc(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
             case KEPALA_SUB_SEKSI_P2 :
                 layanan.setKepSubSeksiP2(status);
+
+                layanan.setPemeriksaP2(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
             case KEPALA_SUB_SEKSI_PERBEND :
                 layanan.setKepSubSeksiPerbend(status);
+
+                layanan.setPemeriksaPerbend(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
             case KEPALA_SUB_SEKSI_PKC :
                 layanan.setKepSubSeksiPkc(status);
+
+                layanan.setPemeriksaPkc(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
-            case KEPALA_KANTOR : layanan.setKepKantor(status);
+            case KEPALA_KANTOR :
+                layanan.setKepKantor(status);
+
+                Account kepSeksiP2 = accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi());
+                Account kepSeksiPerbend = accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_PERBEND), account.getLokasi());
+
+                layanan.setKepSeksiP2(fetchStringWithColon(
+                        Integer.toString(kepSeksiP2.getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
+                layanan.setKepSeksiPerbend(fetchStringWithColon(
+                        Integer.toString(kepSeksiPerbend.getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
+                layanan.setKepSeksiPkc(fetchStringWithColon(
+                        Integer.toString(statusLayanan.getNextPic().getId()),
+                        "",
+                        "",
+                        ""
+                ));
+
                 break;
             default: result = FAILED;
         }
@@ -175,7 +249,9 @@ public class IzinOnlineService {
                 List<Layanan> kepKantor = layananService.findLayananByPenerimaIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepKantor) {
-                    responses.add(setDataLayananToResponse(data));
+                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
+                        responses.add(setDataLayananToResponse(data));
+                    }
                 }
 
                 break;
@@ -295,28 +371,28 @@ public class IzinOnlineService {
 
         switch (account.getRole().getId()) {
             case PENERIMA_DOKUMEN:
-                response = accountService.getAccountList(roleService.getRole(KEPALA_KANTOR));
+                response = accountService.getAccountList(roleService.getRole(KEPALA_KANTOR), account.getLokasi());
                 break;
             case KEPALA_KANTOR:
-                response = accountService.getAccountList(roleService.getRole(KEPALA_SEKSI_PKC));
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SEKSI_PKC), account.getLokasi());
                 break;
             case KEPALA_SEKSI_P2:
-                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_P2));
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_P2), account.getLokasi());
                 break;
             case KEPALA_SEKSI_PERBEND:
-                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_PERBEND));
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_PERBEND), account.getLokasi());
                 break;
             case KEPALA_SEKSI_PKC:
-                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_PKC));
+                response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_PKC), account.getLokasi());
                 break;
             case KEPALA_SUB_SEKSI_P2:
-                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_P2));
+                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_P2), account.getLokasi());
                 break;
             case KEPALA_SUB_SEKSI_PERBEND:
-                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PERBEND));
+                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PERBEND), account.getLokasi());
                 break;
             case KEPALA_SUB_SEKSI_PKC:
-                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PKC));
+                response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PKC), account.getLokasi());
                 break;
         }
 

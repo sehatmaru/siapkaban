@@ -9,8 +9,9 @@ public class InsertPegawaiRequest {
     private String eselon4;
     private String jabatan;
     private int role;
+    private int lokasi;
 
-    public InsertPegawaiRequest(String nama, String nip, String eselon2, String eselon3, String eselon4, String jabatan, int role) {
+    public InsertPegawaiRequest(String nama, String nip, String eselon2, String eselon3, String eselon4, String jabatan, int role, int lokasi) {
         this.nama = nama;
         this.nip = nip;
         this.eselon2 = eselon2;
@@ -18,6 +19,7 @@ public class InsertPegawaiRequest {
         this.eselon4 = eselon4;
         this.jabatan = jabatan;
         this.role = role;
+        this.lokasi = lokasi;
     }
 
     public String getNama() {
@@ -74,5 +76,13 @@ public class InsertPegawaiRequest {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public int getLokasi() {
+        return lokasi;
+    }
+
+    public void setLokasi(int lokasi) {
+        this.lokasi = lokasi;
     }
 }

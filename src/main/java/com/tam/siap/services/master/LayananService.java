@@ -7,6 +7,7 @@ import com.tam.siap.repos.LayananRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class LayananService {
         return layananRepository.findAll();
     }
 
-    public boolean isLayananExist(Account account, SJLayanan subLayanan, String tanggal) {
+    public boolean isLayananExist(Account account, SJLayanan subLayanan, Date tanggal) {
         return layananRepository.findByPemohononAndSubLayananAndTanggal(account, subLayanan, tanggal) != null;
     }
 

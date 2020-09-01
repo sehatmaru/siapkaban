@@ -86,6 +86,7 @@ public class RegisterService {
         account.setPassword(encrypt("siapkaban123"));
         account.setStatus(ACTIVE);
         account.setRole(roleService.getRole(request.getRole()));
+        account.setLokasi(request.getLokasi());
 
         DPribadi pribadi = new DPribadi();
         pribadi.setNama(request.getNama());

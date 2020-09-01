@@ -48,6 +48,10 @@ public class AccountService {
         return accountRepository.findByUsername(username);
     }
 
+    public Account findByRoleAndLokasi(Role role, int lokasi){
+        return accountRepository.findByRoleAndLokasi(role, lokasi);
+    }
+
     public Account findById(String id){
         return accountRepository.findById(Integer.parseInt(id));
     }
@@ -56,8 +60,8 @@ public class AccountService {
         return accountRepository.findByStatus(status);
     }
 
-    public List<Account> getAccountList(Role role){
-        return accountRepository.findByRoleAndStatus(role, ACTIVE);
+    public List<Account> getAccountList(Role role, int lokasi){
+        return accountRepository.findByRoleAndLokasiAndStatus(role, lokasi, ACTIVE);
     }
 
     public void save(Account account){
