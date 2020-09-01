@@ -230,10 +230,10 @@ public class TamUtils {
 		String[] datas = data.split(";");
 		StatusLayanan result = new StatusLayanan();
 
-		if (datas[0] != null) result.setAccountId(datas[0]);
-		if (datas[1] != null) result.setTanggal(datas[1]);
-		if (datas[2] != null) result.setStatus(datas[2]);
-		if (datas[3] != null) result.setCatatan(datas[3]);
+		result.setAccountId(datas[0]);
+		result.setTanggal(datas[1]);
+		result.setStatus(datas[2]);
+		if (datas.length == 4) result.setCatatan(datas[3]);
 
 		return result;
 	}
