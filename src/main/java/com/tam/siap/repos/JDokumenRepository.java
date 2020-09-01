@@ -2,6 +2,7 @@ package com.tam.siap.repos;
 
 import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.JPerusahaan;
+import com.tam.siap.models.Role;
 import com.tam.siap.models.SJLayanan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,6 @@ public interface JDokumenRepository extends JpaRepository<JDokumen, String>{
     JDokumen findById(int id);
     
     List<JDokumen> findBySubLayanan(SJLayanan subLayanan);
+
+    List<JDokumen> findByRoleAndStatus(Role role, int status);
 }

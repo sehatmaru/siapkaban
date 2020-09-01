@@ -42,6 +42,13 @@ public class JDokumen {
 		this.subLayanan = subLayanan;
 	}
 
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "role", referencedColumnName = "id")
+	private Role role;
+
+	@Column(name = "status")
+	private int status;
+
 	public JDokumen() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -61,5 +68,33 @@ public class JDokumen {
 
 	public void setKeterangan(String keterangan) {
 		this.keterangan = keterangan;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "JDokumen{" +
+				"id=" + id +
+				", keterangan='" + keterangan + '\'' +
+				", deskripsi='" + deskripsi + '\'' +
+				", subLayanan=" + subLayanan +
+				", role=" + role +
+				", status=" + status +
+				'}';
 	}
 }
