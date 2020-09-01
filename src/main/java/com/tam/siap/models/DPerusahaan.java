@@ -174,7 +174,7 @@ public class DPerusahaan {
 	}
 
 	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis,
-					   String penanggungJawab) {
+					   String penanggungJawab, Kecamatan kecamatan, Kabupaten kabupaten) {
 		this.nama = nama;
 		this.npwp = npwp;
 		this.alamat = alamat;
@@ -182,5 +182,7 @@ public class DPerusahaan {
 		this.email = email;
 		this.jenis = jenis;
 		this.penanggungJawab = penanggungJawab;
+		this.kecamatan = kecamatan;
+		this.kabupaten = kabupaten;
 	}
 }
