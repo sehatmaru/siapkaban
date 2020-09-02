@@ -12,14 +12,21 @@ import com.tam.siap.services.AuthBEService;
 import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
+import org.apache.tika.exception.TikaException;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tam.siap.utils.TamUtils.getRandomNumber;
+import static com.tam.siap.utils.TamUtils.*;
 
 @RestController
 @RequestMapping(value = "test")
@@ -165,4 +172,23 @@ public class TestController {
 	public void insertPegawai(@RequestBody @Validated InsertPegawaiRequest request) {
 		registerService.insertPegawai(request);
 	}
+
+	@GetMapping("convert/doctohtml")
+	public void conDocToHtml() throws SAXException, TikaException, TransformerConfigurationException, IOException {
+		docToHTML();
+	}
+
+	@GetMapping("convert/docxtohtml")
+	public void conDocxToHtml() throws IOException, Docx4JException {
+		docxToHTML();
+	}
+
+
+	@GetMapping("convert/htmlToDoc")
+	public void htmltoDoc() throws JAXBException, IOException, Docx4JException {
+		xhtmlToDocx();
+	}
+
+
+
 }

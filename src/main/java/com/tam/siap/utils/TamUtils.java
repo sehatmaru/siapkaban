@@ -1,7 +1,6 @@
 package com.tam.siap.utils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -12,9 +11,41 @@ import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 
+import com.tam.siap.models.StatusLayanan;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.xwpf.converter.core.FileURIResolver;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
+import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.io.TikaInputStream;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.docx4j.Docx4J;
+import org.docx4j.Docx4jProperties;
+import org.docx4j.XmlUtils;
+import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
+import org.docx4j.convert.out.ConversionFeatures;
+import org.docx4j.convert.out.HTMLSettings;
+import org.docx4j.convert.out.html.AbstractHtmlExporter;
+import org.docx4j.convert.out.html.HtmlExporterNG2;
+import org.docx4j.convert.out.html.SdtToListSdtTagHandler;
+import org.docx4j.convert.out.html.SdtWriter;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.exceptions.InvalidFormatException;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.NumberingDefinitionsPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -35,6 +66,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.server.VaadinSession;
+import org.xml.sax.SAXException;
+
 
 public class TamUtils {
 
@@ -250,4 +283,124 @@ public class TamUtils {
 
 		return String.format("%06d", number);
 	}
+
+
+	public static void docToHTML() throws IOException, TikaException, SAXException, TransformerConfigurationException {
+
+
+		InputStream input = TikaInputStream.get(new File("D:\\siapKabanDev\\src\\main\\resources\\report\\NOTA DINAS.doc"));
+
+
+		//Parser parser = new AutoDetectParser();
+		//Parser parser = new AutoDetectParser();
+		AutoDetectParser parser = new AutoDetectParser();
+
+		StringWriter sw = new StringWriter();
+		SAXTransformerFactory factory = (SAXTransformerFactory)
+				SAXTransformerFactory.newInstance();
+		TransformerHandler handler = factory.newTransformerHandler();
+		handler.getTransformer().setOutputProperty(OutputKeys.METHOD, "html");
+		handler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
+		handler.setResult(new StreamResult(sw));
+
+
+		try {
+			Metadata metadata = new Metadata();
+			parser.parse(input, handler, metadata, new ParseContext());
+			String xml = sw.toString();
+			System.out.print("tika : "+xml);
+			OutputStream os = new java.io.FileOutputStream("D:\\siapKabanDev\\src\\main\\resources\\report\\NotaDinas.html");
+		} finally {
+			input.close();
+		}
+	}
+	/*
+	public static void docxToHTML() throws IOException {
+		InputStream in= new FileInputStream(new File("D:\\siapKabanDev\\src\\main\\resources\\report\\NOTA DINAS.docx"));
+	//	XWPFDocument document = new XWPFDocument(in);
+		XWPFDocument document = new XWPFDocument(in);
+
+
+		XHTMLOptions options = XHTMLOptions.create().URIResolver(new FileURIResolver(new File("word/media")));
+
+		OutputStream out = new ByteArrayOutputStream();
+
+
+		XHTMLConverter.getInstance().convert(document, out, options);
+		String html=out.toString();
+		System.out.println(html);
+	}
+
+
+	 */
+
+	public static void docxToHTML() throws FileNotFoundException, Docx4JException {
+		String dir;
+		String inputfilepath;
+		inputfilepath = "Contoh Surat Undangan Peresmian Kantor.docx";
+		dir = "D:\\siapKabanDev\\src\\main\\resources\\report\\docx\\";
+
+		Docx4jProperties.setProperty("docx4j.Convert.Out.HTML.OutputMethodXML", true);
+
+
+
+		System.out.println(inputfilepath);
+		WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new java.io.File(dir+inputfilepath));
+
+		// XHTML export
+		AbstractHtmlExporter exporter = new HtmlExporterNG2();
+		AbstractHtmlExporter.HtmlSettings htmlSettings = new AbstractHtmlExporter.HtmlSettings();
+
+		htmlSettings.setWmlPackage(wordMLPackage);
+
+		htmlSettings.setImageDirPath(dir + inputfilepath + "_files");
+		htmlSettings.setImageTargetUri(dir + inputfilepath + "_files");
+
+		// list numbering:  depending on whether you want list numbering hardcoded, or done using <li>.
+		boolean nestLists = true;
+		if (nestLists) {
+			SdtWriter.registerTagHandler("HTML_ELEMENT", new SdtToListSdtTagHandler());
+		} else {
+			htmlSettings.getFeatures().remove(ConversionFeatures.PP_HTML_COLLECT_LISTS);
+		} // must do one or the other
+
+
+		String htmlFilePath = dir + "/resultDocxToXhtml.html";
+		OutputStream os = new java.io.FileOutputStream(htmlFilePath);
+
+//		javax.xml.transform.stream.StreamResult result = new javax.xml.transform.stream.StreamResult(os);
+//		exporter.html(wordMLPackage, result, htmlSettings);
+//		os.flush();
+//		os.close();
+
+
+		Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
+
+	}
+
+	public static void xhtmlToDocx() throws IOException, Docx4JException, JAXBException {
+		String dir;
+		dir = "D:\\siapKabanDev\\src\\main\\resources\\report\\html";
+
+		String htmlFilePath = dir + "/Contoh Surat Undangan Peresmian Kantor.html";
+		String stringFromFile = FileUtils.readFileToString(new File(htmlFilePath), "UTF-8");
+
+
+		WordprocessingMLPackage docxOut = WordprocessingMLPackage.createPackage();
+
+
+		XHTMLImporterImpl XHTMLImporter = new XHTMLImporterImpl(docxOut);
+		//XHTMLImporter.setHyperlinkStyle("Hyperlink");
+
+		docxOut.getMainDocumentPart().getContent().addAll(
+				XHTMLImporter.convert(stringFromFile, null) );
+
+		System.out.println(XmlUtils.marshaltoString(docxOut
+				.getMainDocumentPart().getJaxbElement(), true, true));
+
+		docxOut.save(new java.io.File(dir + "/resultHtmlToDocx.docx") );
+
+	}
+
+
 }
