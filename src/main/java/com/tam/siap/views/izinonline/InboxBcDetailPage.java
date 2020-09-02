@@ -222,13 +222,13 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //							dataLay.setKepKantor(accs.get(0).getUsername());
 							izinOnlineService.processLayanan(dataLay, statusLayanan);
 
-							for (int j = 0; j < listCheklistModel2s.size(); j++) {
-								CheklistModel2 data = listCheklistModel2s.get(j);
-								if (data.getTemplateHtml() != null || !data.getTemplateHtml().isEmpty()) {
-									izinOnlineService.saveTemplate(data.getDatalay(), data.getjDokumen(),
-											data.getTemplateHtml());
-								}
-							}
+//							for (int j = 0; j < listCheklistModel2s.size(); j++) {
+//								CheklistModel2 data = listCheklistModel2s.get(j);
+//								if (data.getTemplateHtml() != null || !data.getTemplateHtml().isEmpty()) {
+//									izinOnlineService.saveTemplate(data.getDatalay(), data.getjDokumen(),
+//											data.getTemplateHtml());
+//								}
+//							}
 
 							Notification notification = new Notification("Layanan telah diproses", 3000,
 									Position.MIDDLE);
@@ -535,22 +535,23 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //        download.getElement().setAttribute("download", true);
 //        download.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT)));
 		Button btnsave = new Button("save");
+		btnsave.addThemeVariants(ButtonVariant.LUMO_SMALL);
 		btnsave.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-			
+
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				// TODO Auto-generated method stub
 				String html = wysiwygE.getValue();
 				data.setTemplateHtml(html);
-				Notification notification = new Notification("Dokumen telah di simpan", 3000,
-						Position.MIDDLE);
+				izinOnlineService.saveTemplate(data.getDatalay(), data.getjDokumen(), html);
+				Notification notification = new Notification("Dokumen telah di simpan", 3000, Position.MIDDLE);
 				notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 				notification.open();
 			}
 		});
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setWidthFull();
-		hl.setSpacing(false);
+		hl.setSpacing(true);
 		Upload up = new Upload(data.getMembuffer());
 		up.setDropAllowed(false);
 		Button btn = new Button("upload");
@@ -565,7 +566,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			}
 		});
 		up.setAcceptedFileTypes("application/msword");
-		hl.add(up,btnsave);
+		hl.add(up, btnsave);
 		String html = izinOnlineService.getTemplate(data.getDatalay(), data.getjDokumen());
 		wysiwygE.setValue(html);
 		wysiwygE.setWidthFull();
