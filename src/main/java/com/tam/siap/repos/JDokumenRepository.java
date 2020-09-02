@@ -18,5 +18,5 @@ public interface JDokumenRepository extends JpaRepository<JDokumen, String>{
     
     List<JDokumen> findBySubLayanan(SJLayanan subLayanan);
 
-    List<JDokumen> findByRoleAndStatus(Role role, int status);
+    List<JDokumen> findByRoleAndStatus(Role role, String status);
 }

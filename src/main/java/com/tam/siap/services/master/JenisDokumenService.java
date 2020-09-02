@@ -25,7 +25,7 @@ public class JenisDokumenService {
         return jDokumenRepository.findBySubLayanan(subLayanan);
     }
 
-    public List<JDokumen> findJenisDokumenByRoleAndStatus(Role role, int status) {
+    public List<JDokumen> findJenisDokumenByRoleAndStatus(Role role, String status) {
         return jDokumenRepository.findByRoleAndStatus(role, status);
     }
 }

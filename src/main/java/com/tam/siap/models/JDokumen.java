@@ -47,7 +47,7 @@ public class JDokumen {
 	private Role role;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
 	public JDokumen() {
 		super();
@@ -78,11 +78,11 @@ public class JDokumen {
 		this.role = role;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
