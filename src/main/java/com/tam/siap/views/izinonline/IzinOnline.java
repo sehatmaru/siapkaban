@@ -336,7 +336,7 @@ public class IzinOnline extends VerticalLayout {
 							Layanan dataLay = new Layanan();
 							dataLay.setPemohonon(account);
 							dataLay.setLokasi(account.getLokasi());
-							//SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							// SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							dataLay.setTanggal(new Date());
 							dataLay.setSubLayanan(combosubjenislayanan.getValue());
 
@@ -500,7 +500,7 @@ public class IzinOnline extends VerticalLayout {
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext2(up, (1+i)+". "+dokpemohon.getKeterangan()));
+				layDok.add(TamUtils.setInlinetext2(up, (1 + i) + ". " + dokpemohon.getKeterangan()));
 				strDokPemohon[i] = dokpemohon.getKeterangan();
 //				jDokIdPemohon[i] = ""+dokpemohon.getId();
 			}
@@ -528,7 +528,8 @@ public class IzinOnline extends VerticalLayout {
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext2(up, (doklist.getPermohonan().size()+i+1)+". "+dokpemohon.getKeterangan()));
+				layDok.add(TamUtils.setInlinetext2(up,
+						(doklist.getPermohonan().size() + i + 1) + ". " + dokpemohon.getKeterangan()));
 				strDokSyarat[i] = dokpemohon.getKeterangan();
 //				jDokIdSyarat[i] = ""+dokpemohon.getId();
 			}
@@ -556,7 +557,8 @@ public class IzinOnline extends VerticalLayout {
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
-				layDok.add(TamUtils.setInlinetext2(up, (doklist.getPersyaratan().size()+2+i)+". "+dokpemohon.getKeterangan()));
+				layDok.add(TamUtils.setInlinetext2(up,
+						(doklist.getPersyaratan().size() + 2 + i) + ". " + dokpemohon.getKeterangan()));
 				strDokLainnya[i] = dokpemohon.getKeterangan();
 //				jDokIdLainnya[i] = ""+dokpemohon.getId();
 			}

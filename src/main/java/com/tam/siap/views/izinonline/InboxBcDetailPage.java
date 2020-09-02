@@ -1,6 +1,7 @@
 package com.tam.siap.views.izinonline;
 
 import static com.tam.siap.utils.refs.StatusLayanan.*;
+import static com.tam.siap.utils.refs.Role.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.LogRecord;
 
 import javax.annotation.PostConstruct;
 
@@ -18,6 +20,7 @@ import org.vaadin.pekka.WysiwygE;
 
 import com.tam.siap.EmbeddedPdfDocument;
 import com.tam.siap.models.Account;
+import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.Layanan;
 import com.tam.siap.models.StatusLayanan;
 import com.tam.siap.models.responses.LoginResponse;
@@ -45,7 +48,10 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.dom.DomEvent;
+import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
@@ -81,7 +87,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	@Autowired
 	AccountService accountService;
 
-	private Grid<ViewDokumenResponse> gridDokumen = new Grid<ViewDokumenResponse>();
+	private Grid<CheklistModel> gridDokumen = new Grid<CheklistModel>();
 
 	private Grid<CheklistModel2> gridDokumenHasil = new Grid<CheklistModel2>();
 
@@ -94,6 +100,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 	List<ViewDokumenResponse> listVDocs = new ArrayList<ViewDokumenResponse>();
 	List<CheklistModel> listChecks = new ArrayList<CheklistModel>();
+	List<JDokumen> listJdoks = new ArrayList<JDokumen>();
+	List<CheklistModel2> listCheklistModel2s = new ArrayList<CheklistModel2>();
 
 	@PostConstruct
 	void init() {
@@ -107,155 +115,174 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			nextPic = izinOnlineService.getNextPic(dataLogin.getAccount());
 			System.out.println("Size nexpic : " + nextPic.size());
 			picBox.setItems(nextPic);
-
 		}
 	}
 
 	public void InboxBcDetailPageComp(Layanan dataLay) {
 		// List layanan = layananRepository.findLayananPerusahaan(perusahaanid);
+		LoginResponse dataLogin = TamUtils.getLoginResponse();
+		if (dataLogin != null) {
+			System.out.println("wdwdw " + dataLogin);
+			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
+			for (JDokumen datJdok : listJdoks) {
+				listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay));
+			}
 
-		gridDokumen.addColumn(data -> data.getDokumen().getNamaDokumen()).setHeader("Dokumen");
-		gridDokumen.addComponentColumn(data -> gridCheck(data)).setHeader("Ada");
-		gridDokumen.setSizeUndefined();
-		gridDokumen.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-		gridDokumen.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
-		gridDokumen.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
-		
-//		gridDokumenHasil.addColumn(data->data.getNamadoc()).setHeader("Dokumen");
-//		gridDokumenHasil.addComponentColumn(data->).setHeader("Dokumen");
+			gridDokumen.addColumn(data -> data.getDoc().getDokumen().getNamaDokumen()).setHeader("Dokumen");
+			gridDokumen.addComponentColumn(data -> gridCheck(data)).setHeader("Ada");
+			gridDokumen.setSizeUndefined();
+			gridDokumen.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+			gridDokumen.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
+			gridDokumen.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
 
-		listVDocs = izinOnlineService.viewDocs(dataLay);
-		for (int h = 0; h < listVDocs.size(); h++) {
-			ViewDokumenResponse data = listVDocs.get(h);
-			listChecks.add(new CheklistModel(false, data));
-			menuBar.addItem(data.getDokumen().getNamaDokumen(), e -> showDoc(data));
-		}
+			gridDokumenHasil.addColumn(data -> data.getjDokumen().getKeterangan()).setHeader("Dokumen");
+			gridDokumenHasil.addComponentColumn(data -> gridCheck2(data)).setHeader("Cek");
+			gridDokumenHasil.addComponentColumn(data -> gridActions(data)).setHeader("Edit");
+			gridDokumenHasil.setSizeUndefined();
+			gridDokumenHasil.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+			gridDokumenHasil.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
+			gridDokumenHasil.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
 
-		gridDokumen.setItems(listVDocs);
+			listVDocs = izinOnlineService.viewDocs(dataLay);
+			for (int h = 0; h < listVDocs.size(); h++) {
+				ViewDokumenResponse data = listVDocs.get(h);
+				listChecks.add(new CheklistModel(false, data, dataLay));
+				menuBar.addItem(data.getDokumen().getNamaDokumen(), e -> showDoc(data));
+			}
 
-		picBox.setLabel("PIC Selanjutnya");
-		picBox.setItemLabelGenerator(data -> data.getPribadi().getNama());
-//		picBox.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
-//
-//			@Override
-//			public void valueChanged(ValueChangeEvent<?> event) {
-//				// TODO Auto-generated method stub
-//				LoginResponse dataLogin = TamUtils.getLoginResponse();
-//				Set<Account> selectedItems = picBox.getValue();
-//				if (dataLogin.getAccount().getRole().getId() == KEPALA_KANTOR) {
-//
-//				} else {
-//					if (selectedItems.size() > 1) {
-////						List<Account> dd = new ArrayList<>(selectedItems);
-////						for (int i = 1; i < dd.size(); i++) {
-////							picBox.deselect(dd.get(i));
-////						}
-//						picBox.deselectAll();
-//						Notification notification = new Notification("Pilih salah satu", 3000, Position.MIDDLE);
-//						notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
-//						notification.open();
+			gridDokumen.setItems(listChecks);
+			gridDokumenHasil.setItems(listCheklistModel2s);
+
+			picBox.setLabel("PIC Selanjutnya");
+			picBox.setItemLabelGenerator(data -> data.getPribadi().getNama());
+//			picBox.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+			//
+//				@Override
+//				public void valueChanged(ValueChangeEvent<?> event) {
+//					// TODO Auto-generated method stub
+//					LoginResponse dataLogin = TamUtils.getLoginResponse();
+//					Set<Account> selectedItems = picBox.getValue();
+//					if (dataLogin.getAccount().getRole().getId() == KEPALA_KANTOR) {
+			//
+//					} else {
+//						if (selectedItems.size() > 1) {
+////							List<Account> dd = new ArrayList<>(selectedItems);
+////							for (int i = 1; i < dd.size(); i++) {
+////								picBox.deselect(dd.get(i));
+////							}
+//							picBox.deselectAll();
+//							Notification notification = new Notification("Pilih salah satu", 3000, Position.MIDDLE);
+//							notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+//							notification.open();
+//						}
 //					}
 //				}
-//			}
-//		});
+//			});
 
-		HorizontalLayout fl = new HorizontalLayout(btnLanjut);
-		fl.setWidthFull();
-		fl.setAlignItems(Alignment.CENTER);
-		fl.setJustifyContentMode(JustifyContentMode.CENTER);
-		btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//		btnTolak.addThemeVariants(ButtonVariant.LUMO_ERROR);
-		if (checkList()) {
-			btnLanjut.setText("Proses Lanjut");
+			HorizontalLayout fl = new HorizontalLayout(btnLanjut);
+			fl.setWidthFull();
+			fl.setAlignItems(Alignment.CENTER);
+			fl.setJustifyContentMode(JustifyContentMode.CENTER);
 			btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-			btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-		} else {
-			btnLanjut.setText("Tolak");
-			btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-			btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
-		}
+//			btnTolak.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-		btnLanjut.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+			btnLanjut.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
-			@Override
-			public void onComponentEvent(ClickEvent<Button> event) {
-				if (checkList()) {
-//					Set<Account> acc = picBox.getValue();
-					// List<Account> accs = new ArrayList<>(acc);
-					Account acc = picBox.getValue();
-					if (acc != null) {
+				@Override
+				public void onComponentEvent(ClickEvent<Button> event) {
+					if (checkList()) {
+//						Set<Account> acc = picBox.getValue();
+						// List<Account> accs = new ArrayList<>(acc);
+						Account acc = picBox.getValue();
+						if (acc != null) {
+							LoginResponse dataLogin = TamUtils.getLoginResponse();
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							String catatan = txtCatatan.getValue();
+//							StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+//									dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
+							StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+									dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
+
+							// Account acc = picBox.getValue();
+//							dataLay.setKepKantor(accs.get(0).getUsername());
+							izinOnlineService.processLayanan(dataLay, statusLayanan);
+
+							Notification notification = new Notification("Layanan telah diproses", 3000,
+									Position.MIDDLE);
+							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+							notification.open();
+						} else {
+							Notification notification = new Notification("Pilih pic selanjutnya", 3000,
+									Position.MIDDLE);
+							notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+							notification.open();
+						}
+					} else {
+						Account acc = picBox.getValue();
 						LoginResponse dataLogin = TamUtils.getLoginResponse();
 						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 						String catatan = txtCatatan.getValue();
-//						StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-//								dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
 						StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-								dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
-
-						// Account acc = picBox.getValue();
-//						dataLay.setKepKantor(accs.get(0).getUsername());
+								dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
 						izinOnlineService.processLayanan(dataLay, statusLayanan);
 
-						Notification notification = new Notification("Layanan telah diproses", 3000, Position.MIDDLE);
+						Notification notification = new Notification("Layanan telah ditolak", 3000, Position.MIDDLE);
 						notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 						notification.open();
-					} else {
-						Notification notification = new Notification("Pilih pic selanjutnya", 3000, Position.MIDDLE);
-						notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-						notification.open();
 					}
-				} else {
-					Account acc = picBox.getValue();
-					LoginResponse dataLogin = TamUtils.getLoginResponse();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-					String catatan = txtCatatan.getValue();
-					StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-							dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
-					izinOnlineService.processLayanan(dataLay, statusLayanan);
+				}
+			});
 
-					Notification notification = new Notification("Layanan telah ditolak", 3000, Position.MIDDLE);
-					notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-					notification.open();
+			menuBar.setWidthFull();
+
+			picBox.setWidthFull();
+			VerticalLayout vl1 = new VerticalLayout();
+			if (dataLay.getPemeriksaP2() != null || dataLay.getPemeriksaPerbend() != null
+					|| dataLay.getPemeriksaPkc() != null) {
+				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, gridDokumenHasil, picBox, txtCatatan, fl);
+				if (checkList() && checkList2()) {
+					btnLanjut.setText("Proses Lanjut");
+					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+				} else {
+					btnLanjut.setText("Tolak");
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+				}
+			} else {
+				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, picBox, txtCatatan, fl);
+				if (checkList()) {
+					btnLanjut.setText("Proses Lanjut");
+					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+				} else {
+					btnLanjut.setText("Tolak");
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
 				}
 			}
-		});
 
-		// menuBar.getStyle().set("wi", "");
-		menuBar.setWidthFull();
+			txtCatatan.setWidthFull();
+			vl1.setWidth("20%");
+			lbltitledok.setText("Preview - Dokumen");
+			vldok.setSizeFull();
+			vldok.setHeight("600px");
+//			wysiwygE.setSizeFull();
 
-		picBox.setWidthFull();
+			VerticalLayout vl2 = new VerticalLayout(menuBar, lbltitledok, vldok);
+			FormLayout hl = new FormLayout(vl1, vl2);
+//			hl.setPadding(false);
+			hl.setResponsiveSteps(new ResponsiveStep("10em", 1), new ResponsiveStep("32em", 2),
+					new ResponsiveStep("40em", 3));
+			hl.setColspan(vl1, 1);
+			hl.setColspan(vl2, 2);
+			hl.setSizeFull();
+			setSizeFull();
 
-		VerticalLayout vl1 = new VerticalLayout(new Label("Hasil penelitian dokumen"), gridDokumen, picBox, txtCatatan,
-				fl);
-		txtCatatan.setWidthFull();
-		vl1.setWidth("20%");
-		lbltitledok.setText("Preview - Dokumen");
-		vldok.setSizeFull();
-		vldok.setHeight("600px");
-		wysiwygE.setSizeFull();
-
-		VerticalLayout vl2 = new VerticalLayout(menuBar, lbltitledok, vldok);
-		FormLayout hl = new FormLayout(vl1, vl2);
-//		hl.setPadding(false);
-		hl.setResponsiveSteps(new ResponsiveStep("10em", 1), new ResponsiveStep("32em", 2),
-				new ResponsiveStep("40em", 3));
-		hl.setColspan(vl1, 1);
-		hl.setColspan(vl2, 2);
-		hl.setSizeFull();
-		setSizeFull();
-
-		add(hl);
-
-//		btnTolak.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-//
-//			@Override
-//			public void onComponentEvent(ClickEvent<Button> event) {
-//				// TODO Auto-generated method stub
-////				System.out.println(wysiwygE.getValue());
-////				System.out.println("========== \n" + wysiwygE.getElement().getAttribute("innerHTML"));
-//			}
-//		});
-
+			add(hl);
+		}
 	}
 
 	private void showDoc(ViewDokumenResponse data) {
@@ -284,7 +311,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		vldok.add(pdfdoc);
 	}
 
-	private Checkbox gridCheck(ViewDokumenResponse data) {
+	private Checkbox gridCheck(CheklistModel data) {
 		Checkbox ch = new Checkbox();
 		ch.addClickListener(new ComponentEventListener<ClickEvent<Checkbox>>() {
 
@@ -292,31 +319,42 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			public void onComponentEvent(ClickEvent<Checkbox> event) {
 				// TODO Auto-generated method stub
 				if (ch.getValue() == true) {
-					// data.setAda(1);
-					int in = listVDocs.indexOf(data);
-					listChecks.get(in).setCheck(true);
+					data.setCheck(true);
 				} else {
-					// data.setAda(0);
-					int in = listVDocs.indexOf(data);
-					listChecks.get(in).setCheck(false);
+					data.setCheck(false);
 				}
 
-				if (checkList()) {
-					btnLanjut.setText("Proses Lanjut");
-					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
-					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+				if (data.getDatalay().getPemeriksaP2() != null || data.getDatalay().getPemeriksaPerbend() != null
+						|| data.getDatalay().getPemeriksaPkc() != null) {
+
+					if (checkList() && checkList2()) {
+						btnLanjut.setText("Proses Lanjut");
+						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+					} else {
+						btnLanjut.setText("Tolak");
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+					}
 				} else {
-					btnLanjut.setText("Tolak");
-					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+					if (checkList()) {
+						btnLanjut.setText("Proses Lanjut");
+						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+					} else {
+						btnLanjut.setText("Tolak");
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+					}
 				}
 			}
 		});
 		return ch;
 	}
-	
-	private Checkbox gridCheck2(ViewDokumenResponse data) {
+
+	private Checkbox gridCheck2(CheklistModel2 data) {
 		Checkbox ch = new Checkbox();
 		ch.addClickListener(new ComponentEventListener<ClickEvent<Checkbox>>() {
 
@@ -325,32 +363,94 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				// TODO Auto-generated method stub
 				if (ch.getValue() == true) {
 					// data.setAda(1);
-					int in = listVDocs.indexOf(data);
-					listChecks.get(in).setCheck(true);
+					data.setCheck(true);
 				} else {
-					// data.setAda(0);
-					int in = listVDocs.indexOf(data);
-					listChecks.get(in).setCheck(false);
+					data.setCheck(false);
 				}
 
-//				if (checkList()) {
-//					btnLanjut.setText("Proses Lanjut");
-//					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
-//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-//				} else {
-//					btnLanjut.setText("Tolak");
-//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
-//				}
+				if (data.getDatalay().getPemeriksaP2() != null || data.getDatalay().getPemeriksaPerbend() != null
+						|| data.getDatalay().getPemeriksaPkc() != null) {
+
+					if (checkList() && checkList2()) {
+						btnLanjut.setText("Proses Lanjut");
+						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+					} else {
+						btnLanjut.setText("Tolak");
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+					}
+				} else {
+					if (checkList()) {
+						btnLanjut.setText("Proses Lanjut");
+						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+					} else {
+						btnLanjut.setText("Tolak");
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+					}
+				}
 			}
 		});
 		return ch;
+	}
+
+	private HorizontalLayout gridActions(CheklistModel2 data) {
+		HorizontalLayout hl = new HorizontalLayout();
+		Button btnEdit = new Button("edit");
+		btnEdit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+
+			@Override
+			public void onComponentEvent(ClickEvent<Button> event) {
+				// TODO Auto-generated method stub
+				lbltitledok.setText(data.getjDokumen().getKeterangan());
+				vldok.removeAll();
+				vldok.add(formEditor(data));
+			}
+		});
+		hl.add(btnEdit);
+
+		return hl;
+	}
+
+	private VerticalLayout formEditor(CheklistModel2 data) {
+		VerticalLayout vl = new VerticalLayout();
+		HorizontalLayout hl = new HorizontalLayout();
+		Upload up = new Upload(data.getMembuffer());
+		up.setDropAllowed(false);
+		Button btn = new Button("upload");
+		btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+		up.setUploadButton(btn);
+		up.getElement().addEventListener("file-remove", new DomEventListener() {
+			@Override
+			public void handleEvent(DomEvent event) {
+				data.setMembuffer(new MemoryBuffer());
+				up.setReceiver(data.getMembuffer());
+			}
+		});
+		up.setAcceptedFileTypes("application/msword");
+		hl.add(up);
+		vl.add(hl, wysiwygE);
+
+		return vl;
 	}
 
 	private boolean checkList() {
 		boolean h = true;
 		for (CheklistModel data : listChecks) {
+			if (!data.isCheck()) {
+				h = false;
+			}
+		}
+		return h;
+	}
+
+	private boolean checkList2() {
+		boolean h = true;
+		for (CheklistModel2 data : listCheklistModel2s) {
 			if (!data.isCheck()) {
 				h = false;
 			}
@@ -377,11 +477,13 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	class CheklistModel {
 		private boolean check;
 		private ViewDokumenResponse doc;
+		private Layanan datalay;
 
-		public CheklistModel(boolean check, ViewDokumenResponse doc) {
+		public CheklistModel(boolean check, ViewDokumenResponse doc, Layanan datalay) {
 			super();
 			this.check = check;
 			this.doc = doc;
+			this.datalay = datalay;
 		}
 
 		public boolean isCheck() {
@@ -400,18 +502,28 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			this.doc = doc;
 		}
 
+		public Layanan getDatalay() {
+			return datalay;
+		}
+
+		public void setDatalay(Layanan datalay) {
+			this.datalay = datalay;
+		}
+
 	}
 
 	class CheklistModel2 {
 		private boolean check;
-		private String namadoc;
+		private JDokumen jDokumen;
 		private MemoryBuffer membuffer;
+		private Layanan datalay;
 
-		public CheklistModel2(boolean check, String namadoc, MemoryBuffer membuffer) {
+		public CheklistModel2(boolean check, JDokumen jDokumen, MemoryBuffer membuffer, Layanan datalay) {
 			super();
 			this.check = check;
-			this.namadoc = namadoc;
+			this.jDokumen = jDokumen;
 			this.membuffer = membuffer;
+			this.datalay = datalay;
 		}
 
 		public boolean isCheck() {
@@ -422,12 +534,12 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			this.check = check;
 		}
 
-		public String getNamadoc() {
-			return namadoc;
+		public JDokumen getjDokumen() {
+			return jDokumen;
 		}
 
-		public void setNamadoc(String namadoc) {
-			this.namadoc = namadoc;
+		public void setjDokumen(JDokumen jDokumen) {
+			this.jDokumen = jDokumen;
 		}
 
 		public MemoryBuffer getMembuffer() {
@@ -436,6 +548,14 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 		public void setMembuffer(MemoryBuffer membuffer) {
 			this.membuffer = membuffer;
+		}
+
+		public Layanan getDatalay() {
+			return datalay;
+		}
+
+		public void setDatalay(Layanan datalay) {
+			this.datalay = datalay;
 		}
 
 	}
