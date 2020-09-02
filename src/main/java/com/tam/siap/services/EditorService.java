@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 
+import static com.tam.siap.utils.TamUtils.createDir;
 import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
 
 @Service
@@ -38,13 +39,15 @@ public class EditorService {
                     XHTMLImporter.convert(html, null) );
 
             String path = reportPath
-                    + "/" + layanan.getPemohonon().getId()
+                    + "/" + layanan.getPemohonon().getUsername()
                     + "/" + layanan.getNomor()
-                    + "/hasil/"
-                    + jDokumen.getDeskripsi() + ".docx";
+                    + "/hasil";
+
+            createDir(path);
+            String file = path + "/" + jDokumen.getDeskripsi() + ".docx";
 //windows            String path = reportPath + "\\" + layanan.getPemohonon().getId() + "\\" + layanan.getNomor() + "\\hasil\\" + jDokumen.getDeskripsi() + ".docx";
 
-            docxOut.save(new File(path));
+            docxOut.save(new File(file));
 
             return path;
         } catch (Docx4JException e) {

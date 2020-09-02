@@ -215,8 +215,7 @@ public class IzinOnlineService {
             case KEPALA_SEKSI_P2 :
                 layanan.setKepSeksiP2(status);
 
-                if (layanan.getKepSubSeksiP2().isEmpty()
-                    || layanan.getKepSubSeksiP2() == null) {
+                if (layanan.getKepSubSeksiP2() == null) {
                     layanan.setKepSubSeksiP2(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
@@ -229,8 +228,7 @@ public class IzinOnlineService {
             case KEPALA_SEKSI_PERBEND :
                 layanan.setKepSeksiPerbend(status);
 
-                if (layanan.getKepSubSeksiPerbend().isEmpty()
-                        || layanan.getKepSubSeksiPerbend() == null) {
+                if (layanan.getKepSubSeksiPerbend() == null) {
                     layanan.setKepSubSeksiPerbend(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
@@ -243,8 +241,7 @@ public class IzinOnlineService {
             case KEPALA_SEKSI_PKC :
                 layanan.setKepSeksiPkc(status);
 
-                if (layanan.getKepSubSeksiPkc().isEmpty()
-                        || layanan.getKepSubSeksiPkc() == null) {
+                if (layanan.getKepSubSeksiPkc() == null) {
                     layanan.setKepSubSeksiPkc(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
@@ -257,8 +254,7 @@ public class IzinOnlineService {
             case KEPALA_SUB_SEKSI_P2 :
                 layanan.setKepSubSeksiP2(status);
 
-                if (layanan.getPemeriksaP2().isEmpty()
-                        || layanan.getPemeriksaP2() == null) {
+                if (layanan.getPemeriksaP2() == null) {
                     layanan.setPemeriksaP2(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
@@ -271,8 +267,7 @@ public class IzinOnlineService {
             case KEPALA_SUB_SEKSI_PERBEND :
                 layanan.setKepSubSeksiPerbend(status);
 
-                if (layanan.getPemeriksaPerbend().isEmpty()
-                        || layanan.getPemeriksaPerbend() == null) {
+                if (layanan.getPemeriksaPerbend() == null) {
                     layanan.setPemeriksaPerbend(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
@@ -285,8 +280,7 @@ public class IzinOnlineService {
             case KEPALA_SUB_SEKSI_PKC :
                 layanan.setKepSubSeksiPkc(status);
 
-                if (layanan.getPemeriksaPkc().isEmpty()
-                        || layanan.getPemeriksaPkc() == null) {
+                if (layanan.getPemeriksaPkc() == null) {
                     layanan.setPemeriksaPkc(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
