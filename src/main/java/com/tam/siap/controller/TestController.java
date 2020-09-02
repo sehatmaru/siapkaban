@@ -1,32 +1,14 @@
 package com.tam.siap.controller;
 
-import com.tam.siap.models.Account;
-import com.tam.siap.models.Layanan;
-import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.request.EditProfileRequest;
 import com.tam.siap.models.request.InsertPegawaiRequest;
-import com.tam.siap.models.responses.LayananResponse;
-import com.tam.siap.repos.JLayananRepository;
-import com.tam.siap.services.AdminService;
-import com.tam.siap.services.AuthBEService;
-import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
-import org.apache.tika.exception.TikaException;
-import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.TransformerConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.tam.siap.utils.TamUtils.*;
+import static com.tam.siap.utils.TamUtils.getRandomNumber;
 
 @RestController
 @RequestMapping(value = "test")
@@ -70,6 +52,9 @@ public class TestController {
 
 	@Autowired
 	AccountService accountService;
+
+	@Autowired
+	EditorService editorService;
 
 //	@PostMapping("/register")
 //	public void register() {
@@ -173,20 +158,20 @@ public class TestController {
 		registerService.insertPegawai(request);
 	}
 
-	@GetMapping("convert/doctohtml")
-	public void conDocToHtml() throws SAXException, TikaException, TransformerConfigurationException, IOException {
-		docToHTML();
-	}
+//	@GetMapping("convert/doctohtml")
+//	public void conDocToHtml() throws SAXException, TikaException, TransformerConfigurationException, IOException {
+//		docToHTML();
+//	}
 
-	@GetMapping("convert/docxtohtml")
-	public void conDocxToHtml() throws IOException, Docx4JException {
-		docxToHTML();
+	@GetMapping("convert/docxToHTML")
+	public void conDocxToHtml(@RequestBody @Validated String filename) {
+		editorService.docxToHTML(filename);
 	}
 
 
 	@GetMapping("convert/htmlToDoc")
-	public void htmltoDoc() throws JAXBException, IOException, Docx4JException {
-		xhtmlToDocx();
+	public void htmltoDoc(@RequestBody @Validated String filename) {
+		editorService.htmlToDocx(filename);
 	}
 
 
