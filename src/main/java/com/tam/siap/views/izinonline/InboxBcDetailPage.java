@@ -1,7 +1,7 @@
 package com.tam.siap.views.izinonline;
 
-import static com.tam.siap.utils.refs.StatusLayanan.*;
-import static com.tam.siap.utils.refs.Role.*;
+import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
+import static com.tam.siap.utils.refs.StatusLayanan.REJECTED;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.LogRecord;
 
 import javax.annotation.PostConstruct;
 
@@ -25,6 +24,7 @@ import com.tam.siap.models.Layanan;
 import com.tam.siap.models.StatusLayanan;
 import com.tam.siap.models.responses.LoginResponse;
 import com.tam.siap.models.responses.ViewDokumenResponse;
+import com.tam.siap.services.EditorService;
 import com.tam.siap.services.IzinOnlineService;
 import com.tam.siap.services.master.AccountService;
 import com.tam.siap.services.master.LayananService;
@@ -40,7 +40,10 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
@@ -87,6 +90,9 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	@Autowired
 	AccountService accountService;
 
+	@Autowired
+	EditorService editorService;
+
 	private Grid<CheklistModel> gridDokumen = new Grid<CheklistModel>();
 
 	private Grid<CheklistModel2> gridDokumenHasil = new Grid<CheklistModel2>();
@@ -125,7 +131,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			System.out.println("wdwdw " + dataLogin);
 			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
 			for (JDokumen datJdok : listJdoks) {
-				listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay));
+				listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
 			}
 
 			gridDokumen.addColumn(data -> data.getDoc().getDokumen().getNamaDokumen()).setHeader("Dokumen");
@@ -190,11 +196,20 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 				@Override
 				public void onComponentEvent(ClickEvent<Button> event) {
-					if (checkList()) {
-//						Set<Account> acc = picBox.getValue();
-						// List<Account> accs = new ArrayList<>(acc);
-						Account acc = picBox.getValue();
-						if (acc != null) {
+					if (dataLay.getPemeriksaP2() != null || dataLay.getPemeriksaPerbend() != null
+							|| dataLay.getPemeriksaPkc() != null) {
+						if (checkList() && checkList2()) {
+//							Set<Account> acc = picBox.getValue();
+							// List<Account> accs = new ArrayList<>(acc);
+							Account acc = picBox.getValue();
+//							if (acc != null) {
+//								
+//							} else {
+//								Notification notification = new Notification("Pilih pic selanjutnya", 3000,
+//										Position.MIDDLE);
+//								notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+//								notification.open();
+//							}
 							LoginResponse dataLogin = TamUtils.getLoginResponse();
 							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							String catatan = txtCatatan.getValue();
@@ -207,28 +222,74 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //							dataLay.setKepKantor(accs.get(0).getUsername());
 							izinOnlineService.processLayanan(dataLay, statusLayanan);
 
+							for (int j = 0; j < listCheklistModel2s.size(); j++) {
+								CheklistModel2 data = listCheklistModel2s.get(j);
+								if (data.getTemplateHtml() != null || !data.getTemplateHtml().isEmpty()) {
+									izinOnlineService.saveTemplate(data.getDatalay(), data.getjDokumen(),
+											data.getTemplateHtml());
+								}
+							}
+
 							Notification notification = new Notification("Layanan telah diproses", 3000,
 									Position.MIDDLE);
 							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 							notification.open();
 						} else {
-							Notification notification = new Notification("Pilih pic selanjutnya", 3000,
+							Account acc = picBox.getValue();
+							LoginResponse dataLogin = TamUtils.getLoginResponse();
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							String catatan = txtCatatan.getValue();
+							StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+									dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
+							izinOnlineService.processLayanan(dataLay, statusLayanan);
+
+							Notification notification = new Notification("Layanan telah ditolak", 3000,
 									Position.MIDDLE);
-							notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 							notification.open();
 						}
 					} else {
-						Account acc = picBox.getValue();
-						LoginResponse dataLogin = TamUtils.getLoginResponse();
-						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-						String catatan = txtCatatan.getValue();
-						StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-								dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
-						izinOnlineService.processLayanan(dataLay, statusLayanan);
+						if (checkList()) {
+//							Set<Account> acc = picBox.getValue();
+							// List<Account> accs = new ArrayList<>(acc);
+							Account acc = picBox.getValue();
+							if (acc != null) {
+								LoginResponse dataLogin = TamUtils.getLoginResponse();
+								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+								String catatan = txtCatatan.getValue();
+//								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+//										dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
+								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+										dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
 
-						Notification notification = new Notification("Layanan telah ditolak", 3000, Position.MIDDLE);
-						notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-						notification.open();
+								// Account acc = picBox.getValue();
+//								dataLay.setKepKantor(accs.get(0).getUsername());
+								izinOnlineService.processLayanan(dataLay, statusLayanan);
+
+								Notification notification = new Notification("Layanan telah diproses", 3000,
+										Position.MIDDLE);
+								notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+								notification.open();
+							} else {
+								Notification notification = new Notification("Pilih pic selanjutnya", 3000,
+										Position.MIDDLE);
+								notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+								notification.open();
+							}
+						} else {
+							Account acc = picBox.getValue();
+							LoginResponse dataLogin = TamUtils.getLoginResponse();
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							String catatan = txtCatatan.getValue();
+							StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+									dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
+							izinOnlineService.processLayanan(dataLay, statusLayanan);
+
+							Notification notification = new Notification("Layanan telah ditolak", 3000,
+									Position.MIDDLE);
+							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+							notification.open();
+						}
 					}
 				}
 			});
@@ -240,12 +301,26 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			if (dataLay.getPemeriksaP2() != null || dataLay.getPemeriksaPerbend() != null
 					|| dataLay.getPemeriksaPkc() != null) {
 				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, gridDokumenHasil, picBox, txtCatatan, fl);
-				if (checkList() && checkList2()) {
+				if (checkList()) {
+					listJdoks = new ArrayList<JDokumen>();
+					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
+					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 1);
+					for (JDokumen datJdok : listJdoks) {
+						listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+					}
+					gridDokumenHasil.setItems(listCheklistModel2s);
 					btnLanjut.setText("Proses Lanjut");
 					btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 				} else {
+					listJdoks = new ArrayList<JDokumen>();
+					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
+					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
+					for (JDokumen datJdok : listJdoks) {
+						listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+					}
+					gridDokumenHasil.setItems(listCheklistModel2s);
 					btnLanjut.setText("Tolak");
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -269,7 +344,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			lbltitledok.setText("Preview - Dokumen");
 			vldok.setSizeFull();
 			vldok.setHeight("600px");
-//			wysiwygE.setSizeFull();
+			wysiwygE.setWidthFull();
 
 			VerticalLayout vl2 = new VerticalLayout(menuBar, lbltitledok, vldok);
 			FormLayout hl = new FormLayout(vl1, vl2);
@@ -326,13 +401,31 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 				if (data.getDatalay().getPemeriksaP2() != null || data.getDatalay().getPemeriksaPerbend() != null
 						|| data.getDatalay().getPemeriksaPkc() != null) {
-
-					if (checkList() && checkList2()) {
-						btnLanjut.setText("Proses Lanjut");
-						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
-						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+					LoginResponse dataLogin = TamUtils.getLoginResponse();
+					if (checkList()) {
+						listJdoks = new ArrayList<JDokumen>();
+						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
+						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 1);
+						System.out.println("Sizexx : " + listJdoks.size());
+						for (JDokumen datJdok : listJdoks) {
+							listCheklistModel2s
+									.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+						}
+						gridDokumenHasil.setItems(listCheklistModel2s);
+//						btnLanjut.setText("Proses Lanjut");
+//						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+//						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 					} else {
+						listJdoks = new ArrayList<JDokumen>();
+						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
+						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
+						System.out.println("Sizexx : " + listJdoks.size());
+						for (JDokumen datJdok : listJdoks) {
+							listCheklistModel2s
+									.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+						}
+						gridDokumenHasil.setItems(listCheklistModel2s);
 						btnLanjut.setText("Tolak");
 						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -408,7 +501,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				// TODO Auto-generated method stub
 				lbltitledok.setText(data.getjDokumen().getKeterangan());
 				vldok.removeAll();
-				vldok.add(formEditor(data));
+				vldok.setSpacing(false);
+				formEditor(vldok, data);
 			}
 		});
 		hl.add(btnEdit);
@@ -416,12 +510,51 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		return hl;
 	}
 
-	private VerticalLayout formEditor(CheklistModel2 data) {
-		VerticalLayout vl = new VerticalLayout();
+	private void formEditor(VerticalLayout vl, CheklistModel2 data) {
+//		VerticalLayout vl = new VerticalLayout();
+//		vl.getStyle().set("margin","0");
+//		vl.setSpacing(false);
+//		vl.setWidthFull();
+//		StreamResource res = new StreamResource("download.docx", new InputStreamFactory() {
+//
+//			@Override
+//			public InputStream createInputStream() {
+//				// TODO Auto-generated method stub
+//				File initialFile = data.getFile();
+//				InputStream targetStream = null;
+//				try {
+//					targetStream = new FileInputStream(initialFile);
+//				} catch (FileNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				return targetStream;
+//			}
+//		});
+//		Anchor download = new Anchor(res, "");
+//        download.getElement().setAttribute("download", true);
+//        download.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT)));
+		Button btnsave = new Button("save");
+		btnsave.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+			
+			@Override
+			public void onComponentEvent(ClickEvent<Button> event) {
+				// TODO Auto-generated method stub
+				String html = wysiwygE.getValue();
+				data.setTemplateHtml(html);
+				Notification notification = new Notification("Dokumen telah di simpan", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+				notification.open();
+			}
+		});
 		HorizontalLayout hl = new HorizontalLayout();
+		hl.setWidthFull();
+		hl.setSpacing(false);
 		Upload up = new Upload(data.getMembuffer());
 		up.setDropAllowed(false);
 		Button btn = new Button("upload");
+		btn.setSizeUndefined();
 		btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
 		up.setUploadButton(btn);
 		up.getElement().addEventListener("file-remove", new DomEventListener() {
@@ -432,10 +565,12 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			}
 		});
 		up.setAcceptedFileTypes("application/msword");
-		hl.add(up);
+		hl.add(up,btnsave);
+		String html = izinOnlineService.getTemplate(data.getDatalay(), data.getjDokumen());
+		wysiwygE.setValue(html);
+		wysiwygE.setWidthFull();
+		wysiwygE.setHeight("500px");
 		vl.add(hl, wysiwygE);
-
-		return vl;
 	}
 
 	private boolean checkList() {
@@ -517,13 +652,16 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		private JDokumen jDokumen;
 		private MemoryBuffer membuffer;
 		private Layanan datalay;
+		private String templateHtml;
 
-		public CheklistModel2(boolean check, JDokumen jDokumen, MemoryBuffer membuffer, Layanan datalay) {
+		public CheklistModel2(boolean check, JDokumen jDokumen, MemoryBuffer membuffer, Layanan datalay,
+				String templateHtml) {
 			super();
 			this.check = check;
 			this.jDokumen = jDokumen;
 			this.membuffer = membuffer;
 			this.datalay = datalay;
+			this.templateHtml = templateHtml;
 		}
 
 		public boolean isCheck() {
@@ -556,6 +694,14 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 		public void setDatalay(Layanan datalay) {
 			this.datalay = datalay;
+		}
+
+		public String getTemplateHtml() {
+			return templateHtml;
+		}
+
+		public void setTemplateHtml(String templateHtml) {
+			this.templateHtml = templateHtml;
 		}
 
 	}
