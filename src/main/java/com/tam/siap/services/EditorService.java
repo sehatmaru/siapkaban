@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 
+import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
+
 @Service
 public class EditorService {
 
@@ -26,7 +28,7 @@ public class EditorService {
 
     public String htmlToDocx(Layanan layanan, JDokumen jDokumen, String html) {
         try {
-            String reportPath = environment.getProperty("layanan.generated.report.path");
+            String reportPath = environment.getProperty("layanan.document.path");
 
             WordprocessingMLPackage docxOut = WordprocessingMLPackage.createPackage();
 
@@ -38,8 +40,9 @@ public class EditorService {
             String path = reportPath
                     + "/" + layanan.getPemohonon().getId()
                     + "/" + layanan.getNomor()
-                    + "/hasil"
-                    + "/" + jDokumen.getDeskripsi() + ".docx";
+                    + "/hasil/"
+                    + jDokumen.getDeskripsi() + ".docx";
+//windows            String path = reportPath + "\\" + layanan.getPemohonon().getId() + "\\" + layanan.getNomor() + "\\hasil\\" + jDokumen.getDeskripsi() + ".docx";
 
             docxOut.save(new File(path));
 
@@ -50,10 +53,11 @@ public class EditorService {
         }
     }
 
-    public String docxToHTML(String filename) {
+    public void docxToHTML(String filename) {
         try {
-            String reportPath = environment.getProperty("layanan.generated.report.path");
+            String reportPath = environment.getProperty("layanan.document.path");
             String docxFilePath = reportPath + "/docx/" + filename;
+//windows            String docxFilePath = reportPath + "\\docx\\" + filename;
 
             Docx4jProperties.setProperty("docx4j.Convert.Out.HTML.OutputMethodXML", true);
 
@@ -75,21 +79,29 @@ public class EditorService {
 
 
             String htmlFilePath = reportPath + "/docx/resultDocxToXhtml.html";
+//            String htmlFilePath = reportPath + "\\docx\\resultDocxToXhtml.html";
             OutputStream os = new FileOutputStream(htmlFilePath);
 
             Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
-
-            return htmlToString(htmlFilePath);
         } catch (FileNotFoundException | Docx4JException e) {
-            return "Error " + e.getMessage();
+            e.printStackTrace();
         }
     }
 
-    private String htmlToString(String path) {
+    public String htmlToString(Layanan layanan, JDokumen dokumen) {
         try {
-            return FileUtils.readFileToString(new File(path), "UTF-8");
+            String reportPath = environment.getProperty("layanan.document.path");
+            String file;
+
+            if (layanan.getLokasi() == TANGERANG) file = reportPath + "/template/tangerang/" + dokumen.getId() + ".html";
+//windows            if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".html";
+            else file = reportPath + "/template/merak/" + dokumen.getId() + ".html";
+//windows            else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".html";
+
+            return FileUtils.readFileToString(new File(file), "UTF-8");
         } catch (IOException e) {
-            return "Error " + e.getMessage();
+            e.printStackTrace();
+            return null;
         }
     }
 

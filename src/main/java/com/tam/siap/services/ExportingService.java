@@ -25,7 +25,7 @@ public class ExportingService {
     private Environment env;
 
     public void print(Account account) throws JRException, FileNotFoundException {
-        String reportPath = env.getProperty("layanan.generated.report.path");
+        String reportPath = env.getProperty("layanan.document.path");
         String reportDir = reportPath + "/" + account.getUsername();
 //windows        String reportDir = reportPath + "\\" + account.getUsername();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy", new Locale("in", "ID"));

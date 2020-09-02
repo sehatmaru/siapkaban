@@ -1,7 +1,6 @@
 package com.tam.siap.services;
 
 import com.tam.siap.models.Dokumen;
-import com.tam.siap.models.JDokumen;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;

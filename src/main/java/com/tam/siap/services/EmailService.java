@@ -6,8 +6,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,10 +13,8 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static com.tam.siap.utils.refs.JenisEmail.EMAIL_ACCOUNT;
@@ -67,7 +63,7 @@ public class EmailService {
             }
 
             if (request.getType() == EMAIL_REGISTRASI) {
-                String reportDir = env.getProperty("layanan.generated.report.path") + "/" + request.getUsername() + "/RegisterForm.pdf";
+                String reportDir = env.getProperty("layanan.document.path") + "/" + request.getUsername() + "/RegisterForm.pdf";
                 File report = new File(reportDir);
                 helper.addAttachment(request.getUsername() + "_form.pdf", report);
             }

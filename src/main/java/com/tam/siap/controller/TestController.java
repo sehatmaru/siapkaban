@@ -175,5 +175,8 @@ public class TestController {
 //	}
 //
 
-
+	@GetMapping("convert/htmlToString")
+	public void htmltoDoc() {
+		System.out.println("string = " + izinOnlineService.getTemplate(layananService.findLayananById(15), jenisDokumenService.getJenisDokumen(298)));
+	}
 }

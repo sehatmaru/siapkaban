@@ -85,11 +85,12 @@ public class IzinOnlineService {
         return response;
     }
 
-//    public String getTemplate(Layanan layanan) {
-//        return editorService.docxToHTML(filename);
-//
-//        return null;
-//    }
+    public String getTemplate(Layanan layanan, JDokumen dokumen) {
+        String result = editorService.htmlToString(layanan, dokumen);
+
+        if (result == null) return "Error";
+        else return result;
+    }
 
     public int saveTemplate(Layanan layanan, JDokumen jDokumen, String html) {
         int result = FAILED;
