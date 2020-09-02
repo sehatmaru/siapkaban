@@ -215,67 +215,85 @@ public class IzinOnlineService {
             case KEPALA_SEKSI_P2 :
                 layanan.setKepSeksiP2(status);
 
-                layanan.setKepSubSeksiP2(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
+                if (layanan.getKepSubSeksiP2().isEmpty()
+                    || layanan.getKepSubSeksiP2() == null) {
+                    layanan.setKepSubSeksiP2(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                }
 
                 break;
             case KEPALA_SEKSI_PERBEND :
                 layanan.setKepSeksiPerbend(status);
 
-                layanan.setKepSubSeksiPerbend(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
+                if (layanan.getKepSubSeksiPerbend().isEmpty()
+                        || layanan.getKepSubSeksiPerbend() == null) {
+                    layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                }
 
                 break;
             case KEPALA_SEKSI_PKC :
                 layanan.setKepSeksiPkc(status);
 
-                layanan.setKepSubSeksiPkc(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
+                if (layanan.getKepSubSeksiPkc().isEmpty()
+                        || layanan.getKepSubSeksiPkc() == null) {
+                    layanan.setKepSubSeksiPkc(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                }
 
                 break;
             case KEPALA_SUB_SEKSI_P2 :
                 layanan.setKepSubSeksiP2(status);
 
-                layanan.setPemeriksaP2(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
+                if (layanan.getPemeriksaP2().isEmpty()
+                        || layanan.getPemeriksaP2() == null) {
+                    layanan.setPemeriksaP2(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                }
 
                 break;
             case KEPALA_SUB_SEKSI_PERBEND :
                 layanan.setKepSubSeksiPerbend(status);
 
-                layanan.setPemeriksaPerbend(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
+                if (layanan.getPemeriksaPerbend().isEmpty()
+                        || layanan.getPemeriksaPerbend() == null) {
+                    layanan.setPemeriksaPerbend(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                }
 
                 break;
             case KEPALA_SUB_SEKSI_PKC :
                 layanan.setKepSubSeksiPkc(status);
 
-                layanan.setPemeriksaPkc(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
+                if (layanan.getPemeriksaPkc().isEmpty()
+                        || layanan.getPemeriksaPkc() == null) {
+                    layanan.setPemeriksaPkc(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                }
 
                 break;
             case KEPALA_KANTOR :
