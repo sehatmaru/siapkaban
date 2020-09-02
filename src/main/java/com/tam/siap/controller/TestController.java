@@ -1,23 +1,12 @@
 package com.tam.siap.controller;
 
-import com.tam.siap.models.Account;
-import com.tam.siap.models.Layanan;
-import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.request.EditProfileRequest;
 import com.tam.siap.models.request.InsertPegawaiRequest;
-import com.tam.siap.models.responses.LayananResponse;
-import com.tam.siap.repos.JLayananRepository;
-import com.tam.siap.services.AdminService;
-import com.tam.siap.services.AuthBEService;
-import com.tam.siap.services.ProfileService;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.tam.siap.utils.TamUtils.getRandomNumber;
 
@@ -63,6 +52,9 @@ public class TestController {
 
 	@Autowired
 	AccountService accountService;
+
+	@Autowired
+	EditorService editorService;
 
 //	@PostMapping("/register")
 //	public void register() {
@@ -165,4 +157,23 @@ public class TestController {
 	public void insertPegawai(@RequestBody @Validated InsertPegawaiRequest request) {
 		registerService.insertPegawai(request);
 	}
+
+//	@GetMapping("convert/doctohtml")
+//	public void conDocToHtml() throws SAXException, TikaException, TransformerConfigurationException, IOException {
+//		docToHTML();
+//	}
+
+	@GetMapping("convert/docxToHTML")
+	public void conDocxToHtml(@RequestBody @Validated String filename) {
+		editorService.docxToHTML(filename);
+	}
+
+
+	@GetMapping("convert/htmlToDoc")
+	public void htmltoDoc(@RequestBody @Validated String filename) {
+		editorService.htmlToDocx(filename);
+	}
+
+
+
 }
