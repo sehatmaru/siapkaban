@@ -49,6 +49,9 @@ public class IzinOnlineService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    EditorService editorService;
+
     private int id = 0;
 
     public DokumenListResponse docFilter(SJLayanan subLayanan) {
@@ -80,6 +83,34 @@ public class IzinOnlineService {
         System.out.println(response.toString());
 
         return response;
+    }
+
+//    public String getTemplate(Layanan layanan) {
+//        return editorService.docxToHTML(filename);
+//
+//        return null;
+//    }
+
+    public int saveTemplate(Layanan layanan, JDokumen jDokumen, String html) {
+        int result = FAILED;
+
+        String path = editorService.htmlToDocx(layanan, jDokumen, html);
+
+        if (path != null) {
+            Dokumen dokumen = new Dokumen(
+                    jDokumen.getDeskripsi(),
+                    path,
+                    jDokumen,
+                    layanan.getPemohonon(),
+                    1
+            );
+
+            dokumenService.save(dokumen);
+
+            result = SUCCESS;
+        }
+
+        return result;
     }
 
     public List<JDokumen> docFilter(Role role, int status) {

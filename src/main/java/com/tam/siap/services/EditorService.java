@@ -1,9 +1,10 @@
 package com.tam.siap.services;
 
+import com.tam.siap.models.JDokumen;
+import com.tam.siap.models.Layanan;
 import org.apache.commons.io.FileUtils;
 import org.docx4j.Docx4J;
 import org.docx4j.Docx4jProperties;
-import org.docx4j.XmlUtils;
 import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
 import org.docx4j.convert.out.ConversionFeatures;
 import org.docx4j.convert.out.html.AbstractHtmlExporter;
@@ -15,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 @Service
 public class EditorService {
@@ -26,27 +24,33 @@ public class EditorService {
     @Autowired
     Environment environment;
 
-    public void htmlToDocx(String filename) {
+    public String htmlToDocx(Layanan layanan, JDokumen jDokumen, String html) {
         try {
             String reportPath = environment.getProperty("layanan.generated.report.path");
-
-            String htmlFilePath = reportPath + "/html/" + filename;
-            String stringFromFile = FileUtils.readFileToString(new File(htmlFilePath), "UTF-8");
 
             WordprocessingMLPackage docxOut = WordprocessingMLPackage.createPackage();
 
             XHTMLImporterImpl XHTMLImporter = new XHTMLImporterImpl(docxOut);
 
             docxOut.getMainDocumentPart().getContent().addAll(
-                    XHTMLImporter.convert(stringFromFile, null) );
+                    XHTMLImporter.convert(html, null) );
 
-            docxOut.save(new java.io.File(reportPath + "/html/resultHtmlToDocx.docx") );
-        } catch (IOException | Docx4JException e) {
+            String path = reportPath
+                    + "/" + layanan.getPemohonon().getId()
+                    + "/" + layanan.getNomor()
+                    + "/hasil"
+                    + "/" + jDokumen.getDeskripsi() + ".docx";
+
+            docxOut.save(new File(path));
+
+            return path;
+        } catch (Docx4JException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public void docxToHTML(String filename) {
+    public String docxToHTML(String filename) {
         try {
             String reportPath = environment.getProperty("layanan.generated.report.path");
             String docxFilePath = reportPath + "/docx/" + filename;
@@ -70,14 +74,23 @@ public class EditorService {
             } // must do one or the other
 
 
-            String htmlFilePath = reportPath + "/resultDocxToXhtml.html";
-            OutputStream os = new java.io.FileOutputStream(htmlFilePath);
+            String htmlFilePath = reportPath + "/docx/resultDocxToXhtml.html";
+            OutputStream os = new FileOutputStream(htmlFilePath);
 
             Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
-        } catch (FileNotFoundException | Docx4JException e) {
-            e.printStackTrace();
-        }
 
+            return htmlToString(htmlFilePath);
+        } catch (FileNotFoundException | Docx4JException e) {
+            return "Error " + e.getMessage();
+        }
+    }
+
+    private String htmlToString(String path) {
+        try {
+            return FileUtils.readFileToString(new File(path), "UTF-8");
+        } catch (IOException e) {
+            return "Error " + e.getMessage();
+        }
     }
 
 //    public void docToHTML() throws IOException, TikaException, SAXException, TransformerConfigurationException {
