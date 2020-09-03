@@ -40,7 +40,7 @@ public class UploadService {
         return file;
     }
 
-    private void saveFile(MemoryBuffer memoryBuffer, String path, String file){
+    public void saveFile(MemoryBuffer memoryBuffer, String path, String file){
         createDir(path);
 
         File targetFile = new File(file);

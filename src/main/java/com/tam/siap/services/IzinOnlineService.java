@@ -99,7 +99,7 @@ public class IzinOnlineService {
 
         if (path != null) {
             Dokumen dokumen = new Dokumen(
-                    jDokumen.getDeskripsi(),
+                    jDokumen.getKeterangan(),
                     path,
                     jDokumen,
                     layanan.getPemohonon(),
@@ -112,6 +112,16 @@ public class IzinOnlineService {
         }
 
         return result;
+    }
+
+    public String uploadTemplate(MemoryBuffer memoryBuffer, Layanan layanan, JDokumen dokumen) {
+        String result = null;
+        String path = editorService.docxToHTML(memoryBuffer, layanan, dokumen);
+
+        if (path != null) result = editorService.htmlToString(path);
+
+        if (result != null) return result;
+        else return "Error";
     }
 
     public List<JDokumen> docFilter(Role role, int status) {

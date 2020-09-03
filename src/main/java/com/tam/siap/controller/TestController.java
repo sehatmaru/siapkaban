@@ -163,10 +163,10 @@ public class TestController {
 //		docToHTML();
 //	}
 
-//	@GetMapping("convert/docxToHTML")
-//	public void conDocxToHtml(@RequestBody @Validated String filename) {
-//		System.out.println("Hasil html = " + izinOnlineService.getTemplate(filename));
-//	}
+	@GetMapping("convert/docxToHTML")
+	public void conDocxToHtml(@RequestBody @Validated String filename) {
+		editorService.docxToHTML(filename);
+	}
 
 
 //	@GetMapping("convert/htmlToDoc")
