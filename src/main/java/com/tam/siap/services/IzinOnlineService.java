@@ -52,8 +52,6 @@ public class IzinOnlineService {
     @Autowired
     EditorService editorService;
 
-    private int id = 0;
-
     public DokumenListResponse docFilter(SJLayanan subLayanan) {
         List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subLayanan);
         DokumenListResponse response = new DokumenListResponse();
@@ -141,26 +139,25 @@ public class IzinOnlineService {
         layanan.setStatus(ON_PROGRESS);
         layananService.save(layanan);
         layananService.flush();
-        id = layanan.getId();
-        uploadDoc(memoryBuffer, dokumen, layanan.getNomor());
+        uploadDoc(memoryBuffer, dokumen, layanan);
 
         if (layananService.isLayananExist(layanan.getNomor())) result = SUCCESS;
 
         return result;
     }
 
-    public void uploadDoc(List<MemoryBuffer> memoryBuffer, List<Dokumen> dokumen, String nomor) {
+    public void uploadDoc(List<MemoryBuffer> memoryBuffer, List<Dokumen> dokumen, Layanan layanan) {
         for (int i=0; i<dokumen.size(); i++) {
             dokumen.get(i).setPath(uploadService.saveFile(
                     memoryBuffer.get(i),
                     dokumen.get(i),
-                    nomor));
-            saveDB(dokumen.get(i));
+                    layanan.getNomor()));
+            saveDB(dokumen.get(i), layanan);
         }
     }
 
-    private void saveDB(Dokumen dokumen){
-        dokumen.setLayanan(layananService.findLayananById(id));
+    private void saveDB(Dokumen dokumen, Layanan layanan){
+        dokumen.setLayanan(layananService.findLayananById(layanan.getId()));
         dokumenService.save(dokumen);
     }
 

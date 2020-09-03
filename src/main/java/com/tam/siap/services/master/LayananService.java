@@ -45,54 +45,54 @@ public class LayananService {
     }
 
     public List<Layanan> findLayananByPemohon(Account account) {
-        return layananRepository.findByPemohonon(account);
+        return layananRepository.findByPemohononOrderByTanggalDesc(account);
     }
 
     public List<Layanan> findLayananByPenerimaIsNull(int lokasi) {
-        return layananRepository.findByPenerimaIsNullAndLokasi(lokasi);
+        return layananRepository.findByPenerimaIsNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByPenerimaIsNotNull(int lokasi) {
-        return layananRepository.findByPenerimaIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByPenerimaIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepKantorIsNotNull(int lokasi) {
-        return layananRepository.findByKepKantorIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepKantorIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByPemeriksaP2IsNotNull(int lokasi) {
-        return layananRepository.findByPemeriksaP2IsNotNullAndLokasi(lokasi);
+        return layananRepository.findByPemeriksaP2IsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByPemeriksaPerbendIsNotNull(int lokasi) {
-        return layananRepository.findByPemeriksaPerbendIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByPemeriksaPerbendIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByPemeriksaPkcIsNotNull(int lokasi) {
-        return layananRepository.findByPemeriksaPkcIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByPemeriksaPkcIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepSeksiP2IsNotNull(int lokasi) {
-        return layananRepository.findByKepSeksiP2IsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepSeksiP2IsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepSeksiPerbendIsNotNull(int lokasi) {
-        return layananRepository.findByKepSeksiPerbendIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepSeksiPerbendIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepSeksiPkcIsNotNull(int lokasi) {
-        return layananRepository.findByKepSeksiPkcIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepSeksiPkcIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepSubSeksiP2IsNotNull(int lokasi) {
-        return layananRepository.findByKepSubSeksiP2IsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepSubSeksiP2IsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepSubSeksiPerbendIsNotNull(int lokasi) {
-        return layananRepository.findByKepSubSeksiPerbendIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepSubSeksiPerbendIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
     public List<Layanan> findLayananByKepSubSeksiPkcIsNotNull(int lokasi) {
-        return layananRepository.findByKepSubSeksiPkcIsNotNullAndLokasi(lokasi);
+        return layananRepository.findByKepSubSeksiPkcIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 }
