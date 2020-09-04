@@ -163,7 +163,7 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 				txtnip.setText(datasLogin.getAccount().getPribadi().getNomor());
 				txtemail.setText(datasLogin.getAccount().getPribadi().getEmail());
 				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "izinonline"));
-				menuapps.getElement().appendChild(elmenu("Instan", "instan", "statuslayananpt"));
+				menuapps.getElement().appendChild(elmenu("Instan", "instan", "inboxpt"));
 				pnldetailinfo.getElement().setProperty("innerHTML",
 						"<small style=\"font-size: 0.625rem;\" class=\"text-muted\">Nama\r\n"
 								+ "								Perusahaan</small>\r\n"

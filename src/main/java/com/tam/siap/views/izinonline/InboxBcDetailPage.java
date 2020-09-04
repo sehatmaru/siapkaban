@@ -51,6 +51,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.dom.DomEvent;
@@ -515,25 +516,26 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //		vl.getStyle().set("margin","0");
 //		vl.setSpacing(false);
 //		vl.setWidthFull();
-//		StreamResource res = new StreamResource("download.docx", new InputStreamFactory() {
-//
-//			@Override
-//			public InputStream createInputStream() {
-//				// TODO Auto-generated method stub
-//				File initialFile = data.getFile();
-//				InputStream targetStream = null;
-//				try {
-//					targetStream = new FileInputStream(initialFile);
-//				} catch (FileNotFoundException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				return targetStream;
-//			}
-//		});
-//		Anchor download = new Anchor(res, "");
-//        download.getElement().setAttribute("download", true);
-//        download.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT)));
+		StreamResource res = new StreamResource(data.getjDokumen().getKeterangan()+".docx", new InputStreamFactory() {
+
+			@Override
+			public InputStream createInputStream() {
+				// TODO Auto-generated method stub
+				File initialFile = izinOnlineService.downloadTemplate(data.getDatalay(), data.getjDokumen());
+				InputStream targetStream = null;
+				try {
+					targetStream = new FileInputStream(initialFile);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return targetStream;
+			}
+		});
+		Anchor download = new Anchor(res, "");
+        download.getElement().setAttribute("download", true);
+        Button btndownload = new Button(new Icon(VaadinIcon.DOWNLOAD_ALT));
+        download.add(btndownload);
 		Button btnsave = new Button("save");
 		btnsave.addThemeVariants(ButtonVariant.LUMO_SMALL);
 		btnsave.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
@@ -565,8 +567,20 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				up.setReceiver(data.getMembuffer());
 			}
 		});
-		up.setAcceptedFileTypes("application/msword");
-		hl.add(up, btnsave);
+		up.addSucceededListener(new ComponentEventListener<SucceededEvent>() {
+
+			@Override
+			public void onComponentEvent(SucceededEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("Upload success");
+				String html = izinOnlineService.uploadTemplate(data.getMembuffer(), data.getDatalay(),
+						data.getjDokumen());
+				System.out.println("Ht : "+html);
+				wysiwygE.setValue("test");
+			}
+		});
+		up.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+		hl.add(up, btnsave,download);
 		String html = izinOnlineService.getTemplate(data.getDatalay(), data.getjDokumen());
 		wysiwygE.setValue(html);
 		wysiwygE.setWidthFull();
