@@ -154,6 +154,16 @@ public class EditorService {
         }
     }
 
+    public File getPath(Layanan layanan, JDokumen dokumen) {
+        String reportPath = environment.getProperty("layanan.document.path");
+        String file;
+
+        if (layanan.getLokasi() == TANGERANG) file = reportPath + "/template/tangerang/" + dokumen.getId() + ".docx";
+        else file = reportPath + "/template/merak/" + dokumen.getId() + ".docx";
+
+        return new File(file);
+    }
+
 //    public void docToHTML() throws IOException, TikaException, SAXException, TransformerConfigurationException {
 //        InputStream input = TikaInputStream.get(new File("D:\\siapKabanDev\\src\\main\\resources\\report\\NOTA DINAS.doc"));
 //

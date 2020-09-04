@@ -122,6 +122,10 @@ public class IzinOnlineService {
         else return "Error";
     }
 
+    public File downloadTemplate(Layanan layanan, JDokumen dokumen) {
+        return editorService.getPath(layanan, dokumen);
+    }
+
     public List<JDokumen> docFilter(Role role, int status) {
         if (role.getId() == PEMERIKSA_P2 || role.getId() == KEPALA_SUB_SEKSI_P2 || role.getId() == KEPALA_SEKSI_P2) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_P2), "" + status);
