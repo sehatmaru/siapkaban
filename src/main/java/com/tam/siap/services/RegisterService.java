@@ -49,29 +49,14 @@ public class RegisterService {
                 if (addDataPribadi(dPribadi) == SUCCESS) {
                     if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                         if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
-                            try {
-                                exportingService.print(account);
-                            } catch (JRException e) {
-                                e.printStackTrace();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-
-                            Map<String, String> model = new HashMap<>();
-                            model.put("nama", account.getPribadi().getNama());
-                            model.put("nomor", account.getPribadi().getNomor());
-
-                            EmailRequestDto request = new EmailRequestDto(
-                                    "siapkaban@gmail.com",
-                                    dPribadi.getEmail(),
-                                    "Dokumen Pendaftaran",
-                                    1,
-                                    account.getUsername(),
-                                    model
-                            );
-
-                            if (emailService.sendMail(request)) result = SUCCESS;
+                            result = sendEmail(account, dPribadi);
                         }
+                    }
+                }
+            } else {
+                if (addDataPribadi(dPribadi) == SUCCESS) {
+                    if (addUser(account, dPribadi, dataPerusahaanService.findDataPerusahaanByNpwp(dPerusahaan.getNpwp())) == SUCCESS) {
+                        result = sendEmail(account, dPribadi);
                     }
                 }
             }
@@ -101,13 +86,10 @@ public class RegisterService {
         if (addDataPribadi(pribadi) == SUCCESS) addUser(account, pribadi);
     }
 
-    private int addUser(Account account, DPribadi pribadi){
+    private void addUser(Account account, DPribadi pribadi){
         account.setPribadi(pribadi);
 
         accountService.save(account);
-
-        if (accountService.isAccountExist(account.getUsername(), account.getRole())) return SUCCESS;
-        else return FAILED;
     }
 
     private int addUser(Account account, DPribadi pribadi, DPerusahaan perusahaan){
@@ -135,6 +117,33 @@ public class RegisterService {
 
         if (dataPerusahaanService.isDataPerusahaanExist(dPerusahaan.getId())) return SUCCESS;
         else return FAILED;
+    }
+
+    private int sendEmail(Account account, DPribadi dPribadi) {
+        int result = FAILED;
+
+        try {
+            exportingService.print(account);
+        } catch (JRException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> model = new HashMap<>();
+        model.put("nama", account.getPribadi().getNama());
+        model.put("nomor", account.getPribadi().getNomor());
+
+        EmailRequestDto request = new EmailRequestDto(
+                "siapkaban@gmail.com",
+                dPribadi.getEmail(),
+                "Dokumen Pendaftaran",
+                1,
+                account.getUsername(),
+                model
+        );
+
+        if (emailService.sendMail(request)) result = SUCCESS;
+
+        return result;
     }
 
 }
