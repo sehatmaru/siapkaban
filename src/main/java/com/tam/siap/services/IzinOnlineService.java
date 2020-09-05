@@ -123,7 +123,11 @@ public class IzinOnlineService {
     }
 
     public File downloadTemplate(Layanan layanan, JDokumen dokumen) {
-        return editorService.getPath(layanan, dokumen);
+        if (dokumenService.isDocumentExist(dokumen, layanan.getPemohonon())) {
+            Dokumen dok = dokumenService.findByJenisDokumenAndPemohon(dokumen, layanan.getPemohonon());
+
+            return new File(dok.getPath());
+        } else return editorService.getPath(layanan, dokumen);
     }
 
     public List<JDokumen> docFilter(Role role, int status) {

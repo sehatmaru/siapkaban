@@ -2,6 +2,7 @@ package com.tam.siap.services.master;
 
 import com.tam.siap.models.Account;
 import com.tam.siap.models.Dokumen;
+import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.Layanan;
 import com.tam.siap.repos.DokumenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class DokumenService {
         return dokumenRepository.findByNamaDokumen(namaDokumen) != null;
     }
 
+    public boolean isDocumentExist(JDokumen dokumen, Account pemohon) {
+        return dokumenRepository.findByJenisDokumenAndPemohon(dokumen, pemohon) != null;
+    }
+
     public void save(Dokumen dokumen){
         dokumenRepository.save(dokumen);
     }
@@ -34,4 +39,9 @@ public class DokumenService {
     public List<Dokumen> findByLayanan(Layanan layanan) {
         return dokumenRepository.findByLayanan(layanan);
     }
+
+    public Dokumen findByJenisDokumenAndPemohon(JDokumen dokumen, Account pemohon) {
+        return dokumenRepository.findByJenisDokumenAndPemohon(dokumen, pemohon);
+    }
+
 }
