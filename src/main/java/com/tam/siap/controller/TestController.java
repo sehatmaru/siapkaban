@@ -192,8 +192,7 @@ public class TestController {
 
 	@GetMapping("image/{path}")
 	public ResponseEntity<byte[]> getImages(@PathVariable("path") String path) throws IOException{
-//		File img = new File("/Users/whee/sehat/workspace/siapkaban/be/file/docs/template/merak/295.docx_files/82a4c25e-0d0a-4bce-8a3a-6f536d23f1d8image1.jpeg");
-		String file = path.replace(" ", "/");
+		String file = path.replace(" ", "\\");
 		File img = new File(file);
 		return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
 	}

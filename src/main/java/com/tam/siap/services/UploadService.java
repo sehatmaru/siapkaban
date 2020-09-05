@@ -22,7 +22,7 @@ public class UploadService {
 
     public String saveFile(MemoryBuffer memoryBuffer, String fileName) {
         String path = environment.getProperty("layanan.images.path");
-        String file = path + "/" + fileName;
+        String file = path + "\\" + fileName;
 
         saveFile(memoryBuffer, path, file);
 
@@ -30,10 +30,8 @@ public class UploadService {
     }
 
     public String saveFile(MemoryBuffer memoryBuffer, Dokumen dokumen, String nomor) {
-        String path = environment.getProperty("layanan.document.path") + "/" + dokumen.getPemohon().getUsername() + "/" + nomor;
-//windows        String path = environment.getProperty("layanan.document.path") + "\\" + dokumen.getPemohon().getUsername() + "\\" + nomor;
-        String file = path + "/" + dokumen.getNamaDokumen() + ".pdf";
-//windows        String file = path + "\\" + dokumen.getNamaDokumen() + ".pdf";
+        String path = environment.getProperty("layanan.document.path") + "\\" + dokumen.getPemohon().getUsername() + "\\" + nomor;
+        String file = path + "\\" + dokumen.getNamaDokumen() + ".pdf";
 
         saveFile(memoryBuffer, path, file);
 

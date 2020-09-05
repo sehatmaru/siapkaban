@@ -26,8 +26,7 @@ public class ExportingService {
 
     public void print(Account account) throws JRException, FileNotFoundException {
         String reportPath = env.getProperty("layanan.document.path");
-        String reportDir = reportPath + "/" + account.getUsername();
-//windows        String reportDir = reportPath + "\\" + account.getUsername();
+        String reportDir = reportPath + "\\" + account.getUsername();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy", new Locale("in", "ID"));
         Date date = new Date();
         String tanggal = dateFormat.format(date);
@@ -71,14 +70,12 @@ public class ExportingService {
         parameter.put("tujuanpenambahanbaru", " ");
         parameter.put("tujuanperubahan", " ");
 
-        JasperReport jasperDesign = JasperCompileManager.compileReport(env.getProperty("layanan.jasper.path") + "/RegisterForm.jrxml");
-//windows        JasperReport jasperDesign = JasperCompileManager.compileReport(env.getProperty("layanan.jasper.path") + "\\RegisterForm.jrxml");
+        JasperReport jasperDesign = JasperCompileManager.compileReport(env.getProperty("layanan.jasper.path") + "\\RegisterForm.jrxml");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
                 new JREmptyDataSource());
 
         if (createDir(reportDir)) {
-            File file = new File(reportDir + "/RegisterForm.pdf");
-//windows            File file = new File(reportDir + "\\RegisterForm.pdf");
+            File file = new File(reportDir + "\\RegisterForm.pdf");
             OutputStream outputSteam = new FileOutputStream(file);
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
         }

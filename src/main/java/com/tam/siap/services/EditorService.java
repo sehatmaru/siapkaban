@@ -44,13 +44,12 @@ public class EditorService {
                     XHTMLImporter.convert(html, null) );
 
             String path = reportPath
-                    + "/" + layanan.getPemohonon().getUsername()
-                    + "/" + layanan.getNomor()
-                    + "/hasil";
+                    + "\\" + layanan.getPemohonon().getUsername()
+                    + "\\" + layanan.getNomor()
+                    + "\\hasil";
 
             createDir(path);
-            String file = path + "/" + jDokumen.getKeterangan() + ".docx";
-//windows            String path = reportPath + "\\" + layanan.getPemohonon().getId() + "\\" + layanan.getNomor() + "\\hasil\\" + jDokumen.getDeskripsi() + ".docx";
+            String file = path + "\\" + jDokumen.getKeterangan() + ".docx";
 
             docxOut.save(new File(file));
 
@@ -97,14 +96,12 @@ public class EditorService {
             String keterangan = dokumen.getKeterangan().replace(" ", "_");
 
             String path = reportPath
-                    + "/" + layanan.getPemohonon().getUsername()
-                    + "/" + layanan.getNomor()
-                    + "/hasil";
-//windows            String path = reportPath + "\\" + layanan.getPemohonon().getUsername() + "\\" + layanan.getNomor() + "\\hasil";
+                    + "\\" + layanan.getPemohonon().getUsername()
+                    + "\\" + layanan.getNomor()
+                    + "\\hasil";
 
             createDir(path);
-            String fileDocx = path + "/" + keterangan + ".docx";
-//windows            String fileDocx = path + "\\" + dokumen.getKeterangan() + ".docx";
+            String fileDocx = path + "\\" + keterangan + ".docx";
 
             uploadService.saveFile(memoryBuffer, path, fileDocx);
 
@@ -118,27 +115,20 @@ public class EditorService {
             htmlSettings.setImageTargetUri(fileDocx + "_files");
 
             SdtWriter.registerTagHandler("HTML_ELEMENT", new SdtToListSdtTagHandler());
-//            htmlSettings.getFeatures().remove(ConversionFeatures.PP_HTML_COLLECT_LISTS);
 
-            String htmlFilePath = path + "/" + keterangan + ".html";
-//windows            String htmlFilePath = path + "\\" + dokumen.getKeterangan() + ".html";
+            String htmlFilePath = path + "\\" + keterangan + ".html";
 
             OutputStream os = new FileOutputStream(htmlFilePath);
 
             Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
 
-//windows            String folder = "http://localhost:8089/test/image/C: Users Administrator Documents siapkabanv3 dok report"
-//                    + " " + layanan.getPemohonon().getUsername()
-//                    + " " + layanan.getNomor()
-//                    + " hasil" + " " + keterangan + ".docx_files ";
-
-            String folder = "http://localhost:8089/test/image/ Users whee sehat workspace siapkaban be file docs"
+            String folder = "http://localhost:7078/test/image/C: Users Administrator Documents siapkabanv3 dok report"
                     + " " + layanan.getPemohonon().getUsername()
                     + " " + layanan.getNomor()
                     + " hasil" + " " + keterangan + ".docx_files ";
 
             String html = htmlToString(htmlFilePath);
-            String newHtml = html.replace(fileDocx + "_files/", folder);
+            String newHtml = html.replace(fileDocx + "_files\\", folder);
 
             FileOutputStream fooStream = new FileOutputStream(new File(htmlFilePath), false);
             byte[] myBytes = newHtml.getBytes();
@@ -158,10 +148,8 @@ public class EditorService {
 
         System.out.println("jenis = " + dokumen.getId());
 
-        if (layanan.getLokasi() == TANGERANG) file = reportPath + "/template/tangerang/" + dokumen.getId() + ".html";
-//windows            if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".html";
-        else file = reportPath + "/template/merak/" + dokumen.getId() + ".html";
-//windows            else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".html";
+        if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".html";
+        else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".html";
 
         return htmlToString(file);
     }
@@ -179,8 +167,8 @@ public class EditorService {
         String reportPath = environment.getProperty("layanan.document.path");
         String file;
 
-        if (layanan.getLokasi() == TANGERANG) file = reportPath + "/template/tangerang/" + dokumen.getId() + ".docx";
-        else file = reportPath + "/template/merak/" + dokumen.getId() + ".docx";
+        if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".docx";
+        else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".docx";
 
         return new File(file);
     }

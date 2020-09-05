@@ -1,28 +1,28 @@
 project:
-    home: /Users/whee/sehat/workspace/siapkaban/be/siapkaban
+    home: C:\Users\Administrator\Documents\siapkabanv3
 
 layanan:
     document:
         bc:
-            logo: C:\Users\ahmad\Documents\tamz\My Proj\Siapkaban\dokfolder\logo\logo.jpeg
-        path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
+            logo: C:\Users\Administrator\Documents\siapkabanv3\dok\logologo.jpeg
+        path: C:\Users\Administrator\Documents\siapkabanv3\dok\report
     generated:
         report:
-            path: /Users/whee/sehat/workspace/siapkaban/be/file/docs
+            path: ${project.home}/report
     images:
-        path: /Users/whee/sehat/workspace/siapkaban/be/file/images
+        path: C:\Users\Administrator\Documents\siapkabanv3\dok\images
     jasper:
-        path: ${project.home}/src/main/resources/report
+        path: ${project.home}/report
 
 server:
-    port: 8089
+    port: 7078
 
 siapkaban:
     datasource:
         driver-class-name: org.postgresql.Driver
         jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
-        password: sehatmaru
-        username: postgres
+        password: tamimi1017590
+        username: kwbc_banten
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 #        generate-ddl: true
@@ -36,8 +36,8 @@ spring:
             maximumPoolSize: 5
         jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
         url: jdbc:postgresql://localhost:5432/siapkaban2
-        password: sehatmaru
-        username: postgres
+        password: tamimi1017590
+        username: kwbc_banten
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 #        generate-ddl: true

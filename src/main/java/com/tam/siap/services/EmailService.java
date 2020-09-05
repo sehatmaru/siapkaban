@@ -63,7 +63,7 @@ public class EmailService {
             }
 
             if (request.getType() == EMAIL_REGISTRASI) {
-                String reportDir = env.getProperty("layanan.document.path") + "/" + request.getUsername() + "/RegisterForm.pdf";
+                String reportDir = env.getProperty("layanan.document.path") + "\\" + request.getUsername() + "\\RegisterForm.pdf";
                 File report = new File(reportDir);
                 helper.addAttachment(request.getUsername() + "_form.pdf", report);
             }
