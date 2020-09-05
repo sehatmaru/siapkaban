@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 import static com.tam.siap.utils.TamUtils.createDir;
@@ -92,6 +94,7 @@ public class EditorService {
     public String docxToHTML(MemoryBuffer memoryBuffer, Layanan layanan, JDokumen dokumen) {
         try {
             String reportPath = environment.getProperty("layanan.document.path");
+            String keterangan = dokumen.getKeterangan().replace(" ", "_");
 
             String path = reportPath
                     + "/" + layanan.getPemohonon().getUsername()
@@ -100,14 +103,14 @@ public class EditorService {
 //windows            String path = reportPath + "\\" + layanan.getPemohonon().getUsername() + "\\" + layanan.getNomor() + "\\hasil";
 
             createDir(path);
-            String fileDocx = path + "/" + dokumen.getKeterangan() + ".docx";
+            String fileDocx = path + "/" + keterangan + ".docx";
 //windows            String fileDocx = path + "\\" + dokumen.getKeterangan() + ".docx";
 
             uploadService.saveFile(memoryBuffer, path, fileDocx);
 
             Docx4jProperties.setProperty("docx4j.Convert.Out.HTML.OutputMethodXML", true);
 
-            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new java.io.File(fileDocx));
+            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File(fileDocx));
             AbstractHtmlExporter.HtmlSettings htmlSettings = new AbstractHtmlExporter.HtmlSettings();
 
             htmlSettings.setWmlPackage(wordMLPackage);
@@ -117,15 +120,33 @@ public class EditorService {
             SdtWriter.registerTagHandler("HTML_ELEMENT", new SdtToListSdtTagHandler());
 //            htmlSettings.getFeatures().remove(ConversionFeatures.PP_HTML_COLLECT_LISTS);
 
-            String htmlFilePath = path + "/" + dokumen.getKeterangan() + ".html";
+            String htmlFilePath = path + "/" + keterangan + ".html";
 //windows            String htmlFilePath = path + "\\" + dokumen.getKeterangan() + ".html";
 
             OutputStream os = new FileOutputStream(htmlFilePath);
 
             Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
 
+//windows            String folder = "http://localhost:8089/test/image/C: Users Administrator Documents siapkabanv3 dok report"
+//                    + " " + layanan.getPemohonon().getUsername()
+//                    + " " + layanan.getNomor()
+//                    + " hasil" + " " + keterangan + ".docx_files ";
+
+            String folder = "http://localhost:8089/test/image/ Users whee sehat workspace siapkaban be file docs"
+                    + " " + layanan.getPemohonon().getUsername()
+                    + " " + layanan.getNomor()
+                    + " hasil" + " " + keterangan + ".docx_files ";
+
+            String html = htmlToString(htmlFilePath);
+            String newHtml = html.replace(fileDocx + "_files/", folder);
+
+            FileOutputStream fooStream = new FileOutputStream(new File(htmlFilePath), false);
+            byte[] myBytes = newHtml.getBytes();
+            fooStream.write(myBytes);
+            fooStream.close();
+
             return htmlFilePath;
-        } catch (FileNotFoundException | Docx4JException e) {
+        } catch (Docx4JException | IOException e) {
             e.printStackTrace();
             return null;
         }

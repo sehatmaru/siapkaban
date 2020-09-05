@@ -5,8 +5,22 @@ import com.tam.siap.models.request.InsertPegawaiRequest;
 import com.tam.siap.services.*;
 import com.tam.siap.services.master.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.activation.FileTypeMap;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 import static com.tam.siap.utils.TamUtils.getRandomNumber;
 
@@ -55,6 +69,9 @@ public class TestController {
 
 	@Autowired
 	EditorService editorService;
+
+	@Autowired
+	Environment environment;
 
 //	@PostMapping("/register")
 //	public void register() {
@@ -143,9 +160,9 @@ public class TestController {
 //		System.out.println("hasil view = " + izinOnlineService.viewPerizinanOnline(roleService.getRole(3)).toString());
 //	}
 
-	@GetMapping("utils/rannum")
-	public void getNumber(){
-		System.out.println("Hasil Random " + getRandomNumber());
+	@GetMapping("utils/rannum/{string}")
+	public void getNumber(@PathVariable("string") String string){
+		System.out.println("Hasil Random " + getRandomNumber() + " " + string);
 	}
 
 	@GetMapping("get/nextpic")
@@ -168,6 +185,18 @@ public class TestController {
 		editorService.docxToHTML(filename);
 	}
 
+	@GetMapping("image/get")
+	public Image getImage() {
+		return new ImageIcon("/Users/whee/sehat/workspace/siapkaban/be/file/docs/template/merak/295.docx_files/82a4c25e-0d0a-4bce-8a3a-6f536d23f1d8image1.jpeg").getImage();
+	}
+
+	@GetMapping("image/{path}")
+	public ResponseEntity<byte[]> getImages(@PathVariable("path") String path) throws IOException{
+//		File img = new File("/Users/whee/sehat/workspace/siapkaban/be/file/docs/template/merak/295.docx_files/82a4c25e-0d0a-4bce-8a3a-6f536d23f1d8image1.jpeg");
+		String file = path.replace(" ", "/");
+		File img = new File(file);
+		return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
+	}
 
 //	@GetMapping("convert/htmlToDoc")
 //	public void htmltoDoc(@RequestBody @Validated String filename) {

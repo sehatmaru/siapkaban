@@ -576,7 +576,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				String html = izinOnlineService.uploadTemplate(data.getMembuffer(), data.getDatalay(),
 						data.getjDokumen());
 				System.out.println("Ht : "+html);
-				wysiwygE.setValue("test");
+				wysiwygE.setValue(html);
 			}
 		});
 		up.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
