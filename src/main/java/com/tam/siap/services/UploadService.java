@@ -31,7 +31,7 @@ public class UploadService {
 
     public String saveFile(MemoryBuffer memoryBuffer, Dokumen dokumen, String nomor) {
         String path = environment.getProperty("layanan.document.path") + "\\" + dokumen.getPemohon().getUsername() + "\\" + nomor;
-        String file = path + "\\" + dokumen.getNamaDokumen() + ".pdf";
+        String file = path + "\\" + dokumen.getJenisDokumen().getId() + ".pdf";
 
         saveFile(memoryBuffer, path, file);
 
