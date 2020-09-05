@@ -122,7 +122,7 @@ public class EditorService {
 
             Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
 
-            String folder = "http://localhost:7078/test/image/C: Users Administrator Documents siapkabanv3 dok report"
+            String folder = "http://siapkaban.id:7078/test/image/C: Users Administrator Documents siapkabanv3 dok report"
                     + " " + layanan.getPemohonon().getUsername()
                     + " " + layanan.getNomor()
                     + " hasil" + " " + keterangan + ".docx_files ";
