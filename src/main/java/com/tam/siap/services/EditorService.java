@@ -134,7 +134,7 @@ public class EditorService {
                     + "+hasil" + "+" + keterangan + ".docx_files+";
 
             String html = htmlToString(htmlFilePath);
-            String newHtml = html.replace(fileDocx + "_files\\", folder);
+            String newHtml = html.replace(fileDocx + "_files/", folder);
 
             FileOutputStream fooStream = new FileOutputStream(new File(htmlFilePath), false);
             byte[] myBytes = newHtml.getBytes();
