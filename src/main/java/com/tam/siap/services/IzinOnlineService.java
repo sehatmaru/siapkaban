@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static com.tam.siap.utils.TamUtils.*;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
@@ -22,8 +20,7 @@ import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
 import static com.tam.siap.utils.refs.Role.*;
 import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
-import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
-import static com.tam.siap.utils.refs.StatusLayanan.REJECTED;
+import static com.tam.siap.utils.refs.StatusLayanan.*;
 
 @Service
 public class IzinOnlineService {
@@ -84,7 +81,16 @@ public class IzinOnlineService {
     }
 
     public String getTemplate(Layanan layanan, JDokumen dokumen) {
-        String result = editorService.htmlToString(layanan, dokumen);
+        String result = "";
+
+        System.out.println("layanan + id " + layanan.getId() + " " + dokumen.getId());
+
+        if (dokumenService.isDocumentExist(dokumen, layanan)) {
+            Dokumen dok = dokumenService.findByJenisDokumenAndLayanan(dokumen, layanan);
+            result = editorService.htmlToString(dok.getPath().replace("docx", "html"));
+        } else {
+            result = editorService.htmlToString(layanan, dokumen);
+        }
 
         if (result == null) return "Error";
         else return result;
@@ -92,19 +98,23 @@ public class IzinOnlineService {
 
     public int saveTemplate(Layanan layanan, JDokumen jDokumen, String html) {
         int result = FAILED;
+        System.out.println("html = " + html);
 
         String path = editorService.htmlToDocx(layanan, jDokumen, html);
 
         if (path != null) {
-            Dokumen dokumen = new Dokumen(
-                    jDokumen.getKeterangan(),
-                    path,
-                    jDokumen,
-                    layanan.getPemohonon(),
-                    1
-            );
+            if (!dokumenService.isDocumentExist(jDokumen, layanan)) {
+                Dokumen dokumen = new Dokumen(
+                        jDokumen.getKeterangan(),
+                        path,
+                        jDokumen,
+                        layanan.getPemohonon(),
+                        layanan,
+                        1
+                );
 
-            dokumenService.save(dokumen);
+                dokumenService.save(dokumen);
+            }
 
             result = SUCCESS;
         }
@@ -116,15 +126,30 @@ public class IzinOnlineService {
         String result = null;
         String path = editorService.docxToHTML(memoryBuffer, layanan, dokumen);
 
-        if (path != null) result = editorService.htmlToString(path);
+        if (path != null) {
+            result = editorService.htmlToString(path);
+
+            if (!dokumenService.isDocumentExist(dokumen, layanan)) {
+                Dokumen dok = new Dokumen(
+                        dokumen.getKeterangan(),
+                        path.replace("html", "docx"),
+                        dokumen,
+                        layanan.getPemohonon(),
+                        layanan,
+                        1
+                );
+
+                dokumenService.save(dok);
+            }
+        }
 
         if (result != null) return result;
         else return "Error";
     }
 
     public File downloadTemplate(Layanan layanan, JDokumen dokumen) {
-        if (dokumenService.isDocumentExist(dokumen, layanan.getPemohonon())) {
-            Dokumen dok = dokumenService.findByJenisDokumenAndPemohon(dokumen, layanan.getPemohonon());
+        if (dokumenService.isDocumentExist(dokumen, layanan)) {
+            Dokumen dok = dokumenService.findByJenisDokumenAndLayanan(dokumen, layanan);
 
             return new File(dok.getPath());
         } else return editorService.getPath(layanan, dokumen);
@@ -144,7 +169,7 @@ public class IzinOnlineService {
         int result = FAILED;
 
         layanan.setNomor(getNomor());
-        layanan.setStatus(ON_PROGRESS);
+        layanan.setStatus(ON_BATCH_1);
         layananService.save(layanan);
         layananService.flush();
         uploadDoc(memoryBuffer, dokumen, layanan);
@@ -172,6 +197,7 @@ public class IzinOnlineService {
     public int processLayanan(Layanan layanan, StatusLayanan statusLayanan) {
         int result = SUCCESS;
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Account account = accountService.findById(statusLayanan.getAccountId());
         String status = fetchStringWithColon(
                 statusLayanan.getAccountId(),
@@ -182,7 +208,14 @@ public class IzinOnlineService {
 
         switch (account.getRole().getId()) {
             case PENERIMA_DOKUMEN :
-                layanan.setPenerima(status);
+                layanan.setPenerima(
+                        fetchStringWithColon(
+                                statusLayanan.getAccountId(),
+                                statusLayanan.getTanggal(),
+                                String.valueOf(ACCEPTED),
+                                statusLayanan.getCatatan()
+                        )
+                );
 
                 if (statusLayanan.getStatus().equals(Integer.toString(REJECTED))) {
                     Map<String, String> model = new HashMap<>();
@@ -219,118 +252,323 @@ public class IzinOnlineService {
 
                 break;
             case PEMERIKSA_P2 :
-                layanan.setPemeriksaP2(status);
+                layanan.setPemeriksaP2(
+                        fetchStringWithColon(
+                                statusLayanan.getAccountId(),
+                                statusLayanan.getTanggal(),
+                                String.valueOf(ACCEPTED),
+                                statusLayanan.getCatatan()
+                        )
+                );
+
                 break;
             case PEMERIKSA_PERBEND :
-                layanan.setPemeriksaPerbend(status);
+                layanan.setPemeriksaPerbend(
+                        fetchStringWithColon(
+                                statusLayanan.getAccountId(),
+                                statusLayanan.getTanggal(),
+                                String.valueOf(ACCEPTED),
+                                statusLayanan.getCatatan()
+                        )
+                );
+
                 break;
             case PEMERIKSA_PKC :
-                layanan.setPemeriksaPkc(status);
+                layanan.setPemeriksaPkc(
+                        fetchStringWithColon(
+                                statusLayanan.getAccountId(),
+                                statusLayanan.getTanggal(),
+                                String.valueOf(ACCEPTED),
+                                statusLayanan.getCatatan()
+                        )
+                );
+
                 break;
             case KEPALA_SEKSI_P2 :
-                layanan.setKepSeksiP2(status);
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSeksiP2(status);
 
-                if (layanan.getKepSubSeksiP2() == null) {
-                    layanan.setKepSubSeksiP2(fetchStringWithColon(
-                            Integer.toString(statusLayanan.getNextPic().getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    if (layanan.getKepSubSeksiP2() == null) {
+                        layanan.setKepSubSeksiP2(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) {
+                    layanan.setKepSeksiP2(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(ACCEPTED),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
                 }
 
                 break;
             case KEPALA_SEKSI_PERBEND :
-                layanan.setKepSeksiPerbend(status);
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSeksiPerbend(status);
 
-                if (layanan.getKepSubSeksiPerbend() == null) {
-                    layanan.setKepSubSeksiPerbend(fetchStringWithColon(
-                            Integer.toString(statusLayanan.getNextPic().getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    if (layanan.getKepSubSeksiPerbend() == null) {
+                        layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) {
+                    layanan.setKepSeksiPerbend(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(ACCEPTED),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
                 }
+
 
                 break;
             case KEPALA_SEKSI_PKC :
-                layanan.setKepSeksiPkc(status);
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSeksiPkc(status);
 
-                if (layanan.getKepSubSeksiPkc() == null) {
-                    layanan.setKepSubSeksiPkc(fetchStringWithColon(
-                            Integer.toString(statusLayanan.getNextPic().getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
+                    StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
+
+                    if (kepSeksiP2.getTanggal() == null) {
+                        layanan.setKepSeksiP2(fetchStringWithColon(
+                                kepSeksiP2.getAccountId(),
+                                dateFormat.format(new Date()),
+                                String.valueOf(ON_PROGRESS),
+                                ""
+                        ));
+
+                        Account kepSubSeksiP2 = getRandomAccount(roleService.getRole(KEPALA_SUB_SEKSI_P2), layanan.getLokasi());
+                        layanan.setKepSubSeksiP2(fetchStringWithColon(
+                                Integer.toString(kepSubSeksiP2.getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    if (kepSeksiPerbend.getTanggal() == null) {
+                        layanan.setKepSeksiPerbend(fetchStringWithColon(
+                                kepSeksiPerbend.getAccountId(),
+                                dateFormat.format(new Date()),
+                                String.valueOf(ON_PROGRESS),
+                                ""
+                        ));
+
+                        Account kepSubSeksiPerbend = getRandomAccount(roleService.getRole(KEPALA_SUB_SEKSI_PERBEND), layanan.getLokasi());
+                        layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                                Integer.toString(kepSubSeksiPerbend.getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    if (layanan.getKepSubSeksiPkc() == null) {
+                        layanan.setKepSubSeksiPkc(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2){
+                    StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
+                    StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
+
+                    if (kepSeksiP2.getStatus().equals(String.valueOf(ON_PROGRESS))) {
+                        layanan.setKepSubSeksiP2(
+                                fetchStringWithColon(
+                                        kepSeksiP2.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        statusLayanan.getStatus(),
+                                        kepSeksiP2.getCatatan()
+                                )
+                        );
+                    }
+
+                    if (kepSeksiPerbend.getStatus().equals(String.valueOf(ON_PROGRESS))) {
+                        layanan.setKepSubSeksiP2(
+                                fetchStringWithColon(
+                                        kepSeksiPerbend.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        statusLayanan.getStatus(),
+                                        kepSeksiPerbend.getCatatan()
+                                )
+                        );
+                    }
+
+                    layanan.setKepSeksiPkc(status);
                 }
 
                 break;
             case KEPALA_SUB_SEKSI_P2 :
-                layanan.setKepSubSeksiP2(status);
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSubSeksiP2(status);
 
-                if (layanan.getPemeriksaP2() == null) {
-                    layanan.setPemeriksaP2(fetchStringWithColon(
-                            Integer.toString(statusLayanan.getNextPic().getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    if (layanan.getPemeriksaP2() == null) {
+                        layanan.setPemeriksaP2(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) {
+                    layanan.setKepSubSeksiP2(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(ACCEPTED),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
                 }
 
                 break;
             case KEPALA_SUB_SEKSI_PERBEND :
-                layanan.setKepSubSeksiPerbend(status);
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSubSeksiPerbend(status);
 
-                if (layanan.getPemeriksaPerbend() == null) {
-                    layanan.setPemeriksaPerbend(fetchStringWithColon(
-                            Integer.toString(statusLayanan.getNextPic().getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    if (layanan.getPemeriksaPerbend() == null) {
+                        layanan.setPemeriksaPerbend(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) {
+                    layanan.setKepSubSeksiPerbend(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(ACCEPTED),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
                 }
 
                 break;
             case KEPALA_SUB_SEKSI_PKC :
-                layanan.setKepSubSeksiPkc(status);
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSubSeksiPkc(status);
+                    layanan.setStatus(ON_BATCH_2);
 
-                if (layanan.getPemeriksaPkc() == null) {
-                    layanan.setPemeriksaPkc(fetchStringWithColon(
+                    StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
+                    StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
+
+                    if (kepSubSeksiP2.getTanggal() == null) {
+                        layanan.setKepSubSeksiP2(fetchStringWithColon(
+                                kepSubSeksiP2.getAccountId(),
+                                dateFormat.format(new Date()),
+                                String.valueOf(ON_PROGRESS),
+                                ""
+                        ));
+
+                        Account pemeriksaP2 = getRandomAccount(roleService.getRole(PEMERIKSA_P2), layanan.getLokasi());
+                        layanan.setPemeriksaP2(fetchStringWithColon(
+                                Integer.toString(pemeriksaP2.getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    if (kepSubSeksiPerbend.getTanggal() == null) {
+                        layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                                kepSubSeksiPerbend.getAccountId(),
+                                dateFormat.format(new Date()),
+                                String.valueOf(ON_PROGRESS),
+                                ""
+                        ));
+
+                        Account pemeriksaPerbend = getRandomAccount(roleService.getRole(PEMERIKSA_PERBEND), layanan.getLokasi());
+                        layanan.setPemeriksaPerbend(fetchStringWithColon(
+                                Integer.toString(pemeriksaPerbend.getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    if (layanan.getPemeriksaPkc() == null) {
+                        layanan.setPemeriksaPkc(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) {
+                    StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
+                    StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
+
+                    if (kepSubSeksiP2.getStatus().equals(String.valueOf(ON_PROGRESS))) {
+                        layanan.setKepSubSeksiP2(
+                                fetchStringWithColon(
+                                        kepSubSeksiP2.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        kepSubSeksiP2.getStatus(),
+                                        kepSubSeksiP2.getCatatan()
+                                )
+                        );
+                    }
+
+                    if (kepSubSeksiPerbend.getStatus().equals(String.valueOf(ON_PROGRESS))) {
+                        layanan.setKepSubSeksiPerbend(
+                                fetchStringWithColon(
+                                        kepSubSeksiPerbend.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        kepSubSeksiPerbend.getStatus(),
+                                        kepSubSeksiPerbend.getCatatan()
+                                )
+                        );
+                    }
+
+                    layanan.setKepSubSeksiPkc(status);
+                }
+
+                break;
+            case KEPALA_KANTOR :
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepKantor(status);
+
+                    layanan.setKepSeksiP2(fetchStringWithColon(
+                            Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi()).getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+
+                    layanan.setKepSeksiPerbend(fetchStringWithColon(
+                            Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_PERBEND), account.getLokasi()).getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+
+                    layanan.setKepSeksiPkc(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
                             "",
                             "",
                             ""
                     ));
+                } else if (layanan.getStatus() == ON_BATCH_2) {
+                    layanan.setStatus(ACCEPTED);
+
+
                 }
-
-                break;
-            case KEPALA_KANTOR :
-                layanan.setKepKantor(status);
-
-                Account kepSeksiP2 = accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi());
-                Account kepSeksiPerbend = accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_PERBEND), account.getLokasi());
-
-                layanan.setKepSeksiP2(fetchStringWithColon(
-                        Integer.toString(kepSeksiP2.getId()),
-                        "",
-                        "",
-                        ""
-                ));
-
-                layanan.setKepSeksiPerbend(fetchStringWithColon(
-                        Integer.toString(kepSeksiPerbend.getId()),
-                        "",
-                        "",
-                        ""
-                ));
-
-                layanan.setKepSeksiPkc(fetchStringWithColon(
-                        Integer.toString(statusLayanan.getNextPic().getId()),
-                        "",
-                        "",
-                        ""
-                ));
 
                 break;
             default: result = FAILED;
@@ -346,7 +584,7 @@ public class IzinOnlineService {
         List<Dokumen> docs = dokumenService.findByLayanan(layanan);
 
         for (Dokumen doc : docs) {
-            result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
+            if (doc.getJenisDokumen().getSubLayanan().getId() != 44) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
         }
 
         return result;
@@ -361,7 +599,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepKantor) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getKepSeksiPkc()).getStatus().equals(ACCEPTED + "")) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -417,7 +661,14 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiP2()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(ACCEPTED + "")
+                            || splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(REJECTED + "")) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -427,7 +678,14 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPerbend()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(ACCEPTED + "")
+                            || splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(REJECTED + "")) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -437,7 +695,14 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(ACCEPTED + "")
+                            || splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(REJECTED + "")) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -447,7 +712,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiP2()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getPemeriksaP2()).getStatus() != null) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -457,7 +728,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPerbend()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getPemeriksaPerbend()).getStatus() != null) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -467,7 +744,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPkc()).getAccountId())) {
-                        responses.add(setDataLayananToResponse(data));
+                        if (data.getStatus() == ON_BATCH_1) {
+                            responses.add(setDataLayananToResponse(data));
+                        } else if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getPemeriksaPkc()).getStatus() != null) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
                     }
                 }
 
@@ -641,5 +924,12 @@ public class IzinOnlineService {
         }
 
         return nomor;
+    }
+
+    private Account getRandomAccount(Role role, int lokasi) {
+        List<Account> accounts = accountService.findAllByRoleAndLokasi(role, lokasi);
+
+        Random rand = new Random();
+        return accounts.get(rand.nextInt(accounts.size()));
     }
 }

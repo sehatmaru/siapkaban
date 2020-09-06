@@ -48,6 +48,15 @@ public class Dokumen {
 		this.status = status;
 	}
 
+	public Dokumen(String namaDokumen, String path, JDokumen jenisDokumen, Account pemohon, Layanan layanan, int status) {
+		this.namaDokumen = namaDokumen;
+		this.path = path;
+		this.jenisDokumen = jenisDokumen;
+		this.pemohon = pemohon;
+		this.status = status;
+		this.layanan = layanan;
+	}
+
 	public int getId() {
 		return id;
 	}

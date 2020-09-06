@@ -91,8 +91,6 @@ public class EditorService {
     public String docxToHTML(MemoryBuffer memoryBuffer, Layanan layanan, JDokumen dokumen) {
         try {
             String reportPath = environment.getProperty("layanan.document.path");
-            String keterangan = dokumen.getKeterangan().replace(" ", "_");
-            keterangan = keterangan.replace("+", "_");
 
             String path = reportPath
                     + "\\" + layanan.getPemohonon().getUsername()
@@ -100,7 +98,7 @@ public class EditorService {
                     + "\\hasil";
 
             createDir(path);
-            String fileDocx = path + "\\" + keterangan + ".docx";
+            String fileDocx = path + "\\" + dokumen.getKeterangan() + ".docx";
 
             uploadService.saveFile(memoryBuffer, path, fileDocx);
 
@@ -115,7 +113,7 @@ public class EditorService {
 
             SdtWriter.registerTagHandler("HTML_ELEMENT", new SdtToListSdtTagHandler());
 
-            String htmlFilePath = path + "\\" + keterangan + ".html";
+            String htmlFilePath = path + "\\" + dokumen.getKeterangan() + ".html";
 
             OutputStream os = new FileOutputStream(htmlFilePath);
 
@@ -131,7 +129,7 @@ public class EditorService {
             String folder = baseUrl + urlPath
                     + "+" + layanan.getPemohonon().getUsername()
                     + "+" + layanan.getNomor()
-                    + "+hasil" + "+" + keterangan + ".docx_files+";
+                    + "+hasil" + "+" + dokumen.getKeterangan() + ".docx_files+";
 
             String html = htmlToString(htmlFilePath);
             String newHtml = html.replace(fileDocx + "_files/", folder);

@@ -28,8 +28,8 @@ public class DokumenService {
         return dokumenRepository.findByNamaDokumen(namaDokumen) != null;
     }
 
-    public boolean isDocumentExist(JDokumen dokumen, Account pemohon) {
-        return dokumenRepository.findByJenisDokumenAndPemohon(dokumen, pemohon) != null;
+    public boolean isDocumentExist(JDokumen dokumen, Layanan layanan) {
+        return dokumenRepository.findByJenisDokumenAndLayanan(dokumen, layanan) != null;
     }
 
     public void save(Dokumen dokumen){
@@ -40,8 +40,8 @@ public class DokumenService {
         return dokumenRepository.findByLayanan(layanan);
     }
 
-    public Dokumen findByJenisDokumenAndPemohon(JDokumen dokumen, Account pemohon) {
-        return dokumenRepository.findByJenisDokumenAndPemohon(dokumen, pemohon);
+    public Dokumen findByJenisDokumenAndLayanan(JDokumen dokumen, Layanan layanan) {
+        return dokumenRepository.findByJenisDokumenAndLayanan(dokumen, layanan);
     }
 
 }

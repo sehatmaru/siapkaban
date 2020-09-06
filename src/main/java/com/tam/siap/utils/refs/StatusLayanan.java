@@ -8,7 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface StatusLayanan {
     int ACCEPTED = 1;
+    int ON_BATCH_1 = 2;
     int ON_PROGRESS = 2;
-    int REJECTED = 3;
+    int ON_BATCH_2 = 3;
+    int REJECTED = 4;
 }
 

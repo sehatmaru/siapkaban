@@ -13,7 +13,7 @@ import java.util.List;
 public interface DokumenRepository extends JpaRepository<Dokumen, String>{
 	Dokumen findByNamaDokumen(String namaDokumen);
 
-	Dokumen findByJenisDokumenAndPemohon(JDokumen dokumen, Account pemohon);
+	Dokumen findByJenisDokumenAndLayanan(JDokumen dokumen, Layanan layanan);
 
 	Dokumen findByNamaDokumenAndStatus(String namaDokumen, int status);
 
