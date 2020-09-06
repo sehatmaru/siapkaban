@@ -92,6 +92,7 @@ public class EditorService {
         try {
             String reportPath = environment.getProperty("layanan.document.path");
             String keterangan = dokumen.getKeterangan().replace(" ", "_");
+            keterangan = keterangan.replace("+", "_");
 
             String path = reportPath
                     + "\\" + layanan.getPemohonon().getUsername()
