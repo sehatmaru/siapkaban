@@ -122,7 +122,7 @@ public class EditorService {
 
             String urlPath = "";
             if (reportPath != null) {
-                urlPath = reportPath.replace("\\", " ");
+                urlPath = reportPath.replace("\\", "+");
             }
 
             String baseUrl = environment.getProperty("project.base");
