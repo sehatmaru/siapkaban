@@ -1,5 +1,6 @@
 project:
     home: C:\Users\Administrator\Documents\siapkabanv3
+    base: http://siapkaban.id:7078/test/image/
 
 layanan:
     document:

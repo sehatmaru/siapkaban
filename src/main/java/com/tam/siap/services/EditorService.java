@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 import static com.tam.siap.utils.TamUtils.createDir;
@@ -122,7 +120,14 @@ public class EditorService {
 
             Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
 
-            String folder = "http://siapkaban.id:7078/test/image/C: Users Administrator Documents siapkabanv3 dok report"
+            String urlPath = "";
+            if (reportPath != null) {
+                urlPath = reportPath.replace("\\", " ");
+            }
+
+            String baseUrl = environment.getProperty("project.base");
+
+            String folder = baseUrl + urlPath
                     + " " + layanan.getPemohonon().getUsername()
                     + " " + layanan.getNomor()
                     + " hasil" + " " + keterangan + ".docx_files ";
