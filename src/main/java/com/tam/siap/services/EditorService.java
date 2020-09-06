@@ -129,9 +129,9 @@ public class EditorService {
             String baseUrl = environment.getProperty("project.base");
 
             String folder = baseUrl + urlPath
-                    + " " + layanan.getPemohonon().getUsername()
-                    + " " + layanan.getNomor()
-                    + " hasil" + " " + keterangan + ".docx_files ";
+                    + "+" + layanan.getPemohonon().getUsername()
+                    + "+" + layanan.getNomor()
+                    + "+hasil" + "+" + keterangan + ".docx_files+";
 
             String html = htmlToString(htmlFilePath);
             String newHtml = html.replace(fileDocx + "_files\\", folder);
