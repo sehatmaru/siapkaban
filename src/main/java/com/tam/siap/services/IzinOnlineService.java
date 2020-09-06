@@ -566,8 +566,7 @@ public class IzinOnlineService {
                     ));
                 } else if (layanan.getStatus() == ON_BATCH_2) {
                     layanan.setStatus(ACCEPTED);
-
-
+                    layanan.setKepKantor(status);
                 }
 
                 break;
@@ -599,12 +598,12 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepKantor) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getKepSeksiPkc()).getStatus().equals(ACCEPTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
@@ -661,13 +660,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiP2()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(ACCEPTED + "")
-                            || splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(REJECTED + "")) {
+                                    || splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
@@ -678,13 +677,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPerbend()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(ACCEPTED + "")
-                            || splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(REJECTED + "")) {
+                                    || splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else  {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
@@ -695,13 +694,13 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(ACCEPTED + "")
-                            || splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(REJECTED + "")) {
+                                    || splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
@@ -712,12 +711,12 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiP2()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getPemeriksaP2()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
@@ -728,12 +727,12 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPerbend()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getPemeriksaPerbend()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
@@ -744,12 +743,12 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPkc()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_1) {
-                            responses.add(setDataLayananToResponse(data));
-                        } else if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2) {
                             if (splitStringWithColon(data.getPemeriksaPkc()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
                         }
                     }
                 }
