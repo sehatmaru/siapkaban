@@ -101,6 +101,7 @@ public class IzinOnlineService {
         System.out.println("html = " + html);
 
         String path = editorService.htmlToDocx(layanan, jDokumen, html);
+        editorService.docxToHTML(path, layanan, jDokumen);
 
         if (path != null) {
             if (!dokumenService.isDocumentExist(jDokumen, layanan)) {

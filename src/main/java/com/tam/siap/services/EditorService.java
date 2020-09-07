@@ -12,6 +12,8 @@ import org.docx4j.convert.out.html.SdtToListSdtTagHandler;
 import org.docx4j.convert.out.html.SdtWriter;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class EditorService {
             XHTMLImporterImpl XHTMLImporter = new XHTMLImporterImpl(docxOut);
 
             docxOut.getMainDocumentPart().getContent().addAll(
-                    XHTMLImporter.convert(html, null) );
+                    XHTMLImporter.convert(htmlToXhtml(html).replace("&nbsp;", "&#160;"), null) );
 
             String path = reportPath
                     + "\\" + layanan.getPemohonon().getUsername()
@@ -146,6 +148,54 @@ public class EditorService {
         }
     }
 
+    public String docxToHTML(String path, Layanan layanan, JDokumen dokumen) {
+        try {
+            String reportPath = environment.getProperty("layanan.document.path");
+
+            Docx4jProperties.setProperty("docx4j.Convert.Out.HTML.OutputMethodXML", true);
+
+            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File(path));
+            AbstractHtmlExporter.HtmlSettings htmlSettings = new AbstractHtmlExporter.HtmlSettings();
+
+            htmlSettings.setWmlPackage(wordMLPackage);
+            htmlSettings.setImageDirPath(path + "_files");
+            htmlSettings.setImageTargetUri(path + "_files");
+
+            SdtWriter.registerTagHandler("HTML_ELEMENT", new SdtToListSdtTagHandler());
+
+            String htmlFilePath = path.replace("docx", "html");
+
+            OutputStream os = new FileOutputStream(htmlFilePath);
+
+            Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_NONE);
+
+            String urlPath = "";
+            if (reportPath != null) {
+                urlPath = reportPath.replace("\\", "+");
+            }
+
+            String baseUrl = environment.getProperty("project.base");
+
+            String folder = baseUrl + urlPath
+                    + "+" + layanan.getPemohonon().getUsername()
+                    + "+" + layanan.getNomor()
+                    + "+hasil" + "+" + dokumen.getKeterangan() + ".docx_files+";
+
+            String html = htmlToString(htmlFilePath);
+            String newHtml = html.replace(path + "_files/", folder);
+
+            FileOutputStream fooStream = new FileOutputStream(new File(htmlFilePath), false);
+            byte[] myBytes = newHtml.getBytes();
+            fooStream.write(myBytes);
+            fooStream.close();
+
+            return htmlFilePath;
+        } catch (Docx4JException | IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public String htmlToString(Layanan layanan, JDokumen dokumen) {
         String reportPath = environment.getProperty("layanan.document.path");
         String file;
@@ -175,6 +225,13 @@ public class EditorService {
         else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".docx";
 
         return new File(file);
+    }
+
+    private String htmlToXhtml(String html) {
+        Document document = Jsoup.parse(html);
+        document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+
+        return document.html();
     }
 
 //    public void docToHTML() throws IOException, TikaException, SAXException, TransformerConfigurationException {
