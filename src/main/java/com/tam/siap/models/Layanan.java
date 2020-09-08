@@ -58,6 +58,30 @@ public class Layanan {
     @Column(name = "k_kantor")
     private String kepKantor;
 
+    @Column(name = "kw_k_kantor")
+    private String kepKantorKanwil;
+
+    @Column(name = "kw_penerima")
+    private String penerimaKanwil;
+
+    @Column(name = "kw_pemeriksa_p2")
+    private String pemeriksaP2Kanwil;
+
+    @Column(name = "kw_k_s_intelijen")
+    private String kepSeksiIntelijenKanwil;
+
+    @Column(name = "kw_k_b_fasilitas")
+    private String kepBidangFasilitasKanwil;
+
+    @Column(name = "kw_k_b_p2")
+    private String kepBidangP2Kanwil;
+
+    @Column(name = "kw_k_s_pf")
+    private String kepSeksiPfKanwil;
+
+    @Column(name = "kw_pemeriksa_dokumen")
+    private String pemeriksaDokumenKanwil;
+
     @Column(name = "status")
     private int status;
 
@@ -215,5 +239,69 @@ public class Layanan {
 
     public void setLokasi(int lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public String getKepKantorKanwil() {
+        return kepKantorKanwil;
+    }
+
+    public void setKepKantorKanwil(String kepKantorKanwil) {
+        this.kepKantorKanwil = kepKantorKanwil;
+    }
+
+    public String getPenerimaKanwil() {
+        return penerimaKanwil;
+    }
+
+    public void setPenerimaKanwil(String penerimaKanwil) {
+        this.penerimaKanwil = penerimaKanwil;
+    }
+
+    public String getPemeriksaP2Kanwil() {
+        return pemeriksaP2Kanwil;
+    }
+
+    public void setPemeriksaP2Kanwil(String pemeriksaP2Kanwil) {
+        this.pemeriksaP2Kanwil = pemeriksaP2Kanwil;
+    }
+
+    public String getKepSeksiIntelijenKanwil() {
+        return kepSeksiIntelijenKanwil;
+    }
+
+    public void setKepSeksiIntelijenKanwil(String kepSeksiIntelijenKanwil) {
+        this.kepSeksiIntelijenKanwil = kepSeksiIntelijenKanwil;
+    }
+
+    public String getKepBidangFasilitasKanwil() {
+        return kepBidangFasilitasKanwil;
+    }
+
+    public void setKepBidangFasilitasKanwil(String kepBidangFasilitasKanwil) {
+        this.kepBidangFasilitasKanwil = kepBidangFasilitasKanwil;
+    }
+
+    public String getKepBidangP2Kanwil() {
+        return kepBidangP2Kanwil;
+    }
+
+    public void setKepBidangP2Kanwil(String kepBidangP2Kanwil) {
+        this.kepBidangP2Kanwil = kepBidangP2Kanwil;
+    }
+
+    public String getKepSeksiPfKanwil() {
+        return kepSeksiPfKanwil;
+    }
+
+    public void setKepSeksiPfKanwil(String kepSeksiPfKanwil) {
+        this.kepSeksiPfKanwil = kepSeksiPfKanwil;
+    }
+
+    public String getPemeriksaDokumenKanwil() {
+        return pemeriksaDokumenKanwil;
+    }
+
+    public void setPemeriksaDokumenKanwil(String pemeriksaDokumenKanwil) {
+        this.pemeriksaDokumenKanwil = pemeriksaDokumenKanwil;
     }
 }
