@@ -111,4 +111,16 @@ public class LayananService {
     public List<Layanan> findLayananByKepSubSeksiPkcIsNotNull(int lokasi) {
         return layananRepository.findByKepSubSeksiPkcIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
+
+    public List<Layanan> findLayananByKepBidangFasilitasKanwilIsNotNull() {
+        return layananRepository.findByKepBidangFasilitasKanwilIsNotNullOrderByTanggalDesc();
+    }
+
+    public List<Layanan> findLayananByKepSeksiPfKanwilIsNotNull() {
+        return layananRepository.findByKepSeksiPfKanwilIsNotNullOrderByTanggalDesc();
+    }
+
+    public List<Layanan> findLayananByPemeriksaDokumenKanwilIsNotNull() {
+        return layananRepository.findByPemeriksaDokumenKanwilIsNotNullOrderByTanggalDesc();
+    }
 }

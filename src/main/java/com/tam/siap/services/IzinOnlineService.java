@@ -164,7 +164,7 @@ public class IzinOnlineService {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_P2), "" + status);
         } else if (role.getId() == PEMERIKSA_PERBEND || role.getId() == KEPALA_SUB_SEKSI_PERBEND || role.getId() == KEPALA_SEKSI_PERBEND) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PERBEND), "" + status);
-        } else {
+        } else if (role.getId() == PEMERIKSA_PKC || role.getId() == KEPALA_SUB_SEKSI_PKC || role.getId() == KEPALA_SEKSI_PKC) {
             List<JDokumen> result = new ArrayList<>();
             List<JDokumen> dokumens = jenisDokumenService.findJenisDokumen(subJenisLayananService.getSubJenisLayanan(44));
 
@@ -179,7 +179,11 @@ public class IzinOnlineService {
             }
 
             return result;
-        }
+        } else if (role.getId() == KANWIL_KEPALA_BIDANG_P2 || role.getId() == KANWIL_KEPALA_SEKSI_INTELIJEN || role.getId() == KANWIL_PEMERIKSA_P2) {
+            return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_P2), "" + status);
+        } else if (role.getId() == KANWIL_KEPALA_BIDANG_FASILITAS || role.getId() == KANWIL_KEPALA_SEKSI_PF || role.getId() == KANWIL_PEMERIKSA_DOKUMEN) {
+            return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN), "" + status);
+        } else return null;
 
     }
 
@@ -534,6 +538,86 @@ public class IzinOnlineService {
                 }
 
                 break;
+            case KANWIL_KEPALA_BIDANG_FASILITAS:
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepBidangFasilitasKanwil(status);
+
+                    StatusLayanan kepBidangP2 = splitStringWithColon(layanan.getKepBidangP2Kanwil());
+
+                    if (kepBidangP2.getTanggal() == null) {
+                        layanan.setKepBidangP2Kanwil(fetchStringWithColon(
+                                kepBidangP2.getAccountId(),
+                                dateFormat.format(new Date()),
+                                String.valueOf(ON_PROGRESS),
+                                ""
+                        ));
+
+                        Account kepSeksiIntelijen = getRandomAccount(roleService.getRole(KANWIL_KEPALA_SEKSI_INTELIJEN));
+                        layanan.setKepSeksiIntelijenKanwil(fetchStringWithColon(
+                                Integer.toString(kepSeksiIntelijen.getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    if (layanan.getKepSeksiPfKanwil() == null) {
+                        layanan.setKepSeksiPfKanwil(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepBidangFasilitasKanwil(status);
+
+                break;
+            case KANWIL_KEPALA_SEKSI_PF:
+                if (layanan.getStatus() == ON_BATCH_1) {
+                    layanan.setKepSeksiPfKanwil(status);
+                    layanan.setStatus(ON_BATCH_2);
+
+                    StatusLayanan kepSeksiIntelijen = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
+
+                    if (kepSeksiIntelijen.getTanggal() == null) {
+                        layanan.setKepSeksiIntelijenKanwil(fetchStringWithColon(
+                                kepSeksiIntelijen.getAccountId(),
+                                dateFormat.format(new Date()),
+                                String.valueOf(ON_PROGRESS),
+                                ""
+                        ));
+
+                        Account pemeriksaP2 = getRandomAccount(roleService.getRole(KANWIL_PEMERIKSA_P2));
+                        layanan.setPemeriksaP2Kanwil(fetchStringWithColon(
+                                Integer.toString(pemeriksaP2.getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    if (layanan.getPemeriksaDokumenKanwil() == null) {
+                        layanan.setPemeriksaDokumenKanwil(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepSeksiPfKanwil(status);
+
+                break;
+            case KANWIL_PEMERIKSA_DOKUMEN:
+                layanan.setPemeriksaDokumenKanwil(
+                        fetchStringWithColon(
+                                statusLayanan.getAccountId(),
+                                statusLayanan.getTanggal(),
+                                String.valueOf(ACCEPTED),
+                                statusLayanan.getCatatan()
+                        )
+                );
+
+                break;
 
             //tambah
             case KANWIL_PENERIMA_DOKUMEN :
@@ -885,6 +969,49 @@ public class IzinOnlineService {
                 }
 
                 break;
+            case KANWIL_KEPALA_BIDANG_FASILITAS:
+                List<Layanan> kepBidFasilitas = layananService.findLayananByKepBidangFasilitasKanwilIsNotNull();
+
+                for (Layanan data : kepBidFasilitas) {
+                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidangFasilitasKanwil()).getAccountId())) {
+                        if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getKepSeksiPfKanwil()).getStatus().equals(ACCEPTED + "")
+                                    || splitStringWithColon(data.getKepSeksiPfKanwil()).getStatus().equals(REJECTED + "")) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
+                        }
+                    }
+                }
+
+                break;
+            case KANWIL_KEPALA_SEKSI_PF:
+                List<Layanan> kepSeksiPf = layananService.findLayananByKepSeksiPfKanwilIsNotNull();
+
+                for (Layanan data : kepSeksiPf) {
+                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPfKanwil()).getAccountId())) {
+                        if (data.getStatus() == ON_BATCH_2) {
+                            if (splitStringWithColon(data.getPemeriksaDokumenKanwil()).getStatus() != null) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
+                        }
+                    }
+                }
+
+                break;
+            case KANWIL_PEMERIKSA_DOKUMEN:
+                List<Layanan> pemeriksaDokumen = layananService.findLayananByPemeriksaDokumenKanwilIsNotNull();
+
+                for (Layanan data : pemeriksaDokumen) {
+                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaDokumenKanwil()).getAccountId())) {
+                        responses.add(setDataLayananToResponse(data));
+                    }
+                }
+
+                break;
         }
 
         return responses;
@@ -930,6 +1057,11 @@ public class IzinOnlineService {
             case KEPALA_SUB_SEKSI_PKC:
                 response = accountService.getAccountList(roleService.getRole(PEMERIKSA_PKC), account.getLokasi());
                 break;
+            case KANWIL_KEPALA_BIDANG_FASILITAS:
+                response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_SEKSI_PF));
+                break;
+            case KANWIL_KEPALA_SEKSI_PF:
+                response = accountService.getAccountList(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN));
         }
 
         return response;
@@ -1098,6 +1230,36 @@ public class IzinOnlineService {
             }
         }
 
+        if (layanan.getKepBidangFasilitasKanwil() != null) {
+            if (!layanan.getKepBidangFasilitasKanwil().isEmpty()) {
+                StatusLayanan status = splitStringWithColon(layanan.getKepBidangFasilitasKanwil());
+                Account account = accountService.findById(status.getAccountId());
+
+                response.setKepBidangFasilitasKanwil(account.getPribadi().getNama());
+                response.setTanggalKepBidangFasilitasKanwil(status.getTanggal());
+            }
+        }
+
+        if (layanan.getKepSeksiPfKanwil() != null) {
+            if (!layanan.getKepSeksiPfKanwil().isEmpty()) {
+                StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPfKanwil());
+                Account account = accountService.findById(status.getAccountId());
+
+                response.setKepSeksiPfKanwil(account.getPribadi().getNama());
+                response.setTanggalKepSeksiPfKanwil(status.getTanggal());
+            }
+        }
+
+        if (layanan.getPemeriksaDokumenKanwil() != null) {
+            if (!layanan.getPemeriksaDokumenKanwil().isEmpty()) {
+                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaDokumenKanwil());
+                Account account = accountService.findById(status.getAccountId());
+
+                response.setPemeriksaDokumenKanwil(account.getPribadi().getNama());
+                response.setTanggalPemeriksaDokumenKanwil(status.getTanggal());
+            }
+        }
+
         return response;
     }
 
@@ -1110,6 +1272,13 @@ public class IzinOnlineService {
         }
 
         return nomor;
+    }
+
+    private Account getRandomAccount(Role role) {
+        List<Account> accounts = accountService.findAllByRole(role);
+
+        Random rand = new Random();
+        return accounts.get(rand.nextInt(accounts.size()));
     }
 
     private Account getRandomAccount(Role role, int lokasi) {

@@ -56,6 +56,10 @@ public class AccountService {
         return accountRepository.findAllByRoleAndLokasi(role, lokasi);
     }
 
+    public List<Account> findAllByRole(Role role){
+        return accountRepository.findAllByRole(role);
+    }
+
     public Account findById(String id){
         return accountRepository.findById(Integer.parseInt(id));
     }
