@@ -138,7 +138,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		LoginResponse dataLogin = TamUtils.getLoginResponse();
 		if (dataLogin != null) {
 			System.out.println("wdwdw " + dataLogin);
-			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
+			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 			for (JDokumen datJdok : listJdoks) {
 				listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
 			}
@@ -344,7 +344,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				if (checkList()) {
 					listJdoks = new ArrayList<JDokumen>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 1);
+					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
 					for (JDokumen datJdok : listJdoks) {
 						if (checkP2(dataLogin)) {
 							listCheklistModel2s
@@ -362,7 +362,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				} else {
 					listJdoks = new ArrayList<JDokumen>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
+					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 					for (JDokumen datJdok : listJdoks) {
 						listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
 					}
@@ -450,7 +450,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					if (checkList()) {
 						listJdoks = new ArrayList<JDokumen>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 1);
+						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
 						System.out.println("Sizexx : " + listJdoks.size());
 						for (JDokumen datJdok : listJdoks) {
 							listCheklistModel2s
@@ -464,7 +464,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					} else {
 						listJdoks = new ArrayList<JDokumen>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), 3);
+						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 						System.out.println("Sizexx : " + listJdoks.size());
 						for (JDokumen datJdok : listJdoks) {
 							listCheklistModel2s

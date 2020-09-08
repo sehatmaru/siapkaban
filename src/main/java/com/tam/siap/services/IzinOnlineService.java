@@ -49,6 +49,9 @@ public class IzinOnlineService {
     @Autowired
     EditorService editorService;
 
+    @Autowired
+    SubJenisLayananService subJenisLayananService;
+
     public DokumenListResponse docFilter(SJLayanan subLayanan) {
         List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subLayanan);
         DokumenListResponse response = new DokumenListResponse();
@@ -81,7 +84,7 @@ public class IzinOnlineService {
     }
 
     public String getTemplate(Layanan layanan, JDokumen dokumen) {
-        String result = "";
+        String result;
 
         System.out.println("layanan + id " + layanan.getId() + " " + dokumen.getId());
 
@@ -156,14 +159,28 @@ public class IzinOnlineService {
         } else return editorService.getPath(layanan, dokumen);
     }
 
-    public List<JDokumen> docFilter(Role role, int status) {
+    public List<JDokumen> docFilter(Role role, Layanan layanan, int status) {
         if (role.getId() == PEMERIKSA_P2 || role.getId() == KEPALA_SUB_SEKSI_P2 || role.getId() == KEPALA_SEKSI_P2) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_P2), "" + status);
         } else if (role.getId() == PEMERIKSA_PERBEND || role.getId() == KEPALA_SUB_SEKSI_PERBEND || role.getId() == KEPALA_SEKSI_PERBEND) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PERBEND), "" + status);
         } else {
-            return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PKC), "" + status);
+            List<JDokumen> result = new ArrayList<>();
+            List<JDokumen> dokumens = jenisDokumenService.findJenisDokumen(subJenisLayananService.getSubJenisLayanan(44));
+
+            for (JDokumen dokumen : dokumens) {
+                if (dokumen.getRole().getId() != PEMERIKSA_PKC) {
+                    if (dokumen.getStatus().equals(String.valueOf(status))) {
+                        if (dokumenService.isDocumentExist(dokumen, layanan)) result.add(dokumen);
+                    }
+                } else {
+                    if (dokumen.getStatus().equals(String.valueOf(status))) result.add(dokumen);
+                }
+            }
+
+            return result;
         }
+
     }
 
     public int submit(List<MemoryBuffer> memoryBuffer, Layanan layanan, List<Dokumen> dokumen) {
@@ -383,34 +400,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2){
-                    StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
-                    StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
-
-                    if (kepSeksiP2.getStatus().equals(String.valueOf(ON_PROGRESS))) {
-                        layanan.setKepSubSeksiP2(
-                                fetchStringWithColon(
-                                        kepSeksiP2.getAccountId(),
-                                        statusLayanan.getTanggal(),
-                                        statusLayanan.getStatus(),
-                                        kepSeksiP2.getCatatan()
-                                )
-                        );
-                    }
-
-                    if (kepSeksiPerbend.getStatus().equals(String.valueOf(ON_PROGRESS))) {
-                        layanan.setKepSubSeksiP2(
-                                fetchStringWithColon(
-                                        kepSeksiPerbend.getAccountId(),
-                                        statusLayanan.getTanggal(),
-                                        statusLayanan.getStatus(),
-                                        kepSeksiPerbend.getCatatan()
-                                )
-                        );
-                    }
-
-                    layanan.setKepSeksiPkc(status);
-                }
+                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepSeksiPkc(status);
 
                 break;
             case KEPALA_SUB_SEKSI_P2 :
@@ -511,34 +501,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
-                    StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
-                    StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
-
-                    if (kepSubSeksiP2.getStatus().equals(String.valueOf(ON_PROGRESS))) {
-                        layanan.setKepSubSeksiP2(
-                                fetchStringWithColon(
-                                        kepSubSeksiP2.getAccountId(),
-                                        statusLayanan.getTanggal(),
-                                        kepSubSeksiP2.getStatus(),
-                                        kepSubSeksiP2.getCatatan()
-                                )
-                        );
-                    }
-
-                    if (kepSubSeksiPerbend.getStatus().equals(String.valueOf(ON_PROGRESS))) {
-                        layanan.setKepSubSeksiPerbend(
-                                fetchStringWithColon(
-                                        kepSubSeksiPerbend.getAccountId(),
-                                        statusLayanan.getTanggal(),
-                                        kepSubSeksiPerbend.getStatus(),
-                                        kepSubSeksiPerbend.getCatatan()
-                                )
-                        );
-                    }
-
-                    layanan.setKepSubSeksiPkc(status);
-                }
+                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepSubSeksiPkc(status);
 
                 break;
             case KEPALA_KANTOR :
