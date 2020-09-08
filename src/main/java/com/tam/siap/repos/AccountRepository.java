@@ -28,4 +28,6 @@ public interface AccountRepository extends JpaRepository<Account, String>{
 	List<Account> findByStatus(int status);
 
 	List<Account> findByRoleAndLokasiAndStatus(Role role, int lokasi, int status);
+
+	List<Account> findByRoleAndStatus(Role role, int status);
 }

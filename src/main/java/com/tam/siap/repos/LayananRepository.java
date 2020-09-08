@@ -22,9 +22,13 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     List<Layanan> findByPenerimaIsNullAndLokasiOrderByTanggalDesc(int lokasi);
 
+    List<Layanan> findByPenerimaKanwilIsNullOrderByTanggalDesc();
+
     List<Layanan> findByPenerimaIsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 
     List<Layanan> findByPemeriksaP2IsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
+
+    List<Layanan> findByPemeriksaP2KanwilIsNotNullOrderByTanggalDesc();
 
     List<Layanan> findByPemeriksaPerbendIsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 
@@ -32,11 +36,15 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     List<Layanan> findByKepSeksiP2IsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 
+    List<Layanan> findByKepBidangP2KanwilIsNotNullOrderByTanggalDesc();
+
     List<Layanan> findByKepSeksiPerbendIsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 
     List<Layanan> findByKepSeksiPkcIsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 
     List<Layanan> findByKepSubSeksiP2IsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
+
+    List<Layanan> findByKepSeksiIntelijenKanwilIsNotNullOrderByTanggalDesc();
 
     List<Layanan> findByKepSubSeksiPerbendIsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 
