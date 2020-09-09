@@ -1329,4 +1329,9 @@ public class IzinOnlineService {
 
         return result;
     }
+
+    private boolean isKPOrTPS(Layanan layanan) {
+        return layanan.getSubLayanan().getLayanan().getPenimbunan() != null
+                || layanan.getSubLayanan().getLayanan().getPengelola() != null;
+    }
 }
