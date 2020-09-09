@@ -1,92 +1,131 @@
 package com.tam.siap.models;
+
 import groovy.transform.builder.Builder;
 import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
 @Builder
 @DynamicUpdate
 @Table(name="layanan", schema = "public")
 public class Layanan {
-    @Id
-    @Column(name="id", columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "pemohon", referencedColumnName = "id")
-    private Account pemohonon;
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "s_j_layanan", referencedColumnName = "id")
-    private SJLayanan subLayanan;
-    @Column(name = "penerima")
-    private String penerima;
+
+	@Id
+	@Column(name="id", columnDefinition = "serial")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "pemohon", referencedColumnName = "id")
+	private Account pemohonon;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "s_j_layanan", referencedColumnName = "id")
+	private SJLayanan subLayanan;
+
+	@Column(name = "penerima")
+	private String penerima;
+
     @Column(name = "pemeriksa_p2")
     private String pemeriksaP2;
+
     @Column(name = "pemeriksa_perbend")
     private String pemeriksaPerbend;
+
     @Column(name = "pemeriksa_pkc")
     private String pemeriksaPkc;
+
     @Column(name = "k_seksi_p2")
     private String kepSeksiP2;
+
     @Column(name = "k_seksi_perbend")
     private String kepSeksiPerbend;
+
     @Column(name = "k_seksi_pkc")
     private String kepSeksiPkc;
+
     @Column(name = "k_s_seksi_p2")
     private String kepSubSeksiP2;
+
     @Column(name = "k_s_seksi_perbend")
     private String kepSubSeksiPerbend;
+
     @Column(name = "k_s_seksi_pkc")
     private String kepSubSeksiPkc;
+
     @Column(name = "k_kantor")
     private String kepKantor;
+
     @Column(name = "kw_k_kantor")
     private String kepKantorKanwil;
+
     @Column(name = "kw_penerima")
     private String penerimaKanwil;
+
     @Column(name = "kw_pemeriksa_p2")
     private String pemeriksaP2Kanwil;
+
     @Column(name = "kw_k_s_intelijen")
     private String kepSeksiIntelijenKanwil;
+
     @Column(name = "kw_k_b_fasilitas")
     private String kepBidangFasilitasKanwil;
+
     @Column(name = "kw_k_b_p2")
     private String kepBidangP2Kanwil;
+
     @Column(name = "kw_k_s_pf")
     private String kepSeksiPfKanwil;
+
     @Column(name = "kw_pemeriksa_dokumen")
     private String pemeriksaDokumenKanwil;
+
     @Column(name = "kw_pemeriksa_pkc")
     private String pemeriksaPkcKanwil;
+
     @Column(name = "kw_k_b_pkc")
     private String kepBidPkcKanwil;
+
     @Column(name = "kw_k_s_pkc")
     private String kepSeksiPkcKanwil;
+
     @Column(name = "status")
     private int status;
+
     @Column(name = "nomor")
     private String nomor;
+
     @Column(name = "tanggal")
     private Date tanggal;
+
     @Column(name = "j_lokasi")
     private int lokasi;
-    public Layanan() {
-    }
+
+	public Layanan() {
+	}
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public Account getPemohonon() {
         return pemohonon;
     }
+
     public void setPemohonon(Account pemohonon) {
         this.pemohonon = pemohonon;
     }
+
     public SJLayanan getSubLayanan() {
         return subLayanan;
     }
+
     public void setSubLayanan(SJLayanan subLayanan) {
         this.subLayanan = subLayanan;
     }
@@ -228,21 +267,27 @@ public class Layanan {
     public void setPemeriksaDokumenKanwil(String pemeriksaDokumenKanwil) {
         this.pemeriksaDokumenKanwil = pemeriksaDokumenKanwil;
     }
+
     public String getPemeriksaPkcKanwil() {
         return pemeriksaPkcKanwil;
     }
+
     public void setPemeriksaPkcKanwil(String pemeriksaPkcKanwil) {
         this.pemeriksaPkcKanwil = pemeriksaPkcKanwil;
     }
+
     public String getKepBidPkcKanwil() {
         return kepBidPkcKanwil;
     }
+
     public void setKepBidPkcKanwil(String kepBidPkcKanwil) {
         this.kepBidPkcKanwil = kepBidPkcKanwil;
     }
+
     public String getKepSeksiPkcKanwil() {
         return kepSeksiPkcKanwil;
     }
+
     public void setKepSeksiPkcKanwil(String kepSeksiPkcKanwil) {
         this.kepSeksiPkcKanwil = kepSeksiPkcKanwil;
     }

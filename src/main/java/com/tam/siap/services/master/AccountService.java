@@ -48,6 +48,10 @@ public class AccountService {
         return accountRepository.findByUsername(username);
     }
 
+    public Account findByRole(Role role){
+        return accountRepository.findByRole(role);
+    }
+
     public Account findByRoleAndLokasi(Role role, int lokasi){
         return accountRepository.findByRoleAndLokasi(role, lokasi);
     }

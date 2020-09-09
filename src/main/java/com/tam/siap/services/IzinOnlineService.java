@@ -496,19 +496,21 @@ public class IzinOnlineService {
                 if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepKantor(status);
 
-                    layanan.setKepSeksiP2(fetchStringWithColon(
-                            Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi()).getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    if (!isKPOrTPS(layanan)) {
+                        layanan.setKepSeksiP2(fetchStringWithColon(
+                                Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi()).getId()),
+                                "",
+                                "",
+                                ""
+                        ));
 
-                    layanan.setKepSeksiPerbend(fetchStringWithColon(
-                            Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_PERBEND), account.getLokasi()).getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                        layanan.setKepSeksiPerbend(fetchStringWithColon(
+                                Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_PERBEND), account.getLokasi()).getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
 
                     layanan.setKepSeksiPkc(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
@@ -523,6 +525,34 @@ public class IzinOnlineService {
                         if (layanan.getSubLayanan().getPengawas() == KANWIL) layanan.setStatus(ON_BATCH_1_KANWIL);
                         else layanan.setStatus(ACCEPTED);
 
+                        result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
+                    }
+                }
+
+                break;
+            case KANWIL_KEPALA_KANTOR :
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
+                    layanan.setKepKantorKanwil(status);
+
+                    if (!isKPOrTPS(layanan)) {
+                        layanan.setKepBidangP2Kanwil(fetchStringWithColon(
+                                Integer.toString(accountService.findByRole(roleService.getRole(KANWIL_KEPALA_BIDANG_P2)).getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
+
+                    layanan.setKepBidPkcKanwil(fetchStringWithColon(
+                            Integer.toString(statusLayanan.getNextPic().getId()),
+                            "",
+                            "",
+                            ""
+                    ));
+                } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) {
+                    layanan.setKepKantorKanwil(status);
+
+                    if (statusLayanan.getStatus().equals(String.valueOf(ACCEPTED))) {
                         result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
                     }
                 }
