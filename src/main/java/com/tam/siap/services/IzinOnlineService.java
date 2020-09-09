@@ -16,7 +16,10 @@ import java.util.*;
 
 import static com.tam.siap.utils.TamUtils.*;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
+import static com.tam.siap.utils.refs.JenisEmail.*;
+import static com.tam.siap.utils.refs.JenisLokasi.MERAK;
 import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
+import static com.tam.siap.utils.refs.JenisPengawas.KANWIL;
 import static com.tam.siap.utils.refs.Role.*;
 import static com.tam.siap.utils.refs.Status.FAILED;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
@@ -191,7 +194,7 @@ public class IzinOnlineService {
         int result = FAILED;
 
         layanan.setNomor(getNomor());
-        layanan.setStatus(ON_BATCH_1);
+        layanan.setStatus(ON_BATCH_1_KPPBC);
         layananService.save(layanan);
         layananService.flush();
         uploadDoc(memoryBuffer, dokumen, layanan);
@@ -240,29 +243,30 @@ public class IzinOnlineService {
                 );
 
                 if (statusLayanan.getStatus().equals(Integer.toString(REJECTED))) {
-                    Map<String, String> model = new HashMap<>();
-                    model.put("nomor_pengajuan", layanan.getNomor());
-                    model.put("waktu_response", statusLayanan.getTanggal());
-                    model.put("npwp_pemohon", layanan.getPemohonon().getPerusahaan().getNpwp());
-                    model.put("nama_pemohon", layanan.getPemohonon().getPerusahaan().getNama());
-                    model.put("alamat_pemohon", layanan.getPemohonon().getPerusahaan().getAlamat());
-                    model.put("daftar_perbaikan", statusLayanan.getCatatan());
-
-                    EmailRequestDto request = new EmailRequestDto(
-                            "siapkaban@gmail.com",
-                            layanan.getPemohonon().getPribadi().getEmail(),
-                            "Penolakan Permohonan",
-                            3,
-                            account.getUsername(),
-                            model
-                    );
-
-                    layanan.setStatus(REJECTED);
-
-                    if (layanan.getLokasi() == TANGERANG) model.put("jenis_kppbc", "A TANGERANG");
-                    else model.put("jenis_kppbc", "MERAK");
-
-                    if (!emailService.sendMail(request)) result = FAILED;
+                    result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
+//                    Map<String, String> model = new HashMap<>();
+//                    model.put("nomor_pengajuan", layanan.getNomor());
+//                    model.put("waktu_response", statusLayanan.getTanggal());
+//                    model.put("npwp_pemohon", layanan.getPemohonon().getPerusahaan().getNpwp());
+//                    model.put("nama_pemohon", layanan.getPemohonon().getPerusahaan().getNama());
+//                    model.put("alamat_pemohon", layanan.getPemohonon().getPerusahaan().getAlamat());
+//                    model.put("daftar_perbaikan", statusLayanan.getCatatan());
+//
+//                    EmailRequestDto request = new EmailRequestDto(
+//                            "siapkaban@gmail.com",
+//                            layanan.getPemohonon().getPribadi().getEmail(),
+//                            "Penolakan Permohonan",
+//                            3,
+//                            account.getUsername(),
+//                            model
+//                    );
+//
+//                    layanan.setStatus(REJECTED);
+//
+//                    if (layanan.getLokasi() == TANGERANG) model.put("jenis_kppbc", "A TANGERANG");
+//                    else model.put("jenis_kppbc", "MERAK");
+//
+//                    if (!emailService.sendMail(request)) result = FAILED;
                 } else {
                     layanan.setKepKantor(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
@@ -307,7 +311,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SEKSI_P2 :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSeksiP2(status);
 
                     if (layanan.getKepSubSeksiP2() == null) {
@@ -318,7 +322,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
                     layanan.setKepSeksiP2(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -331,7 +335,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SEKSI_PERBEND :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSeksiPerbend(status);
 
                     if (layanan.getKepSubSeksiPerbend() == null) {
@@ -342,7 +346,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
                     layanan.setKepSeksiPerbend(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -356,7 +360,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SEKSI_PKC :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSeksiPkc(status);
 
                     StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
@@ -404,11 +408,11 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepSeksiPkc(status);
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) layanan.setKepSeksiPkc(status);
 
                 break;
             case KEPALA_SUB_SEKSI_P2 :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSubSeksiP2(status);
 
                     if (layanan.getPemeriksaP2() == null) {
@@ -419,7 +423,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
                     layanan.setKepSubSeksiP2(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -432,7 +436,7 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SUB_SEKSI_PERBEND :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSubSeksiPerbend(status);
 
                     if (layanan.getPemeriksaPerbend() == null) {
@@ -443,7 +447,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
                     layanan.setKepSubSeksiPerbend(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -456,9 +460,9 @@ public class IzinOnlineService {
 
                 break;
             case KEPALA_SUB_SEKSI_PKC :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSubSeksiPkc(status);
-                    layanan.setStatus(ON_BATCH_2);
+                    layanan.setStatus(ON_BATCH_2_KPPBC);
 
                     StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
                     StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
@@ -505,11 +509,11 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepSubSeksiPkc(status);
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) layanan.setKepSubSeksiPkc(status);
 
                 break;
             case KEPALA_KANTOR :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepKantor(status);
 
                     layanan.setKepSeksiP2(fetchStringWithColon(
@@ -532,14 +536,20 @@ public class IzinOnlineService {
                             "",
                             ""
                     ));
-                } else if (layanan.getStatus() == ON_BATCH_2) {
-                    layanan.setStatus(ACCEPTED);
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
                     layanan.setKepKantor(status);
+
+                    if (statusLayanan.getStatus().equals(String.valueOf(ACCEPTED))) {
+                        if (layanan.getSubLayanan().getPengawas() == KANWIL) layanan.setStatus(ON_BATCH_1_KANWIL);
+                        else layanan.setStatus(ACCEPTED);
+
+                        result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
+                    }
                 }
 
                 break;
             case KANWIL_KEPALA_BIDANG_FASILITAS:
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
                     layanan.setKepBidangFasilitasKanwil(status);
 
                     StatusLayanan kepBidangP2 = splitStringWithColon(layanan.getKepBidangP2Kanwil());
@@ -569,13 +579,13 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepBidangFasilitasKanwil(status);
+                } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) layanan.setKepBidangFasilitasKanwil(status);
 
                 break;
             case KANWIL_KEPALA_SEKSI_PF:
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
                     layanan.setKepSeksiPfKanwil(status);
-                    layanan.setStatus(ON_BATCH_2);
+                    layanan.setStatus(ON_BATCH_2_KANWIL);
 
                     StatusLayanan kepSeksiIntelijen = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
 
@@ -604,7 +614,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) layanan.setKepSeksiPfKanwil(status);
+                } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) layanan.setKepSeksiPfKanwil(status);
 
                 break;
             case KANWIL_PEMERIKSA_DOKUMEN:
@@ -619,7 +629,6 @@ public class IzinOnlineService {
 
                 break;
 
-            //tambah
             case KANWIL_PENERIMA_DOKUMEN :
                 layanan.setPenerimaKanwil(
                         fetchStringWithColon(
@@ -631,26 +640,27 @@ public class IzinOnlineService {
                 );
 
                 if (statusLayanan.getStatus().equals(Integer.toString(REJECTED))) {
-                    Map<String, String> model = new HashMap<>();
-                    model.put("nomor_pengajuan", layanan.getNomor());
-                    model.put("waktu_response", statusLayanan.getTanggal());
-                    model.put("npwp_pemohon", layanan.getPemohonon().getPerusahaan().getNpwp());
-                    model.put("nama_pemohon", layanan.getPemohonon().getPerusahaan().getNama());
-                    model.put("alamat_pemohon", layanan.getPemohonon().getPerusahaan().getAlamat());
-                    model.put("daftar_perbaikan", statusLayanan.getCatatan());
-
-                    EmailRequestDto request = new EmailRequestDto(
-                            "siapkaban@gmail.com",
-                            layanan.getPemohonon().getPribadi().getEmail(),
-                            "Penolakan Permohonan",
-                            3,
-                            account.getUsername(),
-                            model
-                    );
-
-                    layanan.setStatus(REJECTED);
-
-                    if (!emailService.sendMail(request)) result = FAILED;
+                    result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
+//                    Map<String, String> model = new HashMap<>();
+//                    model.put("nomor_pengajuan", layanan.getNomor());
+//                    model.put("waktu_response", statusLayanan.getTanggal());
+//                    model.put("npwp_pemohon", layanan.getPemohonon().getPerusahaan().getNpwp());
+//                    model.put("nama_pemohon", layanan.getPemohonon().getPerusahaan().getNama());
+//                    model.put("alamat_pemohon", layanan.getPemohonon().getPerusahaan().getAlamat());
+//                    model.put("daftar_perbaikan", statusLayanan.getCatatan());
+//
+//                    EmailRequestDto request = new EmailRequestDto(
+//                            "siapkaban@gmail.com",
+//                            layanan.getPemohonon().getPribadi().getEmail(),
+//                            "Penolakan Permohonan",
+//                            3,
+//                            account.getUsername(),
+//                            model
+//                    );
+//
+//                    layanan.setStatus(REJECTED);
+//
+//                    if (!emailService.sendMail(request)) result = FAILED;
                 } else {
                     layanan.setKepKantorKanwil(fetchStringWithColon(
                             Integer.toString(statusLayanan.getNextPic().getId()),
@@ -662,7 +672,7 @@ public class IzinOnlineService {
                 break;
 
             case KANWIL_KEPALA_BIDANG_P2 :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
                     layanan.setKepBidangP2Kanwil(status);
 
                     if (layanan.getKepSeksiIntelijenKanwil() == null) {
@@ -673,7 +683,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
+                } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) {
                     layanan.setKepBidangP2Kanwil(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -687,7 +697,7 @@ public class IzinOnlineService {
                 break;
 
             case KANWIL_KEPALA_SEKSI_INTELIJEN :
-                if (layanan.getStatus() == ON_BATCH_1) {
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
                     layanan.setKepSeksiIntelijenKanwil(status);
 
                     if (layanan.getPemeriksaP2Kanwil() == null) {
@@ -698,7 +708,7 @@ public class IzinOnlineService {
                                 ""
                         ));
                     }
-                } else if (layanan.getStatus() == ON_BATCH_2) {
+                } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) {
                     layanan.setKepSeksiIntelijenKanwil(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -751,7 +761,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepKantor) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSeksiPkc()).getStatus().equals(ACCEPTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
@@ -770,17 +780,14 @@ public class IzinOnlineService {
                 }
 
                 break;
-
-                //tambah
             case KANWIL_PENERIMA_DOKUMEN:
-                List<Layanan> pendokKanwil = layananService.findLayananByPenerimaKanwilIsNull();
+                List<Layanan> pendokKanwil = layananService.findLayananByPenerimaKanwilIsNullAndStatus(ON_BATCH_1_KANWIL);
 
                 for (Layanan data : pendokKanwil) {
                     responses.add(setDataLayananToResponse(data));
                 }
 
                 break;
-
             case PEMOHON:
                 List<Layanan> pemohon = layananService.findLayananByPemohon(account);
 
@@ -799,8 +806,6 @@ public class IzinOnlineService {
                 }
 
                 break;
-
-                //tambah
             case KANWIL_PEMERIKSA_P2:
                 List<Layanan> pemeriksaP2Kanwil = layananService.findLayananByPemeriksaP2KanwilIsNotNull();
 
@@ -811,7 +816,6 @@ public class IzinOnlineService {
                 }
 
                 break;
-
             case PEMERIKSA_PERBEND:
                 List<Layanan> pemeriksaPerbend = layananService.findLayananByPemeriksaPerbendIsNotNull(account.getLokasi());
 
@@ -837,7 +841,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiP2()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(ACCEPTED + "")
                                     || splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
@@ -849,14 +853,12 @@ public class IzinOnlineService {
                 }
 
                 break;
-
-                //tambah
             case KANWIL_KEPALA_BIDANG_P2:
                 List<Layanan> kepBidangP2Kanwil = layananService.findLayananByKepBidangP2KanwilIsNotNull();
 
                 for (Layanan data : kepBidangP2Kanwil) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidangP2Kanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getStatus().equals(ACCEPTED + "")
                                     || splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
@@ -868,13 +870,12 @@ public class IzinOnlineService {
                 }
 
                 break;
-
             case KEPALA_SEKSI_PERBEND:
                 List<Layanan> kepSeksiPerbend = layananService.findLayananByKepSeksiPerbendIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPerbend()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(ACCEPTED + "")
                                     || splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
@@ -891,7 +892,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(ACCEPTED + "")
                                     || splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
@@ -908,7 +909,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiP2()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaP2()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
@@ -919,14 +920,12 @@ public class IzinOnlineService {
                 }
 
                 break;
-
-                //tambah
             case KANWIL_KEPALA_SEKSI_INTELIJEN:
                 List<Layanan> kepSeksiIntelijen = layananService.findLayananByKepSeksiIntelijenIsNotNull();
 
                 for (Layanan data : kepSeksiIntelijen) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
@@ -942,7 +941,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPerbend()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaPerbend()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
@@ -958,7 +957,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPkc()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaPkc()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
@@ -974,7 +973,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepBidFasilitas) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidangFasilitasKanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getKepSeksiPfKanwil()).getStatus().equals(ACCEPTED + "")
                                     || splitStringWithColon(data.getKepSeksiPfKanwil()).getStatus().equals(REJECTED + "")) {
                                 responses.add(setDataLayananToResponse(data));
@@ -991,7 +990,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPf) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPfKanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2) {
+                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getPemeriksaDokumenKanwil()).getStatus() != null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
@@ -1024,7 +1023,6 @@ public class IzinOnlineService {
             case PENERIMA_DOKUMEN:
                 response = accountService.getAccountList(roleService.getRole(KEPALA_KANTOR), account.getLokasi());
                 break;
-                //tambah
             case KANWIL_PENERIMA_DOKUMEN:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_KANTOR));
                 break;
@@ -1034,7 +1032,6 @@ public class IzinOnlineService {
             case KEPALA_SEKSI_P2:
                 response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_P2), account.getLokasi());
                 break;
-                //tambah
             case KANWIL_KEPALA_BIDANG_P2:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_SEKSI_INTELIJEN));
                 break;
@@ -1047,7 +1044,6 @@ public class IzinOnlineService {
             case KEPALA_SUB_SEKSI_P2:
                 response = accountService.getAccountList(roleService.getRole(PEMERIKSA_P2), account.getLokasi());
                 break;
-                //tambah
             case KANWIL_KEPALA_SEKSI_INTELIJEN:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_PEMERIKSA_P2));
                 break;
@@ -1086,7 +1082,6 @@ public class IzinOnlineService {
             }
         }
 
-        //tambah
         if (layanan.getPenerimaKanwil() != null) {
             if (!layanan.getPenerimaKanwil().isEmpty()) {
                 StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
@@ -1107,7 +1102,6 @@ public class IzinOnlineService {
             }
         }
 
-        //tambah
         if (layanan.getKepBidangP2Kanwil() != null) {
             if (!layanan.getKepBidangP2Kanwil().isEmpty()) {
                 StatusLayanan status = splitStringWithColon(layanan.getKepBidangP2Kanwil());
@@ -1148,7 +1142,6 @@ public class IzinOnlineService {
             }
         }
 
-        //tambah
         if (layanan.getKepSeksiIntelijenKanwil() != null) {
             if (!layanan.getKepSeksiIntelijenKanwil().isEmpty()) {
                 StatusLayanan status = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
@@ -1189,7 +1182,6 @@ public class IzinOnlineService {
             }
         }
 
-        //tambah
         if (layanan.getPemeriksaP2Kanwil() != null) {
             if (!layanan.getPemeriksaP2Kanwil().isEmpty()) {
                 StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2Kanwil());
@@ -1286,5 +1278,55 @@ public class IzinOnlineService {
 
         Random rand = new Random();
         return accounts.get(rand.nextInt(accounts.size()));
+    }
+
+    private int sendEmail(Layanan layanan, StatusLayanan statusLayanan, int respond, int type) {
+        int result = SUCCESS;
+
+        Account account = accountService.findById(statusLayanan.getAccountId());
+        String subject = "";
+
+        if (respond == REJECTED) subject = "Penolakan Permohonan";
+        else if (respond == ACCEPTED) subject = "Respon Permohonan";
+
+        Map<String, String> model = new HashMap<>();
+        model.put("nomor_pengajuan", layanan.getNomor());
+        model.put("waktu_response", statusLayanan.getTanggal());
+        model.put("npwp_pemohon", layanan.getPemohonon().getPerusahaan().getNpwp());
+        model.put("nama_pemohon", layanan.getPemohonon().getPerusahaan().getNama());
+        model.put("alamat_pemohon", layanan.getPemohonon().getPerusahaan().getAlamat());
+        model.put("daftar_perbaikan", statusLayanan.getCatatan());
+
+        EmailRequestDto request = new EmailRequestDto(
+                "siapkaban@gmail.com",
+                layanan.getPemohonon().getPribadi().getEmail(),
+                subject,
+                type,
+                account.getUsername(),
+                model
+        );
+
+        layanan.setStatus(respond);
+
+        if (layanan.getLokasi() == TANGERANG) model.put("jenis_kppbc", "A TANGERANG");
+        else if (layanan.getLokasi() == MERAK) model.put("jenis_kppbc", "MERAK");
+        else model.put("jenis_kppbc", "KANWIL");
+
+        if (type == EMAIL_PENERIMAAN) {
+            List<Dokumen> docs = new ArrayList<>();
+
+            Dokumen ba = dokumenService.findByJenisDokumenAndLayanan(jenisDokumenService.getJenisDokumen(BA_PEMERIKSAAN_LOKASI), layanan);
+            Dokumen suratRekomendasi = dokumenService.findByJenisDokumenAndLayanan(jenisDokumenService.getJenisDokumen(SURAT_REKOMENDASI), layanan);
+            Dokumen suratPengembalianBerkas = dokumenService.findByJenisDokumenAndLayanan(jenisDokumenService.getJenisDokumen(SURAT_PENGEMBALIAN_BERKAS), layanan);
+
+            docs.add(ba);
+            docs.add(suratRekomendasi);
+
+            if (!emailService.sendMail(request, docs)) result = FAILED;
+        } else {
+            if (!emailService.sendMail(request)) result = FAILED;
+        }
+
+        return result;
     }
 }

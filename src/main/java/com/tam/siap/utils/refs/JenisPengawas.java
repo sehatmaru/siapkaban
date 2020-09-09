@@ -6,12 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-public @interface JenisEmail {
-
-    int EMAIL_REGISTRASI = 1;
-    int EMAIL_ACCOUNT = 2;
-    int EMAIL_PENOLAKAN = 3;
-    int EMAIL_PENERIMAAN = 4;
-
+public @interface JenisPengawas {
+    int KPPBC = 1;
+    int KANWIL = 2;
 }
 

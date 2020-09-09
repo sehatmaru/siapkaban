@@ -27,6 +27,9 @@ public class SJLayanan {
 		return layanan;
 	}
 
+	@Column(name="pengawas")
+	private int pengawas;
+
 	public void setLayanan(JLayanan layanan) {
 		this.layanan = layanan;
 	}
@@ -50,5 +53,13 @@ public class SJLayanan {
 
 	public void setKeterangan(String keterangan) {
 		this.keterangan = keterangan;
+	}
+
+	public int getPengawas() {
+		return pengawas;
+	}
+
+	public void setPengawas(int pengawas) {
+		this.pengawas = pengawas;
 	}
 }

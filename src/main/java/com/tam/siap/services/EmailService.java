@@ -1,5 +1,6 @@
 package com.tam.siap.services;
 
+import com.tam.siap.models.Dokumen;
 import com.tam.siap.models.request.EmailRequestDto;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -16,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static com.tam.siap.utils.refs.JenisEmail.EMAIL_ACCOUNT;
 import static com.tam.siap.utils.refs.JenisEmail.EMAIL_REGISTRASI;
@@ -66,6 +68,38 @@ public class EmailService {
                 String reportDir = env.getProperty("layanan.document.path") + "\\" + request.getUsername() + "\\RegisterForm.pdf";
                 File report = new File(reportDir);
                 helper.addAttachment(request.getUsername() + "_form.pdf", report);
+            }
+
+            mailSender.send(message);
+
+            result = true;
+        } catch (MessagingException | IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public boolean sendMail(EmailRequestDto request, List<Dokumen> docs) {
+        boolean result = false;
+
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+
+            Template template = configuration.getTemplate("email_penerimaan.ftl");
+
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, request.getModel());
+
+            helper.setTo(request.getTo());
+            helper.setFrom(request.getFrom());
+            helper.setSubject(request.getSubject());
+            helper.setText(html, true);
+
+            for (Dokumen doc : docs) {
+                File file = new File(doc.getPath());
+                helper.addAttachment(doc.getNamaDokumen(), file);
             }
 
             mailSender.send(message);

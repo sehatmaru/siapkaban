@@ -22,7 +22,7 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     List<Layanan> findByPenerimaIsNullAndLokasiOrderByTanggalDesc(int lokasi);
 
-    List<Layanan> findByPenerimaKanwilIsNullOrderByTanggalDesc();
+    List<Layanan> findByPenerimaKanwilIsNullAndStatusOrderByTanggalDesc(int status);
 
     List<Layanan> findByPenerimaIsNotNullAndLokasiOrderByTanggalDesc(int lokasi);
 

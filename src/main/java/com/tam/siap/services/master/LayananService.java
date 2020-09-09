@@ -52,8 +52,8 @@ public class LayananService {
         return layananRepository.findByPenerimaIsNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
-    public List<Layanan> findLayananByPenerimaKanwilIsNull() {
-        return layananRepository.findByPenerimaKanwilIsNullOrderByTanggalDesc();
+    public List<Layanan> findLayananByPenerimaKanwilIsNullAndStatus(int status) {
+        return layananRepository.findByPenerimaKanwilIsNullAndStatusOrderByTanggalDesc(status);
     }
 
     public List<Layanan> findLayananByPenerimaIsNotNull(int lokasi) {
