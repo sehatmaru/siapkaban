@@ -6,7 +6,8 @@ import static com.tam.siap.utils.refs.Role.KEPALA_SUB_SEKSI_P2;
 import static com.tam.siap.utils.refs.Role.KEPALA_SUB_SEKSI_PERBEND;
 import static com.tam.siap.utils.refs.Role.PEMERIKSA_P2;
 import static com.tam.siap.utils.refs.Role.PEMERIKSA_PERBEND;
-import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2;
+import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2_KANWIL;
+import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2_KPPBC;
 import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
 import static com.tam.siap.utils.refs.StatusLayanan.REJECTED;
 
@@ -198,7 +199,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //				}
 //			});
 
-			if (dataLay != null && dataLay.getStatus() == ON_BATCH_2) {
+			if (dataLay != null && (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
 				picBox.setVisible(false);
 			}
 
@@ -214,7 +215,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				@Override
 				public void onComponentEvent(ClickEvent<Button> event) {
 					Account acc = picBox.getValue();
-					if (dataLay != null && dataLay.getStatus() == ON_BATCH_2) {
+					if (dataLay != null && (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
 						if (checkList() && checkList2()) {
 //							Set<Account> acc = picBox.getValue();
 							// List<Account> accs = new ArrayList<>(acc);
@@ -339,12 +340,12 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 
 			picBox.setWidthFull();
 			VerticalLayout vl1 = new VerticalLayout();
-			if (dataLay != null && dataLay.getStatus() == ON_BATCH_2) {
+			if (dataLay != null && (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
 				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, gridDokumenHasil, picBox, txtCatatan, fl);
 				if (checkList()) {
 					listJdoks = new ArrayList<JDokumen>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
+					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(),dataLay, 1);
 					for (JDokumen datJdok : listJdoks) {
 						if (checkP2(dataLogin)) {
 							listCheklistModel2s
@@ -362,7 +363,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				} else {
 					listJdoks = new ArrayList<JDokumen>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
+					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(),dataLay, 3);
 					for (JDokumen datJdok : listJdoks) {
 						listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
 					}
@@ -446,11 +447,11 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					data.setCheck(false);
 				}
 
-				if (dataLay != null && dataLay.getStatus() == ON_BATCH_2) {
+				if (dataLay != null && (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
 					if (checkList()) {
 						listJdoks = new ArrayList<JDokumen>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
+						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(),dataLay, 1);
 						System.out.println("Sizexx : " + listJdoks.size());
 						for (JDokumen datJdok : listJdoks) {
 							listCheklistModel2s
@@ -464,7 +465,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					} else {
 						listJdoks = new ArrayList<JDokumen>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
-						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
+						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(),dataLay, 3);
 						System.out.println("Sizexx : " + listJdoks.size());
 						for (JDokumen datJdok : listJdoks) {
 							listCheklistModel2s
@@ -514,7 +515,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					data.setCheck(false);
 				}
 
-				if (dataLay != null && dataLay.getStatus() == ON_BATCH_2) {
+				if (dataLay != null && (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
 
 					if (checkList() && checkList2()) {
 						btnLanjut.setText("Proses Lanjut");
