@@ -120,7 +120,15 @@ public class LayananService {
         return layananRepository.findByKepSeksiPfKanwilIsNotNullOrderByTanggalDesc();
     }
 
+    public List<Layanan> findLayananByKepBidPKCKanwilIsNotNull() {
+        return layananRepository.findByKepBidPKCIsNotNullOrderByTanggalDesc();
+    }
+
     public List<Layanan> findLayananByPemeriksaDokumenKanwilIsNotNull() {
         return layananRepository.findByPemeriksaDokumenKanwilIsNotNullOrderByTanggalDesc();
+    }
+
+    public List<Layanan> findByLayananKepSeksiPKCKanwilIsNotNull() {
+        return layananRepository.findByKepSeksiPKCKanwilIsNotNullOrderByTanggalDesc();
     }
 }

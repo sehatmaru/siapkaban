@@ -339,41 +339,43 @@ public class IzinOnlineService {
                 if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSeksiPkc(status);
 
-                    StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
-                    StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
+                    if(!isKPOrTPS(layanan)) {
+                        StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
+                        StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
 
-                    if (kepSeksiP2.getTanggal() == null) {
-                        layanan.setKepSeksiP2(fetchStringWithColon(
-                                kepSeksiP2.getAccountId(),
-                                dateFormat.format(new Date()),
-                                String.valueOf(ON_PROGRESS),
-                                ""
-                        ));
+                        if (kepSeksiP2.getTanggal() == null) {
+                            layanan.setKepSeksiP2(fetchStringWithColon(
+                                    kepSeksiP2.getAccountId(),
+                                    dateFormat.format(new Date()),
+                                    String.valueOf(ON_PROGRESS),
+                                    ""
+                            ));
 
-                        Account kepSubSeksiP2 = getRandomAccount(roleService.getRole(KEPALA_SUB_SEKSI_P2), layanan.getLokasi());
-                        layanan.setKepSubSeksiP2(fetchStringWithColon(
-                                Integer.toString(kepSubSeksiP2.getId()),
-                                "",
-                                "",
-                                ""
-                        ));
-                    }
+                            Account kepSubSeksiP2 = getRandomAccount(roleService.getRole(KEPALA_SUB_SEKSI_P2), layanan.getLokasi());
+                            layanan.setKepSubSeksiP2(fetchStringWithColon(
+                                    Integer.toString(kepSubSeksiP2.getId()),
+                                    "",
+                                    "",
+                                    ""
+                            ));
+                        }
 
-                    if (kepSeksiPerbend.getTanggal() == null) {
-                        layanan.setKepSeksiPerbend(fetchStringWithColon(
-                                kepSeksiPerbend.getAccountId(),
-                                dateFormat.format(new Date()),
-                                String.valueOf(ON_PROGRESS),
-                                ""
-                        ));
+                        if (kepSeksiPerbend.getTanggal() == null) {
+                            layanan.setKepSeksiPerbend(fetchStringWithColon(
+                                    kepSeksiPerbend.getAccountId(),
+                                    dateFormat.format(new Date()),
+                                    String.valueOf(ON_PROGRESS),
+                                    ""
+                            ));
 
-                        Account kepSubSeksiPerbend = getRandomAccount(roleService.getRole(KEPALA_SUB_SEKSI_PERBEND), layanan.getLokasi());
-                        layanan.setKepSubSeksiPerbend(fetchStringWithColon(
-                                Integer.toString(kepSubSeksiPerbend.getId()),
-                                "",
-                                "",
-                                ""
-                        ));
+                            Account kepSubSeksiPerbend = getRandomAccount(roleService.getRole(KEPALA_SUB_SEKSI_PERBEND), layanan.getLokasi());
+                            layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                                    Integer.toString(kepSubSeksiPerbend.getId()),
+                                    "",
+                                    "",
+                                    ""
+                            ));
+                        }
                     }
 
                     if (layanan.getKepSubSeksiPkc() == null) {
@@ -440,41 +442,43 @@ public class IzinOnlineService {
                     layanan.setKepSubSeksiPkc(status);
                     layanan.setStatus(ON_BATCH_2_KPPBC);
 
-                    StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
-                    StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
+                    if(!isKPOrTPS(layanan)) {
+                        StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
+                        StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
 
-                    if (kepSubSeksiP2.getTanggal() == null) {
-                        layanan.setKepSubSeksiP2(fetchStringWithColon(
-                                kepSubSeksiP2.getAccountId(),
-                                dateFormat.format(new Date()),
-                                String.valueOf(ON_PROGRESS),
-                                ""
-                        ));
+                        if (kepSubSeksiP2.getTanggal() == null) {
+                            layanan.setKepSubSeksiP2(fetchStringWithColon(
+                                    kepSubSeksiP2.getAccountId(),
+                                    dateFormat.format(new Date()),
+                                    String.valueOf(ON_PROGRESS),
+                                    ""
+                            ));
 
-                        Account pemeriksaP2 = getRandomAccount(roleService.getRole(PEMERIKSA_P2), layanan.getLokasi());
-                        layanan.setPemeriksaP2(fetchStringWithColon(
-                                Integer.toString(pemeriksaP2.getId()),
-                                "",
-                                "",
-                                ""
-                        ));
-                    }
+                            Account pemeriksaP2 = getRandomAccount(roleService.getRole(PEMERIKSA_P2), layanan.getLokasi());
+                            layanan.setPemeriksaP2(fetchStringWithColon(
+                                    Integer.toString(pemeriksaP2.getId()),
+                                    "",
+                                    "",
+                                    ""
+                            ));
+                        }
 
-                    if (kepSubSeksiPerbend.getTanggal() == null) {
-                        layanan.setKepSubSeksiPerbend(fetchStringWithColon(
-                                kepSubSeksiPerbend.getAccountId(),
-                                dateFormat.format(new Date()),
-                                String.valueOf(ON_PROGRESS),
-                                ""
-                        ));
+                        if (kepSubSeksiPerbend.getTanggal() == null) {
+                            layanan.setKepSubSeksiPerbend(fetchStringWithColon(
+                                    kepSubSeksiPerbend.getAccountId(),
+                                    dateFormat.format(new Date()),
+                                    String.valueOf(ON_PROGRESS),
+                                    ""
+                            ));
 
-                        Account pemeriksaPerbend = getRandomAccount(roleService.getRole(PEMERIKSA_PERBEND), layanan.getLokasi());
-                        layanan.setPemeriksaPerbend(fetchStringWithColon(
-                                Integer.toString(pemeriksaPerbend.getId()),
-                                "",
-                                "",
-                                ""
-                        ));
+                            Account pemeriksaPerbend = getRandomAccount(roleService.getRole(PEMERIKSA_PERBEND), layanan.getLokasi());
+                            layanan.setPemeriksaPerbend(fetchStringWithColon(
+                                    Integer.toString(pemeriksaPerbend.getId()),
+                                    "",
+                                    "",
+                                    ""
+                            ));
+                        }
                     }
 
                     if (layanan.getPemeriksaPkc() == null) {
@@ -694,6 +698,42 @@ public class IzinOnlineService {
                             )
                     );
                 }
+
+                break;
+
+            case KANWIL_KEPALA_BIDANG_PKC :
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
+                    layanan.setKepBidPkcKanwil(status);
+
+                    if(isKPOrTPS(layanan)) {
+                        if (layanan.getKepSeksiPkcKanwil() == null) {
+                            layanan.setKepSeksiPkcKanwil(fetchStringWithColon(
+                                    Integer.toString(statusLayanan.getNextPic().getId()),
+                                    "",
+                                    "",
+                                    ""
+                            ));
+                        }
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) layanan.setKepBidPkcKanwil(status);
+
+                break;
+
+            case KANWIL_KEPALA_SEKSI_PKC :
+                if (layanan.getStatus() == ON_BATCH_1_KANWIL) {
+                    layanan.setKepSeksiPkcKanwil(status);
+
+                    if(isKPOrTPS(layanan)) {
+                        if (layanan.getPemeriksaPkcKanwil() == null) {
+                            layanan.setPemeriksaPkcKanwil(fetchStringWithColon(
+                                    Integer.toString(statusLayanan.getNextPic().getId()),
+                                    "",
+                                    "",
+                                    ""
+                            ));
+                        }
+                    }
+                } else if (layanan.getStatus() == ON_BATCH_2_KPPBC) layanan.setKepSeksiPkcKanwil(status);
 
                 break;
 
@@ -993,6 +1033,34 @@ public class IzinOnlineService {
                 }
 
                 break;
+            case KANWIL_KEPALA_BIDANG_PKC:
+                List<Layanan> kepBidPkc = layananService.findLayananByKepBidPKCKanwilIsNotNull();
+
+                for(Layanan data : kepBidPkc) {
+                    if(Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidPkcKanwil()).getAccountId())) {
+                        if(data.getStatus() == ON_BATCH_2_KANWIL) {
+                            if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getStatus() != null) {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        } else {
+                            responses.add(setDataLayananToResponse(data));
+                        }
+                    }
+                }
+                break;
+            case KANWIL_KEPALA_SEKSI_PKC:
+                List<Layanan> kepSiPkc = layananService.findByLayananKepSeksiPKCKanwilIsNotNull();
+
+                for(Layanan data : kepSiPkc) {
+                    if(data.getStatus() == ON_BATCH_2_KANWIL) {
+                        if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getStatus() != null) {
+                            responses.add(setDataLayananToResponse(data));
+                        }
+                    } else {
+                        responses.add(setDataLayananToResponse(data));
+                    }
+                }
+                break;
             case KANWIL_PEMERIKSA_DOKUMEN:
                 List<Layanan> pemeriksaDokumen = layananService.findLayananByPemeriksaDokumenKanwilIsNotNull();
 
@@ -1053,6 +1121,10 @@ public class IzinOnlineService {
                 break;
             case KANWIL_KEPALA_SEKSI_PF:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN));
+            case KANWIL_KEPALA_BIDANG_PKC:
+                response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_SEKSI_PKC));
+            case KANWIL_KEPALA_SEKSI_PKC:
+                response = accountService.getAccountList(roleService.getRole(KANWIL_PEMERIKSA_PKC));
         }
 
         return response;

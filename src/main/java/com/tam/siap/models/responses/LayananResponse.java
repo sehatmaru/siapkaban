@@ -1,5 +1,7 @@
 package com.tam.siap.models.responses;
 
+import javax.persistence.Column;
+
 public class LayananResponse {
 
     private String id;
@@ -27,6 +29,9 @@ public class LayananResponse {
     private String kepBidangP2Kanwil;
     private String kepSeksiPfKanwil;
     private String pemeriksaDokumenKanwil;
+    private String pemeriksaPkcKanwil;
+    private String kepBidPkcKanwil;
+    private String kepSeksiPkcKanwil;
     private String tanggalPenerima;
     private String tanggalPemeriksaP2;
     private String tanggalPemeriksaPerbend;
@@ -46,6 +51,9 @@ public class LayananResponse {
     private String tanggalKepBidangP2Kanwil;
     private String tanggalKepSeksiPfKanwil;
     private String tanggalPemeriksaDokumenKanwil;
+    private String tanggalPemeriksaPkcKanwil;
+    private String tanggalKepBidPkcKanwil;
+    private String tanggalKepSeksiPkcKanwil;
 
     public LayananResponse() {
     }
@@ -400,5 +408,53 @@ public class LayananResponse {
 
     public void setTanggalPemeriksaDokumenKanwil(String tanggalPemeriksaDokumenKanwil) {
         this.tanggalPemeriksaDokumenKanwil = tanggalPemeriksaDokumenKanwil;
+    }
+
+    public String getPemeriksaPkcKanwil() {
+        return pemeriksaPkcKanwil;
+    }
+
+    public void setPemeriksaPkcKanwil(String pemeriksaPkcKanwil) {
+        this.pemeriksaPkcKanwil = pemeriksaPkcKanwil;
+    }
+
+    public String getKepBidPkcKanwil() {
+        return kepBidPkcKanwil;
+    }
+
+    public void setKepBidPkcKanwil(String kepBidPkcKanwil) {
+        this.kepBidPkcKanwil = kepBidPkcKanwil;
+    }
+
+    public String getKepSeksiPkcKanwil() {
+        return kepSeksiPkcKanwil;
+    }
+
+    public void setKepSeksiPkcKanwil(String kepSeksiPkcKanwil) {
+        this.kepSeksiPkcKanwil = kepSeksiPkcKanwil;
+    }
+
+    public String getTanggalPemeriksaPkcKanwil() {
+        return tanggalPemeriksaPkcKanwil;
+    }
+
+    public void setTanggalPemeriksaPkcKanwil(String tanggalPemeriksaPkcKanwil) {
+        this.tanggalPemeriksaPkcKanwil = tanggalPemeriksaPkcKanwil;
+    }
+
+    public String getTanggalKepBidPkcKanwil() {
+        return tanggalKepBidPkcKanwil;
+    }
+
+    public void setTanggalKepBidPkcKanwil(String tanggalKepBidPkcKanwil) {
+        this.tanggalKepBidPkcKanwil = tanggalKepBidPkcKanwil;
+    }
+
+    public String getTanggalKepSeksiPkcKanwil() {
+        return tanggalKepSeksiPkcKanwil;
+    }
+
+    public void setTanggalKepSeksiPkcKanwil(String tanggalKepSeksiPkcKanwil) {
+        this.tanggalKepSeksiPkcKanwil = tanggalKepSeksiPkcKanwil;
     }
 }
