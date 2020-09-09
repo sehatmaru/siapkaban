@@ -870,6 +870,22 @@ public class IzinOnlineService {
                 }
 
                 break;
+            case KANWIL_KEPALA_KANTOR:
+                List<Layanan> kanwilKepKantor = layananService.findLayananByPemeriksaDokumenKanwilIsNotNull();
+
+                for (Layanan data : kanwilKepKantor) {
+                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
+                        if(data.getStatus() == ON_BATCH_2_KANWIL){
+                            if(splitStringWithColon(data.getKepBidangP2Kanwil()).getStatus().equals(ACCEPTED + "")) {
+                                responses.add(setDataLayananToResponse(data));
+                            } else {
+                                responses.add(setDataLayananToResponse(data));
+                            }
+                        }
+                    }
+                }
+
+                break;
             case KEPALA_SEKSI_PERBEND:
                 List<Layanan> kepSeksiPerbend = layananService.findLayananByKepSeksiPerbendIsNotNull(account.getLokasi());
 
@@ -1031,6 +1047,10 @@ public class IzinOnlineService {
                 break;
             case KEPALA_SEKSI_P2:
                 response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_P2), account.getLokasi());
+                break;
+                //tambah
+            case KANWIL_KEPALA_KANTOR:
+                response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_BIDANG_P2), account.getLokasi());
                 break;
             case KANWIL_KEPALA_BIDANG_P2:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_SEKSI_INTELIJEN));
@@ -1219,6 +1239,16 @@ public class IzinOnlineService {
 
                 response.setKepKantor(account.getPribadi().getNama());
                 response.setTanggalKepKantor(status.getTanggal());
+            }
+        }
+
+        if(layanan.getKepKantorKanwil() != null) {
+            if(!layanan.getKepKantorKanwil().isEmpty()) {
+                StatusLayanan statusLayanan = splitStringWithColon(layanan.getKepKantorKanwil());
+                Account account = accountService.findById(statusLayanan.getAccountId());
+
+                response.setKepKantorKanwil(account.getPribadi().getNama());
+                response.setTanggalKepKantorKanwil(statusLayanan.getTanggal());
             }
         }
 
