@@ -339,7 +339,7 @@ public class IzinOnlineService {
                 if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepSeksiPkc(status);
 
-                    if(!isKPOrTPS(layanan) || !isTPBOrKITEPerizinanBaru(layanan)) {
+                    if(isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)) {
                         StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
                         StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
 
@@ -442,7 +442,7 @@ public class IzinOnlineService {
                     layanan.setKepSubSeksiPkc(status);
                     layanan.setStatus(ON_BATCH_2_KPPBC);
 
-                    if(!isKPOrTPS(layanan) || !isTPBOrKITEPerizinanBaru(layanan)) {
+                    if(isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)) {
                         StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
                         StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
 
@@ -496,7 +496,7 @@ public class IzinOnlineService {
                 if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepKantor(status);
 
-                    if (!isKPOrTPS(layanan) || !isTPBOrKITEPerizinanBaru(layanan)) {
+                    if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)) {
                         layanan.setKepSeksiP2(fetchStringWithColon(
                                 Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi()).getId()),
                                 "",
