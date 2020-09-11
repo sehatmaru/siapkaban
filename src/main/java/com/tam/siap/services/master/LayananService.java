@@ -121,7 +121,7 @@ public class LayananService {
     }
 
     public List<Layanan> findLayananByKepBidPKCKanwilIsNotNull() {
-        return layananRepository.findByKepBidPKCIsNotNullOrderByTanggalDesc();
+        return layananRepository.findByKepBidPkcKanwilIsNotNullOrderByTanggalDesc();
     }
 
     public List<Layanan> findLayananByPemeriksaDokumenKanwilIsNotNull() {
@@ -129,6 +129,6 @@ public class LayananService {
     }
 
     public List<Layanan> findByLayananKepSeksiPKCKanwilIsNotNull() {
-        return layananRepository.findByKepSeksiPKCKanwilIsNotNullOrderByTanggalDesc();
+        return layananRepository.findByKepSeksiPkcKanwilIsNotNullOrderByTanggalDesc();
     }
 }
