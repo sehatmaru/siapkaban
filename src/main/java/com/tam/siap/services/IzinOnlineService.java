@@ -201,7 +201,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KANWIL_KEPALA_BIDANG_PKC || role.getId() == KANWIL_KEPALA_SEKSI_PKC || role.getId() == KANWIL_PEMERIKSA_PKC) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_PKC), "" + status);
-        } else return null;
+        } else return new ArrayList<>();
 
     }
 
@@ -209,7 +209,10 @@ public class IzinOnlineService {
         int result = FAILED;
 
         layanan.setNomor(getNomor());
-        layanan.setStatus(ON_BATCH_1_KPPBC);
+
+        if (!isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)) layanan.setStatus(ON_BATCH_1_KPPBC);
+        else layanan.setStatus(ON_BATCH_1_KANWIL);
+
         layananService.save(layanan);
         layananService.flush();
         uploadDoc(memoryBuffer, dokumen, layanan);
