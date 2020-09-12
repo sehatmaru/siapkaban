@@ -209,7 +209,10 @@ public class IzinOnlineService {
         int result = FAILED;
 
         layanan.setNomor(getNomor());
-        layanan.setStatus(ON_BATCH_1_KPPBC);
+
+        if (!isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)) layanan.setStatus(ON_BATCH_1_KPPBC);
+        else layanan.setStatus(ON_BATCH_1_KANWIL);
+
         layananService.save(layanan);
         layananService.flush();
         uploadDoc(memoryBuffer, dokumen, layanan);
