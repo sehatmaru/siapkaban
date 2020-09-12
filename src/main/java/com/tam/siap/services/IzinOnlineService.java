@@ -201,7 +201,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KANWIL_KEPALA_BIDANG_PKC || role.getId() == KANWIL_KEPALA_SEKSI_PKC || role.getId() == KANWIL_PEMERIKSA_PKC) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_PKC), "" + status);
-        } else return null;
+        } else return new ArrayList<>();
 
     }
 
