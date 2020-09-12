@@ -1,67 +1,42 @@
 package com.tam.siap.models;
 
-import java.util.Set;
+import groovy.transform.builder.Builder;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.*;
 
 @Entity
-@Table(name="po_role")
+@Builder
+@DynamicUpdate
+@Table(name="role", schema = "public")
 public class Role {
 	
 	@Id
 	@Column(name="id", columnDefinition = "serial")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	
-	@Column(name="kode")
-	private String kode;
-	
-	@Column(name="nama")
-	private String nama;
-
+	@Column(name="keterangan")
+	private String keterangan;
 	
 	public Role() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public String getKode() {
-		return kode;
-	}
-
-	public String getNama() {
-		return nama;
-	}
-
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public void setKode(String kode) {
-		this.kode = kode;
+	public String getKeterangan() {
+		return keterangan;
 	}
 
-	public void setNama(String nama) {
-		this.nama = nama;
+	public void setKeterangan(String keterangan) {
+		this.keterangan = keterangan;
 	}
-	
-	
-	
-
 }

@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -16,12 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.tam.siap.exceptions.UserNotFoundException;
 import com.tam.siap.exceptions.WrongPasswordException;
-import com.tam.siap.models.Pic;
-import com.tam.siap.models.PicPerusahaan;
-import com.tam.siap.models.Role;
-import com.tam.siap.repos.PicPerusahaanRepository;
-import com.tam.siap.repos.PicRepository;
-import com.vaadin.flow.server.VaadinSession;
 
 @Service
 public class UserService {
@@ -40,11 +33,11 @@ public class UserService {
 	@Autowired
 	private ApplicationContext context;
 
-	@Autowired
-	PicPerusahaanRepository picPerusahaanRepository;
-
-	@Autowired
-	PicRepository picRepository;
+//	@Autowired
+//	PicPerusahaanRepository picPerusahaanRepository;
+//
+//	@Autowired
+//	PicRepository picRepository;
 
 	private static SecureRandom random = new SecureRandom();
 
@@ -59,47 +52,47 @@ public class UserService {
 		Connection conn = null;
 		PreparedStatement ps = null;
 
-		Pic picbc = picRepository.findByUsername(username);
-		if (picbc != null) {
-			success = true;
-			bcuser = true;
-			VaadinSession.getCurrent().setAttribute(BCUSER, true);
-			VaadinSession.getCurrent().setAttribute(PICUSER, false);
-			VaadinSession.getCurrent().setAttribute(USERID, username);
-			VaadinSession.getCurrent().setAttribute(PERUSAHAAN_ID, null);
-			VaadinSession.getCurrent().setAttribute(ROLE, picbc.getJenispic());
-			VaadinSession.getCurrent().setAttribute(PIC_ID, picbc.getId());
-			VaadinSession.getCurrent().setAttribute(ADMIN_ROLE, false);
-			VaadinSession.getCurrent().setAttribute(NAMEUSER, picbc.getNama());
-			Set<Role> roles = picbc.getRoles();
-			if (roles != null) {
-				for (Role r : roles) {
-					if (r.getKode().equals(UserService.ADMINGB) || r.getKode().equals(UserService.ADMINKB)) {
-						VaadinSession.getCurrent().setAttribute(ADMIN_ROLE, true);
-					}
-				}
-			}
-		}
-
-		if (!bcuser) {
-			PicPerusahaan pic = picPerusahaanRepository.findByKTP(username);
-			if (pic == null) {
-				throw new UserNotFoundException("Pengguna tidak ditemukan");
-			} else {
-				if (pic.getPassword() != null && pic.getPassword().equals(password)) {
-					success = true;
-					picperusahaan = true;
-					VaadinSession.getCurrent().setAttribute(BCUSER, false);
-					VaadinSession.getCurrent().setAttribute(PICUSER, true);
-					VaadinSession.getCurrent().setAttribute(USERID, pic.getId());
-					VaadinSession.getCurrent().setAttribute(PERUSAHAAN_ID, pic.getPerusahaanid());
-					VaadinSession.getCurrent().setAttribute(NAMEUSER, pic.getNama());
-
-				} else {
-					throw new WrongPasswordException("Password salah");
-				}
-			}
-		}
+//		Pic picbc = picRepository.findByUsername(username);
+//		if (picbc != null) {
+//			success = true;
+//			bcuser = true;
+//			VaadinSession.getCurrent().setAttribute(BCUSER, true);
+//			VaadinSession.getCurrent().setAttribute(PICUSER, false);
+//			VaadinSession.getCurrent().setAttribute(USERID, username);
+//			VaadinSession.getCurrent().setAttribute(PERUSAHAAN_ID, null);
+//			VaadinSession.getCurrent().setAttribute(ROLE, picbc.getJenispic());
+//			VaadinSession.getCurrent().setAttribute(PIC_ID, picbc.getId());
+//			VaadinSession.getCurrent().setAttribute(ADMIN_ROLE, false);
+//			VaadinSession.getCurrent().setAttribute(NAMEUSER, picbc.getNama());
+//			Set<Role> roles = picbc.getRoles();
+//			if (roles != null) {
+//				for (Role r : roles) {
+//					if (r.getKode().equals(UserService.ADMINGB) || r.getKode().equals(UserService.ADMINKB)) {
+//						VaadinSession.getCurrent().setAttribute(ADMIN_ROLE, true);
+//					}
+//				}
+//			}
+//		}
+//
+//		if (!bcuser) {
+//			PicPerusahaan pic = picPerusahaanRepository.findByKTP(username);
+//			if (pic == null) {
+//				throw new UserNotFoundException("Pengguna tidak ditemukan");
+//			} else {
+//				if (pic.getPassword() != null && pic.getPassword().equals(password)) {
+//					success = true;
+//					picperusahaan = true;
+//					VaadinSession.getCurrent().setAttribute(BCUSER, false);
+//					VaadinSession.getCurrent().setAttribute(PICUSER, true);
+//					VaadinSession.getCurrent().setAttribute(USERID, pic.getId());
+//					VaadinSession.getCurrent().setAttribute(PERUSAHAAN_ID, pic.getPerusahaanid());
+//					VaadinSession.getCurrent().setAttribute(NAMEUSER, pic.getNama());
+//
+//				} else {
+//					throw new WrongPasswordException("Password salah");
+//				}
+//			}
+//		}
 
 		if (!picperusahaan && !bcuser) {
 			throw new UserNotFoundException("Pengguna tidak ditemukan");

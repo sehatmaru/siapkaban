@@ -3,12 +3,10 @@ package com.tam.siap.views.izinonline;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -16,31 +14,36 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import com.tam.siap.LayananStatus;
-import com.tam.siap.components.TamCard;
+import com.tam.siap.components.TamSetField;
+import com.tam.siap.models.Account;
 import com.tam.siap.models.Dokumen;
-import com.tam.siap.models.JenisLayanan;
-import com.tam.siap.models.JenisPerusahaan;
+import com.tam.siap.models.JDokumen;
+import com.tam.siap.models.JFasilitas;
+import com.tam.siap.models.JLayanan;
+import com.tam.siap.models.JPengelola;
+import com.tam.siap.models.JPenimbunan;
+import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.Layanan;
-import com.tam.siap.models.Perusahaan;
-import com.tam.siap.models.PicPerusahaan;
-import com.tam.siap.models.SubJenisLayanan;
-import com.tam.siap.models.SyaratAdministrasi;
-import com.tam.siap.repos.DokumenRepository;
-import com.tam.siap.repos.JenisLayananRepository;
-import com.tam.siap.repos.JenisPerusahaanRepository;
-import com.tam.siap.repos.LayananRepository;
-import com.tam.siap.repos.PerusahaanRepository;
-import com.tam.siap.repos.PicPerusahaanRepository;
-import com.tam.siap.repos.SubJenisLayananRepository;
-import com.tam.siap.repos.SyaratAdministrasiRepository;
-import com.tam.siap.security.AuthService;
-import com.tam.siap.security.UserService;
-import com.tam.siap.utils.UIDGenerator;
+import com.tam.siap.models.SJLayanan;
+import com.tam.siap.models.responses.DokumenListResponse;
+import com.tam.siap.models.responses.LoginResponse;
+import com.tam.siap.services.IzinOnlineService;
+import com.tam.siap.services.master.AccountService;
+import com.tam.siap.services.master.JenisDokumenService;
+import com.tam.siap.services.master.JenisFasilitasService;
+import com.tam.siap.services.master.JenisLayananService;
+import com.tam.siap.services.master.JenisPengelolaService;
+import com.tam.siap.services.master.JenisPenimbunanService;
+import com.tam.siap.services.master.JenisPerusahaanService;
+import com.tam.siap.services.master.SubJenisLayananService;
+import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -56,9 +59,10 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.dom.DomEvent;
+import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 
 @Route(value = "izinonline", layout = HomePageIzinOnline2.class)
 public class IzinOnline extends VerticalLayout {
@@ -71,6 +75,35 @@ public class IzinOnline extends VerticalLayout {
 	@Id("txtjudulapp")
 	Element txtjudulapp;
 
+	@Autowired
+	JenisPerusahaanService jenisPerusahaanService;
+
+	@Autowired
+	AccountService accountService;
+
+	@Autowired
+	JenisDokumenService jenisDokumenService;
+
+	@Autowired
+	JenisFasilitasService jenisFasilitasService;
+
+	@Autowired
+	JenisLayananService jenisLayananService;
+
+	@Autowired
+	SubJenisLayananService subJenisLayananService;
+
+	@Autowired
+	JenisPengelolaService jenisPengelolaService;
+
+	@Autowired
+	JenisPenimbunanService jenisPenimbunanService;
+
+	@Autowired
+	IzinOnlineService izinOnlineService;
+
+	private DokumenListResponse doklist = new DokumenListResponse();
+
 	// identitas perusahaan
 	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
 	private TextField txtfnamapt = new TextField("Nama Perusahaan");
@@ -80,61 +113,218 @@ public class IzinOnline extends VerticalLayout {
 	private TextField picname = new TextField("Nama PIC");
 	private TextField txtjabtan = new TextField("Jabatan");
 	private EmailField txtemail = new EmailField("Email");
-	TextField txtnohp = new TextField("No Handphone");
+	private TextField txtnohp = new TextField("No Handphone");
+	private VerticalLayout lay = new VerticalLayout();
+	private VerticalLayout layDok = new VerticalLayout();
 
-	private ComboBox<JenisPerusahaan> combofasilitas = new ComboBox<JenisPerusahaan>();
-	private ComboBox<JenisLayanan> combojnslayanan = new ComboBox<JenisLayanan>();
-	private ComboBox<SubJenisLayanan> combosubjenislayanan = new ComboBox<SubJenisLayanan>();
+	private ComboBox<JPerusahaan> combojnsperusahaan = new ComboBox<JPerusahaan>("Jenis Perusahaan");
+	private ComboBox<JPerusahaan> combojnsperusahaan2 = new ComboBox<JPerusahaan>("Jenis Perusahaan");
+	private ComboBox<JFasilitas> combojnsfasilitas = new ComboBox<JFasilitas>("Jenis Fasilitas");// KITE
+	private ComboBox<JPengelola> combojnspengelola = new ComboBox<JPengelola>("Jenis Pengelola");// KP
+	private ComboBox<JPenimbunan> combotmppenimbunan = new ComboBox<JPenimbunan>("Tempat Penimbunan");// TPS
+	private ComboBox<JLayanan> combojnslayanan = new ComboBox<JLayanan>("Jenis Layanan");
+	private ComboBox<SJLayanan> combosubjenislayanan = new ComboBox<SJLayanan>("Sub Jenis Layanan");
 
-	private VerticalLayout docandconfirmation = new VerticalLayout();
+//	private VerticalLayout docandconfirmation = new VerticalLayout();
 	private VerticalLayout layconfirmation = new VerticalLayout();
-	private Label[] lblDokumen = new Label[10];
-	private Upload[] upload = new Upload[10];
-	private MemoryBuffer[] membuff = new MemoryBuffer[10];
+//	private Label[] lblDokumen = new Label[10];
+//	private Upload[] upload = new Upload[10];
+	private MemoryBuffer[] membuffDokPemohon = new MemoryBuffer[10];
+	private MemoryBuffer[] membuffDokSyarat = new MemoryBuffer[10];
+	private MemoryBuffer[] membuffDokLainnya = new MemoryBuffer[10];
+
+	private String[] strDokPemohon = new String[10];
+	private String[] strDokSyarat = new String[10];
+	private String[] strDokLainnya = new String[10];
+
+//	private String[] jDokIdPemohon = new String[10];
+//	private String[] jDokIdSyarat = new String[10];
+//	private String[] jDokIdLainnya = new String[10];
+
 	private Button submit = new Button();
-	private Perusahaan perusahaan = null;
-	private PicPerusahaan picperusahaan = null;
+
 	private Checkbox checbok = new Checkbox("Menyetujui");
 
-	@Autowired
-	private Environment env;
-
-	@Autowired
-	AuthService authService;
-
-	@Autowired
-	PerusahaanRepository perusahaanRepository;
-
-	private List<JenisPerusahaan> jp;
-	private List<JenisLayanan> jl;
-	private List<SubJenisLayanan> sjl;
-
-	@Autowired
-	JenisPerusahaanRepository jenisPerusahaanRepository;
-
-	@Autowired
-	JenisLayananRepository jenisLayananRepository;
-
-	@Autowired
-	SubJenisLayananRepository subJenisLayananRepository;
-
-	@Autowired
-	SyaratAdministrasiRepository syaratAdministrasiRepository;
-
-	@Autowired
-	PicPerusahaanRepository picPerusahaanRepository;
-
-	@Autowired
-	DokumenRepository dokumenRepository;
-
-	@Autowired
-	LayananRepository layananRepository;
+//	private List<JPerusahaan> listJPerusahaans = new ArrayList<>();
+//	private List<JLayanan> listJLayanans = new ArrayList<>();
+//	private List<SJLayanan> listSjLayanans = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
 		// TODO Auto-generated constructor stub
+		LoginResponse response = TamUtils.getLoginResponse();
+		if (response != null) {
+			txtalamatpt.setValue(response.getAccount().getPerusahaan().getAlamat());
+			txtemail.setValue(response.getAccount().getPribadi().getEmail());
+			txtfnamapt.setValue(response.getAccount().getPerusahaan().getNama());
+			txtfnpwp.setValue(response.getAccount().getPerusahaan().getNpwp());
+			txtjabtan.setValue(response.getAccount().getPribadi().getJabatan());
+			txtnohp.setValue(response.getAccount().getPribadi().getTelepon());
+			picname.setValue(response.getAccount().getPribadi().getNama());
 
-		try {
+			Account account = accountService.findByUsername(response.getAccount().getUsername());
+			// listJPerusahaans = jenisPerusahaanService.findAllJenisPerusahaan();
+			combojnsperusahaan2.setItems(jenisPerusahaanService.findAllJenisPerusahaan());
+			combojnsperusahaan2.setItemLabelGenerator(JPerusahaan::getKeterangan);
+			combojnsperusahaan.setItems(jenisPerusahaanService.findAllJenisPerusahaan());
+			combojnsperusahaan.setItemLabelGenerator(JPerusahaan::getKeterangan);
+			combojnsperusahaan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+				@Override
+				public void valueChanged(ValueChangeEvent<?> event) {
+					// TODO Auto-generated method stub
+					// listJLayanans = layananService.findLayanan(combojnsperusahaan.getValue());
+					JPerusahaan datajp = combojnsperusahaan.getValue();
+					if (datajp.getId() == 4) {
+						jenisLayanan(datajp.getId());
+//						combojnsfasilitas.setItems(layananService.findFasilitas(datajp));
+						combojnsfasilitas.setItems(jenisFasilitasService.findJenisFasilitas(datajp));
+						combojnsfasilitas.setItemLabelGenerator(JFasilitas::getKeterangan);
+						combojnsfasilitas.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								// TODO Auto-generated method stub
+								JFasilitas datafasilitas = combojnsfasilitas.getValue();
+								if (datafasilitas != null) {
+//									combojnslayanan.setItems(layananService.findLayanan(datajp, datafasilitas));
+									combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datafasilitas));
+									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+									combojnslayanan
+											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+												@Override
+												public void valueChanged(ValueChangeEvent<?> event) {
+													combosubjenislayanan.setItems(subJenisLayananService
+															.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan
+															.setItemLabelGenerator(SJLayanan::getKeterangan);
+//													combosubjenislayanan.setItems(layananService.findSubLayanan(
+//															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+													combosubjenislayanan.addValueChangeListener(
+															new ValueChangeListener<ValueChangeEvent<?>>() {
+
+																@Override
+																public void valueChanged(ValueChangeEvent<?> event) {
+																	// TODO Auto-generated method stub
+																	dokumenUploads(combosubjenislayanan.getValue());
+																}
+															});
+
+												}
+											});
+								}
+							}
+						});
+					} else if (datajp.getId() == 5) {
+						jenisLayanan(datajp.getId());
+						// combotmppenimpunan.setItems(layananService.findPenimbunan(datajp));
+						combotmppenimbunan.setItems(jenisPenimbunanService.findJenisPenimbunan(datajp));
+						combotmppenimbunan.setItemLabelGenerator(JPenimbunan::getKeterangan);
+						combotmppenimbunan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								// TODO Auto-generated method stub
+								JPenimbunan datapenimbunan = combotmppenimbunan.getValue();
+								if (datapenimbunan != null) {
+									combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datapenimbunan));
+									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+									combojnslayanan
+											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+												@Override
+												public void valueChanged(ValueChangeEvent<?> event) {
+													combosubjenislayanan
+															.setItemLabelGenerator(SJLayanan::getKeterangan);
+//													combosubjenislayanan.setItems(layananService.findSubLayanan(
+//															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(subJenisLayananService
+															.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.addValueChangeListener(
+															new ValueChangeListener<ValueChangeEvent<?>>() {
+
+																@Override
+																public void valueChanged(ValueChangeEvent<?> event) {
+																	// TODO Auto-generated method stub
+																	dokumenUploads(combosubjenislayanan.getValue());
+																}
+															});
+												}
+											});
+								}
+							}
+						});
+					} else if (datajp.getId() == 6) {
+						jenisLayanan(datajp.getId());
+						combojnspengelola.setItems(jenisPengelolaService.findJenisPengelola(datajp));
+//						combojnspengelola.setItems(layananService.findPengelola(datajp));
+						combojnspengelola.setItemLabelGenerator(JPengelola::getKeterangan);
+						combojnspengelola.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								// TODO Auto-generated method stub
+								JPengelola datapengelola = combojnspengelola.getValue();
+								if (datapengelola != null) {
+									combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datapengelola));
+									combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+									combojnslayanan
+											.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+												@Override
+												public void valueChanged(ValueChangeEvent<?> event) {
+													combosubjenislayanan
+															.setItemLabelGenerator(SJLayanan::getKeterangan);
+//													combosubjenislayanan.setItems(layananService.findSubLayanan(
+//															combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+													combosubjenislayanan.setItems(subJenisLayananService
+															.findSubJenisLayanan(combojnslayanan.getValue()));
+													combosubjenislayanan.addValueChangeListener(
+															new ValueChangeListener<ValueChangeEvent<?>>() {
+
+																@Override
+																public void valueChanged(ValueChangeEvent<?> event) {
+																	// TODO Auto-generated method stub
+																	dokumenUploads(combosubjenislayanan.getValue());
+																}
+															});
+												}
+											});
+								}
+							}
+						});
+					} else {
+						jenisLayanan(datajp.getId());
+						combojnslayanan.setItems(jenisLayananService.findJenisLayanan(datajp));
+//						combojnslayanan.setItems(layananService.findLayanan(datajp));
+						combojnslayanan.setItemLabelGenerator(JLayanan::getKeterangan);
+						combojnslayanan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+							@Override
+							public void valueChanged(ValueChangeEvent<?> event) {
+								combosubjenislayanan.setItems(
+										subJenisLayananService.findSubJenisLayanan(combojnslayanan.getValue()));
+								combosubjenislayanan.setItemLabelGenerator(SJLayanan::getKeterangan);
+								combosubjenislayanan
+										.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+											@Override
+											public void valueChanged(ValueChangeEvent<?> event) {
+												// TODO Auto-generated method stub
+												dokumenUploads(combosubjenislayanan.getValue());
+											}
+										});
+//								combosubjenislayanan.setItems(layananService
+//										.findSubLayanan(combojnsperusahaan.getValue(), combojnslayanan.getValue()));
+							}
+						});
+					}
+				}
+			});
+			combojnsperusahaan.setValue(account.getPerusahaan().getJenis());
+			combojnsperusahaan2.setValue(account.getPerusahaan().getJenis());
+
 			submit = new Button("Submit");
 			submit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
@@ -142,30 +332,26 @@ public class IzinOnline extends VerticalLayout {
 				public void onComponentEvent(ClickEvent<Button> event) {
 
 					if (checbok.getValue()) {
-						Long id = UIDGenerator.getInstance().getUID();
-						String nomor = "";
-						Date tanggal = new Date();
-						String fasilitas = combofasilitas.getValue().getDscp();
-						String janjilayanan = "";
-						String penerimadok = "";
-						Long picstafid = null;
-						Long pickplseksiid = null;
-						Long pickplbidangid = null;
-						Long pickplkantorid = null;
-						String ket = "";
-						ArrayList<SubJenisLayanan> subjenislayananid = new ArrayList<SubJenisLayanan>();
-						subjenislayananid.add(combosubjenislayanan.getValue());
+						if (checkingDokumen()) {
+							Layanan dataLay = new Layanan();
+							dataLay.setPemohonon(account);
+							dataLay.setLokasi(account.getLokasi());
+							// SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							dataLay.setTanggal(new Date());
+							dataLay.setSubLayanan(combosubjenislayanan.getValue());
 
-						simpan(id, txtfnpwp.getValue(), txtfnamapt.getValue(), combofasilitas.getValue().getId(),
-								txtalamatpt.getValue(), picname.getValue(), txtjabtan.getValue(), txtemail.getValue(),
-								txtnohp.getValue(), combojnslayanan.getValue().getId(), nomor, tanggal,
-								combofasilitas.getValue().getDscp(), janjilayanan, penerimadok, picstafid,
-								pickplseksiid, pickplbidangid, pickplkantorid, ket, subjenislayananid,
-								LayananStatus.STATUS_BARU.getKey());
+							List<MemoryBuffer> listMemBuff = new ArrayList<>();
+							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokPemohon));
+							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokSyarat));
+							listMemBuff.addAll(TamUtils.convertArrayToList(membuffDokLainnya));
 
-						// TODO Auto-generated method stub
-//								content.removeAll();
-//								content.add(new StatusLayananPage(layananRepository, perusahaan.getId()));	
+							izinOnlineService.submit(listMemBuff, dataLay, getListdokumen());
+
+							Notification notification = new Notification("Data berhasil tersimpan", 3000,
+									Position.MIDDLE);
+							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+							notification.open();
+						}
 					} else {
 						Notification notification = new Notification("Anda herus menyetujui disclaimer", 3000,
 								Position.MIDDLE);
@@ -175,104 +361,212 @@ public class IzinOnline extends VerticalLayout {
 				}
 			});
 
-			jp = (List<JenisPerusahaan>) jenisPerusahaanRepository.findAll();
-			combofasilitas.setLabel("Jenis Perusahaan");
-			combofasilitas.setItems(jp);
-			combofasilitas.setItemLabelGenerator(JenisPerusahaan::getCodeDscp);
+			TextArea txtdisclimer = new TextArea("Disclaimer");
+			txtdisclimer.setValue(
+					"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan.");
+			txtdisclimer.setReadOnly(true);
+			txtdisclimer.setWidthFull();
 
-			jl = (List<JenisLayanan>) jenisLayananRepository.findAll();
-			combojnslayanan.setLabel("Jenis Layanan");
-			combojnslayanan.setItems(jl);
-			combojnslayanan.setItemLabelGenerator(JenisLayanan::getDscp);
+			layconfirmation.add(txtdisclimer);
 
-			combojnslayanan.addValueChangeListener(event -> {
-				combosubjenislayanan.setLabel("Sub Jenis Layanan");
-				long jpid = combofasilitas.getValue().getId();
-				long jlid = combojnslayanan.getValue().getId();
-				sjl = (List<SubJenisLayanan>) subJenisLayananRepository.findByJenisPerusahaanDanJenisLayanan(jpid,
-						jlid);
-				combosubjenislayanan.setItems(sjl);
-				combosubjenislayanan.setItemLabelGenerator(SubJenisLayanan::getDscp);
-				combosubjenislayanan.setEnabled(event.getValue() != null);
-			});
+			layconfirmation.add(checbok);
 
-			combofasilitas.addValueChangeListener(event -> {
-				if (combofasilitas.getValue() == null || combojnslayanan.getValue() == null) {
-//					Notification notification = new Notification("Silahkan pilih data Jenis perusahaan", 3000, Position.MIDDLE);
-//					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//					notification.open();
-				} else {
-					combosubjenislayanan.setLabel("Sub Jenis Layanan");
-					long jpid = combofasilitas.getValue().getId();
-					long jlid = combojnslayanan.getValue().getId();
-					sjl = (List<SubJenisLayanan>) subJenisLayananRepository.findByJenisPerusahaanDanJenisLayanan(jpid,
-							jlid);
-					combosubjenislayanan.setItems(sjl);
-					combosubjenislayanan.setItemLabelGenerator(SubJenisLayanan::getDscp);
-					combosubjenislayanan.setEnabled(event.getValue() != null);
-				}
-			});
-
-			combosubjenislayanan.addValueChangeListener(event -> {
-				combosubjenislayanan.setLabel("Sub Jenis Layanan");
-				long sjlid = 0;
-				try {
-					long jpid = combofasilitas.getValue().getId();
-					long jlid = combojnslayanan.getValue().getId();
-					sjlid = combosubjenislayanan.getValue().getId();
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-
-				List<SyaratAdministrasi> syaratadministrasi = syaratAdministrasiRepository
-						.findBySubjenislayananidOrderBySeq(sjlid);
-
-				docandconfirmation.removeAll();
-				layconfirmation.removeAll();
-				if (syaratadministrasi != null && syaratadministrasi.size() > 0) {
-					int i = 0;
-					for (SyaratAdministrasi syarat : syaratadministrasi) {
-						Label label = new Label(syarat.getDscp()+" (maks 1Mb)");
-						MemoryBuffer buffer = new MemoryBuffer();
-						Upload uploadfield = new Upload(buffer);
-						docandconfirmation.add(label);
-						docandconfirmation.add(uploadfield);
-						membuff[i] = buffer;
-						lblDokumen[i] = label;
-						upload[i] = uploadfield;
-						i++;
-					}
-				}
-
-				TextArea txtdisclimer = new TextArea("Disclaimer");
-				txtdisclimer.setValue(
-						"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan.");
-				txtdisclimer.setReadOnly(true);
-				txtdisclimer.setWidthFull();
-
-				layconfirmation.add(txtdisclimer);
-
-				layconfirmation.add(checbok);
-
-				submit.setWidthFull();
-				layconfirmation.add(submit);
-
-			});
-
-			loadPicPerusahaanAndPerusahaan();
-
-		} catch (Exception e) {
-			// e.printStackTrace();
+			submit.setWidthFull();
+			submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+			layconfirmation.add(submit);
 		}
+
+	}
+
+	private List<Dokumen> getListdokumen() {
+		List<Dokumen> dokumens = new ArrayList<Dokumen>();
+		// String path = env.getProperty("layanan.document.path");
+		LoginResponse logRes = TamUtils.getLoginResponse();
+		DokumenListResponse doklist = izinOnlineService.docFilter(combosubjenislayanan.getValue());
+		for (int h = 0; h < membuffDokPemohon.length; h++) {
+//			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPermohonan().get(h).getId()
+//					+ "_" + membuffDokPemohon[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getPermohonan().get(h).getKeterangan(), null,
+					doklist.getPermohonan().get(h), logRes.getAccount(), 1));
+		}
+
+		for (int h = 0; h < membuffDokSyarat.length; h++) {
+//			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getPersyaratan().get(h).getId()
+//					+ "_" + membuffDokSyarat[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getPersyaratan().get(h).getKeterangan(), null,
+					doklist.getPersyaratan().get(h), logRes.getAccount(), 1));
+		}
+
+		for (int h = 0; h < membuffDokLainnya.length; h++) {
+//			String file = path + "/" + logRes.getAccount().getUsername() + "/" + doklist.getLainnya().get(h).getId()
+//					+ "_" + membuffDokLainnya[h].getFileName();
+			dokumens.add(new Dokumen(doklist.getLainnya().get(h).getKeterangan(), null, doklist.getLainnya().get(h),
+					logRes.getAccount(), 1));
+		}
+		return dokumens;
 	}
 
 	public IzinOnline() {
 		setSizeFull();
 		layconfirmation.setWidthFull();
-		HorizontalLayout vl1 = new HorizontalLayout(identitasPerusahaan(), identitasPIC(), jenisLayanan());
+
+		HorizontalLayout hll = new HorizontalLayout(identitasPerusahaan(), identitasPIC());
+		TamSetField setField = new TamSetField("Identitas Perusahaan");
+		setField.addTamCom(hll);
+
+		TamSetField setFieldJnsLay = new TamSetField("Pilih Layanan");
+		setFieldJnsLay.addTamCom(jenisLayanan(0));
+
+		HorizontalLayout vl1 = new HorizontalLayout(setField, setFieldJnsLay);
+		vl1.setSpacing(true);
+		vl1.setWidthFull();
 		VerticalLayout vl2 = new VerticalLayout(vl1, layconfirmation);
 		HorizontalLayout f1 = new HorizontalLayout(vl2, inputChekclist());
+		f1.setWidthFull();
 		add(f1);
+	}
+
+	private boolean checkingDokumen() {
+		boolean ok = true;
+		// check dokumen
+		for (int h = 0; h < membuffDokPemohon.length; h++) {
+			if (membuffDokPemohon[h].getFileName().isEmpty()) {
+				Notification notification = new Notification(strDokPemohon[h] + " belum diupload", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+				notification.open();
+				ok = false;
+				return ok;
+			}
+		}
+
+		for (int h = 0; h < membuffDokSyarat.length; h++) {
+			if (membuffDokSyarat[h].getFileName().isEmpty()) {
+				Notification notification = new Notification(strDokSyarat[h] + " belum diupload", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+				notification.open();
+				ok = false;
+				return ok;
+			}
+		}
+
+		for (int h = 0; h < membuffDokLainnya.length; h++) {
+			if (membuffDokLainnya[h].getFileName().isEmpty()) {
+				Notification notification = new Notification(strDokLainnya[h] + " belum diupload", 3000,
+						Position.MIDDLE);
+				notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+				notification.open();
+				ok = false;
+				return ok;
+			}
+		}
+		return ok;
+	}
+
+	private VerticalLayout dokumenUploads(SJLayanan subLayanan) {
+//		VerticalLayout lay = new VerticalLayout();
+		layDok.removeAll();
+		if (subLayanan == null) {
+
+		} else {
+			Label lbl = new Label("Dokumen Persyaratan");
+			lbl.getElement().setAttribute("style", "color:blue");
+			lbl.setWidthFull();
+
+			Label lbl2 = new Label("Dokumen Lainnya");
+			lbl2.getElement().setAttribute("style", "color:blue");
+			lbl2.setWidthFull();
+
+			doklist = izinOnlineService.docFilter(subLayanan);
+			membuffDokPemohon = new MemoryBuffer[doklist.getPermohonan().size()];
+			strDokPemohon = new String[doklist.getPermohonan().size()];
+			// System.out.println("dok pemohon : "+doklist.getPermohonan().size());
+			for (int i = 0; i < doklist.getPermohonan().size(); i++) {
+				JDokumen dokpemohon = doklist.getPermohonan().get(i);
+				membuffDokPemohon[i] = new MemoryBuffer();
+				Upload up = new Upload(membuffDokPemohon[i]);
+				up.setDropAllowed(false);
+				up.setWidthFull();
+				Button btn = new Button("upload");
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				up.setUploadButton(btn);
+				final int pos = i;
+				up.getElement().addEventListener("file-remove", new DomEventListener() {
+					@Override
+					public void handleEvent(DomEvent event) {
+						membuffDokPemohon[pos] = new MemoryBuffer();
+						up.setReceiver(membuffDokPemohon[pos]);
+					}
+				});
+				up.setAcceptedFileTypes("application/pdf");
+				layDok.add(TamUtils.setInlinetext2(up, (1 + i) + ". " + dokpemohon.getKeterangan()));
+				strDokPemohon[i] = dokpemohon.getKeterangan();
+//				jDokIdPemohon[i] = ""+dokpemohon.getId();
+			}
+
+			layDok.add(new FormLayout(lbl));
+
+			membuffDokSyarat = new MemoryBuffer[doklist.getPersyaratan().size()];
+			strDokSyarat = new String[doklist.getPersyaratan().size()];
+			// System.out.println("dok getPersyaratan : "+doklist.getPersyaratan().size());
+			for (int i = 0; i < doklist.getPersyaratan().size(); i++) {
+				JDokumen dokpemohon = doklist.getPersyaratan().get(i);
+				membuffDokSyarat[i] = new MemoryBuffer();
+				Upload up = new Upload(membuffDokSyarat[i]);
+				up.setDropAllowed(false);
+				up.setWidthFull();
+				Button btn = new Button("upload");
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				up.setUploadButton(btn);
+				final int pos = i;
+				up.getElement().addEventListener("file-remove", new DomEventListener() {
+					@Override
+					public void handleEvent(DomEvent event) {
+						membuffDokSyarat[pos] = new MemoryBuffer();
+						up.setReceiver(membuffDokSyarat[pos]);
+					}
+				});
+				up.setAcceptedFileTypes("application/pdf");
+				layDok.add(TamUtils.setInlinetext2(up,
+						(doklist.getPermohonan().size() + i + 1) + ". " + dokpemohon.getKeterangan()));
+				strDokSyarat[i] = dokpemohon.getKeterangan();
+//				jDokIdSyarat[i] = ""+dokpemohon.getId();
+			}
+
+			layDok.add(lbl2);
+
+			membuffDokLainnya = new MemoryBuffer[doklist.getLainnya().size()];
+			strDokLainnya = new String[doklist.getLainnya().size()];
+			// System.out.println("dok getLainnya : "+doklist.getLainnya().size());
+			for (int i = 0; i < doklist.getLainnya().size(); i++) {
+				JDokumen dokpemohon = doklist.getLainnya().get(i);
+				membuffDokLainnya[i] = new MemoryBuffer();
+				Upload up = new Upload(membuffDokLainnya[i]);
+				up.setDropAllowed(false);
+				up.setWidthFull();
+				Button btn = new Button("upload");
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				up.setUploadButton(btn);
+				final int pos = i;
+				up.getElement().addEventListener("file-remove", new DomEventListener() {
+					@Override
+					public void handleEvent(DomEvent event) {
+						membuffDokLainnya[pos] = new MemoryBuffer();
+						up.setReceiver(membuffDokLainnya[pos]);
+					}
+				});
+				up.setAcceptedFileTypes("application/pdf");
+				layDok.add(TamUtils.setInlinetext2(up,
+						(doklist.getPersyaratan().size() + 2 + i) + ". " + dokpemohon.getKeterangan()));
+				strDokLainnya[i] = dokpemohon.getKeterangan();
+//				jDokIdLainnya[i] = ""+dokpemohon.getId();
+			}
+		}
+		layDok.setWidthFull();
+		layDok.getStyle().set("overflow-y", "auto");
+		layDok.setSpacing(false);
+		return layDok;
 	}
 
 	private VerticalLayout identitasPerusahaan() {
@@ -280,12 +574,13 @@ public class IzinOnline extends VerticalLayout {
 		lay.setWidthFull();
 		txtfnpwp.setWidthFull();
 		txtfnamapt.setWidthFull();
-		combofasilitas.setWidthFull();
 		txtalamatpt.setWidthFull();
-		TamCard card = new TamCard("Identitas Perusahaan");
-		card.addComp(txtfnpwp, txtfnamapt, combofasilitas, txtalamatpt);
 
-		lay.add(card);
+		txtfnpwp.setReadOnly(true);
+		txtfnamapt.setReadOnly(true);
+		combojnsperusahaan2.setReadOnly(true);
+		txtalamatpt.setReadOnly(true);
+		lay.add(txtfnpwp, txtfnamapt, combojnsperusahaan2, txtalamatpt);
 
 		return lay;
 	}
@@ -297,156 +592,101 @@ public class IzinOnline extends VerticalLayout {
 		txtjabtan.setWidthFull();
 		txtemail.setWidthFull();
 		txtnohp.setWidthFull();
-		TamCard card = new TamCard("Identitas Pic");
-		card.addComp(picname, txtjabtan, txtemail, txtnohp);
 
-		lay.add(card);
+		picname.setReadOnly(true);
+		txtjabtan.setReadOnly(true);
+		txtemail.setReadOnly(true);
+		txtnohp.setReadOnly(true);
+		lay.add(picname, txtjabtan, txtemail, txtnohp);
 
 		return lay;
 	}
 
 	private VerticalLayout inputChekclist() {
 		VerticalLayout lay = new VerticalLayout();
+		// lay.setSizeFull();
+		lay.setHeight("700px");
 		lay.setWidthFull();
-		docandconfirmation.setWidthFull();
-		TamCard card = new TamCard("Upload dokumen");
-		card.addComp(docandconfirmation);
+		// lay.getStyle().set("overflow-y", "auto");
+		// lay.getStyle().set("overflow", "auto");
+//		docandconfirmation.setWidthFull();
+//		TamCard card = new TamCard("Upload dokumen");
+//		card.addComp(docandconfirmation);
+//
+//		lay.add(card);
 
-		lay.add(card);
+		lay.add(dokumenUploads(null));
 
 		return lay;
 	}
 
-	private VerticalLayout jenisLayanan() {
-		VerticalLayout lay = new VerticalLayout();
+	private VerticalLayout jenisLayanan(int jnsperusahaan) {
+		// VerticalLayout lay = new VerticalLayout();
+		if (lay.getComponentCount() < 1) {
+			lay.add(combojnsperusahaan);
+		}
+		for (int i = 0; i < lay.getComponentCount(); i++) {
+			if (i != 0) {
+				lay.remove(lay.getComponentAt(i));
+			}
+		}
+
 		lay.setWidthFull();
+		lay.setSpacing(true);
 		combojnslayanan.setWidthFull();
 		combosubjenislayanan.setWidthFull();
-		TamCard card = new TamCard("Jenis Layanan");
-		card.addComp(combojnslayanan, combosubjenislayanan);
+		combojnsperusahaan.setWidthFull();
+		combojnsfasilitas.setWidthFull();
+		combojnspengelola.setWidthFull();
+		combotmppenimbunan.setWidthFull();
 
-		lay.add(card);
+		combojnslayanan.setValue(null);
+		combosubjenislayanan.setValue(null);
+		combojnsfasilitas.setValue(null);
+		combojnspengelola.setValue(null);
+		combotmppenimbunan.setValue(null);
+
+		if (jnsperusahaan == 4) {
+			lay.add(combojnsfasilitas, combojnslayanan, combosubjenislayanan);
+		} else if (jnsperusahaan == 5) {
+			lay.add(combotmppenimbunan, combojnslayanan, combosubjenislayanan);
+		} else if (jnsperusahaan == 6) {
+			lay.add(combojnspengelola, combojnslayanan, combosubjenislayanan);
+		} else {
+			lay.add(combojnslayanan, combosubjenislayanan);
+		}
 
 		return lay;
 	}
 
-	public void loadPicPerusahaanAndPerusahaan() {
-		long userid = (long) VaadinSession.getCurrent().getAttribute(UserService.USERID);
-		Optional<PicPerusahaan> picper = picPerusahaanRepository.findByUserid(userid);
-		if (picper != null && picper.get() != null) {
-			picperusahaan = picper.get();
-			picname.setValue(picperusahaan.getNama());
-			txtjabtan.setValue(picperusahaan.getJabatan());
-			txtemail.setValue(picperusahaan.getEmail());
-			txtnohp.setValue(picperusahaan.getHandphone());
-			try {
-				Optional<Perusahaan> per = perusahaanRepository.findById(picperusahaan.getPerusahaanid());
-				if (per != null && per.get() != null) {
-					perusahaan = per.get();
-					txtfnpwp.setValue(perusahaan.getNpwpperusahaan());
-					txtfnamapt.setValue(perusahaan.getNamaperusahaan());
-					txtalamatpt.setValue(perusahaan.getAlamat());
-
-					// jp = (List<JenisPerusahaan>) jenisPerusahaanRepository.findAll();
-//					combofasilitas.setLabel("Jenis Perusahaan");
-//					combofasilitas.setItems(jp);
-					// combofasilitas.setItemLabelGenerator(JenisPerusahaan::getCodeDscp);
-					// combofasilitas.setValue(perusahaan.getJenisPerusahaan());
-					try {
-						for (JenisPerusahaan jpo : jp) {
-							if (jpo.getId() == perusahaan.getJenisPerusahaan().getId()) {
-								combofasilitas.setValue(jpo);
-							}
-						}
-					} catch (Exception e) {
-						// TODO: handle exception
-						e.printStackTrace();
-					}
-
-				} else {
-					loadPenetapanLayanan();
-				}
-			} catch (Exception e) {
-				loadPenetapanLayanan();
-			}
-
-		}
-	}
-
-	public void loadPenetapanLayanan() {
-		try {
-			long penetapanid = 1;
-			jl = new ArrayList<JenisLayanan>();
-			Optional<JenisLayanan> jenis = jenisLayananRepository.findById(penetapanid);
-			jl.add(jenis.get());
-			combojnslayanan.setLabel("Jenis Layanan");
-			combojnslayanan.setItems(jl);
-			combojnslayanan.setItemLabelGenerator(JenisLayanan::getDscp);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	public void simpan(long id, String npwpperusahaan, String namaperusahaan, Long jenisperushaanid, String alamat,
-			String nama, String jabatan, String email, String handphone, Long jenislayananid, String nomor,
-			Date tanggal, String fasilitas, String janjilayanan, String penerimadok, Long picstafid, Long pickplseksiid,
-			Long pickplbidangid, Long pickplkantorid, String ket, ArrayList<SubJenisLayanan> subjenislayananid,
-			String status) {
-
-		Layanan layanan = new Layanan(id, npwpperusahaan, namaperusahaan, jenisperushaanid, alamat, nama, jabatan,
-				email, handphone, jenislayananid, nomor, tanggal, fasilitas, janjilayanan, penerimadok, picstafid,
-				pickplseksiid, pickplbidangid, pickplkantorid, ket, status, new Date(), new Date(), new Date(),
-				new Date(), new Date());
-
-		// Creating a hash set using constructor
-		Set<SubJenisLayanan> hSet = new HashSet<SubJenisLayanan>(subjenislayananid);
-		layanan.setSubJenisLayanan(hSet);
-		if (perusahaan == null) {
-			long perusid = UIDGenerator.getInstance().getUID();
-			perusahaan = new Perusahaan(perusid, npwpperusahaan, namaperusahaan, jenisperushaanid, alamat);
-			perusahaanRepository.save(perusahaan);
-			picperusahaan.setPerusahaanid(perusid);
-			picPerusahaanRepository.save(picperusahaan);
-			layanan.setPerusahaanid(perusid);
-			saveDocument(layanan.getId(), subjenislayananid.get(0).getId());
-		} else {
-			layanan.setPerusahaanid(perusahaan.getId());
-			saveDocument(layanan.getId(), subjenislayananid.get(0).getId());
-		}
-		layananRepository.save(layanan);
-		Notification notification = new Notification("Data telah tersimpan", 3000, Position.MIDDLE);
-		notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-		notification.open();
-	}
-
-	public void saveDocument(long layananid, long subjenislayananid) {
-		List<SyaratAdministrasi> syarat = syaratAdministrasiRepository
-				.findBySubjenislayananidOrderBySeq(subjenislayananid);
-		int i = 0;
-		int seq = 1;
-		List<Dokumen> docs = new ArrayList<Dokumen>();
-
-		String filaPath = env.getProperty("layanan.document.path") + "\\" + layananid;
-
-		for (SyaratAdministrasi s : syarat) {
-			String fileName = "";
-			try {
-				fileName = membuff[i].getFileName();
-				saveDocToServer(membuff[i], filaPath, fileName);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			UIDGenerator.getInstance().getUID();
-			Dokumen d = new Dokumen(UIDGenerator.getInstance().getUID(), layananid, s.getId(),
-					filaPath + "\\" + fileName, fileName, seq);
-			dokumenRepository.save(d);
-			i++;
-			seq++;
-			docs.add(d);
-		}
-
-	}
+//	public void saveDocument(long layananid, long subjenislayananid) {
+//		List<SyaratAdministrasi> syarat = syaratAdministrasiRepository
+//				.findBySubjenislayananidOrderBySeq(subjenislayananid);
+//		int i = 0;
+//		int seq = 1;
+//		List<Dokumen> docs = new ArrayList<Dokumen>();
+//
+//		String filaPath = env.getProperty("layanan.document.path") + "\\" + layananid;
+//
+//		for (SyaratAdministrasi s : syarat) {
+//			String fileName = "";
+//			try {
+//				fileName = membuff[i].getFileName();
+//				saveDocToServer(membuff[i], filaPath, fileName);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			UIDGenerator.getInstance().getUID();
+//			Dokumen d = new Dokumen(UIDGenerator.getInstance().getUID(), layananid, s.getId(),
+//					filaPath + "\\" + fileName, fileName, seq, 0);
+//			dokumenRepository.save(d);
+//			i++;
+//			seq++;
+//			docs.add(d);
+//		}
+//
+//	}
 
 	private boolean saveDocToServer(MemoryBuffer mem, String filepath, String filename) throws IOException {
 		// InputStream initialStream = new FileInputStream(new

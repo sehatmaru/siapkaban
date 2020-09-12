@@ -1,113 +1,115 @@
 package com.tam.siap.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import groovy.transform.builder.Builder;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name="po_dokumen")
+@Builder
+@DynamicUpdate
+@Table(name="dokumen", schema = "public")
 public class Dokumen {
 
 	@Id
-	@Column(name="id")
-	private long id;
-	
-	@Column(name="layananid")
-	private Long layananid;
-	
-	@Column(name="syaratadministrasiid")
-	private long syaratadministrasiid;
-	
-	@Column(name="fullpath")
-	private String fullpath;
-	
-	@Column(name="seq")
-	private int seq;
-	
-	@Column(name="filename")
-	private String filename;
-	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="syaratadministrasiid", referencedColumnName="id", insertable = false, updatable = false, nullable=true)
-	private SyaratAdministrasi syaratAdministrasi;
+	@Column(name = "id", columnDefinition = "serial")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(name = "nama_dokumen")
+	private String namaDokumen;
+
+	@Column(name = "path")
+	private String path;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "jenis_dokumen", referencedColumnName = "id")
+	private JDokumen jenisDokumen;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "pemohon", referencedColumnName = "id")
+	private Account pemohon;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "layanan", referencedColumnName = "id")
+	private Layanan layanan;
+
+	@Column(name="status")
+	private int status;
 
 	public Dokumen() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
-	public Dokumen(long id, Long layananid, long syaratadministrasiid, String fullpath, String filename, int seq) {
-		super();
-		this.id = id;
-		this.layananid = layananid;
-		this.syaratadministrasiid = syaratadministrasiid;
-		this.fullpath = fullpath;
-		this.filename = filename;
-		this.seq = seq;
+	public Dokumen(String namaDokumen, String path, JDokumen jenisDokumen, Account pemohon, int status) {
+		this.namaDokumen = namaDokumen;
+		this.path = path;
+		this.jenisDokumen = jenisDokumen;
+		this.pemohon = pemohon;
+		this.status = status;
 	}
 
+	public Dokumen(String namaDokumen, String path, JDokumen jenisDokumen, Account pemohon, Layanan layanan, int status) {
+		this.namaDokumen = namaDokumen;
+		this.path = path;
+		this.jenisDokumen = jenisDokumen;
+		this.pemohon = pemohon;
+		this.status = status;
+		this.layanan = layanan;
+	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public Long getLayananid() {
-		return layananid;
-	}
-
-	public long getSyaratadministrasiid() {
-		return syaratadministrasiid;
-	}
-
-	public String getFullpath() {
-		return fullpath;
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public SyaratAdministrasi getSyaratAdministrasi() {
-		return syaratAdministrasi;
-	}
-
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public void setLayananid(Long layananid) {
-		this.layananid = layananid;
+	public String getNamaDokumen() {
+		return namaDokumen;
 	}
 
-	public void setSyaratadministrasiid(long syaratadministrasiid) {
-		this.syaratadministrasiid = syaratadministrasiid;
+	public void setNamaDokumen(String namaDokumen) {
+		this.namaDokumen = namaDokumen;
 	}
 
-	public void setFullpath(String fullpath) {
-		this.fullpath = fullpath;
+	public String getPath() {
+		return path;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public Layanan getLayanan() {
+		return layanan;
 	}
 
-	public void setSyaratAdministrasi(SyaratAdministrasi syaratAdministrasi) {
-		this.syaratAdministrasi = syaratAdministrasi;
+	public void setLayanan(Layanan layanan) {
+		this.layanan = layanan;
 	}
 
-
-	public int getSeq() {
-		return seq;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setStatus(int status) {
+		this.status = status;
 	}
-	
-	
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public JDokumen getJenisDokumen() {
+		return jenisDokumen;
+	}
+
+	public void setJenisDokumen(JDokumen jenisDokumen) {
+		this.jenisDokumen = jenisDokumen;
+	}
+
+	public Account getPemohon() {
+		return pemohon;
+	}
+
+	public void setPemohon(Account pemohon) {
+		this.pemohon = pemohon;
+	}
 }

@@ -1,17 +1,27 @@
 package com.tam.siap.repos;
 
+import com.tam.siap.models.Account;
+import com.tam.siap.models.Dokumen;
+import com.tam.siap.models.JDokumen;
+import com.tam.siap.models.Layanan;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+@Repository
+public interface DokumenRepository extends JpaRepository<Dokumen, String>{
+	Dokumen findByNamaDokumen(String namaDokumen);
 
-import com.tam.siap.models.Dokumen;
+	Dokumen findByJenisDokumenAndLayanan(JDokumen dokumen, Layanan layanan);
 
-public interface DokumenRepository extends JpaRepository<Dokumen, Long>{
+	Dokumen findByNamaDokumenAndStatus(String namaDokumen, int status);
 
+	Dokumen findByIdAndStatus(int id, int status);
 
-	@Query("SELECT d FROM Dokumen d WHERE d.layananid = :layananid ORDER BY d.seq ASC ")
-	List<Dokumen> findDokLayanan(@Param("layananid") long layananid);
-	
+	List<Dokumen> findByPemohon(Account pemohon);
+
+	List<Dokumen> findByPemohonAndStatus(Account account, int status);
+
+	List<Dokumen> findByLayanan(Layanan layanan);
 }

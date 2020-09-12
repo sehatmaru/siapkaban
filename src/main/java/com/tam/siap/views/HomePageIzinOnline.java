@@ -5,7 +5,7 @@ import javax.swing.event.DocumentEvent.EventType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tam.siap.repos.JenisPerusahaanRepository;
+//import com.tam.siap.repos.JenisPerusahaanRepository;
 import com.tam.siap.security.AuthService;
 import com.tam.siap.security.UserService;
 import com.vaadin.flow.component.EventData;
@@ -41,8 +41,8 @@ public class HomePageIzinOnline extends PolymerTemplate<TemplateModel>
 	@Autowired
 	AuthService authService;
 
-	@Autowired
-	JenisPerusahaanRepository jenisPerusahaanRepository;
+//	@Autowired
+//	JenisPerusahaanRepository jenisPerusahaanRepository;
 
 	@Id("menus")
 	Element menus;
