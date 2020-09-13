@@ -542,6 +542,8 @@ public class IzinOnlineService {
                 if (layanan.getStatus() == ON_BATCH_1_KPPBC) {
                     layanan.setKepKantor(status);
 
+                    System.out.println("is " + isTPBOrKITEPerubahanLokasiOrPencabutan(layanan));
+
                     if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)) {
                         layanan.setKepSeksiP2(fetchStringWithColon(
                                 Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi()).getId()),
@@ -877,7 +879,7 @@ public class IzinOnlineService {
                 List<Layanan> penerima = layananService.findLayananByPenerimaIsNull(account.getLokasi());
 
                 for (Layanan data : penerima) {
-                    if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(data)) responses.add(setDataLayananToResponse(data));
+                    if (!isTPBOrKITEPerubahanNonLokasiOrPencabutan(data)) responses.add(setDataLayananToResponse(data));
                 }
 
                 break;
@@ -1495,16 +1497,16 @@ public class IzinOnlineService {
     private boolean isTPBOrKITEPerubahanLokasiOrPencabutan(Layanan layanan) {
         if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null
                 || layanan.getSubLayanan().getLayanan().getFasilitas() != null) {
-            return layanan.getSubLayanan().getKeterangan().contains("lokasi");
+            return layanan.getSubLayanan().getKeterangan().contains("lokasi")
+                    || layanan.getSubLayanan().getKeterangan().contains("Pencabutan");
         } else return false;
     }
 
     private boolean isTPBOrKITEPerubahanNonLokasiOrPencabutan(Layanan layanan) {
         if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null
                 || layanan.getSubLayanan().getLayanan().getFasilitas() != null) {
-            if (layanan.getSubLayanan().getLayanan().getKeterangan().equals("Perubahan")) {
-                return !layanan.getSubLayanan().getKeterangan().contains("lokasi");
-            } else return false;
+            return !layanan.getSubLayanan().getKeterangan().contains("lokasi")
+                    || layanan.getSubLayanan().getKeterangan().contains("Pencabutan");
         } else return false;
     }
 }
