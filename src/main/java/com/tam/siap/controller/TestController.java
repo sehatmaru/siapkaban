@@ -165,10 +165,10 @@ public class TestController {
 		System.out.println("Hasil Random " + getRandomNumber() + " " + string);
 	}
 
-	@GetMapping("get/nextpic")
-	public void getNextPic(){
-		System.out.println("Hasil Next Pic " + izinOnlineService.getNextPic(accountService.findById("283")).toString());
-	}
+//	@GetMapping("get/nextpic")
+//	public void getNextPic(){
+//		System.out.println("Hasil Next Pic " + izinOnlineService.getNextPic(accountService.findById("283")).toString());
+//	}
 
 	@PostMapping("insert/pegawai")
 	public void insertPegawai(@RequestBody @Validated InsertPegawaiRequest request) {

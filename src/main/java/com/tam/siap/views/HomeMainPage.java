@@ -244,7 +244,7 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 	
 	private void setImage(DPribadi dpribadi) {
 		if(dpribadi.getGambar() == null) {
-			imgavatar.setSrc("http://localhost:8089/frontend/img/avatar.jpg");
+			imgavatar.setSrc("http://localhost:7078/frontend/img/avatar.jpg");
 		}else {
 			try {
 				File initialFile = new File(dpribadi.getGambar());

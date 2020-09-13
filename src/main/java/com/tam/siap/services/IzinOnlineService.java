@@ -847,14 +847,15 @@ public class IzinOnlineService {
                 List<Layanan> kepKantor = layananService.findLayananByPenerimaIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepKantor) {
-                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getKepSeksiPkc()).getStatus().equals(ACCEPTED + "")) {
+                    if (data.getStatus() == ON_BATCH_2_KPPBC) {
+                        if (splitStringWithColon(data.getKepSeksiPkc()).getStatus().equals(ACCEPTED + "")
+                                || splitStringWithColon(data.getKepSeksiPkc()).getStatus().equals(REJECTED + "")) {
+                            if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
                                 responses.add(setDataLayananToResponse(data));
                             }
-                        } else {
-                            responses.add(setDataLayananToResponse(data));
                         }
+                    } else {
+                        responses.add(setDataLayananToResponse(data));
                     }
                 }
 
@@ -863,15 +864,16 @@ public class IzinOnlineService {
                 List<Layanan> kanwilKepKantor = layananService.findLayananByPenerimaKanwilIsNotNull();
 
                 for (Layanan data : kanwilKepKantor) {
-                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
                         if(data.getStatus() == ON_BATCH_2_KANWIL){
-                            if(splitStringWithColon(data.getKepBidangP2Kanwil()).getStatus().equals(ACCEPTED + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                            if(splitStringWithColon(data.getKepBidangP2Kanwil()).getStatus().equals(ACCEPTED + "")
+                                    || splitStringWithColon(data.getKepBidangP2Kanwil()).getStatus().equals(REJECTED + "")) {
+                                if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
+                                    responses.add(setDataLayananToResponse(data));
+                                }
                             }
                         } else {
                             responses.add(setDataLayananToResponse(data));
                         }
-                    }
                 }
 
                 break;
