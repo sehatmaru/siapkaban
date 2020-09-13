@@ -22,6 +22,7 @@ import java.io.*;
 
 import static com.tam.siap.utils.TamUtils.createDir;
 import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
+import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2_KPPBC;
 
 @Service
 public class EditorService {
@@ -202,8 +203,10 @@ public class EditorService {
 
         System.out.println("jenis = " + dokumen.getId());
 
-        if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".html";
-        else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".html";
+        if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
+            if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".html";
+            else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".html";
+        } else file = reportPath + "\\template\\kanwil\\" + dokumen.getId() + ".html";
 
         return htmlToString(file);
     }

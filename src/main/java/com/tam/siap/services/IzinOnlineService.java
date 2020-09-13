@@ -188,26 +188,38 @@ public class IzinOnlineService {
             List<JDokumen> result = new ArrayList<>();
             List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subJenisLayananService.getSubJenisLayanan(44));
 
-            if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)){
+            if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)
+            || isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)){
                 for (JDokumen dokumen : docs) {
                     if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
                         if (dokumen.getStatus().equals(String.valueOf(status))) {
-                            if (dokumen.getStatus().equals("1"))
-                                if (dokumen.getKeterangan().equals("Telaah")
-                                        || dokumen.getKeterangan().equals("Nota Dinas")
-                                        || dokumen.getKeterangan().equals("SKEP")) result.add(dokumen);
-                            else result.add(dokumen);
+                            if (dokumen.getId() == TELAAH
+                                    || dokumen.getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
+                                    || dokumen.getId() == SKEP_PEMERIKSA_DOKUMEN
+                                    || dokumen.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(dokumen);
                         }
                     }
                 }
-            } else {
+            } else if (isTPBOrKITEPerizinanBaru(layanan)) {
                 for (JDokumen dokumen : docs) {
-                    if (dokumen.getRole().getId() != KANWIL_PEMERIKSA_DOKUMEN) {
+                    if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
                         if (dokumen.getStatus().equals(String.valueOf(status))) {
-                            if (dokumenService.isDocumentExist(dokumen, layanan)) result.add(dokumen);
+                            if (dokumen.getId() == UNDANGAN_PEMAPARAN
+                                    || dokumen.getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
+                                    || dokumen.getId() == BA_PEMAPARAN
+                                    || dokumen.getId() == SKEP_PEMERIKSA_DOKUMEN
+                                    || dokumen.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(dokumen);
                         }
-                    } else {
-                        if (dokumen.getStatus().equals(String.valueOf(status))) result.add(dokumen);
+                    }
+                }
+            } else if (isKPOrTPS(layanan)) {
+                for (JDokumen dokumen : docs) {
+                    if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_PKC) {
+                        if (dokumen.getStatus().equals(String.valueOf(status))) {
+                            if (dokumen.getId() == NOTA_DINAS_PEMERIKSA_PKC
+                                    || dokumen.getId() == SKEP_PEMERIKSA_PKC
+                                    || dokumen.getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(dokumen);
+                        }
                     }
                 }
             }
