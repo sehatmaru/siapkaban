@@ -224,8 +224,8 @@ public class IzinOnlineService {
 
         layanan.setNomor(getNomor());
 
-        if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)) layanan.setStatus(ON_BATCH_1_KPPBC);
-        else layanan.setStatus(ON_BATCH_1_KANWIL);
+        if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)) layanan.setStatus(ON_BATCH_1_KANWIL);
+        else layanan.setStatus(ON_BATCH_1_KPPBC);
 
         layananService.save(layanan);
         layananService.flush();
