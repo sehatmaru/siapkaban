@@ -28,7 +28,7 @@ public class SJLayanan {
 	}
 
 	@Column(name="pengawas")
-	private int pengawas;
+	private Integer pengawas;
 
 	public void setLayanan(JLayanan layanan) {
 		this.layanan = layanan;
@@ -55,11 +55,11 @@ public class SJLayanan {
 		this.keterangan = keterangan;
 	}
 
-	public int getPengawas() {
+	public Integer getPengawas() {
 		return pengawas;
 	}
 
-	public void setPengawas(int pengawas) {
+	public void setPengawas(Integer pengawas) {
 		this.pengawas = pengawas;
 	}
 }
