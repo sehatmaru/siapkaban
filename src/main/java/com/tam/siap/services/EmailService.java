@@ -99,7 +99,7 @@ public class EmailService {
 
             for (Dokumen doc : docs) {
                 File file = new File(doc.getPath());
-                helper.addAttachment(doc.getNamaDokumen(), file);
+                helper.addAttachment(doc.getNamaDokumen() + ".docx", file);
             }
 
             mailSender.send(message);
