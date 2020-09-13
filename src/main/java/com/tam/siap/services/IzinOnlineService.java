@@ -188,13 +188,27 @@ public class IzinOnlineService {
             List<JDokumen> result = new ArrayList<>();
             List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subJenisLayananService.getSubJenisLayanan(44));
 
-            for (JDokumen dokumen : docs) {
-                if (dokumen.getRole().getId() != KANWIL_PEMERIKSA_DOKUMEN) {
-                    if (dokumen.getStatus().equals(String.valueOf(status))) {
-                        if (dokumenService.isDocumentExist(dokumen, layanan)) result.add(dokumen);
+            if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)){
+                for (JDokumen dokumen : docs) {
+                    if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
+                        if (dokumen.getStatus().equals(String.valueOf(status))) {
+                            if (dokumen.getStatus().equals("1"))
+                                if (dokumen.getKeterangan().equals("Telaah")
+                                        || dokumen.getKeterangan().equals("Nota Dinas")
+                                        || dokumen.getKeterangan().equals("SKEP")) result.add(dokumen);
+                            else result.add(dokumen);
+                        }
                     }
-                } else {
-                    if (dokumen.getStatus().equals(String.valueOf(status))) result.add(dokumen);
+                }
+            } else {
+                for (JDokumen dokumen : docs) {
+                    if (dokumen.getRole().getId() != KANWIL_PEMERIKSA_DOKUMEN) {
+                        if (dokumen.getStatus().equals(String.valueOf(status))) {
+                            if (dokumenService.isDocumentExist(dokumen, layanan)) result.add(dokumen);
+                        }
+                    } else {
+                        if (dokumen.getStatus().equals(String.valueOf(status))) result.add(dokumen);
+                    }
                 }
             }
 
@@ -210,7 +224,7 @@ public class IzinOnlineService {
 
         layanan.setNomor(getNomor());
 
-        if (!isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)) layanan.setStatus(ON_BATCH_1_KPPBC);
+        if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(layanan)) layanan.setStatus(ON_BATCH_1_KPPBC);
         else layanan.setStatus(ON_BATCH_1_KANWIL);
 
         layananService.save(layanan);
@@ -561,12 +575,21 @@ public class IzinOnlineService {
                         ));
                     }
 
-                    layanan.setKepBidPkcKanwil(fetchStringWithColon(
-                            Integer.toString(statusLayanan.getNextPic().getId()),
-                            "",
-                            "",
-                            ""
-                    ));
+                    if (isKPOrTPS(layanan)) {
+                        layanan.setKepBidPkcKanwil(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    } else {
+                        layanan.setKepBidangFasilitasKanwil(fetchStringWithColon(
+                                Integer.toString(statusLayanan.getNextPic().getId()),
+                                "",
+                                "",
+                                ""
+                        ));
+                    }
                 } else if (layanan.getStatus() == ON_BATCH_2_KANWIL) {
                     layanan.setKepKantorKanwil(status);
 
@@ -821,7 +844,7 @@ public class IzinOnlineService {
 
                 break;
             case KANWIL_KEPALA_KANTOR:
-                List<Layanan> kanwilKepKantor = layananService.findLayananByPemeriksaDokumenKanwilIsNotNull();
+                List<Layanan> kanwilKepKantor = layananService.findLayananByPenerimaKanwilIsNotNull();
 
                 for (Layanan data : kanwilKepKantor) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
@@ -840,7 +863,7 @@ public class IzinOnlineService {
                 List<Layanan> penerima = layananService.findLayananByPenerimaIsNull(account.getLokasi());
 
                 for (Layanan data : penerima) {
-                    if (!isTPBOrKITEPerubahanNonLokasiOrPencabutan(data)) responses.add(setDataLayananToResponse(data));
+                    if (isTPBOrKITEPerubahanNonLokasiOrPencabutan(data)) responses.add(setDataLayananToResponse(data));
                 }
 
                 break;
@@ -1108,7 +1131,7 @@ public class IzinOnlineService {
         return responses;
     }
 
-    public List<Account> getNextPic(Account account) {
+    public List<Account> getNextPic(Account account, Layanan layanan) {
         List<Account> response = new ArrayList<>();
 
         switch (account.getRole().getId()) {
@@ -1122,7 +1145,8 @@ public class IzinOnlineService {
                 response = accountService.getAccountList(roleService.getRole(KEPALA_SEKSI_PKC), account.getLokasi());
                 break;
             case KANWIL_KEPALA_KANTOR:
-                response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_BIDANG_P2), account.getLokasi());
+                if (isKPOrTPS(layanan)) response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_BIDANG_PKC));
+                else response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_BIDANG_FASILITAS));
                 break;
             case KEPALA_SEKSI_P2:
                 response = accountService.getAccountList(roleService.getRole(KEPALA_SUB_SEKSI_P2), account.getLokasi());
@@ -1153,10 +1177,13 @@ public class IzinOnlineService {
                 break;
             case KANWIL_KEPALA_SEKSI_PF:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN));
+                break;
             case KANWIL_KEPALA_BIDANG_PKC:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_KEPALA_SEKSI_PKC));
+                break;
             case KANWIL_KEPALA_SEKSI_PKC:
                 response = accountService.getAccountList(roleService.getRole(KANWIL_PEMERIKSA_PKC));
+                break;
         }
 
         return response;

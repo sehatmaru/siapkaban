@@ -128,6 +128,10 @@ public class LayananService {
         return layananRepository.findByPemeriksaDokumenKanwilIsNotNullOrderByTanggalDesc();
     }
 
+    public List<Layanan> findLayananByPenerimaKanwilIsNotNull() {
+        return layananRepository.findByPenerimaKanwilIsNotNullOrderByTanggalDesc();
+    }
+
     public List<Layanan> findByLayananKepSeksiPKCKanwilIsNotNull() {
         return layananRepository.findByKepSeksiPkcKanwilIsNotNullOrderByTanggalDesc();
     }
