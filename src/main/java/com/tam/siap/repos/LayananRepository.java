@@ -58,6 +58,8 @@ public interface LayananRepository extends JpaRepository<Layanan, String>{
 
     List<Layanan> findByPemeriksaDokumenKanwilIsNotNullOrderByTanggalDesc();
 
+    List<Layanan> findByPenerimaKanwilIsNotNullOrderByTanggalDesc();
+
     List<Layanan> findByKepBidPkcKanwilIsNotNullOrderByTanggalDesc();
 
     List<Layanan> findByKepSeksiPkcKanwilIsNotNullOrderByTanggalDesc();
