@@ -1162,7 +1162,7 @@ public class IzinOnlineService {
                 List<Layanan> kepKantor = layananService.findLayananByKepKantorIsNotNull(account.getLokasi());
 
                 for (Layanan data : kepKantor) {
-                    if (data.getStatus() == ON_BATCH_2_KPPBC) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
                         if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
                             if (splitStringWithColon(data.getKepSeksiPkc()).getProgress().equals("" + DONE)) {
                                 responses.add(setDataLayananToResponse(data));
@@ -1180,16 +1180,16 @@ public class IzinOnlineService {
                 List<Layanan> kanwilKepKantor = layananService.findLayananByKepKantorKanwilIsNotNull();
 
                 for (Layanan data : kanwilKepKantor) {
-                    if(data.getStatus() == ON_BATCH_2_KANWIL){
+                    if(data.getProgress() == ON_BATCH_2_KANWIL){
                         if (isTPBOrKITEPerubahanNonLokasi(data)) {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
-                                if (splitStringWithColon(data.getKepBidangFasilitasKanwil()).getStatus().equals(ACCEPTED + "")) {
+                                if (splitStringWithColon(data.getKepBidangFasilitasKanwil()).getProgress().equals(DONE + "")) {
                                     responses.add(setDataLayananToResponse(data));
                                 }
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
-                                if (splitStringWithColon(data.getKepBidPkcKanwil()).getStatus().equals(ACCEPTED + "")) {
+                                if (splitStringWithColon(data.getKepBidPkcKanwil()).getProgress().equals(DONE + "")) {
                                     responses.add(setDataLayananToResponse(data));
                                 }
                             }
@@ -1271,9 +1271,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiP2()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(ACCEPTED + "")
-                                    || splitStringWithColon(data.getKepSubSeksiP2()).getStatus().equals(REJECTED + "")) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
+                            if (splitStringWithColon(data.getKepSubSeksiP2()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1288,9 +1287,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepBidangP2Kanwil) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidangP2Kanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
-                            if (splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getStatus().equals(ACCEPTED + "")
-                                    || splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getStatus().equals(REJECTED + "")) {
+                        if (data.getProgress() == ON_BATCH_2_KANWIL) {
+                            if (splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1305,9 +1303,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPerbend()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(ACCEPTED + "")
-                                    || splitStringWithColon(data.getKepSubSeksiPerbend()).getStatus().equals(REJECTED + "")) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
+                            if (splitStringWithColon(data.getKepSubSeksiPerbend()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else  {
@@ -1322,9 +1319,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(ACCEPTED + "")
-                                    || splitStringWithColon(data.getKepSubSeksiPkc()).getStatus().equals(REJECTED + "")) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
+                            if (splitStringWithColon(data.getKepSubSeksiPkc()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1339,8 +1335,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiP2()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getPemeriksaP2()).getStatus() != null) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
+                            if (splitStringWithColon(data.getPemeriksaP2()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1355,8 +1351,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiIntelijen) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
-                            if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getStatus() != null) {
+                        if (data.getProgress() == ON_BATCH_2_KANWIL) {
+                            if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1371,8 +1367,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPerbend()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getPemeriksaPerbend()).getStatus() != null) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
+                            if (splitStringWithColon(data.getPemeriksaPerbend()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1387,8 +1383,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSubSeksiPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiPkc()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getPemeriksaPkc()).getStatus() != null) {
+                        if (data.getProgress() == ON_BATCH_2_KPPBC) {
+                            if (splitStringWithColon(data.getPemeriksaPkc()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1403,9 +1399,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepBidFasilitas) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidangFasilitasKanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
-                            if (splitStringWithColon(data.getKepSeksiPfKanwil()).getStatus().equals(ACCEPTED + "")
-                                    || splitStringWithColon(data.getKepSeksiPfKanwil()).getStatus().equals(REJECTED + "")) {
+                        if (data.getProgress() == ON_BATCH_2_KANWIL) {
+                            if (splitStringWithColon(data.getKepSeksiPfKanwil()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1420,8 +1415,8 @@ public class IzinOnlineService {
 
                 for (Layanan data : kepSeksiPf) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPfKanwil()).getAccountId())) {
-                        if (data.getStatus() == ON_BATCH_2_KANWIL) {
-                            if (splitStringWithColon(data.getPemeriksaDokumenKanwil()).getStatus() != null) {
+                        if (data.getProgress() == ON_BATCH_2_KANWIL) {
+                            if (splitStringWithColon(data.getPemeriksaDokumenKanwil()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1436,8 +1431,8 @@ public class IzinOnlineService {
 
                 for(Layanan data : kepBidPkc) {
                     if(Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidPkcKanwil()).getAccountId())) {
-                        if(data.getStatus() == ON_BATCH_2_KANWIL) {
-                            if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getStatus() != null) {
+                        if(data.getProgress() == ON_BATCH_2_KANWIL) {
+                            if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress().equals(DONE + "")) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         } else {
@@ -1450,8 +1445,8 @@ public class IzinOnlineService {
                 List<Layanan> kepSiPkc = layananService.findByLayananKepSeksiPKCKanwilIsNotNull();
 
                 for(Layanan data : kepSiPkc) {
-                    if(data.getStatus() == ON_BATCH_2_KANWIL) {
-                        if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getStatus() != null) {
+                    if(data.getProgress() == ON_BATCH_2_KANWIL) {
+                        if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress().equals(DONE + "")) {
                             responses.add(setDataLayananToResponse(data));
                         }
                     } else {
