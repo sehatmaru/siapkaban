@@ -171,7 +171,20 @@ public class IzinOnlineService {
         } else if (role.getId() == PEMERIKSA_PERBEND) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PERBEND), "" + status);
         } else if (role.getId() == PEMERIKSA_PKC) {
-            return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PKC), "" + status);
+            List<JDokumen> result = new ArrayList<>(jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PKC), "" + status));
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_P2) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL) result.add(data.getJenisDokumen());
+                    } else if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_PERBEND) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(data.getJenisDokumen());
+                    }
+                }
+            }
+
+            return result;
         } else if (role.getId() == KANWIL_PEMERIKSA_P2) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_P2), "" + status);
         } else if (role.getId() == KANWIL_PEMERIKSA_DOKUMEN) {
@@ -596,7 +609,7 @@ public class IzinOnlineService {
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
                                     statusLayanan.getTanggal(),
-                                    String.valueOf(WAITING),
+                                    String.valueOf(DONE),
                                     String.valueOf(ACCEPTED),
                                     statusLayanan.getCatatan()
                             )
