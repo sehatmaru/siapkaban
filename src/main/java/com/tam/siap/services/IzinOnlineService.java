@@ -166,117 +166,116 @@ public class IzinOnlineService {
     }
 
     public List<JDokumen> docFilter(Role role, Layanan layanan, int status) {
-        if (role.getId() == PEMERIKSA_P2 || role.getId() == KEPALA_SUB_SEKSI_P2 || role.getId() == KEPALA_SEKSI_P2) {
+        if (role.getId() == PEMERIKSA_P2) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_P2), "" + status);
-        } else if (role.getId() == PEMERIKSA_PERBEND || role.getId() == KEPALA_SUB_SEKSI_PERBEND || role.getId() == KEPALA_SEKSI_PERBEND) {
+        } else if (role.getId() == PEMERIKSA_PERBEND) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PERBEND), "" + status);
-        } else if (role.getId() == PEMERIKSA_PKC || role.getId() == KEPALA_SUB_SEKSI_PKC || role.getId() == KEPALA_SEKSI_PKC) {
-            List<JDokumen> result = new ArrayList<>();
-            List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subJenisLayananService.getSubJenisLayanan(44));
-
-            for (JDokumen dokumen : docs) {
-                if (dokumen.getRole().getId() != PEMERIKSA_PKC) {
-                    if (dokumen.getStatus().equals(String.valueOf(status))) {
-                        if (dokumenService.isDocumentExist(dokumen, layanan)) result.add(dokumen);
-                    }
-                } else {
-                    if (dokumen.getStatus().equals(String.valueOf(status))) result.add(dokumen);
-                }
-            }
-
-            return result;
-        } else if (role.getId() == KANWIL_KEPALA_BIDANG_P2 || role.getId() == KANWIL_KEPALA_SEKSI_INTELIJEN || role.getId() == KANWIL_PEMERIKSA_P2) {
+        } else if (role.getId() == PEMERIKSA_PKC) {
+            return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PKC), "" + status);
+        } else if (role.getId() == KANWIL_PEMERIKSA_P2) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_P2), "" + status);
-        } else if (role.getId() == KANWIL_KEPALA_BIDANG_FASILITAS || role.getId() == KANWIL_KEPALA_SEKSI_PF || role.getId() == KANWIL_PEMERIKSA_DOKUMEN) {
-            List<JDokumen> result = new ArrayList<>();
-            List<JDokumen> docs = jenisDokumenService.findJenisDokumen(subJenisLayananService.getSubJenisLayanan(44));
-
-            if (isTPBOrKITEPerubahanNonLokasi(layanan)
-            || isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)){
-                for (JDokumen dokumen : docs) {
-                    if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
-                        if (dokumen.getStatus().equals(String.valueOf(status))) {
-                            if (dokumen.getId() == TELAAH
-                                    || dokumen.getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
-                                    || dokumen.getId() == SKEP_PEMERIKSA_DOKUMEN
-                                    || dokumen.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(dokumen);
-                        }
-                    }
-                }
-            } else if (isTPBOrKITEPerizinanBaru(layanan)) {
-                for (JDokumen dokumen : docs) {
-                    if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
-                        if (dokumen.getStatus().equals(String.valueOf(status))) {
-                            if (dokumen.getId() == UNDANGAN_PEMAPARAN
-                                    || dokumen.getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
-                                    || dokumen.getId() == BA_PEMAPARAN
-                                    || dokumen.getId() == SKEP_PEMERIKSA_DOKUMEN
-                                    || dokumen.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(dokumen);
-                        }
-                    }
-                }
-            } else if (isKPOrTPS(layanan)) {
-                for (JDokumen dokumen : docs) {
-                    if (dokumen.getRole().getId() == KANWIL_PEMERIKSA_PKC) {
-                        if (dokumen.getStatus().equals(String.valueOf(status))) {
-                            if (dokumen.getId() == NOTA_DINAS_PEMERIKSA_PKC
-                                    || dokumen.getId() == SKEP_PEMERIKSA_PKC
-                                    || dokumen.getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(dokumen);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        } else if (role.getId() == KANWIL_KEPALA_BIDANG_PKC || role.getId() == KANWIL_KEPALA_SEKSI_PKC || role.getId() == KANWIL_PEMERIKSA_PKC) {
+        } else if (role.getId() == KANWIL_PEMERIKSA_DOKUMEN) {
+            return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN), "" + status);
+        } else if (role.getId() == KANWIL_PEMERIKSA_PKC) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_PKC), "" + status);
-        } else if (role.getId() == KEPALA_KANTOR) {
+        } else if (role.getId() == KEPALA_SUB_SEKSI_P2 || role.getId() == KEPALA_SEKSI_P2) {
             List<JDokumen> result = new ArrayList<>();
             List<Dokumen> docs = dokumenService.findByLayanan(layanan);
-
-            for (Dokumen data : docs) {
-                if (data.getJenisDokumen().getSubLayanan() == subJenisLayananService.getSubJenisLayanan(44)) {
-                    result.add(data.getJenisDokumen());
-                }
-            }
-
-            return result;
-        } else if (role.getId() == KANWIL_KEPALA_KANTOR) {
-            List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
-
-            System.out.println("data = " + docs.toString());
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
-                    if (isTPBOrKITEPerubahanNonLokasi(layanan)
-                            || isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)){
-                        if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
-                            if (data.getJenisDokumen().getId() == TELAAH
-                                    || data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
-                                    || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                                    || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(data.getJenisDokumen());
-                        }
-                    } else if (isTPBOrKITEPerizinanBaru(layanan)) {
-                        if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
-                            if (data.getJenisDokumen().getId() == UNDANGAN_PEMAPARAN
-                                    || data.getJenisDokumen().getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
-                                    || data.getJenisDokumen().getId() == BA_PEMAPARAN
-                                    || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                                    || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(data.getJenisDokumen());
-                        }
-                    } else if (isKPOrTPS(layanan)) {
-                        if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_PKC) {
-                            if (data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_PKC
-                                    || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
-                                    || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(data.getJenisDokumen());
-                        }
+                    if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_P2) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL) result.add(data.getJenisDokumen());
                     }
                 }
             }
 
             return result;
-        } return new ArrayList<>();
+        } else if (role.getId() == KEPALA_SUB_SEKSI_PERBEND || role.getId() == KEPALA_SEKSI_PERBEND) {
+            List<JDokumen> result = new ArrayList<>();
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_PERBEND) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(data.getJenisDokumen());
+                    }
+                }
+            }
+
+            return result;
+        } else if (role.getId() == KEPALA_SUB_SEKSI_PKC || role.getId() == KEPALA_SEKSI_PKC || role.getId() == KEPALA_KANTOR) {
+            List<JDokumen> result = new ArrayList<>();
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_P2) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL) result.add(data.getJenisDokumen());
+                    } else if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_PERBEND) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(data.getJenisDokumen());
+                    } else if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_PKC) {
+                        if (data.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
+                                || data.getJenisDokumen().getId() == NOTA_DINAS
+                                || data.getJenisDokumen().getId() == SURAT_REKOMENDASI
+                                || data.getJenisDokumen().getId() == SURAT_PENGEMBALIAN_BERKAS) result.add(data.getJenisDokumen());
+                    }
+                }
+            }
+
+            return result;
+        } else if (role.getId() == KANWIL_KEPALA_SEKSI_INTELIJEN || role.getId() == KANWIL_KEPALA_BIDANG_P2) {
+            List<JDokumen> result = new ArrayList<>();
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_P2) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2) result.add(data.getJenisDokumen());
+                    }
+                }
+            }
+
+            return result;
+        } else if (role.getId() == KANWIL_KEPALA_BIDANG_FASILITAS || role.getId() == KANWIL_KEPALA_SEKSI_PF || role.getId() == KANWIL_KEPALA_KANTOR) {
+            List<JDokumen> result = new ArrayList<>();
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
+                        if (data.getJenisDokumen().getId() == UNDANGAN_PEMAPARAN
+                                || data.getJenisDokumen().getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
+                                || data.getJenisDokumen().getId() == BA_PEMAPARAN
+                                || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
+                                || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(data.getJenisDokumen());
+                    } else if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_P2) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2) result.add(data.getJenisDokumen());
+                    } else if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_PKC) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_PKC
+                                || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
+                                || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(data.getJenisDokumen());
+                    }
+                }
+            }
+
+            return result;
+        } else if (role.getId() == KANWIL_KEPALA_BIDANG_PKC || role.getId() == KANWIL_KEPALA_SEKSI_PKC){
+            List<JDokumen> result = new ArrayList<>();
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_PKC) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_PKC
+                                || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
+                                || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(data.getJenisDokumen());
+                    }
+                }
+            }
+
+            return result;
+        } else return new ArrayList<>();
 
     }
 
