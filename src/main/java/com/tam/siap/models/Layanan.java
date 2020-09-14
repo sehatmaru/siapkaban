@@ -103,6 +103,9 @@ public class Layanan {
     @Column(name = "j_lokasi")
     private int lokasi;
 
+    @Column(name = "progress")
+    private int progress;
+
 	public Layanan() {
 	}
 
@@ -290,5 +293,13 @@ public class Layanan {
 
     public void setKepSeksiPkcKanwil(String kepSeksiPkcKanwil) {
         this.kepSeksiPkcKanwil = kepSeksiPkcKanwil;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 }

@@ -6,9 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-public @interface StatusLayanan {
-    int ACCEPTED = 1;
-    int ON_PROGRESS = 2;
-    int REJECTED = 3;
+public @interface ProgressLayanan {
+    int ON_BATCH_1_KPPBC = 1;
+    int ON_BATCH_2_KPPBC = 2;
+    int ON_BATCH_1_KANWIL = 3;
+    int ON_BATCH_2_KANWIL = 4;
+    int COMPLETE = 5;
 }
 

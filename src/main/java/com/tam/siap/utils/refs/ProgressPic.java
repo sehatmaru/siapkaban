@@ -6,9 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-public @interface StatusLayanan {
-    int ACCEPTED = 1;
-    int ON_PROGRESS = 2;
-    int REJECTED = 3;
+public @interface ProgressPic {
+    int WAITING = 1;
+    int DONE = 2;
 }
 

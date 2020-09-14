@@ -52,8 +52,8 @@ public class LayananService {
         return layananRepository.findByPenerimaIsNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
-    public List<Layanan> findLayananByPenerimaKanwilIsNullAndStatus(int status) {
-        return layananRepository.findByPenerimaKanwilIsNullAndStatusOrderByTanggalDesc(status);
+    public List<Layanan> findLayananByPenerimaKanwilIsNullAndProgress(int progress) {
+        return layananRepository.findByPenerimaKanwilIsNullAndProgressOrderByTanggalDesc(progress);
     }
 
     public List<Layanan> findLayananByPenerimaIsNotNull(int lokasi) {
@@ -62,6 +62,10 @@ public class LayananService {
 
     public List<Layanan> findLayananByKepKantorIsNotNull(int lokasi) {
         return layananRepository.findByKepKantorIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
+    }
+
+    public List<Layanan> findLayananByKepKantorKanwilIsNotNull() {
+        return layananRepository.findByKepKantorKanwilIsNotNullOrderByTanggalDesc();
     }
 
     public List<Layanan> findLayananByPemeriksaP2IsNotNull(int lokasi) {

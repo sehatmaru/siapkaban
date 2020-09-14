@@ -211,12 +211,12 @@ public class TamUtils {
 			return false;
 	}
 
-	public static String fetchStringWithColon(String one, String two, String three, String four) {
-		return one + ";" + two + ";" + three + ";" + four;
+	public static String fetchStringWithColon(String one, String two, String three, String four, String five) {
+		return one + ";" + two + ";" + three + ";" + four + ";" + five;
 	}
 
 	public static String fetchStringWithColon(StatusLayanan status) {
-		return status.getAccountId() + ";" + status.getTanggal() + ";" + status.getStatus() + ";" + status.getCatatan();
+		return status.getAccountId() + ";" + status.getTanggal() + ";" + status.getProgress() + ";" + status.getStatus() + ";" + status.getCatatan();
 	}
 
 	public static StatusLayanan splitStringWithColon(String data) {
@@ -228,9 +228,13 @@ public class TamUtils {
 			result.setTanggal(datas[1]);
 
 			if (datas.length > 2) {
-				result.setStatus(datas[2]);
+				result.setProgress(datas[2]);
 
-				if (datas.length > 3) result.setCatatan(datas[3]);
+				if (datas.length > 3) {
+					result.setStatus(datas[3]);
+
+					if (datas.length > 4) result.setCatatan(datas[4]);
+				}
 			}
 		}
 
