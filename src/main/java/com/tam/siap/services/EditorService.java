@@ -22,7 +22,7 @@ import java.io.*;
 
 import static com.tam.siap.utils.TamUtils.createDir;
 import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
-import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2_KPPBC;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KPPBC;
 
 @Service
 public class EditorService {
