@@ -203,7 +203,7 @@ public class EditorService {
 
         System.out.println("jenis = " + dokumen.getId());
 
-        if (layanan.getStatus() == ON_BATCH_2_KPPBC) {
+        if (layanan.getProgress() == ON_BATCH_2_KPPBC) {
             if (layanan.getLokasi() == TANGERANG) file = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".html";
             else file = reportPath + "\\template\\merak\\" + dokumen.getId() + ".html";
         } else file = reportPath + "\\template\\kanwil\\" + dokumen.getId() + ".html";
