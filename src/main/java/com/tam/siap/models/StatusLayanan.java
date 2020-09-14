@@ -11,10 +11,9 @@ public class StatusLayanan {
     public StatusLayanan() {
     }
 
-    public StatusLayanan(String accountId, String tanggal, String progress, String status, String catatan, Account nextPic) {
+    public StatusLayanan(String accountId, String tanggal, String status, String catatan, Account nextPic) {
         this.accountId = accountId;
         this.tanggal = tanggal;
-        this.progress = progress;
         this.status = status;
         this.catatan = catatan;
         this.nextPic = nextPic;
