@@ -10,10 +10,9 @@ import static com.tam.siap.utils.refs.Role.PEMERIKSA_PKC;
 import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_DOKUMEN;
 import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_P2;
 import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_PKC;
-import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2_KANWIL;
-import static com.tam.siap.utils.refs.StatusLayanan.ON_BATCH_2_KPPBC;
-import static com.tam.siap.utils.refs.StatusLayanan.ON_PROGRESS;
-import static com.tam.siap.utils.refs.StatusLayanan.REJECTED;
+import static com.tam.siap.utils.refs.ProgressLayanan.*;
+import static com.tam.siap.utils.refs.StatusLayanan.*;
+import static com.tam.siap.utils.refs.ProgressPic.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -207,7 +206,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //			});
 
 			if (dataLay != null
-					&& (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
+					&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 				picBox.setVisible(false);
 			}
 
@@ -224,7 +223,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				public void onComponentEvent(ClickEvent<Button> event) {
 					Account acc = picBox.getValue();
 					if (dataLay != null
-							&& (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
+							&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 						if (checkList() && checkList2()) {
 //							Set<Account> acc = picBox.getValue();
 							// List<Account> accs = new ArrayList<>(acc);
@@ -240,9 +239,9 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							String catatan = txtCatatan.getValue();
 //							StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-//									dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
+//									dateFormat.format(new Date()), "" + ACCEPTED, catatan);
 							StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-									dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
+									dateFormat.format(new Date()), "" + ACCEPTED, catatan, acc);
 
 							// Account acc = picBox.getValue();
 //							dataLay.setKepKantor(accs.get(0).getUsername());
@@ -266,7 +265,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 								String catatan = txtCatatan.getValue();
 								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-										dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
+										dateFormat.format(new Date()), "" + ACCEPTED, catatan, acc);
 								izinOnlineService.processLayanan(dataLay, statusLayanan);
 
 								Notification notification = new Notification("Layanan telah diproses", 3000,
@@ -296,9 +295,9 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 								String catatan = txtCatatan.getValue();
 //								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-//										dateFormat.format(new Date()), "" + ON_PROGRESS, catatan);
+//										dateFormat.format(new Date()), "" + ACCEPTED, catatan);
 								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-										dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
+										dateFormat.format(new Date()), "" + ACCEPTED, catatan, acc);
 
 								// Account acc = picBox.getValue();
 //								dataLay.setKepKantor(accs.get(0).getUsername());
@@ -320,7 +319,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 								String catatan = txtCatatan.getValue();
 								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-										dateFormat.format(new Date()), "" + ON_PROGRESS, catatan, acc);
+										dateFormat.format(new Date()), "" + ACCEPTED, catatan, acc);
 								izinOnlineService.processLayanan(dataLay, statusLayanan);
 
 								Notification notification = new Notification("Layanan telah diproses", 3000,
@@ -350,7 +349,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			picBox.setWidthFull();
 			VerticalLayout vl1 = new VerticalLayout();
 			if (dataLay != null
-					&& (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
+					&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, new Label("Konsep Naskah Dinas"),
 						gridDokumenHasil, picBox, txtCatatan, fl);
 				if (checkList()) {
@@ -464,7 +463,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				}
 
 				if (dataLay != null
-						&& (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
+						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 					if (checkList()) {
 						listJdoks = new ArrayList<JDokumen>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
@@ -547,7 +546,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				}
 
 				if (dataLay != null
-						&& (dataLay.getStatus() == ON_BATCH_2_KANWIL || dataLay.getStatus() == ON_BATCH_2_KPPBC)) {
+						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 
 					if (checkList() && checkList2()) {
 						btnLanjut.setText("Proses Lanjut");
