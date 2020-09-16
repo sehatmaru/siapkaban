@@ -1181,14 +1181,14 @@ public class IzinOnlineService {
         List<Dokumen> docs = dokumenService.findByLayanan(layanan);
 
         for (Dokumen doc : docs) {
-            if (doc.getJenisDokumen().getSubLayanan().getId() != 44) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
-            else {
+            if (doc.getJenisDokumen().getSubLayanan() != null
+                && doc.getJenisDokumen().getSubLayanan().getId() == 44) {
                 if (layanan.getProgress() == ON_BATCH_1_KANWIL
                     || layanan.getProgress() == ON_BATCH_2_KANWIL) {
                     if (doc.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
                             || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
                 }
-            }
+            } else result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
         }
 
         return result;
