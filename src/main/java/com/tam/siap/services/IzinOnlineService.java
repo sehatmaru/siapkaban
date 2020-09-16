@@ -1499,7 +1499,7 @@ public class IzinOnlineService {
                 List<Layanan> kepSiPkc = layananService.findByLayananKepSeksiPKCKanwilIsNotNull();
 
                 for(Layanan data : kepSiPkc) {
-                    if(Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
+                    if(Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkcKanwil()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress() != null &&
                                     splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress().equals(DONE + "")) {
