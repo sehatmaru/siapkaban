@@ -193,9 +193,10 @@ public class IzinOnlineService {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_P2), "" + status);
         } else if (role.getId() == KANWIL_PEMERIKSA_DOKUMEN) {
             List<JDokumen> result = new ArrayList<>();
-            List<JDokumen> docs = jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN), "" + status);
+            List<JDokumen> docsPemeriksaDok = jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN), "" + status);
+            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
 
-            for (JDokumen data : docs) {
+            for(JDokumen data : docsPemeriksaDok) {
                 if (isTPBOrKITEPerizinanBaru(layanan)) {
                     if (data.getId() == UNDANGAN_PEMAPARAN
                             || data.getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
@@ -203,11 +204,21 @@ public class IzinOnlineService {
                             || data.getId() == SKEP_PEMERIKSA_DOKUMEN
                             || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(data);
                 } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)
-                    || isTPBOrKITEPerubahanNonLokasi(layanan)) {
+                        || isTPBOrKITEPerubahanNonLokasi(layanan)) {
                     if (data.getId() == TELAAH
                             || data.getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
                             || data.getId() == SKEP_PEMERIKSA_DOKUMEN
                             || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(data);
+                }
+            }
+
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_P2) {
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2) {
+                            result.add(data.getJenisDokumen());
+                        }
+                    }
                 }
             }
 
