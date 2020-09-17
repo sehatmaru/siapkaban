@@ -705,11 +705,11 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			event.getUI().getPage().getHistory().back();
 		} else {
 			Layanan dataLay = layananService.findLayananById(Integer.parseInt(parameter));
-			if (dataLay == null) {
-				event.getUI().getPage().getHistory().back();
-			} else {
+			if (izinOnlineService.isLayananNotNull(dataLay)) {
 				VaadinSession.getCurrent().setAttribute("paramnya", dataLay);
 				InboxBcDetailPageComp(dataLay);
+			} else {
+				event.getUI().getPage().getHistory().back();
 			}
 		}
 	}
