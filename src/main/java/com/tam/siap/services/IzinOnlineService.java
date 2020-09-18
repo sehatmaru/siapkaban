@@ -4,6 +4,7 @@ import com.tam.siap.models.*;
 import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.models.responses.DokumenListResponse;
 import com.tam.siap.models.responses.LayananResponse;
+import com.tam.siap.models.responses.UploadTemplateResponse;
 import com.tam.siap.models.responses.ViewDokumenResponse;
 import com.tam.siap.services.master.*;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -132,7 +133,7 @@ public class IzinOnlineService {
         return result;
     }
 
-    public String uploadTemplate(MemoryBuffer memoryBuffer, Layanan layanan, JDokumen dokumen) {
+    public UploadTemplateResponse uploadTemplate(MemoryBuffer memoryBuffer, Layanan layanan, JDokumen dokumen) {
         String result = null;
         String path = editorService.docxToHTML(memoryBuffer, layanan, dokumen);
 
@@ -153,8 +154,8 @@ public class IzinOnlineService {
             }
         }
 
-        if (result != null) return result;
-        else return "Error";
+        if (result != null) return new UploadTemplateResponse(1, result);
+        else return new UploadTemplateResponse(2, "");
     }
 
     public File downloadTemplate(Layanan layanan, JDokumen dokumen) {
@@ -163,10 +164,6 @@ public class IzinOnlineService {
 
             return new File(dok.getPath());
         } else return editorService.getPath(layanan, dokumen);
-    }
-
-    public boolean isLayananNotNull(Layanan layanan) {
-        return layanan != null;
     }
 
     public List<JDokumen> docFilter(Role role, Layanan layanan, int status) {
