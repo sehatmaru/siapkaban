@@ -84,6 +84,10 @@ public class LayananService {
         return layananRepository.findByPemeriksaPkcIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }
 
+    public List<Layanan> findLayananByPemeriksaPkcKanwilIsNotNull(int lokasi) {
+        return layananRepository.findByPemeriksaPkcKanwilIsNotNullAndLokasiOrderByTanggalDesc(lokasi);
+    }
+
     public List<Layanan> findLayananByKepSeksiP2IsNotNull(int lokasi) {
         return layananRepository.findByKepSeksiP2IsNotNullAndLokasiOrderByTanggalDesc(lokasi);
     }

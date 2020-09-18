@@ -1753,6 +1753,19 @@ public class IzinOnlineService {
                 }
 
                 break;
+
+            case KANWIL_PEMERIKSA_PKC:
+                List<Layanan> pemeriksaPkcKanwil = layananService.findLayananByPemeriksaPkcKanwilIsNotNull(account.getLokasi());
+
+                for (Layanan data : pemeriksaPkcKanwil) {
+                    if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPkcKanwil()).getAccountId())) {
+                        if (splitStringWithColon(data.getPemeriksaPkcKanwil()).getProgress() == null) {
+                            responses.add(setDataLayananToResponse(data, role));
+                        }
+                    }
+                }
+
+                break;
         }
 
         return responses;
