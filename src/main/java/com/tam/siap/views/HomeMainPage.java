@@ -138,7 +138,9 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "inboxbc"));
 				menuapps.getElement().appendChild(elmenu("Instan", "instan", "instan"));
 				menuapps.getElement().appendChild(elmenu("Survey Kepuasan", "survey", "mainhome"));
-				menuapps.getElement().appendChild(elmenu("Apps Manager", "appsmanager", "adminuserpemohon"));
+				if(datasLogin.getAccount().getRole().getId() ==2) {
+					menuapps.getElement().appendChild(elmenu("Apps Manager", "appsmanager", "adminuserpemohon"));	
+				}
 				menuapps.getElement().appendChild(elmenu("Executive Summary", "executive", "mainhome"));
 				menuapps.getElement().appendChild(elmenu("Ekspor", "ekspor", "mainhome"));
 				menuapps.getElement().appendChild(elmenu("Impor", "impor", "mainhome"));
@@ -255,13 +257,13 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 				imgavatar.setSrc(resource);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}	
 		}
 	}

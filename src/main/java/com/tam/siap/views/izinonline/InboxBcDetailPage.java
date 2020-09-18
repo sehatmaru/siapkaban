@@ -44,6 +44,7 @@ import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -62,12 +63,16 @@ import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.dom.DomEvent;
 import com.vaadin.flow.dom.DomEventListener;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterListener;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
@@ -76,7 +81,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 
 @Route(value = "inboxbcdetail", layout = HomePageIzinOnline2.class)
-public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter<String> {
+public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObserver, HasUrlParameter<String> {
 
 	/**
 	 * @author ahmad
@@ -93,6 +98,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 	private Layanan dataLay = new Layanan();
 
 	private MenuBar menuBar = new MenuBar();
+
+	private String idlayanan = "0";
 
 	@Autowired
 	IzinOnlineService izinOnlineService;
@@ -127,20 +134,17 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 //		System.out.println("lay id : "+layananid);
 //		dokdatas = dokumenRepo.findDokLayanan(layananid);
 //		gridDokumen.setItems(dokdatas);
-		LoginResponse dataLogin = TamUtils.getLoginResponse();
-		if (dataLogin != null) {
-			dataLay = (Layanan) VaadinSession.getCurrent().getAttribute("paramnya");
-			System.out.println(dataLay);
-
-		}
+//		LoginResponse dataLogin = TamUtils.getLoginResponse();
+//		if (dataLogin != null) {		
+//			
+//		}
 	}
 
 	public void InboxBcDetailPageComp(Layanan dataLay) {
 		// List layanan = layananRepository.findLayananPerusahaan(perusahaanid);
+		Page page = UI.getCurrent().getPage();
 		LoginResponse dataLogin = TamUtils.getLoginResponse();
 		if (dataLogin != null) {
-			System.out.println("wdwdw " + dataLogin);
-
 			nextPic = izinOnlineService.getNextPic(dataLogin.getAccount(), dataLay);
 			System.out.println("Size nexpic : " + nextPic.size());
 			picBox.setItems(nextPic);
@@ -208,6 +212,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			if (dataLay != null
 					&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 				picBox.setVisible(false);
+			}else if(checkPemeriksa(dataLogin)) {
+				picBox.setVisible(false);
 			}
 
 			HorizontalLayout fl = new HorizontalLayout(btnLanjut);
@@ -222,8 +228,8 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 				@Override
 				public void onComponentEvent(ClickEvent<Button> event) {
 					Account acc = picBox.getValue();
-					if (dataLay != null
-							&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
+					if (dataLay != null && (dataLay.getProgress() == ON_BATCH_2_KANWIL
+							|| dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 						if (checkList() && checkList2()) {
 //							Set<Account> acc = picBox.getValue();
 							// List<Account> accs = new ArrayList<>(acc);
@@ -258,9 +264,9 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 									Position.MIDDLE);
 							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 							notification.open();
+							page.getHistory().back();
 						} else {
 							if (checkP2(dataLogin)) {
-
 								LoginResponse dataLogin = TamUtils.getLoginResponse();
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 								String catatan = txtCatatan.getValue();
@@ -272,6 +278,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 										Position.MIDDLE);
 								notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 								notification.open();
+								page.getHistory().back();
 							} else {
 								LoginResponse dataLogin = TamUtils.getLoginResponse();
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -284,20 +291,21 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 										Position.MIDDLE);
 								notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 								notification.open();
+								page.getHistory().back();
 							}
 						}
 					} else {
 						if (checkList()) {
 //							Set<Account> acc = picBox.getValue();
 							// List<Account> accs = new ArrayList<>(acc);
-							if (acc != null) {
+							if (checkPemeriksa(dataLogin)) {
 								LoginResponse dataLogin = TamUtils.getLoginResponse();
 								SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 								String catatan = txtCatatan.getValue();
 //								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
 //										dateFormat.format(new Date()), "" + ACCEPTED, catatan);
 								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
-										dateFormat.format(new Date()), "" + ACCEPTED, catatan, acc);
+										dateFormat.format(new Date()), "" + ACCEPTED, catatan, null);
 
 								// Account acc = picBox.getValue();
 //								dataLay.setKepKantor(accs.get(0).getUsername());
@@ -307,11 +315,32 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 										Position.MIDDLE);
 								notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 								notification.open();
-							} else {
-								Notification notification = new Notification("Pilih pic selanjutnya", 3000,
-										Position.MIDDLE);
-								notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-								notification.open();
+								page.getHistory().back();
+							}else {
+								if (acc != null) {
+									LoginResponse dataLogin = TamUtils.getLoginResponse();
+									SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+									String catatan = txtCatatan.getValue();
+//									StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+//											dateFormat.format(new Date()), "" + ACCEPTED, catatan);
+									StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
+											dateFormat.format(new Date()), "" + ACCEPTED, catatan, acc);
+
+									// Account acc = picBox.getValue();
+//									dataLay.setKepKantor(accs.get(0).getUsername());
+									izinOnlineService.processLayanan(dataLay, statusLayanan);
+
+									Notification notification = new Notification("Layanan telah diproses", 3000,
+											Position.MIDDLE);
+									notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+									notification.open();
+									page.getHistory().back();
+								} else {
+									Notification notification = new Notification("Pilih pic selanjutnya", 3000,
+											Position.MIDDLE);
+									notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+									notification.open();
+								}
 							}
 						} else {
 							if (checkP2(dataLogin)) {
@@ -494,12 +523,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 					}
 				} else {
 					if (checkList()) {
-						if (dataLogin.getAccount().getRole().getId() == PEMERIKSA_P2
-								|| dataLogin.getAccount().getRole().getId() == PEMERIKSA_PKC
-								|| dataLogin.getAccount().getRole().getId() == PEMERIKSA_PERBEND
-								|| dataLogin.getAccount().getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN
-								|| dataLogin.getAccount().getRole().getId() == KANWIL_PEMERIKSA_P2
-								|| dataLogin.getAccount().getRole().getId() == KANWIL_PEMERIKSA_PKC) {
+						if (checkPemeriksa(dataLogin)) {
 							listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 							System.out.println("Sizexx : " + listJdoks.size());
 							for (JDokumen datJdok : listJdoks) {
@@ -645,6 +669,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		hl.setWidthFull();
 		hl.setSpacing(true);
 		Upload up = new Upload(data.getMembuffer());
+		up.setMaxFileSize(2000000);
 		up.setDropAllowed(false);
 		Button btn = new Button("upload");
 		btn.setSizeUndefined();
@@ -704,13 +729,7 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		if (parameter == null) {
 			event.getUI().getPage().getHistory().back();
 		} else {
-			Layanan dataLay = layananService.findLayananById(Integer.parseInt(parameter));
-			if (izinOnlineService.isLayananNotNull(dataLay)) {
-				VaadinSession.getCurrent().setAttribute("paramnya", dataLay);
-				InboxBcDetailPageComp(dataLay);
-			} else {
-				event.getUI().getPage().getHistory().back();
-			}
+
 		}
 	}
 
@@ -720,6 +739,17 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 		if (r.getId() == KEPALA_SEKSI_P2 || r.getId() == KEPALA_SUB_SEKSI_P2 || r.getId() == PEMERIKSA_P2
 				|| r.getId() == KEPALA_SEKSI_PERBEND || r.getId() == KEPALA_SUB_SEKSI_PERBEND
 				|| r.getId() == PEMERIKSA_PERBEND) {
+			yes = true;
+		}
+		return yes;
+	}
+
+	private boolean checkPemeriksa(LoginResponse dataLogin) {
+		boolean yes = false;
+		Role r = dataLogin.getAccount().getRole();
+		if (r.getId() == PEMERIKSA_P2 || r.getId() == PEMERIKSA_PERBEND || r.getId() == PEMERIKSA_PKC
+				|| r.getId() == KANWIL_PEMERIKSA_DOKUMEN || r.getId() == KANWIL_PEMERIKSA_P2
+				|| r.getId() == KANWIL_PEMERIKSA_PKC) {
 			yes = true;
 		}
 		return yes;
@@ -820,5 +850,18 @@ public class InboxBcDetailPage extends VerticalLayout implements HasUrlParameter
 			this.templateHtml = templateHtml;
 		}
 
+	}
+
+	@Override
+	public void beforeEnter(BeforeEnterEvent event) {
+		// TODO Auto-generated method stub
+		String loc = event.getLocation().getSubLocation().get().getFirstSegment();
+		System.out.println("locnya gan : " + loc);
+		Layanan dataLay = layananService.findLayananById(Integer.parseInt(loc));
+		if (dataLay == null) {
+			event.getUI().getPage().getHistory().back();
+		} else {
+			InboxBcDetailPageComp(dataLay);
+		}
 	}
 }

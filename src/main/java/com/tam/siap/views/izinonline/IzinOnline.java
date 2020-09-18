@@ -37,9 +37,12 @@ import com.tam.siap.services.master.JenisPenimbunanService;
 import com.tam.siap.services.master.JenisPerusahaanService;
 import com.tam.siap.services.master.SubJenisLayananService;
 import com.tam.siap.utils.TamUtils;
+import com.tam.siap.views.HomeMainPage;
 import com.tam.siap.views.HomePageIzinOnline2;
+import com.tam.siap.views.LoginPage;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.button.Button;
@@ -53,6 +56,7 @@ import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -330,7 +334,7 @@ public class IzinOnline extends VerticalLayout {
 
 				@Override
 				public void onComponentEvent(ClickEvent<Button> event) {
-
+//					Page page = UI.getCurrent().getPage();
 					if (checbok.getValue()) {
 						if (checkingDokumen()) {
 							Layanan dataLay = new Layanan();
@@ -351,6 +355,8 @@ public class IzinOnline extends VerticalLayout {
 									Position.MIDDLE);
 							notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 							notification.open();
+//							page.getHistory().back();
+							getUI().get().navigate(HomeMainPage.class);
 						}
 					} else {
 						Notification notification = new Notification("Anda herus menyetujui disclaimer", 3000,
@@ -375,7 +381,6 @@ public class IzinOnline extends VerticalLayout {
 			submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 			layconfirmation.add(submit);
 		}
-
 	}
 
 	private List<Dokumen> getListdokumen() {

@@ -48,7 +48,7 @@ public class StatusBC extends VerticalLayout {
 		// TODO Auto-generated constructor stub
 		LoginResponse logRes = TamUtils.getLoginResponse();
 		if (logRes != null) {
-			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount());
+			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount(),logRes.getAccount().getRole());
 			gridsattus.setItems(layRes);
 		}
 	}
@@ -106,84 +106,23 @@ public class StatusBC extends VerticalLayout {
 		VerticalLayout vel = new VerticalLayout();
 		Span span = new Span();
 		if (col == 0) {
-			if (data.getPenerimaKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerimaKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPenerimaKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPenerima(), "-"));
-			}
-
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalPenerima(), "-"));
 		} else if (col == 1) {
-			if (data.getPemeriksaP2() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaP2(), "-"));
-			} else if (data.getPemeriksaPerbend() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaPerbend(), "-"));
-			} else if (data.getPemeriksaDokumenKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaDokumenKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalPemeriksaDokumenKanwil(), "-"));
-			} else if (data.getPemeriksaP2Kanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2Kanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaP2Kanwil(), "-"));
-			} else if (data.getPemeriksaPkcKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkcKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaPkcKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksa(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalPemeriksa(), "-"));
 		} else if (col == 2) {
-			if (data.getKepSubSeksiP2() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiP2(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSubSeksiP2(), "-"));
-			} else if (data.getKepSubSeksiPerbend() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPerbend(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSubSeksiPerbend(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSubSeksiPkc(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksi(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepSubSeksi(), "-"));
 		} else if (col == 3) {
-			if (data.getKepSeksiP2() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiP2(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiP2(), "-"));
-			} else if (data.getKepSeksiPerbend() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPerbend(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPerbend(), "-"));
-			} else if (data.getKepSeksiIntelijenKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
-			} else if (data.getKepSeksiPfKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPfKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPfKanwil(), "-"));
-			} else if (data.getKepSeksiPkcKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkcKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPkcKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkc(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPkc(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksi(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepSeksi(), "-"));
 		} else if (col == 4) {
-			if (data.getKepBidangFasilitasKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidangFasilitasKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalKepBidangFasilitasKanwil(), "-"));
-			} else if (data.getKepBidangP2Kanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidangP2Kanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepBidangP2Kanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidang(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepBidang(), "-"));
 		} else {
-			if (data.getKepKantorKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantorKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepKantorKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepKantor(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepKantor(), "-"));
 		}
 
 		vel.add(span);

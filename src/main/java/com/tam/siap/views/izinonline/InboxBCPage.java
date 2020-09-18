@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tam.siap.models.responses.LayananResponse;
 import com.tam.siap.models.responses.LoginResponse;
+import com.tam.siap.repos.LayananRepository;
 import com.tam.siap.services.IzinOnlineService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomePageIzinOnline2;
@@ -39,12 +40,15 @@ public class InboxBCPage extends VerticalLayout {
 	@Autowired
 	IzinOnlineService izinOnlineService;
 
+	@Autowired
+	LayananRepository layananRepository;
+
 	@PostConstruct
 	public void init() {
 		// TODO Auto-generated constructor stub
 		LoginResponse logRes = TamUtils.getLoginResponse();
 		if (logRes != null) {
-			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount());
+			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount(),logRes.getAccount().getRole());
 			gridsattus.setItems(layRes);
 		}
 	}
@@ -101,85 +105,122 @@ public class InboxBCPage extends VerticalLayout {
 	private VerticalLayout layCell(int col, LayananResponse data) {
 		VerticalLayout vel = new VerticalLayout();
 		Span span = new Span();
+		LoginResponse logRes = TamUtils.getLoginResponse();
+		//String layRole = getListLayananFor(logRes.getAccount().getRole(), data);
 		if (col == 0) {
-			if (data.getPenerimaKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerimaKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPenerimaKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPenerima(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalPenerima(), "-"));
 
 		} else if (col == 1) {
-			if (data.getPemeriksaP2() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaP2(), "-"));
-			} else if (data.getPemeriksaPerbend() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaPerbend(), "-"));
-			} else if (data.getPemeriksaDokumenKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaDokumenKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalPemeriksaDokumenKanwil(), "-"));
-			} else if (data.getPemeriksaP2Kanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2Kanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaP2Kanwil(), "-"));
-			} else if (data.getPemeriksaPkcKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkcKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaPkcKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksa(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalPemeriksa(), "-"));
+			// cek role dan status layanan
+//			if(data.get) {
+//				
+//			}
+//			if (layRole.equals("pkc")) {
+//				if (data.getPemeriksaDokumenKanwil() != null) {
+//					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaDokumenKanwil(), "-")
+//							+ "</br>" + getNullorWhat(data.getTanggalPemeriksaDokumenKanwil(), "-"));
+//				} else {
+//					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
+//							+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
+//				}
+//			} else if (layRole.equals("p2")) {
+//				if (data.getPemeriksaP2() != null) {
+//					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2(), "-") + "</br>"
+//							+ getNullorWhat(data.getTanggalPemeriksaP2(), "-"));
+//				} else if (data.getPemeriksaPerbend() != null) {
+//					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2Kanwil(), "-") + "</br>"
+//							+ getNullorWhat(data.getTanggalPemeriksaP2Kanwil(), "-"));
+//				}
+//			} else {
+//				if (data.getPemeriksaPerbend() != null) {
+//					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
+//							+ getNullorWhat(data.getTanggalPemeriksaPerbend(), "-"));
+//				} else {
+//					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
+//							+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
+//				}
+//			}
+//			if (data.getPemeriksaP2() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalPemeriksaP2(), "-"));
+//			} else if (data.getPemeriksaPerbend() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPerbend(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalPemeriksaPerbend(), "-"));
+//			} else if (data.getPemeriksaDokumenKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaDokumenKanwil(), "-")
+//						+ "</br>" + getNullorWhat(data.getTanggalPemeriksaDokumenKanwil(), "-"));
+//			} else if (data.getPemeriksaP2Kanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaP2Kanwil(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalPemeriksaP2Kanwil(), "-"));
+//			} else if (data.getPemeriksaPkcKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkcKanwil(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalPemeriksaPkcKanwil(), "-"));
+//			} else {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksaPkc(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalPemeriksaPkc(), "-"));
+//			}
 		} else if (col == 2) {
-			if (data.getKepSubSeksiP2() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiP2(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSubSeksiP2(), "-"));
-			} else if (data.getKepSubSeksiPerbend() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPerbend(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSubSeksiPerbend(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSubSeksiPkc(), "-"));
-			}
+//			if (data.getKepSubSeksiP2() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiP2(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSubSeksiP2(), "-"));
+//			} else if (data.getKepSubSeksiPerbend() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPerbend(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSubSeksiPerbend(), "-"));
+//			} else {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSubSeksiPkc(), "-"));
+//			}
+			
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksi(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepSubSeksi(), "-"));
 		} else if (col == 3) {
-			if (data.getKepSeksiP2() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiP2(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiP2(), "-"));
-			} else if (data.getKepSeksiPerbend() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPerbend(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPerbend(), "-"));
-			} else if (data.getKepSeksiIntelijenKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
-			} else if (data.getKepSeksiPfKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPfKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPfKanwil(), "-"));
-			} else if (data.getKepSeksiPkcKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkcKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPkcKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkc(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepSeksiPkc(), "-"));
-			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksi(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepSeksi(), "-"));
+//			if (data.getKepSeksiP2() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiP2(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSeksiP2(), "-"));
+//			} else if (data.getKepSeksiPerbend() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPerbend(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSeksiPerbend(), "-"));
+//			} else if (data.getKepSeksiIntelijenKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
+//						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
+//			} else if (data.getKepSeksiPfKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPfKanwil(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSeksiPfKanwil(), "-"));
+//			} else if (data.getKepSeksiPkcKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkcKanwil(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSeksiPkcKanwil(), "-"));
+//			} else {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiPkc(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepSeksiPkc(), "-"));
+//			}
 		} else if (col == 4) {
-			if (data.getKepBidangFasilitasKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidangFasilitasKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalKepBidangFasilitasKanwil(), "-"));
-			} else if (data.getKepBidangP2Kanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidangP2Kanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepBidangP2Kanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
-						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
-			}
+//			if (data.getKepBidangFasilitasKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidangFasilitasKanwil(), "-")
+//						+ "</br>" + getNullorWhat(data.getTanggalKepBidangFasilitasKanwil(), "-"));
+//			} else if (data.getKepBidangP2Kanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidangP2Kanwil(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepBidangP2Kanwil(), "-"));
+//			} else {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
+//						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
+//			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidang(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepBidang(), "-"));
 		} else {
-			if (data.getKepKantorKanwil() != null) {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantorKanwil(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepKantorKanwil(), "-"));
-			} else {
-				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
-						+ getNullorWhat(data.getTanggalKepKantor(), "-"));
-			}
+//			if (data.getKepKantorKanwil() != null) {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantorKanwil(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepKantorKanwil(), "-"));
+//			} else {
+//				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
+//						+ getNullorWhat(data.getTanggalKepKantor(), "-"));
+//			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
+					+ getNullorWhat(data.getTanggalKepKantor(), "-"));
 		}
 
 //		Button btnSeeAll = new Button("Detail");
@@ -320,6 +361,26 @@ public class InboxBCPage extends VerticalLayout {
 //		vel.add(btnSeeAll);
 		return vel;
 	}
+
+//	private String getListLayananFor(Role role, LayananResponse respoLayanan) {
+//		String hasil = "pkc";
+//		int id = Integer.parseInt(respoLayanan.getId());
+//		Layanan dataLay = layananRepository.findById(id);
+//		if (dataLay!=null) {
+//			if (dataLay.getProgress() == ON_BATCH_1_KANWIL || dataLay.getProgress() == ON_BATCH_2_KANWIL) {
+//				hasil = "pkc";
+//			} else {
+//				if (role.getId() == KANWIL_KEPALA_BIDANG_P2 || role.getId() == KANWIL_PEMERIKSA_P2
+//						|| role.getId() == KEPALA_SEKSI_P2 || role.getId() == KEPALA_SUB_SEKSI_P2
+//						|| role.getId() == PEMERIKSA_P2) {
+//					hasil = "p2";
+//				} else {
+//					hasil = "perbend";
+//				}
+//			}
+//		}
+//		return hasil;
+//	}
 
 	private String getNullorWhat(String text, String change) {
 		String hasil = text == null ? change : text;

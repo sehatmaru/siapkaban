@@ -24,11 +24,13 @@ import com.tam.siap.utils.TamUtils;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -90,7 +92,7 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 
 	@Id("txttgl")
 	Label txttgl;
-	
+
 	@Id("imgavatar")
 	Image imgavatar;
 
@@ -105,11 +107,11 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 		Locale id = new Locale("in", "ID");
 		txttgl.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy", id).format(new Date()));
 		LoginResponse dataLogin = TamUtils.getLoginResponse();
-		if(dataLogin !=null) {
-			txtemail.setText(""+dataLogin.getAccount().getPribadi().getEmail());
-			txtnamauser.setText(""+dataLogin.getAccount().getPribadi().getNama());
-			txtjabatan.setText(""+dataLogin.getAccount().getPribadi().getJabatan());
-			txtnip.setText(""+dataLogin.getAccount().getPribadi().getNomor());
+		if (dataLogin != null) {
+			txtemail.setText("" + dataLogin.getAccount().getPribadi().getEmail());
+			txtnamauser.setText("" + dataLogin.getAccount().getPribadi().getNama());
+			txtjabatan.setText("" + dataLogin.getAccount().getPribadi().getJabatan());
+			txtnip.setText("" + dataLogin.getAccount().getPribadi().getNomor());
 			setImage(dataLogin.getAccount().getPribadi());
 		}
 		btnsignout.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
@@ -132,7 +134,12 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 			@Override
 			public void handleEvent(DomEvent event) {
 				// TODO Auto-generated method stub
-				getUI().get().navigate(val);
+				if (name.toLowerCase().equals("back")) {
+					Page page = UI.getCurrent().getPage();
+					page.getHistory().back();
+				} else {
+					getUI().get().navigate(val);
+				}
 			}
 		});
 
@@ -157,11 +164,7 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 			LoginResponse dataLogin = TamUtils.getLoginResponse();
 			menus.removeAllChildren();
 			if (dataLogin.getAccount().getRole().getId() != 1) {
-				if (loc.equals("adminuserpemohon")) {
-					txtjudulapp.setText("User Pemohon");
-					menus.appendChild(createLink("Home", "mainhome", false));
-					menus.appendChild(createLink("User Pemohon", "adminuserpemohon", false));
-				} else if (loc.equals("profil")) {
+				if (loc.equals("profil")) {
 					txtjudulapp.setText("Profil");
 					menus.appendChild(createLink("Home", "mainhome", false));
 					menus.appendChild(createLink("Profil", "profil", true));
@@ -169,10 +172,10 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 					txtjudulapp.setText("Perizinan Online");
 					menus.appendChild(createLink("Home", "mainhome", false));
 					menus.appendChild(createLink("Inbox", "inboxbc", true));
-				}else if (loc.equals("inboxbcdetail")) {
+				} else if (loc.equals("inboxbcdetail")) {
 					txtjudulapp.setText("Inbox Detail");
 					menus.appendChild(createLink("Back", "inboxbc", false));
-				}else if (loc.equals("instan")) {
+				} else if (loc.equals("instan")) {
 					txtjudulapp.setText("Instan");
 					menus.appendChild(createLink("Back", "mainhome", false));
 				} else {
@@ -188,7 +191,7 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 					menus.appendChild(createLink("Home", "mainhome", false));
 					menus.appendChild(createLink("Perizinan", "izinonline", true));
 					menus.appendChild(createLink("Status Layanan", "inboxpt", false));
-				}  else if (loc.equals("inboxpt")) {
+				} else if (loc.equals("inboxpt")) {
 					txtjudulapp.setText("Status Layanan");
 					menus.appendChild(createLink("Home", "mainhome", false));
 					menus.appendChild(createLink("Perizinan", "izinonline", false));
@@ -196,16 +199,22 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 				} else {
 					event.forwardTo(LoginPage.class);
 				}
+			} else if (dataLogin.getAccount().getRole().getId() == 2) {
+				if (loc.equals("adminuserpemohon")) {
+					txtjudulapp.setText("User Pemohon");
+					menus.appendChild(createLink("Home", "mainhome", false));
+					menus.appendChild(createLink("User Pemohon", "adminuserpemohon", false));
+				}
 			} else {
 				event.forwardTo(LoginPage.class);
 			}
 		}
 	}
-	
+
 	private void setImage(DPribadi dpribadi) {
-		if(dpribadi.getGambar() == null) {
+		if (dpribadi.getGambar() == null) {
 			imgavatar.setSrc("http://localhost:8089/frontend/img/avatar.jpg");
-		}else {
+		} else {
 			try {
 				File initialFile = new File(dpribadi.getGambar());
 				InputStream in = new FileInputStream(initialFile);
@@ -215,14 +224,14 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 				imgavatar.setSrc(resource);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
+				// e.printStackTrace();
+			}
 		}
 	}
 }
