@@ -1209,7 +1209,7 @@ public class IzinOnlineService {
         return result;
     }
 
-    public List<LayananResponse> viewPerizinanOnline(Account account) {
+    public List<LayananResponse> viewPerizinanOnline(Account account, Role role) {
         List<LayananResponse> responses = new ArrayList<>();
 
         switch (account.getRole().getId()) {
@@ -1221,13 +1221,13 @@ public class IzinOnlineService {
                         if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
                             if (splitStringWithColon(data.getKepSeksiPkc()).getProgress() != null &&
                             splitStringWithColon(data.getKepSeksiPkc()).getProgress().equals("" + DONE)) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     } else {
                         if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
                             if (splitStringWithColon(data.getKepKantor()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1243,21 +1243,21 @@ public class IzinOnlineService {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepBidangFasilitasKanwil()).getProgress() != null &&
                                 splitStringWithColon(data.getKepBidangFasilitasKanwil()).getProgress().equals(DONE + "")) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepBidPkcKanwil()).getProgress() != null &&
                                 splitStringWithColon(data.getKepBidPkcKanwil()).getProgress().equals(DONE + "")) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
                     } else {
                         if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantorKanwil()).getAccountId())) {
                             if (splitStringWithColon(data.getKepKantorKanwil()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1268,7 +1268,7 @@ public class IzinOnlineService {
                 List<Layanan> penerima = layananService.findLayananByPenerimaIsNull(account.getLokasi());
 
                 for (Layanan data : penerima) {
-                    if (!isTPBOrKITEPerubahanNonLokasi(data)) responses.add(setDataLayananToResponse(data));
+                    if (!isTPBOrKITEPerubahanNonLokasi(data)) responses.add(setDataLayananToResponse(data, role));
                 }
 
                 break;
@@ -1276,7 +1276,7 @@ public class IzinOnlineService {
                 List<Layanan> pendokKanwil = layananService.findLayananByPenerimaKanwilIsNullAndProgress(ON_BATCH_1_KANWIL);
 
                 for (Layanan data : pendokKanwil) {
-                    responses.add(setDataLayananToResponse(data));
+                    responses.add(setDataLayananToResponse(data, role));
                 }
 
                 break;
@@ -1284,7 +1284,7 @@ public class IzinOnlineService {
                 List<Layanan> pemohon = layananService.findLayananByPemohon(account);
 
                 for (Layanan data : pemohon) {
-                    responses.add(setDataLayananToResponse(data));
+                    responses.add(setDataLayananToResponse(data, role));
                 }
 
                 break;
@@ -1295,7 +1295,7 @@ public class IzinOnlineService {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaP2()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaP2()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1309,7 +1309,7 @@ public class IzinOnlineService {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaP2Kanwil()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1323,7 +1323,7 @@ public class IzinOnlineService {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPerbend()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaPerbend()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1336,7 +1336,7 @@ public class IzinOnlineService {
                 for (Layanan data : pemeriksaPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPkc()).getAccountId())) {
                         if (splitStringWithColon(data.getPemeriksaPkc()).getProgress() == null) {
-                            responses.add(setDataLayananToResponse(data));
+                            responses.add(setDataLayananToResponse(data, role));
                         }
                     }
                 }
@@ -1350,12 +1350,12 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSubSeksiP2()).getProgress() != null &&
                             splitStringWithColon(data.getKepSubSeksiP2()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiP2()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepSeksiP2()).getProgress() == null) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
@@ -1371,12 +1371,12 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getProgress() != null &&
                             splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepBidangP2Kanwil()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepBidangP2Kanwil()).getProgress() == null) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
@@ -1392,12 +1392,12 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSubSeksiPerbend()).getProgress() != null &&
                             splitStringWithColon(data.getKepSubSeksiPerbend()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else  {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPerbend()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepSeksiPerbend()).getProgress() == null) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
@@ -1413,12 +1413,12 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getKepSubSeksiPkc()).getProgress() != null &&
                             splitStringWithColon(data.getKepSubSeksiPkc()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiPkc()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepSeksiPkc()).getProgress() == null) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
@@ -1434,12 +1434,12 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaP2()).getProgress() != null &&
                             splitStringWithColon(data.getPemeriksaP2()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSubSeksiP2()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepSubSeksiP2()).getProgress() == null) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
@@ -1455,12 +1455,12 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getProgress() != null &&
                                     splitStringWithColon(data.getPemeriksaP2Kanwil()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getAccountId())) {
                                 if (splitStringWithColon(data.getKepSeksiIntelijenKanwil()).getProgress() == null) {
-                                    responses.add(setDataLayananToResponse(data));
+                                    responses.add(setDataLayananToResponse(data, role));
                                 }
                             }
                         }
@@ -1476,11 +1476,11 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaPerbend()).getProgress() != null &&
                             splitStringWithColon(data.getPemeriksaPerbend()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (splitStringWithColon(data.getKepSubSeksiPerbend()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1495,11 +1495,11 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
                             if (splitStringWithColon(data.getPemeriksaPkc()).getProgress() != null &&
                             splitStringWithColon(data.getPemeriksaPkc()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (splitStringWithColon(data.getKepSubSeksiPkc()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1514,11 +1514,11 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getKepSeksiPfKanwil()).getProgress() != null &&
                             splitStringWithColon(data.getKepSeksiPfKanwil()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (splitStringWithColon(data.getKepBidangFasilitasKanwil()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1533,11 +1533,11 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getPemeriksaDokumenKanwil()).getProgress() != null &&
                             splitStringWithColon(data.getPemeriksaDokumenKanwil()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (splitStringWithColon(data.getKepSeksiPfKanwil()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1552,11 +1552,11 @@ public class IzinOnlineService {
                         if(data.getProgress() == ON_BATCH_2_KANWIL) {
                             if(splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress() != null &&
                             splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (splitStringWithColon(data.getKepBidPkcKanwil()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1570,11 +1570,11 @@ public class IzinOnlineService {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
                             if (splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress() != null &&
                                     splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress().equals(DONE + "")) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         } else {
                             if (splitStringWithColon(data.getKepSeksiPkcKanwil()).getProgress() == null) {
-                                responses.add(setDataLayananToResponse(data));
+                                responses.add(setDataLayananToResponse(data, role));
                             }
                         }
                     }
@@ -1586,7 +1586,7 @@ public class IzinOnlineService {
                 for (Layanan data : pemeriksaDokumen) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaDokumenKanwil()).getAccountId())) {
                         if (splitStringWithColon(data.getPemeriksaDokumenKanwil()).getProgress() == null) {
-                            responses.add(setDataLayananToResponse(data));
+                            responses.add(setDataLayananToResponse(data, role));
                         }
                     }
                 }
@@ -1655,7 +1655,7 @@ public class IzinOnlineService {
         return response;
     }
 
-    private LayananResponse setDataLayananToResponse(Layanan layanan) {
+    private LayananResponse setDataLayananToResponse(Layanan layanan, Role role) {
         LayananResponse response = new LayananResponse();
         response.setId(Integer.toString(layanan.getId()));
         response.setNomor(layanan.getNomor());
@@ -1664,194 +1664,1120 @@ public class IzinOnlineService {
         response.setJenisPerusahaan(layanan.getPemohonon().getPerusahaan().getJenis().getKeterangan());
         response.setLayanan(layanan.getSubLayanan().getKeterangan());
 
-        if (layanan.getPenerima() != null) {
-            if (!layanan.getPenerima().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPenerima());
-                Account account = accountService.findById(status.getAccountId());
+        switch (role.getId()) {
+            case PENERIMA_DOKUMEN:
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setPenerima(account.getPribadi().getNama());
-                response.setTanggalPenerima(status.getTanggal());
-            }
-        }
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getPenerimaKanwil() != null) {
-            if (!layanan.getPenerimaKanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
-                Account account = accountService.findById(status.getAccountId());
+                break;
+            case KANWIL_PENERIMA_DOKUMEN:
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setPenerimaKanwil(account.getPribadi().getNama());
-                response.setTanggalPenerimaKanwil(status.getTanggal());
-            }
-        }
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepSeksiP2() != null) {
-            if (!layanan.getKepSeksiP2().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSeksiP2());
-                Account account = accountService.findById(status.getAccountId());
+                break;
+            case KEPALA_KANTOR:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepSeksiP2(account.getPribadi().getNama());
-                response.setTanggalKepSeksiP2(status.getTanggal());
-            }
-        }
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepBidangP2Kanwil() != null) {
-            if (!layanan.getKepBidangP2Kanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepBidangP2Kanwil());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getKepSeksiPkc() != null) {
+                    if (!layanan.getKepSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepBidangP2Kanwil(account.getPribadi().getNama());
-                response.setTanggalKepBidangP2Kanwil(status.getTanggal());
-            }
-        }
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepSeksiPerbend() != null) {
-            if (!layanan.getKepSeksiPerbend().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPerbend());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getKepSubSeksiPkc() != null) {
+                    if (!layanan.getKepSubSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepSeksiPerbend(account.getPribadi().getNama());
-                response.setTanggalKepSeksiPerbend(status.getTanggal());
-            }
-        }
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepSeksiPkc() != null) {
-            if (!layanan.getKepSeksiPkc().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkc());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepSeksiPkc(account.getPribadi().getNama());
-                response.setTanggalKepSeksiPkc(status.getTanggal());
-            }
-        }
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepSubSeksiP2() != null) {
-            if (!layanan.getKepSubSeksiP2().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiP2());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepSubSeksiP2(account.getPribadi().getNama());
-                response.setTanggalKepSubSeksiP2(status.getTanggal());
-            }
-        }
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepSeksiIntelijenKanwil() != null) {
-            if (!layanan.getKepSeksiIntelijenKanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
-                Account account = accountService.findById(status.getAccountId());
+                break;
 
-                response.setKepSeksiIntelijenKanwil(account.getPribadi().getNama());
-                response.setTanggalKepSeksiIntelijenKanwil(status.getTanggal());
-            }
-        }
+            case KEPALA_SEKSI_PKC:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
 
-        if (layanan.getKepSubSeksiPerbend() != null) {
-            if (!layanan.getKepSubSeksiPerbend().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPerbend());
-                Account account = accountService.findById(status.getAccountId());
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
 
-                response.setKepSubSeksiPerbend(account.getPribadi().getNama());
-                response.setTanggalKepSubSeksiPerbend(status.getTanggal());
-            }
-        }
+                if (layanan.getKepSeksiPkc() != null) {
+                    if (!layanan.getKepSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-        if (layanan.getKepSubSeksiPkc() != null) {
-            if (!layanan.getKepSubSeksiPkc().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPkc());
-                Account account = accountService.findById(status.getAccountId());
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
 
-                response.setKepSubSeksiPkc(account.getPribadi().getNama());
-                response.setTanggalKepSubSeksiPkc(status.getTanggal());
-            }
-        }
+                if (layanan.getKepSubSeksiPkc() != null) {
+                    if (!layanan.getKepSubSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-        if (layanan.getPemeriksaP2() != null) {
-            if (!layanan.getPemeriksaP2().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2());
-                Account account = accountService.findById(status.getAccountId());
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
 
-                response.setPemeriksaP2(account.getPribadi().getNama());
-                response.setTanggalPemeriksaP2(status.getTanggal());
-            }
-        }
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-        if (layanan.getPemeriksaP2Kanwil() != null) {
-            if (!layanan.getPemeriksaP2Kanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2Kanwil());
-                Account account = accountService.findById(status.getAccountId());
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
 
-                response.setPemeriksaP2Kanwil(account.getPribadi().getNama());
-                response.setTanggalPemeriksaP2Kanwil(status.getTanggal());
-            }
-        }
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
 
-        if (layanan.getPemeriksaPerbend() != null) {
-            if (!layanan.getPemeriksaPerbend().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPerbend());
-                Account account = accountService.findById(status.getAccountId());
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
 
-                response.setPemeriksaPerbend(account.getPribadi().getNama());
-                response.setTanggalPemeriksaPerbend(status.getTanggal());
-            }
-        }
+                break;
 
-        if (layanan.getPemeriksaPkc() != null) {
-            if (!layanan.getPemeriksaPkc().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
-                Account account = accountService.findById(status.getAccountId());
+            case KEPALA_SEKSI_P2:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setPemeriksaPkc(account.getPribadi().getNama());
-                response.setTanggalPemeriksaPkc(status.getTanggal());
-            }
-        }
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepKantor() != null) {
-            if (!layanan.getKepKantor().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getKepSeksiP2() != null) {
+                    if (!layanan.getKepSeksiP2().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiP2());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepKantor(account.getPribadi().getNama());
-                response.setTanggalKepKantor(status.getTanggal());
-            }
-        }
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepBidangFasilitasKanwil() != null) {
-            if (!layanan.getKepBidangFasilitasKanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepBidangFasilitasKanwil());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getKepSubSeksiP2() != null) {
+                    if (!layanan.getKepSubSeksiP2().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiP2());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepBidangFasilitasKanwil(account.getPribadi().getNama());
-                response.setTanggalKepBidangFasilitasKanwil(status.getTanggal());
-            }
-        }
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getKepSeksiPfKanwil() != null) {
-            if (!layanan.getKepSeksiPfKanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPfKanwil());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setKepSeksiPfKanwil(account.getPribadi().getNama());
-                response.setTanggalKepSeksiPfKanwil(status.getTanggal());
-            }
-        }
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
 
-        if (layanan.getPemeriksaDokumenKanwil() != null) {
-            if (!layanan.getPemeriksaDokumenKanwil().isEmpty()) {
-                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaDokumenKanwil());
-                Account account = accountService.findById(status.getAccountId());
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
 
-                response.setPemeriksaDokumenKanwil(account.getPribadi().getNama());
-                response.setTanggalPemeriksaDokumenKanwil(status.getTanggal());
-            }
-        }
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
 
-        if(layanan.getKepKantorKanwil() != null) {
-            if(!layanan.getKepKantorKanwil().isEmpty()) {
-                StatusLayanan statusLayanan = splitStringWithColon(layanan.getKepKantorKanwil());
-                Account account = accountService.findById(statusLayanan.getAccountId());
+                break;
 
-                response.setKepKantorKanwil(account.getPribadi().getNama());
-                response.setTanggalKepKantorKanwil(statusLayanan.getTanggal());
-            }
+            case KEPALA_SEKSI_PERBEND:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPerbend() != null) {
+                    if (!layanan.getKepSeksiPerbend().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiPerbend() != null) {
+                    if (!layanan.getKepSubSeksiPerbend().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPerbend() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KEPALA_SUB_SEKSI_PKC:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPkc() != null) {
+                    if (!layanan.getKepSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiPkc() != null) {
+                    if (!layanan.getKepSubSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KEPALA_SUB_SEKSI_P2:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiP2() != null) {
+                    if (!layanan.getKepSeksiP2().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiP2());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiP2() != null) {
+                    if (!layanan.getKepSubSeksiP2().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiP2());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KEPALA_SUB_SEKSI_PERBEND:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPerbend() != null) {
+                    if (!layanan.getKepSeksiPerbend().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiPerbend() != null) {
+                    if (!layanan.getKepSubSeksiPerbend().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPerbend() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case PEMERIKSA_PKC:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPkc() != null) {
+                    if (!layanan.getKepSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiPkc() != null) {
+                    if (!layanan.getKepSubSeksiPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case PEMERIKSA_P2:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiP2() != null) {
+                    if (!layanan.getKepSeksiP2().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiP2());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiP2() != null) {
+                    if (!layanan.getKepSubSeksiP2().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiP2());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkc() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkc());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case PEMERIKSA_PERBEND:
+                if (layanan.getKepKantor() != null) {
+                    if (!layanan.getKepKantor().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantor());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPerbend() != null) {
+                    if (!layanan.getKepSeksiPerbend().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSubSeksiPerbend() != null) {
+                    if (!layanan.getKepSubSeksiPerbend().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSubSeksiPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSubSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSubSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPerbend() != null) {
+                    if (!layanan.getPemeriksaPkc().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPerbend());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerima() != null) {
+                    if (!layanan.getPenerima().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerima());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_KANTOR:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangFasilitasKanwil() != null) {
+                    if (!layanan.getKepBidangFasilitasKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangFasilitasKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidPkcKanwil() != null) {
+                    if (!layanan.getKepBidPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPfKanwil() != null) {
+                    if (!layanan.getKepSeksiPfKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPfKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPkcKanwil() != null) {
+                    if (!layanan.getKepSeksiPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaDokumenKanwil() != null) {
+                    if (!layanan.getPemeriksaDokumenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaDokumenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkcKanwil() != null) {
+                    if (!layanan.getPemeriksaPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_BIDANG_FASILITAS:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangFasilitasKanwil() != null) {
+                    if (!layanan.getKepBidangFasilitasKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangFasilitasKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPfKanwil() != null) {
+                    if (!layanan.getKepSeksiPfKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPfKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaDokumenKanwil() != null) {
+                    if (!layanan.getPemeriksaDokumenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaDokumenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_BIDANG_P2:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangP2Kanwil() != null) {
+                    if (!layanan.getKepBidangP2Kanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangP2Kanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiIntelijenKanwil() != null) {
+                    if (!layanan.getKepSeksiIntelijenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaP2Kanwil() != null) {
+                    if (!layanan.getPemeriksaP2Kanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2Kanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_SEKSI_PF:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangFasilitasKanwil() != null) {
+                    if (!layanan.getKepBidangFasilitasKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangFasilitasKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPfKanwil() != null) {
+                    if (!layanan.getKepSeksiPfKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPfKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaDokumenKanwil() != null) {
+                    if (!layanan.getPemeriksaDokumenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaDokumenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_SEKSI_INTELIJEN:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangP2Kanwil() != null) {
+                    if (!layanan.getKepBidangP2Kanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangP2Kanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiIntelijenKanwil() != null) {
+                    if (!layanan.getKepSeksiIntelijenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaP2Kanwil() != null) {
+                    if (!layanan.getPemeriksaP2Kanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2Kanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_PEMERIKSA_DOKUMEN:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangFasilitasKanwil() != null) {
+                    if (!layanan.getKepBidangFasilitasKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangFasilitasKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPfKanwil() != null) {
+                    if (!layanan.getKepSeksiPfKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPfKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaDokumenKanwil() != null) {
+                    if (!layanan.getPemeriksaDokumenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaDokumenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_PEMERIKSA_P2:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidangP2Kanwil() != null) {
+                    if (!layanan.getKepBidangP2Kanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidangP2Kanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiIntelijenKanwil() != null) {
+                    if (!layanan.getKepSeksiIntelijenKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiIntelijenKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaP2Kanwil() != null) {
+                    if (!layanan.getPemeriksaP2Kanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2Kanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_BIDANG_PKC:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidPkcKanwil() != null) {
+                    if (!layanan.getKepBidPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPkcKanwil() != null) {
+                    if (!layanan.getKepSeksiPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkcKanwil() != null) {
+                    if (!layanan.getPemeriksaPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_KEPALA_SEKSI_PKC:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidPkcKanwil() != null) {
+                    if (!layanan.getKepBidPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPkcKanwil() != null) {
+                    if (!layanan.getKepSeksiPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkcKanwil() != null) {
+                    if (!layanan.getPemeriksaPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
+
+            case KANWIL_PEMERIKSA_PKC:
+                if (layanan.getKepKantorKanwil() != null) {
+                    if (!layanan.getKepKantorKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepKantor(account.getPribadi().getNama());
+                        response.setTanggalKepKantor(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPenerimaKanwil() != null) {
+                    if (!layanan.getPenerimaKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPenerima(account.getPribadi().getNama());
+                        response.setTanggalPenerima(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepBidPkcKanwil() != null) {
+                    if (!layanan.getKepBidPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepBidPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepBidang(account.getPribadi().getNama());
+                        response.setTanggalKepBidang(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getKepSeksiPkcKanwil() != null) {
+                    if (!layanan.getKepSeksiPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getKepSeksiPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setKepSeksi(account.getPribadi().getNama());
+                        response.setTanggalKepSeksi(status.getTanggal());
+                    }
+                }
+
+                if (layanan.getPemeriksaPkcKanwil() != null) {
+                    if (!layanan.getPemeriksaPkcKanwil().isEmpty()) {
+                        StatusLayanan status = splitStringWithColon(layanan.getPemeriksaPkcKanwil());
+                        Account account = accountService.findById(status.getAccountId());
+
+                        response.setPemeriksa(account.getPribadi().getNama());
+                        response.setTanggalPemeriksa(status.getTanggal());
+                    }
+                }
+
+                break;
         }
 
         return response;
