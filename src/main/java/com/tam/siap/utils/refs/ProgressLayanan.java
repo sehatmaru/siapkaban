@@ -11,6 +11,7 @@ public @interface ProgressLayanan {
     int ON_BATCH_2_KPPBC = 2;
     int ON_BATCH_1_KANWIL = 3;
     int ON_BATCH_2_KANWIL = 4;
-    int COMPLETE = 5;
+    int ON_BATCH_3_KANWIL = 5;
+    int COMPLETE = 6;
 }
 
