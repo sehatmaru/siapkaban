@@ -1237,6 +1237,7 @@ public class IzinOnlineService {
             case KANWIL_KEPALA_SEKSI_PKC :
                 if (layanan.getProgress() == ON_BATCH_1_KANWIL) {
                     if (statusLayanan.getStatus().equals("" + REJECTED)) layanan.setStatus(REJECTED);
+                    layanan.setProgress(ON_BATCH_2_KANWIL);
 
                     layanan.setKepSeksiPkcKanwil(
                             fetchStringWithColon(
@@ -1259,7 +1260,7 @@ public class IzinOnlineService {
                             ));
                         }
                     }
-                } else if (layanan.getProgress() == ON_BATCH_2_KPPBC) {
+                } else if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
                     layanan.setKepSeksiPkcKanwil(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -1755,7 +1756,7 @@ public class IzinOnlineService {
                 break;
 
             case KANWIL_PEMERIKSA_PKC:
-                List<Layanan> pemeriksaPkcKanwil = layananService.findLayananByPemeriksaPkcKanwilIsNotNull(account.getLokasi());
+                List<Layanan> pemeriksaPkcKanwil = layananService.findLayananByPemeriksaPkcKanwilIsNotNull();
 
                 for (Layanan data : pemeriksaPkcKanwil) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPkcKanwil()).getAccountId())) {
