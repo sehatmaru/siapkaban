@@ -1294,7 +1294,7 @@ public class IzinOnlineService {
                 for (Layanan data : pemeriksaP2) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaP2()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getPemeriksaP2()).getProgress() != null) {
+                            if (splitStringWithColon(data.getPemeriksaP2()).getProgress() == null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         }
@@ -1308,7 +1308,7 @@ public class IzinOnlineService {
                 for (Layanan data : pemeriksaP2Kanwil) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaP2Kanwil()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KANWIL) {
-                            if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getProgress() != null) {
+                            if (splitStringWithColon(data.getPemeriksaP2Kanwil()).getProgress() == null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         }
@@ -1322,7 +1322,7 @@ public class IzinOnlineService {
                 for (Layanan data : pemeriksaPerbend) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPerbend()).getAccountId())) {
                         if (data.getProgress() == ON_BATCH_2_KPPBC) {
-                            if (splitStringWithColon(data.getPemeriksaPerbend()).getProgress() != null) {
+                            if (splitStringWithColon(data.getPemeriksaPerbend()).getProgress() == null) {
                                 responses.add(setDataLayananToResponse(data));
                             }
                         }
@@ -1335,7 +1335,7 @@ public class IzinOnlineService {
 
                 for (Layanan data : pemeriksaPkc) {
                     if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getPemeriksaPkc()).getAccountId())) {
-                        if (splitStringWithColon(data.getPemeriksaPkc()).getProgress() != null) {
+                        if (splitStringWithColon(data.getPemeriksaPkc()).getProgress() == null) {
                             responses.add(setDataLayananToResponse(data));
                         }
                     }
