@@ -3,11 +3,11 @@ package com.tam.siap.models.responses;
 public class UploadTemplateResponse {
 
     private int status;
-    private String path;
+    private String html;
 
-    public UploadTemplateResponse(int status, String path) {
+    public UploadTemplateResponse(int status, String html) {
         this.status = status;
-        this.path = path;
+        this.html = html;
     }
 
     public int getStatus() {
@@ -18,11 +18,11 @@ public class UploadTemplateResponse {
         this.status = status;
     }
 
-    public String getPath() {
-        return path;
+    public String getHtml() {
+        return html;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setHtml(String html) {
+        this.html = html;
     }
 }
