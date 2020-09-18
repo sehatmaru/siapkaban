@@ -1,5 +1,10 @@
 package com.tam.siap.views.izinonline;
 
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KANWIL;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KPPBC;
+import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_DOKUMEN;
+import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_P2;
+import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_PKC;
 import static com.tam.siap.utils.refs.Role.KEPALA_SEKSI_P2;
 import static com.tam.siap.utils.refs.Role.KEPALA_SEKSI_PERBEND;
 import static com.tam.siap.utils.refs.Role.KEPALA_SUB_SEKSI_P2;
@@ -7,12 +12,8 @@ import static com.tam.siap.utils.refs.Role.KEPALA_SUB_SEKSI_PERBEND;
 import static com.tam.siap.utils.refs.Role.PEMERIKSA_P2;
 import static com.tam.siap.utils.refs.Role.PEMERIKSA_PERBEND;
 import static com.tam.siap.utils.refs.Role.PEMERIKSA_PKC;
-import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_DOKUMEN;
-import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_P2;
-import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_PKC;
-import static com.tam.siap.utils.refs.ProgressLayanan.*;
-import static com.tam.siap.utils.refs.StatusLayanan.*;
-import static com.tam.siap.utils.refs.ProgressPic.*;
+import static com.tam.siap.utils.refs.StatusLayanan.ACCEPTED;
+import static com.tam.siap.utils.refs.StatusLayanan.REJECTED;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,14 +72,12 @@ import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.dom.DomEvent;
 import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterListener;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InputStreamFactory;
 import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.VaadinSession;
 
 @Route(value = "inboxbcdetail", layout = HomePageIzinOnline2.class)
 public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObserver, HasUrlParameter<String> {
@@ -95,7 +94,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 
 	private TextArea txtCatatan = new TextArea("Catatan");
 
-	private Layanan dataLay = new Layanan();
+//	private Layanan dataLay = new Layanan();
 
 	private MenuBar menuBar = new MenuBar();
 
@@ -148,7 +147,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			nextPic = izinOnlineService.getNextPic(dataLogin.getAccount(), dataLay);
 			System.out.println("Size nexpic : " + nextPic.size());
 			picBox.setItems(nextPic);
-
+			
 			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 			for (JDokumen datJdok : listJdoks) {
 				listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
@@ -490,7 +489,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 				} else {
 					data.setCheck(false);
 				}
-
+				Layanan dataLay = data.getDatalay();
 				if (dataLay != null
 						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 					if (checkList()) {
@@ -568,7 +567,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 				} else {
 					data.setCheck(false);
 				}
-
+				Layanan dataLay = data.getDatalay();
 				if (dataLay != null
 						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 

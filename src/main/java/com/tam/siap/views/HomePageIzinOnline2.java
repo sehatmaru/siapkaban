@@ -164,23 +164,48 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 			LoginResponse dataLogin = TamUtils.getLoginResponse();
 			menus.removeAllChildren();
 			if (dataLogin.getAccount().getRole().getId() != 1) {
-				if (loc.equals("profil")) {
-					txtjudulapp.setText("Profil");
-					menus.appendChild(createLink("Home", "mainhome", false));
-					menus.appendChild(createLink("Profil", "profil", true));
-				} else if (loc.equals("inboxbc")) {
-					txtjudulapp.setText("Perizinan Online");
-					menus.appendChild(createLink("Home", "mainhome", false));
-					menus.appendChild(createLink("Inbox", "inboxbc", true));
-				} else if (loc.equals("inboxbcdetail")) {
-					txtjudulapp.setText("Inbox Detail");
-					menus.appendChild(createLink("Back", "inboxbc", false));
-				} else if (loc.equals("instan")) {
-					txtjudulapp.setText("Instan");
-					menus.appendChild(createLink("Back", "mainhome", false));
+				if (dataLogin.getAccount().getRole().getId() == 2) {
+					if (loc.equals("adminuserpemohon")) {
+						txtjudulapp.setText("User Pemohon");
+						menus.appendChild(createLink("Home", "mainhome", false));
+						menus.appendChild(createLink("User Pemohon", "adminuserpemohon", true));
+					} else if (loc.equals("profil")) {
+						txtjudulapp.setText("Profil");
+						menus.appendChild(createLink("Home", "mainhome", false));
+						menus.appendChild(createLink("Profil", "profil", true));
+					} else if (loc.equals("inboxbc")) {
+						txtjudulapp.setText("Perizinan Online");
+						menus.appendChild(createLink("Home", "mainhome", false));
+						menus.appendChild(createLink("Inbox", "inboxbc", true));
+					} else if (loc.equals("inboxbcdetail")) {
+						txtjudulapp.setText("Inbox Detail");
+						menus.appendChild(createLink("Back", "inboxbc", false));
+					} else if (loc.equals("instan")) {
+						txtjudulapp.setText("Instan");
+						menus.appendChild(createLink("Back", "mainhome", false));
+					} else {
+						event.forwardTo(LoginPage.class);
+					}
 				} else {
-					event.forwardTo(LoginPage.class);
+					if (loc.equals("profil")) {
+						txtjudulapp.setText("Profil");
+						menus.appendChild(createLink("Home", "mainhome", false));
+						menus.appendChild(createLink("Profil", "profil", true));
+					} else if (loc.equals("inboxbc")) {
+						txtjudulapp.setText("Perizinan Online");
+						menus.appendChild(createLink("Home", "mainhome", false));
+						menus.appendChild(createLink("Inbox", "inboxbc", true));
+					} else if (loc.equals("inboxbcdetail")) {
+						txtjudulapp.setText("Inbox Detail");
+						menus.appendChild(createLink("Back", "inboxbc", false));
+					} else if (loc.equals("instan")) {
+						txtjudulapp.setText("Instan");
+						menus.appendChild(createLink("Back", "mainhome", false));
+					} else {
+						event.forwardTo(LoginPage.class);
+					}
 				}
+
 			} else if (dataLogin.getAccount().getRole().getId() == 1) {
 				if (loc.equals("profil")) {
 					txtjudulapp.setText("Profil");
@@ -198,12 +223,6 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 					menus.appendChild(createLink("Status Layanan", "inboxpt", true));
 				} else {
 					event.forwardTo(LoginPage.class);
-				}
-			} else if (dataLogin.getAccount().getRole().getId() == 2) {
-				if (loc.equals("adminuserpemohon")) {
-					txtjudulapp.setText("User Pemohon");
-					menus.appendChild(createLink("Home", "mainhome", false));
-					menus.appendChild(createLink("User Pemohon", "adminuserpemohon", false));
 				}
 			} else {
 				event.forwardTo(LoginPage.class);
