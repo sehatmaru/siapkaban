@@ -165,18 +165,15 @@ public class IzinOnlineService {
         } else return editorService.getPath(layanan, dokumen);
     }
 
-    public boolean isLayananNotNull(Layanan layanan) {
-        return layanan != null;
-    }
-
-    public List<JDokumen> docFilter(Role role, Layanan layanan, int status) {
+    public List<JDokumen> docFilter(Role role, int layanan, int status) {
+        System.out.println("id = " + layanan);
         if (role.getId() == PEMERIKSA_P2) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_P2), "" + status);
         } else if (role.getId() == PEMERIKSA_PERBEND) {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PERBEND), "" + status);
         } else if (role.getId() == PEMERIKSA_PKC) {
             List<JDokumen> result = new ArrayList<>(jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(PEMERIKSA_PKC), "" + status));
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -194,17 +191,17 @@ public class IzinOnlineService {
         } else if (role.getId() == KANWIL_PEMERIKSA_DOKUMEN) {
             List<JDokumen> result = new ArrayList<>();
             List<JDokumen> docsPemeriksaDok = jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_DOKUMEN), "" + status);
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for(JDokumen data : docsPemeriksaDok) {
-                if (isTPBOrKITEPerizinanBaru(layanan)) {
+                if (isTPBOrKITEPerizinanBaru(layananService.findLayananById(layanan))) {
                     if (data.getId() == UNDANGAN_PEMAPARAN
                             || data.getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
                             || data.getId() == BA_PEMAPARAN
                             || data.getId() == SKEP_PEMERIKSA_DOKUMEN
                             || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(data);
-                } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)
-                        || isTPBOrKITEPerubahanNonLokasi(layanan)) {
+                } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layananService.findLayananById(layanan))
+                        || isTPBOrKITEPerubahanNonLokasi(layananService.findLayananById(layanan))) {
                     if (data.getId() == TELAAH
                             || data.getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
                             || data.getId() == SKEP_PEMERIKSA_DOKUMEN
@@ -227,7 +224,7 @@ public class IzinOnlineService {
             return jenisDokumenService.findJenisDokumenByRoleAndStatus(roleService.getRole(KANWIL_PEMERIKSA_PKC), "" + status);
         } else if (role.getId() == KEPALA_SUB_SEKSI_P2 || role.getId() == KEPALA_SEKSI_P2) {
             List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -240,7 +237,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KEPALA_SUB_SEKSI_PERBEND || role.getId() == KEPALA_SEKSI_PERBEND) {
             List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -253,7 +250,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KEPALA_SUB_SEKSI_PKC || role.getId() == KEPALA_SEKSI_PKC || role.getId() == KEPALA_KANTOR) {
             List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -273,7 +270,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KANWIL_KEPALA_SEKSI_INTELIJEN || role.getId() == KANWIL_KEPALA_BIDANG_P2) {
             List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -286,7 +283,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KANWIL_KEPALA_BIDANG_FASILITAS || role.getId() == KANWIL_KEPALA_SEKSI_PF || role.getId() == KANWIL_KEPALA_KANTOR) {
             List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -311,7 +308,7 @@ public class IzinOnlineService {
             return result;
         } else if (role.getId() == KANWIL_KEPALA_BIDANG_PKC || role.getId() == KANWIL_KEPALA_SEKSI_PKC){
             List<JDokumen> result = new ArrayList<>();
-            List<Dokumen> docs = dokumenService.findByLayanan(layanan);
+            List<Dokumen> docs = dokumenService.findByLayanan(layananService.findLayananById(layanan));
 
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
@@ -2229,9 +2226,15 @@ public class IzinOnlineService {
     }
 
     private boolean isTPBOrKITEPerizinanBaru(Layanan layanan) {
-        if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null
-        || layanan.getSubLayanan().getLayanan().getFasilitas() != null) {
-            return layanan.getSubLayanan().getKeterangan().equals("Perizinan Baru");
+        if (layanan != null) {
+            if (layanan.getSubLayanan() != null) {
+                if (layanan.getSubLayanan().getLayanan() != null) {
+                    if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null
+                            || layanan.getSubLayanan().getLayanan().getFasilitas() != null) {
+                        return layanan.getSubLayanan().getKeterangan().equals("Perizinan Baru");
+                    } else return false;
+                } else return false;
+            } else return false;
         } else return false;
     }
 
