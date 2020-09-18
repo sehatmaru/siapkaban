@@ -16,10 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.tam.siap.utils.TamUtils.*;
+import static com.tam.siap.utils.refs.JenisEmail.*;
 import static com.tam.siap.utils.refs.ProgressPic.*;
 import static com.tam.siap.utils.refs.JenisDokumen.*;
-import static com.tam.siap.utils.refs.JenisEmail.EMAIL_PENERIMAAN;
-import static com.tam.siap.utils.refs.JenisEmail.EMAIL_PENOLAKAN;
 import static com.tam.siap.utils.refs.JenisLokasi.MERAK;
 import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
 import static com.tam.siap.utils.refs.ProgressLayanan.*;
@@ -873,6 +872,53 @@ public class IzinOnlineService {
                         ));
                     }
                 } else if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
+                    if (statusLayanan.getStatus().equals(String.valueOf(ACCEPTED))) {
+                        if (isTPBOrKITEPerizinanBaru(layanan)) {
+                            layanan.setProgress(ON_BATCH_3_KANWIL);
+
+                            layanan.setKepKantorKanwil(
+                                    fetchStringWithColon(
+                                            statusLayanan.getAccountId(),
+                                            statusLayanan.getTanggal(),
+                                            String.valueOf(WAITING),
+                                            statusLayanan.getStatus(),
+                                            statusLayanan.getCatatan()
+                                    )
+                            );
+
+                            result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_UNDANGAN);
+                        } else {
+                            layanan.setStatus(ACCEPTED);
+                            layanan.setProgress(COMPLETE);
+
+                            layanan.setKepKantorKanwil(
+                                    fetchStringWithColon(
+                                            statusLayanan.getAccountId(),
+                                            statusLayanan.getTanggal(),
+                                            String.valueOf(DONE),
+                                            statusLayanan.getStatus(),
+                                            statusLayanan.getCatatan()
+                                    )
+                            );
+                        }
+                    } else {
+                        layanan.setProgress(COMPLETE);
+                        layanan.setStatus(REJECTED);
+
+                        layanan.setKepKantorKanwil(
+                                fetchStringWithColon(
+                                        statusLayanan.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        String.valueOf(DONE),
+                                        statusLayanan.getStatus(),
+                                        statusLayanan.getCatatan()
+                                )
+                        );
+
+                        result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
+                    }
+                } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
+                    layanan.setStatus(ACCEPTED);
                     layanan.setProgress(COMPLETE);
 
                     layanan.setKepKantorKanwil(
@@ -884,16 +930,6 @@ public class IzinOnlineService {
                                     statusLayanan.getCatatan()
                             )
                     );
-
-                    if (statusLayanan.getStatus().equals(String.valueOf(ACCEPTED))) {
-                        layanan.setStatus(ACCEPTED);
-
-                        result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
-                    } else {
-                        layanan.setStatus(REJECTED);
-
-                        result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
-                    }
                 }
 
                 break;
@@ -944,6 +980,16 @@ public class IzinOnlineService {
                         ));
                     }
                 } else if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
+                    layanan.setKepBidangFasilitasKanwil(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(WAITING),
+                                    statusLayanan.getStatus(),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
+                } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
                     layanan.setKepBidangFasilitasKanwil(
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
@@ -1008,6 +1054,16 @@ public class IzinOnlineService {
                             fetchStringWithColon(
                                     statusLayanan.getAccountId(),
                                     statusLayanan.getTanggal(),
+                                    String.valueOf(WAITING),
+                                    statusLayanan.getStatus(),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
+                } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
+                    layanan.setKepSeksiPfKanwil(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
                                     String.valueOf(DONE),
                                     statusLayanan.getStatus(),
                                     statusLayanan.getCatatan()
@@ -1017,15 +1073,27 @@ public class IzinOnlineService {
 
                 break;
             case KANWIL_PEMERIKSA_DOKUMEN:
-                layanan.setPemeriksaDokumenKanwil(
-                        fetchStringWithColon(
-                                statusLayanan.getAccountId(),
-                                statusLayanan.getTanggal(),
-                                String.valueOf(DONE),
-                                statusLayanan.getStatus(),
-                                statusLayanan.getCatatan()
-                        )
-                );
+                if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
+                    layanan.setPemeriksaDokumenKanwil(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(WAITING),
+                                    statusLayanan.getStatus(),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
+                } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
+                    layanan.setPemeriksaDokumenKanwil(
+                            fetchStringWithColon(
+                                    statusLayanan.getAccountId(),
+                                    statusLayanan.getTanggal(),
+                                    String.valueOf(DONE),
+                                    statusLayanan.getStatus(),
+                                    statusLayanan.getCatatan()
+                            )
+                    );
+                }
 
                 break;
 
@@ -1207,6 +1275,19 @@ public class IzinOnlineService {
 
             case KANWIL_PEMERIKSA_P2 :
                 layanan.setPemeriksaP2Kanwil(
+                        fetchStringWithColon(
+                                statusLayanan.getAccountId(),
+                                statusLayanan.getTanggal(),
+                                String.valueOf(DONE),
+                                String.valueOf(ACCEPTED),
+                                statusLayanan.getCatatan()
+                        )
+                );
+
+                break;
+
+            case KANWIL_PEMERIKSA_PKC :
+                layanan.setPemeriksaPkcKanwil(
                         fetchStringWithColon(
                                 statusLayanan.getAccountId(),
                                 statusLayanan.getTanggal(),
@@ -2284,7 +2365,7 @@ public class IzinOnlineService {
             }
 
             if (!emailService.sendMail(request, dokumen)) result = FAILED;
-        } else {
+        } else if (type == EMAIL_PENOLAKAN){
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
                     if (data.getJenisDokumen().getId() == SURAT_PENGEMBALIAN_BERKAS
@@ -2298,6 +2379,16 @@ public class IzinOnlineService {
                 if (!emailService.sendMail(request)) result = FAILED;
             }
 
+        } else if (type == EMAIL_UNDANGAN) {
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getId() == UNDANGAN_PEMAPARAN
+                            || data.getJenisDokumen().getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
+                    ) dokumen.add(data);
+                }
+            }
+
+            if (!emailService.sendMail(request, dokumen)) result = FAILED;
         }
 
         return result;

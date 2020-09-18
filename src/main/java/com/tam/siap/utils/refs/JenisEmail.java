@@ -12,6 +12,7 @@ public @interface JenisEmail {
     int EMAIL_ACCOUNT = 2;
     int EMAIL_PENOLAKAN = 3;
     int EMAIL_PENERIMAAN = 4;
+    int EMAIL_UNDANGAN = 5;
 
 }
 
