@@ -140,6 +140,17 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		menus.appendChild(createLink("Login", "", false));
 		vform.setSizeFull();
 		setForm();
+		
+		txtNpwpPt.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+			@Override
+			public void valueChanged(ValueChangeEvent<?> event) {
+				// TODO Auto-generated method stub
+				String val = ""+event.getValue();
+				val = val.replaceAll("[^a-zA-Z0-9]", "");
+				txtNamaPt.setValue(val);
+			}
+		});
 
 		comboKabupaten.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
 
@@ -177,6 +188,8 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String notelppt = txtHandphonePt.getValue();
 				String emailpt = txtEmailPt.getValue();
 				String tgJawab = txtNamaPenggungJwb.getValue();
+				
+				
 
 				Kabupaten datakKabupaten = comboKabupaten.getValue();
 				Kecamatan dataKecamatan = comboKecamatan.getValue();

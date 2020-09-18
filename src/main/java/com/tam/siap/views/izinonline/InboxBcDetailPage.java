@@ -31,11 +31,13 @@ import org.vaadin.pekka.WysiwygE;
 
 import com.tam.siap.EmbeddedPdfDocument;
 import com.tam.siap.models.Account;
+import com.tam.siap.models.DocFilter;
 import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.Layanan;
 import com.tam.siap.models.Role;
 import com.tam.siap.models.StatusLayanan;
 import com.tam.siap.models.responses.LoginResponse;
+import com.tam.siap.models.responses.UploadTemplateResponse;
 import com.tam.siap.models.responses.ViewDokumenResponse;
 import com.tam.siap.services.EditorService;
 import com.tam.siap.services.IzinOnlineService;
@@ -125,7 +127,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 
 	List<ViewDokumenResponse> listVDocs = new ArrayList<ViewDokumenResponse>();
 	List<CheklistModel> listChecks = new ArrayList<CheklistModel>();
-	List<JDokumen> listJdoks = new ArrayList<JDokumen>();
+	List<DocFilter> listJdoks = new ArrayList<DocFilter>();
 	List<CheklistModel2> listCheklistModel2s = new ArrayList<CheklistModel2>();
 
 	@PostConstruct
@@ -149,8 +151,14 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			picBox.setItems(nextPic);
 			
 			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
-			for (JDokumen datJdok : listJdoks) {
-				listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+			for (DocFilter datJdok : listJdoks) {
+				boolean adaFile = false;
+				if(datJdok.getStatus()==1) {
+					adaFile=true;
+				}else {
+					adaFile=false;
+				}
+				listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 			}
 
 			gridDokumen.addColumn(data -> data.getDoc().getDokumen().getNamaDokumen()).setHeader("Dokumen");
@@ -381,16 +389,22 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, new Label("Konsep Naskah Dinas"),
 						gridDokumenHasil, picBox, txtCatatan, fl);
 				if (checkList()) {
-					listJdoks = new ArrayList<JDokumen>();
+					listJdoks = new ArrayList<DocFilter>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
 					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
-					for (JDokumen datJdok : listJdoks) {
+					for (DocFilter datJdok : listJdoks) {
+						boolean adaFile = false;
+						if(datJdok.getStatus()==1) {
+							adaFile=true;
+						}else {
+							adaFile=false;
+						}
 						if (checkP2(dataLogin)) {
 							listCheklistModel2s
-									.add(new CheklistModel2(true, datJdok, new MemoryBuffer(), dataLay, null));
+									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 						} else {
 							listCheklistModel2s
-									.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 						}
 					}
 					gridDokumenHasil.setItems(listCheklistModel2s);
@@ -399,11 +413,17 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 					btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 				} else {
-					listJdoks = new ArrayList<JDokumen>();
+					listJdoks = new ArrayList<DocFilter>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
 					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
-					for (JDokumen datJdok : listJdoks) {
-						listCheklistModel2s.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+					for (DocFilter datJdok : listJdoks) {
+						boolean adaFile = false;
+						if(datJdok.getStatus()==1) {
+							adaFile=true;
+						}else {
+							adaFile=false;
+						}
+						listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 					}
 					gridDokumenHasil.setItems(listCheklistModel2s);
 					btnLanjut.setText("Tolak");
@@ -493,13 +513,19 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 				if (dataLay != null
 						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
 					if (checkList()) {
-						listJdoks = new ArrayList<JDokumen>();
+						listJdoks = new ArrayList<DocFilter>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
 						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
 						System.out.println("Sizexx : " + listJdoks.size());
-						for (JDokumen datJdok : listJdoks) {
+						for (DocFilter datJdok : listJdoks) {
+							boolean adaFile = false;
+							if(datJdok.getStatus()==1) {
+								adaFile=true;
+							}else {
+								adaFile=false;
+							}
 							listCheklistModel2s
-									.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
 //						btnLanjut.setText("Proses Lanjut");
@@ -507,13 +533,19 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 //						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 //						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 					} else {
-						listJdoks = new ArrayList<JDokumen>();
+						listJdoks = new ArrayList<DocFilter>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
 						listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 						System.out.println("Sizexx : " + listJdoks.size());
-						for (JDokumen datJdok : listJdoks) {
+						for (DocFilter datJdok : listJdoks) {
+							boolean adaFile = false;
+							if(datJdok.getStatus()==1) {
+								adaFile=true;
+							}else {
+								adaFile=false;
+							}
 							listCheklistModel2s
-									.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
 						btnLanjut.setText("Tolak");
@@ -525,9 +557,15 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 						if (checkPemeriksa(dataLogin)) {
 							listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 							System.out.println("Sizexx : " + listJdoks.size());
-							for (JDokumen datJdok : listJdoks) {
+							for (DocFilter datJdok : listJdoks) {
+								boolean adaFile = false;
+								if(datJdok.getStatus()==1) {
+									adaFile=true;
+								}else {
+									adaFile=false;
+								}
 								listCheklistModel2s
-										.add(new CheklistModel2(false, datJdok, new MemoryBuffer(), dataLay, null));
+										.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
 							}
 							gridDokumenHasil.setItems(listCheklistModel2s);
 						}
@@ -679,6 +717,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			public void handleEvent(DomEvent event) {
 				data.setMembuffer(new MemoryBuffer());
 				up.setReceiver(data.getMembuffer());
+				data.setCheck(false);
 			}
 		});
 		up.addSucceededListener(new ComponentEventListener<SucceededEvent>() {
@@ -687,10 +726,15 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			public void onComponentEvent(SucceededEvent event) {
 				// TODO Auto-generated method stub
 				System.out.println("Upload success");
-				String html = izinOnlineService.uploadTemplate(data.getMembuffer(), data.getDatalay(),
+				UploadTemplateResponse html = izinOnlineService.uploadTemplate(data.getMembuffer(), data.getDatalay(),
 						data.getjDokumen());
-				System.out.println("Ht : " + html);
-				wysiwygE.setValue(html);
+				//System.out.println("Ht : " + html);
+				wysiwygE.setValue(html.getHtml());
+				if(html.getStatus()==1) {
+					data.setCheck(true);	
+				}else {
+					data.setCheck(false);	
+				}
 			}
 		});
 		up.setAcceptedFileTypes("application/vnd.openxmlformats-officedocument.wordprocessingml.document");

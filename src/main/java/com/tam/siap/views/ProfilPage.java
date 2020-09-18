@@ -97,7 +97,7 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 			txtNama.setReadOnly(true);
 			txtNoidentitas.setReadOnly(true);
 
-			txtNama.setValue(email);
+			txtNama.setValue(nama);
 			txtNoidentitas.setValue(noid);
 			txtEmail.setValue(email);
 			// txtPass.setValue(response.getAccount().getPassword());
