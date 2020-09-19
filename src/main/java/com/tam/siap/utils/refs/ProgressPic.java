@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface ProgressPic {
     int WAITING = 1;
-    int DONE = 2;
+    int HOLD = 2;
+    int DONE = 3;
 }
 
