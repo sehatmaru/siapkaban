@@ -105,7 +105,7 @@ public class InboxBCPage extends VerticalLayout {
 	private VerticalLayout layCell(int col, LayananResponse data) {
 		VerticalLayout vel = new VerticalLayout();
 		Span span = new Span();
-		LoginResponse logRes = TamUtils.getLoginResponse();
+		//LoginResponse logRes = TamUtils.getLoginResponse();
 		//String layRole = getListLayananFor(logRes.getAccount().getRole(), data);
 		if (col == 0) {
 			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
