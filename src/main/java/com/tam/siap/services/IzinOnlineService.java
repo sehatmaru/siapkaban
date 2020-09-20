@@ -1579,7 +1579,7 @@ public class IzinOnlineService {
                 for (Layanan data : kepKantor) {
                     if (data.getProgress() == ON_BATCH_2_KPPBC) {
                         if (Integer.toString(account.getId()).equals(splitStringWithColon(data.getKepKantor()).getAccountId())) {
-                            if (splitStringWithColon(data.getKepSeksiPkc()).getProgress() != null && splitStringWithColon(data.getKepSeksiPkc()).getProgress().equals("" + HOLD)) {
+                            if (splitStringWithColon(data.getKepSeksiPkc()).getProgress() != null && splitStringWithColon(data.getKepSeksiPkc()).getProgress().equals("" + DONE)) {
                                 if (splitStringWithColon(data.getKepKantor()).getProgress() != null && !splitStringWithColon(data.getKepKantor()).getProgress().equals(DONE + "")) {
                                     responses.add(setDataLayananToResponse(data, role));
                                 }

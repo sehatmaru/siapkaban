@@ -5,6 +5,8 @@ import com.tam.siap.repos.DPerusahaanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.tam.siap.utils.refs.Status.*;
 
 @Service
@@ -47,6 +49,10 @@ public class DataPerusahaanService {
 
     public boolean isDataPerusahaanExist(String npwp) {
         return dPerusahaanRepository.findByNpwp(npwp) != null;
+    }
+
+    public List<DPerusahaan> findAll() {
+        return dPerusahaanRepository.findAll();
     }
 
     public void save(DPerusahaan dPerusahaan){

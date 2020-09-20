@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.tam.siap.utils.TamUtils.encrypt;
@@ -45,7 +46,7 @@ public class RegisterService {
         int result = FAILED;
 
         if (!accountService.isAccountExist(account.getUsername(), account.getRole())) {
-            if (!dataPerusahaanService.isDataPerusahaanExist(dPerusahaan.getNpwp())) {
+            if (!isDataPerusahaanExist(dPerusahaan.getNpwp())) {
                 if (addDataPribadi(dPribadi) == SUCCESS) {
                     if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                         if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
@@ -55,7 +56,7 @@ public class RegisterService {
                 }
             } else {
                 if (addDataPribadi(dPribadi) == SUCCESS) {
-                    if (addUser(account, dPribadi, dataPerusahaanService.findDataPerusahaanByNpwp(dPerusahaan.getNpwp())) == SUCCESS) {
+                    if (addUser(account, dPribadi, getPerusahaan(dPerusahaan.getNpwp())) == SUCCESS) {
                         result = sendEmail(account, dPribadi);
                     }
                 }
@@ -142,6 +143,34 @@ public class RegisterService {
         );
 
         if (emailService.sendMail(request)) result = SUCCESS;
+
+        return result;
+    }
+
+    private boolean isDataPerusahaanExist(String npwp) {
+        boolean result = false;
+
+        List<DPerusahaan> perusahaans = dataPerusahaanService.findAll();
+
+        for (DPerusahaan data : perusahaans) {
+            if (data.getNpwp().replaceAll("[^a-zA-Z0-9]", "").equals(npwp)) {
+                result = true;
+                break;
+            }
+        }
+
+        return result ;
+    }
+
+    private DPerusahaan getPerusahaan(String npwp) {
+        DPerusahaan result = new DPerusahaan();
+        List<DPerusahaan> perusahaans = dataPerusahaanService.findAll();
+
+        for (DPerusahaan data : perusahaans) {
+            if (data.getNpwp().replaceAll("[^a-zA-Z0-9]", "").equals(npwp)) {
+                result = data;
+            }
+        }
 
         return result;
     }
