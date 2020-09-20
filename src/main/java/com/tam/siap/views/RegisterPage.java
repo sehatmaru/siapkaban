@@ -17,6 +17,7 @@ import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.Kabupaten;
 import com.tam.siap.models.Kecamatan;
 import com.tam.siap.models.Role;
+import com.tam.siap.repos.DPerusahaanRepository;
 import com.tam.siap.services.RegisterService;
 import com.tam.siap.services.master.JenisIdentitasService;
 import com.tam.siap.services.master.JenisPerusahaanService;
@@ -72,6 +73,9 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 	@Id("txttgl")
 	Label txttgl;
+
+	@Autowired
+	DPerusahaanRepository dPerusahaanRepository;
 
 	private TextField txtTipeAkun = new TextField();
 	private Label lblPemohon = new Label("DATA PEMOHON");
@@ -140,15 +144,47 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		menus.appendChild(createLink("Login", "", false));
 		vform.setSizeFull();
 		setForm();
-		
+
 		txtNpwpPt.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
 
 			@Override
 			public void valueChanged(ValueChangeEvent<?> event) {
 				// TODO Auto-generated method stub
-				String val = ""+event.getValue();
-				val = val.replaceAll("[^a-zA-Z0-9]", "");
-				txtNamaPt.setValue(val);
+				String val = "" + event.getValue();
+				DPerusahaan dataDPerusahaan = dPerusahaanRepository.findByNpwp(val);
+				String val2 = val.replaceAll("[^a-zA-Z0-9]", "");
+				System.out.println(val+" - "+val2);
+				//txtNpwpPt.setValue(val+" - "+val2);
+				//DPerusahaan dataDPerusahaan2 = dPerusahaanRepository.findByNpwp(val);
+				DPerusahaan dataDPerusahaan2 = new DPerusahaan();
+				List<DPerusahaan> dPerusahaans =  dPerusahaanRepository.findAll();
+				 if (dataDPerusahaan != null) {
+					String npwptemp = dataDPerusahaan.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
+					txtNamaPt.setValue(""+dataDPerusahaan.getNama());
+					txtNpwpPt.setValue(npwptemp);
+					comboJnsPerusahaan.setValue(dataDPerusahaan.getJenis());
+					txtAlamatPt.setValue(""+dataDPerusahaan.getAlamat());
+					txtHandphonePt.setValue(""+dataDPerusahaan.getTelepon());
+					txtEmailPt.setValue(""+dataDPerusahaan.getEmail());
+					txtNamaPenggungJwb.setValue(""+dataDPerusahaan.getPenanggungJawab());
+					comboKabupaten.setValue(dataDPerusahaan.getKabupaten());
+					comboKecamatan.setValue(dataDPerusahaan.getKecamatan());
+				}else {
+					for(DPerusahaan datap : dPerusahaans) {
+						String npwptemp = datap.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
+						if(val2.equals(npwptemp)) {
+							txtNamaPt.setValue(""+datap.getNama());
+							txtNpwpPt.setValue(npwptemp);
+							comboJnsPerusahaan.setValue(datap.getJenis());
+							txtAlamatPt.setValue(""+datap.getAlamat());
+							txtHandphonePt.setValue(""+datap.getTelepon());
+							txtEmailPt.setValue(""+datap.getEmail());
+							txtNamaPenggungJwb.setValue(""+datap.getPenanggungJawab());
+							comboKabupaten.setValue(datap.getKabupaten());
+							comboKecamatan.setValue(datap.getKecamatan());
+						}
+					}
+				}
 			}
 		});
 
@@ -188,8 +224,6 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String notelppt = txtHandphonePt.getValue();
 				String emailpt = txtEmailPt.getValue();
 				String tgJawab = txtNamaPenggungJwb.getValue();
-				
-				
 
 				Kabupaten datakKabupaten = comboKabupaten.getValue();
 				Kecamatan dataKecamatan = comboKecamatan.getValue();

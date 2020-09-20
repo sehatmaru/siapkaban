@@ -2,6 +2,7 @@ package com.tam.siap.views.izinonline;
 
 import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KANWIL;
 import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KPPBC;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_3_KANWIL;
 import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_DOKUMEN;
 import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_P2;
 import static com.tam.siap.utils.refs.Role.KANWIL_PEMERIKSA_PKC;
@@ -149,16 +150,17 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			nextPic = izinOnlineService.getNextPic(dataLogin.getAccount(), dataLay);
 			System.out.println("Size nexpic : " + nextPic.size());
 			picBox.setItems(nextPic);
-			
+
 			listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 			for (DocFilter datJdok : listJdoks) {
 				boolean adaFile = false;
-				if(datJdok.getStatus()==1) {
-					adaFile=true;
-				}else {
-					adaFile=false;
+				if (datJdok.getStatus() == 1) {
+					adaFile = true;
+				} else {
+					adaFile = false;
 				}
-				listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+				listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(),
+						dataLay, null, adaFile));
 			}
 
 			gridDokumen.addColumn(data -> data.getDoc().getDokumen().getNamaDokumen()).setHeader("Dokumen");
@@ -216,10 +218,10 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 //				}
 //			});
 
-			if (dataLay != null
-					&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
+			if (dataLay != null && (dataLay.getProgress() == ON_BATCH_2_KANWIL
+					|| dataLay.getProgress() == ON_BATCH_2_KPPBC || dataLay.getProgress() == ON_BATCH_3_KANWIL)) {
 				picBox.setVisible(false);
-			}else if(checkPemeriksa(dataLogin)) {
+			} else if (checkPemeriksa(dataLogin)) {
 				picBox.setVisible(false);
 			}
 
@@ -235,8 +237,9 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 				@Override
 				public void onComponentEvent(ClickEvent<Button> event) {
 					Account acc = picBox.getValue();
-					if (dataLay != null && (dataLay.getProgress() == ON_BATCH_2_KANWIL
-							|| dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
+					if (dataLay != null
+							&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC
+									|| dataLay.getProgress() == ON_BATCH_3_KANWIL)) {
 						if (checkList() && checkList2()) {
 //							Set<Account> acc = picBox.getValue();
 							// List<Account> accs = new ArrayList<>(acc);
@@ -323,7 +326,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 								notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 								notification.open();
 								page.getHistory().back();
-							}else {
+							} else {
 								if (acc != null) {
 									LoginResponse dataLogin = TamUtils.getLoginResponse();
 									SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -384,27 +387,27 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 
 			picBox.setWidthFull();
 			VerticalLayout vl1 = new VerticalLayout();
-			if (dataLay != null
-					&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
+			if (dataLay != null && (dataLay.getProgress() == ON_BATCH_2_KANWIL
+					|| dataLay.getProgress() == ON_BATCH_2_KPPBC || dataLay.getProgress() == ON_BATCH_3_KANWIL)) {
 				vl1.add(new Label("Hasil penelitian dokumen"), gridDokumen, new Label("Konsep Naskah Dinas"),
-						gridDokumenHasil, picBox, txtCatatan, fl);
+						gridDokumenHasil, picBox, txtCatatan, fl); 
 				if (checkList()) {
 					listJdoks = new ArrayList<DocFilter>();
 					listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
 					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 1);
 					for (DocFilter datJdok : listJdoks) {
 						boolean adaFile = false;
-						if(datJdok.getStatus()==1) {
-							adaFile=true;
-						}else {
-							adaFile=false;
+						if (datJdok.getStatus() == 1) {
+							adaFile = true;
+						} else {
+							adaFile = false;
 						}
 						if (checkP2(dataLogin)) {
-							listCheklistModel2s
-									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
+									new MemoryBuffer(), dataLay, null, adaFile));
 						} else {
-							listCheklistModel2s
-									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
+									new MemoryBuffer(), dataLay, null, adaFile));
 						}
 					}
 					gridDokumenHasil.setItems(listCheklistModel2s);
@@ -418,12 +421,13 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					listJdoks = izinOnlineService.docFilter(dataLogin.getAccount().getRole(), dataLay, 3);
 					for (DocFilter datJdok : listJdoks) {
 						boolean adaFile = false;
-						if(datJdok.getStatus()==1) {
-							adaFile=true;
-						}else {
-							adaFile=false;
+						if (datJdok.getStatus() == 1) {
+							adaFile = true;
+						} else {
+							adaFile = false;
 						}
-						listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+						listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
+								new MemoryBuffer(), dataLay, null, adaFile));
 					}
 					gridDokumenHasil.setItems(listCheklistModel2s);
 					btnLanjut.setText("Tolak");
@@ -510,8 +514,8 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					data.setCheck(false);
 				}
 				Layanan dataLay = data.getDatalay();
-				if (dataLay != null
-						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
+				if (dataLay != null && (dataLay.getProgress() == ON_BATCH_2_KANWIL
+						|| dataLay.getProgress() == ON_BATCH_2_KPPBC || dataLay.getProgress() == ON_BATCH_3_KANWIL)) {
 					if (checkList()) {
 						listJdoks = new ArrayList<DocFilter>();
 						listCheklistModel2s = new ArrayList<InboxBcDetailPage.CheklistModel2>();
@@ -519,13 +523,13 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 						System.out.println("Sizexx : " + listJdoks.size());
 						for (DocFilter datJdok : listJdoks) {
 							boolean adaFile = false;
-							if(datJdok.getStatus()==1) {
-								adaFile=true;
-							}else {
-								adaFile=false;
+							if (datJdok.getStatus() == 1) {
+								adaFile = true;
+							} else {
+								adaFile = false;
 							}
-							listCheklistModel2s
-									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
+									new MemoryBuffer(), dataLay, null, adaFile));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
 //						btnLanjut.setText("Proses Lanjut");
@@ -539,13 +543,13 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 						System.out.println("Sizexx : " + listJdoks.size());
 						for (DocFilter datJdok : listJdoks) {
 							boolean adaFile = false;
-							if(datJdok.getStatus()==1) {
-								adaFile=true;
-							}else {
-								adaFile=false;
+							if (datJdok.getStatus() == 1) {
+								adaFile = true;
+							} else {
+								adaFile = false;
 							}
-							listCheklistModel2s
-									.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
+									new MemoryBuffer(), dataLay, null, adaFile));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
 						btnLanjut.setText("Tolak");
@@ -559,13 +563,13 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 							System.out.println("Sizexx : " + listJdoks.size());
 							for (DocFilter datJdok : listJdoks) {
 								boolean adaFile = false;
-								if(datJdok.getStatus()==1) {
-									adaFile=true;
-								}else {
-									adaFile=false;
+								if (datJdok.getStatus() == 1) {
+									adaFile = true;
+								} else {
+									adaFile = false;
 								}
-								listCheklistModel2s
-										.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(), dataLay, null));
+								listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
+										new MemoryBuffer(), dataLay, null, adaFile));
 							}
 							gridDokumenHasil.setItems(listCheklistModel2s);
 						}
@@ -606,8 +610,8 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					data.setCheck(false);
 				}
 				Layanan dataLay = data.getDatalay();
-				if (dataLay != null
-						&& (dataLay.getProgress() == ON_BATCH_2_KANWIL || dataLay.getProgress() == ON_BATCH_2_KPPBC)) {
+				if (dataLay != null && (dataLay.getProgress() == ON_BATCH_2_KANWIL
+						|| dataLay.getProgress() == ON_BATCH_2_KPPBC || dataLay.getProgress() == ON_BATCH_3_KANWIL)) {
 
 					if (checkList() && checkList2()) {
 						btnLanjut.setText("Proses Lanjut");
@@ -646,6 +650,11 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 	private HorizontalLayout gridActions(CheklistModel2 data) {
 		HorizontalLayout hl = new HorizontalLayout();
 		Button btnEdit = new Button("edit");
+//		if (data.isDocada()) {
+//			btnEdit.setText("uploaded");
+//		}else {
+//			btnEdit.setText("edit");
+//		}
 		btnEdit.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 
 			@Override
@@ -728,12 +737,12 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 				System.out.println("Upload success");
 				UploadTemplateResponse html = izinOnlineService.uploadTemplate(data.getMembuffer(), data.getDatalay(),
 						data.getjDokumen());
-				//System.out.println("Ht : " + html);
+				// System.out.println("Ht : " + html);
 				wysiwygE.setValue(html.getHtml());
-				if(html.getStatus()==1) {
-					data.setCheck(true);	
-				}else {
-					data.setCheck(false);	
+				if (html.getStatus() == 1) {
+					data.setCheck(true);
+				} else {
+					data.setCheck(false);
 				}
 			}
 		});
@@ -842,15 +851,17 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		private MemoryBuffer membuffer;
 		private Layanan datalay;
 		private String templateHtml;
+		private boolean docada;
 
 		public CheklistModel2(boolean check, JDokumen jDokumen, MemoryBuffer membuffer, Layanan datalay,
-				String templateHtml) {
+				String templateHtml, boolean docada) {
 			super();
 			this.check = check;
 			this.jDokumen = jDokumen;
 			this.membuffer = membuffer;
 			this.datalay = datalay;
 			this.templateHtml = templateHtml;
+			this.docada = docada;
 		}
 
 		public boolean isCheck() {
@@ -891,6 +902,14 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 
 		public void setTemplateHtml(String templateHtml) {
 			this.templateHtml = templateHtml;
+		}
+
+		public boolean isDocada() {
+			return docada;
+		}
+
+		public void setDocada(boolean docada) {
+			this.docada = docada;
 		}
 
 	}
