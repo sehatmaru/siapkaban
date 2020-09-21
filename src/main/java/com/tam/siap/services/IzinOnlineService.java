@@ -977,15 +977,27 @@ public class IzinOnlineService {
                         ));
                     }
                 } else if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
-                    layanan.setKepBidangFasilitasKanwil(
-                            fetchStringWithColon(
-                                    statusLayanan.getAccountId(),
-                                    statusLayanan.getTanggal(),
-                                    String.valueOf(HOLD),
-                                    statusLayanan.getStatus(),
-                                    statusLayanan.getCatatan()
-                            )
-                    );
+                    if (isTPBOrKITEPerizinanBaru(layanan)) {
+                        layanan.setKepBidangFasilitasKanwil(
+                                fetchStringWithColon(
+                                        statusLayanan.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        String.valueOf(HOLD),
+                                        statusLayanan.getStatus(),
+                                        statusLayanan.getCatatan()
+                                )
+                        );
+                    } else {
+                        layanan.setKepBidangFasilitasKanwil(
+                                fetchStringWithColon(
+                                        statusLayanan.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        String.valueOf(DONE),
+                                        statusLayanan.getStatus(),
+                                        statusLayanan.getCatatan()
+                                )
+                        );
+                    }
                 } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
                     layanan.setKepBidangFasilitasKanwil(
                             fetchStringWithColon(
@@ -1047,15 +1059,27 @@ public class IzinOnlineService {
                         ));
                     }
                 } else if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
-                    layanan.setKepSeksiPfKanwil(
-                            fetchStringWithColon(
-                                    statusLayanan.getAccountId(),
-                                    statusLayanan.getTanggal(),
-                                    String.valueOf(HOLD),
-                                    statusLayanan.getStatus(),
-                                    statusLayanan.getCatatan()
-                            )
-                    );
+                    if (isTPBOrKITEPerizinanBaru(layanan)) {
+                        layanan.setKepSeksiPfKanwil(
+                                fetchStringWithColon(
+                                        statusLayanan.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        String.valueOf(HOLD),
+                                        statusLayanan.getStatus(),
+                                        statusLayanan.getCatatan()
+                                )
+                        );
+                    } else {
+                        layanan.setKepSeksiPfKanwil(
+                                fetchStringWithColon(
+                                        statusLayanan.getAccountId(),
+                                        statusLayanan.getTanggal(),
+                                        String.valueOf(DONE),
+                                        statusLayanan.getStatus(),
+                                        statusLayanan.getCatatan()
+                                )
+                        );
+                    }
                 } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
                     layanan.setKepSeksiPfKanwil(
                             fetchStringWithColon(
@@ -1327,7 +1351,10 @@ public class IzinOnlineService {
                 if (layanan.getProgress() == ON_BATCH_1_KANWIL
                     || layanan.getProgress() == ON_BATCH_2_KANWIL) {
                     if (doc.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
-                            || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
+                            || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI
+                            || doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2
+                            || doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL
+                            || doc.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
                 }
             } else result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
         }
@@ -1338,10 +1365,18 @@ public class IzinOnlineService {
     public List<PemohonLayananResponse> viewStatusLayanan(Account account) {
         List<PemohonLayananResponse> result = new ArrayList<>();
 
-        List<Layanan> pemohon = layananService.findLayananByPemohon(account);
+        if (account.getRole().getId() == PEMOHON) {
+            List<Layanan> layanans = layananService.findLayananByPemohon(account);
 
-        for (Layanan data : pemohon) {
-            result.add(setDataLayananToResponse(data));
+            for (Layanan data : layanans) {
+                result.add(setDataLayananToResponse(data));
+            }
+        } else if (account.getRole().getId() == ADMIN) {
+            List<Layanan> layanans = layananService.getAllLayanan();
+
+            for (Layanan data : layanans) {
+                result.add(setDataLayananToResponse(data));
+            }
         }
 
         return result;
