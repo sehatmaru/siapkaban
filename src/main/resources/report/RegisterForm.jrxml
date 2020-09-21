@@ -521,9 +521,9 @@
 					<text><![CDATA[Mengetahui, **)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="40" y="560" width="122" height="20" uuid="30eda0ae-9d77-4409-90e2-6158ff8036c0"/>
+					<reportElement x="40" y="560" width="122" height="20" isPrintInFirstWholeBand="true" forecolor="#D6D6D6" uuid="30eda0ae-9d77-4409-90e2-6158ff8036c0"/>
 					<textElement verticalAlignment="Middle">
-						<font size="8"/>
+						<font size="6"/>
 					</textElement>
 					<text><![CDATA[Tanda tangan dan cap basah]]></text>
 				</staticText>
@@ -605,7 +605,7 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement>
-						<font size="10"/>
+						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{perusahaanalamat}]]></textFieldExpression>
 				</textField>
@@ -752,9 +752,9 @@ Tangerang, Banten
 ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="311" y="560" width="122" height="20" uuid="70a6c17a-7010-4498-a398-21c9d65fe03f"/>
+					<reportElement x="311" y="560" width="122" height="20" forecolor="#D6D6D6" uuid="70a6c17a-7010-4498-a398-21c9d65fe03f"/>
 					<textElement verticalAlignment="Middle">
-						<font size="8"/>
+						<font size="6"/>
 					</textElement>
 					<text><![CDATA[TTD di atas materai 6000]]></text>
 				</staticText>
@@ -853,7 +853,7 @@ Tangerang, Banten
 					<text><![CDATA[]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="340" y="391" width="10" height="10" uuid="8826f331-f996-4b64-94c8-fb1e7f68f224"/>
+					<reportElement x="340" y="390" width="10" height="10" uuid="8826f331-f996-4b64-94c8-fb1e7f68f224"/>
 					<box>
 						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
