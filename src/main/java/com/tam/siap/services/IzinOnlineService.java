@@ -859,6 +859,8 @@ public class IzinOnlineService {
                                             statusLayanan.getCatatan()
                                     )
                             );
+
+                            result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
                         }
                     } else {
                         layanan.setProgress(COMPLETE);
@@ -877,7 +879,7 @@ public class IzinOnlineService {
                         result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
                     }
                 } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
-                    layanan.setStatus(ACCEPTED);
+                    layanan.setStatus(Integer.parseInt(statusLayanan.getStatus()));
                     layanan.setProgress(COMPLETE);
 
                     layanan.setKepKantorKanwil(
@@ -889,6 +891,8 @@ public class IzinOnlineService {
                                     statusLayanan.getCatatan()
                             )
                     );
+
+                    result = sendEmail(layanan, statusLayanan, Integer.parseInt(statusLayanan.getStatus()), EMAIL_PENERIMAAN);
                 }
 
                 break;
@@ -1311,7 +1315,8 @@ public class IzinOnlineService {
             if (doc.getJenisDokumen().getSubLayanan() != null
                 && doc.getJenisDokumen().getSubLayanan().getId() == 44) {
                 if (layanan.getProgress() == ON_BATCH_1_KANWIL
-                    || layanan.getProgress() == ON_BATCH_2_KANWIL) {
+                        || layanan.getProgress() == ON_BATCH_2_KANWIL
+                        || layanan.getProgress() == ON_BATCH_3_KANWIL) {
                     if (doc.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
                             || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI
                             || doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2
@@ -2642,7 +2647,8 @@ public class IzinOnlineService {
         if (type == EMAIL_PENERIMAAN) {
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
-                    if (data.getJenisDokumen().getId() == SURAT_REKOMENDASI) dokumen.add(data);
+                    if (data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
+                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC) dokumen.add(data);
                 }
             }
 
