@@ -779,7 +779,7 @@ public class IzinOnlineService {
                     if (statusLayanan.getStatus().equals(String.valueOf(ACCEPTED))) {
                         layanan.setProgress(ON_BATCH_1_KANWIL);
 
-                        result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
+                        result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN_KPPBC);
                     } else {
                         layanan.setProgress(COMPLETE);
                         layanan.setStatus(REJECTED);
@@ -860,7 +860,7 @@ public class IzinOnlineService {
                                     )
                             );
 
-                            result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN);
+                            result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN_KANWIL);
                         }
                     } else {
                         layanan.setProgress(COMPLETE);
@@ -876,7 +876,7 @@ public class IzinOnlineService {
                                 )
                         );
 
-                        result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
+                        result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENERIMAAN_KANWIL);
                     }
                 } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
                     layanan.setStatus(Integer.parseInt(statusLayanan.getStatus()));
@@ -892,7 +892,7 @@ public class IzinOnlineService {
                             )
                     );
 
-                    result = sendEmail(layanan, statusLayanan, Integer.parseInt(statusLayanan.getStatus()), EMAIL_PENERIMAAN);
+                    result = sendEmail(layanan, statusLayanan, Integer.parseInt(statusLayanan.getStatus()), EMAIL_PENERIMAAN_KANWIL);
                 }
 
                 break;
@@ -1307,7 +1307,7 @@ public class IzinOnlineService {
         return result;
     }
 
-    public List<ViewDokumenResponse> viewDocs(Layanan layanan) {
+    public List<ViewDokumenResponse> viewDocs(Layanan layanan, Account account) {
         List<ViewDokumenResponse> result = new ArrayList<>();
         List<Dokumen> docs = dokumenService.findByLayanan(layanan);
 
@@ -1317,11 +1317,26 @@ public class IzinOnlineService {
                 if (layanan.getProgress() == ON_BATCH_1_KANWIL
                         || layanan.getProgress() == ON_BATCH_2_KANWIL
                         || layanan.getProgress() == ON_BATCH_3_KANWIL) {
-                    if (doc.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
-                            || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI
-                            || doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2
-                            || doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL
-                            || doc.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
+                    if (account.getRole().getId() == KEPALA_KANTOR
+                            || account.getRole().getId() == KEPALA_SEKSI_PKC
+                            || account.getRole().getId() == KEPALA_SUB_SEKSI_PKC
+                            || account.getRole().getId() == PEMERIKSA_PKC) {
+                        if (doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL
+                                || doc.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
+                    } else if (account.getRole().getId() == KANWIL_KEPALA_KANTOR
+                            || account.getRole().getId() == KANWIL_KEPALA_BIDANG_FASILITAS
+                            || account.getRole().getId() == KANWIL_KEPALA_SEKSI_PF
+                            || account.getRole().getId() == KANWIL_PEMERIKSA_DOKUMEN) {
+                        if (doc.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
+                                || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI
+                                || doc.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
+                    } else if (account.getRole().getId() == KANWIL_PENERIMA_DOKUMEN
+                            || account.getRole().getId() == KANWIL_PEMERIKSA_P2
+                            || account.getRole().getId() == KANWIL_KEPALA_BIDANG_P2
+                            || account.getRole().getId() == KANWIL_KEPALA_SEKSI_INTELIJEN) {
+                        if (doc.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
+                                || doc.getJenisDokumen().getId() == SURAT_REKOMENDASI) result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
+                    }
                 }
             } else result.add(new ViewDokumenResponse(doc, new File(doc.getPath())));
         }
@@ -2644,11 +2659,20 @@ public class IzinOnlineService {
         List<Dokumen> dokumen = new ArrayList<>();
         List<Dokumen> docs = dokumenService.findByLayanan(layanan);
 
-        if (type == EMAIL_PENERIMAAN) {
+        if (type == EMAIL_PENERIMAAN_KPPBC) {
+            for (Dokumen data : docs) {
+                if (data.getJenisDokumen().getRole() != null) {
+                    if (data.getJenisDokumen().getId() == SURAT_REKOMENDASI) dokumen.add(data);
+                }
+            }
+
+            if (!emailService.sendMail(request, dokumen)) result = FAILED;
+        } else if (type == EMAIL_PENERIMAAN_KANWIL) {
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
                     if (data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC) dokumen.add(data);
+                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
+                            || data.getJenisDokumen().getId() == SURAT_REKOMENDASI) dokumen.add(data);
                 }
             }
 
