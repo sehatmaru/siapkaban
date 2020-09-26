@@ -162,7 +162,7 @@ public class IzinOnlineService {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                     result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, null,2));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
             }
 
             return result;
@@ -174,7 +174,7 @@ public class IzinOnlineService {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                     result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, null,2));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
             }
 
             return result;
@@ -186,7 +186,7 @@ public class IzinOnlineService {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                     result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, null,2));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
             }
 
             return result;
@@ -198,7 +198,7 @@ public class IzinOnlineService {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                     result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, null,2));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
             }
 
             return result;
@@ -216,7 +216,7 @@ public class IzinOnlineService {
                         if (dokumenService.isDocumentExist(data, layanan)) {
                             Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                             result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                        } else result.add(new DocFilter(data, null,2));
+                        } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
                     }
                 } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)
                         || isTPBOrKITEPerubahanNonLokasi(layanan)) {
@@ -227,7 +227,7 @@ public class IzinOnlineService {
                         if (dokumenService.isDocumentExist(data, layanan)) {
                             Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                             result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                        } else result.add(new DocFilter(data, null,2));
+                        } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
                     }
                 }
             }
@@ -241,7 +241,7 @@ public class IzinOnlineService {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
                     result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, null,2));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
             }
 
             return result;
