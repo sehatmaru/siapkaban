@@ -14,5 +14,6 @@ public @interface Status{
 
     int SUCCESS = 0;
     int FAILED = 1;
+    int DOC_NOT_FOUND = 2;
 }
 

@@ -3,7 +3,10 @@ package com.tam.siap.services;
 import com.tam.siap.models.JDokumen;
 import com.tam.siap.models.Layanan;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.docx4j.Docx4J;
 import org.docx4j.Docx4jProperties;
 import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
@@ -237,31 +240,15 @@ public class EditorService {
         return document.html();
     }
 
-//    public void docToHTML() throws IOException, TikaException, SAXException, TransformerConfigurationException {
-//        InputStream input = TikaInputStream.get(new File("D:\\siapKabanDev\\src\\main\\resources\\report\\NOTA DINAS.doc"));
-//
-//
-//        //Parser parser = new AutoDetectParser();
-//        //Parser parser = new AutoDetectParser();
-//        AutoDetectParser parser = new AutoDetectParser();
-//
-//        StringWriter sw = new StringWriter();
-//        SAXTransformerFactory factory = (SAXTransformerFactory)
-//                SAXTransformerFactory.newInstance();
-//        TransformerHandler handler = factory.newTransformerHandler();
-//        handler.getTransformer().setOutputProperty(OutputKeys.METHOD, "html");
-//        handler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
-//        handler.setResult(new StreamResult(sw));
-//
-//
-//        try {
-//            Metadata metadata = new Metadata();
-//            parser.parse(input, handler, metadata, new ParseContext());
-//            String xml = sw.toString();
-//            System.out.print("tika : "+xml);
-//            OutputStream os = new java.io.FileOutputStream("D:\\siapKabanDev\\src\\main\\resources\\report\\NotaDinas.html");
-//        } finally {
-//            input.close();
-//        }
-//    }
+    public void docxToPdf(String path) {
+        try {
+            InputStream doc = new FileInputStream(new File(path));
+            XWPFDocument document = new XWPFDocument(doc);
+            PdfOptions options = PdfOptions.create();
+            OutputStream out = new FileOutputStream(new File(path.replace("docx", "pdf")));
+            PdfConverter.getInstance().convert(document, out, options);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }
