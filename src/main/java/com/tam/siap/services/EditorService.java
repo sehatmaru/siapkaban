@@ -254,7 +254,7 @@ public class EditorService {
 
         uploadService.saveFile(memoryBuffer, path, fileDocx);
 
-        return path;
+        return fileDocx;
     }
 
     public String getTemplate(Layanan layanan, JDokumen dokumen) {

@@ -180,10 +180,10 @@ public class TestController {
 //		docToHTML();
 //	}
 
-	@GetMapping("convert/docxToHTML")
-	public void conDocxToHtml(@RequestBody @Validated String filename) {
-		editorService.docxToHTML(filename);
-	}
+//	@GetMapping("convert/docxToHTML")
+//	public void conDocxToHtml(@RequestBody @Validated String filename) {
+//		editorService.docxToHTML(filename);
+//	}
 
 	@GetMapping("image/get")
 	public Image getImage() {
