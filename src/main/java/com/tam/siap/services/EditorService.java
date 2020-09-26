@@ -262,9 +262,9 @@ public class EditorService {
         String path;
 
         if (layanan.getProgress() == ON_BATCH_2_KPPBC) {
-            if (layanan.getLokasi() == TANGERANG) path = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".docx";
-            else path = reportPath + "\\template\\merak\\" + dokumen.getId() + ".docx";
-        } else path = reportPath + "\\template\\kanwil\\" + dokumen.getId() + ".docx";
+            if (layanan.getLokasi() == TANGERANG) path = reportPath + "\\template\\tangerang\\" + dokumen.getId() + ".pdf";
+            else path = reportPath + "\\template\\merak\\" + dokumen.getId() + ".pdf";
+        } else path = reportPath + "\\template\\kanwil\\" + dokumen.getId() + ".pdf";
 
         return path;
     }
