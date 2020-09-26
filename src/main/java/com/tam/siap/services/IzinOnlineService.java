@@ -208,15 +208,23 @@ public class IzinOnlineService {
 
             for(JDokumen data : jenisDocs) {
                 if (isTPBOrKITEPerizinanBaru(layanan)) {
-                    if (data.getId() == UNDANGAN_PEMAPARAN
-                            || data.getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
-                            || data.getId() == BA_PEMAPARAN
-                            || data.getId() == SKEP_PEMERIKSA_DOKUMEN
-                            || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) {
-                        if (dokumenService.isDocumentExist(data, layanan)) {
-                            Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                            result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                        } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                    if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
+                        if (data.getId() == UNDANGAN_PEMAPARAN
+                                || data.getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
+                                || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) {
+                            if (dokumenService.isDocumentExist(data, layanan)) {
+                                Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
+                                result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
+                            } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                        }
+                    } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
+                        if (data.getId() == BA_PEMAPARAN
+                                || data.getId() == SKEP_PEMERIKSA_DOKUMEN) {
+                            if (dokumenService.isDocumentExist(data, layanan)) {
+                                Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
+                                result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
+                            } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                        }
                     }
                 } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)
                         || isTPBOrKITEPerubahanNonLokasi(layanan)) {
