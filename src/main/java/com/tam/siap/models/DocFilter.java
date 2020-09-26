@@ -1,15 +1,25 @@
 package com.tam.siap.models;
 
-import com.tam.siap.models.JDokumen;
+import java.io.File;
 
 public class DocFilter {
 
     private JDokumen jenisDokumen;
+    private File file;
     private int status;
 
-    public DocFilter(JDokumen jenisDokumen, int status) {
+    public DocFilter(JDokumen jenisDokumen, File file, int status) {
         this.jenisDokumen = jenisDokumen;
+        this.file = file;
         this.status = status;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     public JDokumen getJenisDokumen() {

@@ -1,13 +1,15 @@
 package com.tam.siap.models.responses;
 
+import java.io.File;
+
 public class UploadTemplateResponse {
 
     private int status;
-    private String html;
+    private File file;
 
-    public UploadTemplateResponse(int status, String html) {
+    public UploadTemplateResponse(int status, File file) {
         this.status = status;
-        this.html = html;
+        this.file = file;
     }
 
     public int getStatus() {
@@ -18,11 +20,11 @@ public class UploadTemplateResponse {
         this.status = status;
     }
 
-    public String getHtml() {
-        return html;
+    public File getFile() {
+        return file;
     }
 
-    public void setHtml(String html) {
-        this.html = html;
+    public void setFile(File file) {
+        this.file = file;
     }
 }
