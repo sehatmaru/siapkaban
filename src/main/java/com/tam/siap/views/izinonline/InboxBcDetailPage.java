@@ -202,6 +202,17 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			}
 			gridDokumen.setItems(listChecks);
 			gridDokumenHasil.setItems(listCheklistModel2s);
+			
+			if (checkList() && checkList2()) {
+				btnLanjut.setText("Proses Lanjut");
+				btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+				btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+				btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+			} else {
+				btnLanjut.setText("Tolak");
+				btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+				btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+			}
 
 			gridDokumen.addSelectionListener(
 					new SelectionListener<Grid<CheklistModel>, InboxBcDetailPage.CheklistModel>() {
@@ -578,6 +589,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		} else {
 			ch.setValue(false);
 		}
+		
 		ch.addClickListener(new ComponentEventListener<ClickEvent<Checkbox>>() {
 
 			@Override
@@ -607,6 +619,17 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 									new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
+						if (checkList() && checkList2()) {
+							btnLanjut.setText("Proses Lanjut");
+							btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+						} else {
+							System.out.println("masuk");
+							btnLanjut.setText("Tolak");
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+						}
 //						btnLanjut.setText("Proses Lanjut");
 //						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
 //						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -648,10 +671,17 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 							}
 							gridDokumenHasil.setItems(listCheklistModel2s);
 						}
-						btnLanjut.setText("Proses Lanjut");
-						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
-						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+						if (checkList() && checkList2()) {
+							btnLanjut.setText("Proses Lanjut");
+							btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+						} else {
+							System.out.println("masuk");
+							btnLanjut.setText("Tolak");
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+							btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+						}
 					} else {
 						if (checkP2(dataLogin)) {
 							btnLanjut.setText("Proses Lanjut");
@@ -895,6 +925,16 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					pdfdoc.setWidthFull();
 					pdfdoc.setHeight("600px");
 					vl2.add(pdfdoc);
+					if (checkList() && checkList2()) {
+						btnLanjut.setText("Proses Lanjut");
+						btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+					} else {
+						btnLanjut.setText("Tolak");
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
+					}
 				} else {
 					data.setCheck(false);
 				}
