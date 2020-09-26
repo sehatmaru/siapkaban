@@ -23,6 +23,8 @@ import com.tam.siap.models.JLayanan;
 import com.tam.siap.models.JPengelola;
 import com.tam.siap.models.JPenimbunan;
 import com.tam.siap.models.JPerusahaan;
+import com.tam.siap.models.Kabupaten;
+import com.tam.siap.models.Kecamatan;
 import com.tam.siap.models.Layanan;
 import com.tam.siap.models.SJLayanan;
 import com.tam.siap.models.responses.DokumenListResponse;
@@ -35,6 +37,8 @@ import com.tam.siap.services.master.JenisLayananService;
 import com.tam.siap.services.master.JenisPengelolaService;
 import com.tam.siap.services.master.JenisPenimbunanService;
 import com.tam.siap.services.master.JenisPerusahaanService;
+import com.tam.siap.services.master.KabupatenService;
+import com.tam.siap.services.master.KecamatanService;
 import com.tam.siap.services.master.SubJenisLayananService;
 import com.tam.siap.utils.TamUtils;
 import com.tam.siap.views.HomeMainPage;
@@ -61,12 +65,15 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.dom.DomEvent;
 import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
+
+import elemental.json.Json;
 
 @Route(value = "izinonline", layout = HomePageIzinOnline2.class)
 public class IzinOnline extends VerticalLayout {
@@ -106,28 +113,50 @@ public class IzinOnline extends VerticalLayout {
 	@Autowired
 	IzinOnlineService izinOnlineService;
 
+	@Autowired
+	KabupatenService kabupatenService;
+
+	@Autowired
+	KecamatanService kecamatanService;
+
 	private DokumenListResponse doklist = new DokumenListResponse();
 
 	// identitas perusahaan
-	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
-	private TextField txtfnamapt = new TextField("Nama Perusahaan");
-	private TextArea txtalamatpt = new TextArea("Alamat Perusahaan lengkap");
+//	private TextField txtfnpwp = new TextField("NPWP Perusahaan / Pemohon (Wajib)");
+//	private TextField txtfnamapt = new TextField("Nama Perusahaan");
+//	private TextArea txtalamatpt = new TextArea("Alamat Perusahaan lengkap");
+
+	private TextField txtfnpwp = new TextField();
+	private TextField txtfnamapt = new TextField();
+	private TextArea txtalamatpt = new TextArea();
 
 	// B. Identitas PIC
-	private TextField picname = new TextField("Nama PIC");
-	private TextField txtjabtan = new TextField("Jabatan");
-	private EmailField txtemail = new EmailField("Email");
-	private TextField txtnohp = new TextField("No Handphone");
+//	private TextField picname = new TextField("Nama PIC");
+//	private TextField txtjabtan = new TextField("Jabatan");
+//	private EmailField txtemail = new EmailField("Email");
+//	private TextField txtnohp = new TextField("No Handphone");
+	private TextField picname = new TextField();
+	private TextField txtjabtan = new TextField();
+	private EmailField txtemail = new EmailField();
+	private TextField txtnohp = new TextField();
 	private VerticalLayout lay = new VerticalLayout();
 	private VerticalLayout layDok = new VerticalLayout();
 
+	private List<Kabupaten> listKabupatens = new ArrayList<>();
+	private List<Kecamatan> listKecamatans = new ArrayList<>();
+
 	private ComboBox<JPerusahaan> combojnsperusahaan = new ComboBox<JPerusahaan>("Jenis Perusahaan");
-	private ComboBox<JPerusahaan> combojnsperusahaan2 = new ComboBox<JPerusahaan>("Jenis Perusahaan");
+	// private ComboBox<JPerusahaan> combojnsperusahaan2 = new
+	// ComboBox<JPerusahaan>("Jenis Perusahaan");
+	private ComboBox<JPerusahaan> combojnsperusahaan2 = new ComboBox<JPerusahaan>();
 	private ComboBox<JFasilitas> combojnsfasilitas = new ComboBox<JFasilitas>("Jenis Fasilitas");// KITE
 	private ComboBox<JPengelola> combojnspengelola = new ComboBox<JPengelola>("Jenis Pengelola");// KP
 	private ComboBox<JPenimbunan> combotmppenimbunan = new ComboBox<JPenimbunan>("Tempat Penimbunan");// TPS
 	private ComboBox<JLayanan> combojnslayanan = new ComboBox<JLayanan>("Jenis Layanan");
 	private ComboBox<SJLayanan> combosubjenislayanan = new ComboBox<SJLayanan>("Sub Jenis Layanan");
+
+	private ComboBox<Kabupaten> comboKabupaten = new ComboBox<>();
+	private ComboBox<Kecamatan> comboKecamatan = new ComboBox<>();
 
 //	private VerticalLayout docandconfirmation = new VerticalLayout();
 	private VerticalLayout layconfirmation = new VerticalLayout();
@@ -147,7 +176,7 @@ public class IzinOnline extends VerticalLayout {
 
 	private Button submit = new Button();
 
-	private Checkbox checbok = new Checkbox("Menyetujui");
+	private Checkbox checbok = new Checkbox();
 
 //	private List<JPerusahaan> listJPerusahaans = new ArrayList<>();
 //	private List<JLayanan> listJLayanans = new ArrayList<>();
@@ -165,6 +194,20 @@ public class IzinOnline extends VerticalLayout {
 			txtjabtan.setValue(response.getAccount().getPribadi().getJabatan());
 			txtnohp.setValue(response.getAccount().getPribadi().getTelepon());
 			picname.setValue(response.getAccount().getPribadi().getNama());
+
+			listKabupatens = kabupatenService.findAll();
+			listKecamatans = kecamatanService.findAll();
+
+			comboKabupaten.setItemLabelGenerator(Kabupaten::getKeterangan);
+			comboKecamatan.setItemLabelGenerator(Kecamatan::getKeterangan);
+			comboKabupaten.setWidthFull();
+			comboKecamatan.setWidthFull();
+
+			comboKecamatan.setItems(listKecamatans);
+			comboKabupaten.setItems(listKabupatens);
+
+			comboKabupaten.setValue(response.getAccount().getPerusahaan().getKabupaten());
+			comboKecamatan.setValue(response.getAccount().getPerusahaan().getKecamatan());
 
 			Account account = accountService.findByUsername(response.getAccount().getUsername());
 			// listJPerusahaans = jenisPerusahaanService.findAllJenisPerusahaan();
@@ -367,19 +410,22 @@ public class IzinOnline extends VerticalLayout {
 				}
 			});
 
-			TextArea txtdisclimer = new TextArea("Disclaimer");
-			txtdisclimer.setValue(
-					"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan.");
-			txtdisclimer.setReadOnly(true);
-			txtdisclimer.setWidthFull();
+//			TextArea txtdisclimer = new TextArea();
+//			txtdisclimer.setValue(
+//					"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan.");
+//			txtdisclimer.setReadOnly(true);
+//			txtdisclimer.setWidthFull();
+			layconfirmation.add(new Label("Disclaimer"));
+			HorizontalLayout hl = new HorizontalLayout();
+			hl.add(TamUtils.setInlinetext5(checbok,
+					"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan."),
+					submit);
+			layconfirmation.add(hl);
+			layconfirmation.getElement().setAttribute("style",
+					"border: 1px groove #283B65 !important;border-radius: 7px;margin-top: 10px;");
 
-			layconfirmation.add(txtdisclimer);
-
-			layconfirmation.add(checbok);
-
-			submit.setWidthFull();
 			submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-			layconfirmation.add(submit);
+			// layconfirmation.add(submit);
 		}
 	}
 
@@ -415,7 +461,9 @@ public class IzinOnline extends VerticalLayout {
 		setSizeFull();
 		layconfirmation.setWidthFull();
 
-		HorizontalLayout hll = new HorizontalLayout(identitasPerusahaan(), identitasPIC());
+		// HorizontalLayout hll = new HorizontalLayout(identitasPerusahaan(),
+		// identitasPIC());
+		HorizontalLayout hll = new HorizontalLayout(idenTitasDanPic());
 		TamSetField setField = new TamSetField("Identitas Perusahaan");
 		setField.addTamCom(hll);
 
@@ -426,9 +474,14 @@ public class IzinOnline extends VerticalLayout {
 		vl1.setSpacing(true);
 		vl1.setWidthFull();
 		VerticalLayout vl2 = new VerticalLayout(vl1, layconfirmation);
-		HorizontalLayout f1 = new HorizontalLayout(vl2, inputChekclist());
-		f1.setWidthFull();
-		add(f1);
+		vl2.setSpacing(false);
+		vl2.setPadding(false);
+		HorizontalLayout hl = new HorizontalLayout(vl2, inputChekclist());
+		hl.setWidthFull();
+		VerticalLayout vll = new VerticalLayout(hl);
+		vll.setSpacing(false);
+		add(vll);
+		getElement().setAttribute("style", "border: 1px groove #283B65 !important;border-radius: 7px;width:100%;");
 	}
 
 	private boolean checkingDokumen() {
@@ -502,8 +555,19 @@ public class IzinOnline extends VerticalLayout {
 					public void handleEvent(DomEvent event) {
 						membuffDokPemohon[pos] = new MemoryBuffer();
 						up.setReceiver(membuffDokPemohon[pos]);
+						btn.setText("upload");
 					}
 				});
+				up.addSucceededListener(new ComponentEventListener<SucceededEvent>() {
+
+					@Override
+					public void onComponentEvent(SucceededEvent event) {
+						// TODO Auto-generated method stub
+						btn.setText("uploaded");
+						up.getElement().setPropertyJson("files", Json.createArray());
+					}
+				});
+
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext2(up, (1 + i) + ". " + dokpemohon.getKeterangan()));
 				strDokPemohon[i] = dokpemohon.getKeterangan();
@@ -530,6 +594,15 @@ public class IzinOnline extends VerticalLayout {
 					public void handleEvent(DomEvent event) {
 						membuffDokSyarat[pos] = new MemoryBuffer();
 						up.setReceiver(membuffDokSyarat[pos]);
+					}
+				});
+				up.addSucceededListener(new ComponentEventListener<SucceededEvent>() {
+
+					@Override
+					public void onComponentEvent(SucceededEvent event) {
+						// TODO Auto-generated method stub
+						btn.setText("uploaded");
+						up.getElement().setPropertyJson("files", Json.createArray());
 					}
 				});
 				up.setAcceptedFileTypes("application/pdf");
@@ -561,6 +634,15 @@ public class IzinOnline extends VerticalLayout {
 						up.setReceiver(membuffDokLainnya[pos]);
 					}
 				});
+				up.addSucceededListener(new ComponentEventListener<SucceededEvent>() {
+
+					@Override
+					public void onComponentEvent(SucceededEvent event) {
+						// TODO Auto-generated method stub
+						btn.setText("uploaded");
+						up.getElement().setPropertyJson("files", Json.createArray());
+					}
+				});
 				up.setAcceptedFileTypes("application/pdf");
 				layDok.add(TamUtils.setInlinetext2(up,
 						(doklist.getPersyaratan().size() + 2 + i) + ". " + dokpemohon.getKeterangan()));
@@ -571,6 +653,7 @@ public class IzinOnline extends VerticalLayout {
 		layDok.setWidthFull();
 		layDok.getStyle().set("overflow-y", "auto");
 		layDok.setSpacing(false);
+		layDok.setPadding(false);
 		return layDok;
 	}
 
@@ -586,6 +669,46 @@ public class IzinOnline extends VerticalLayout {
 		combojnsperusahaan2.setReadOnly(true);
 		txtalamatpt.setReadOnly(true);
 		lay.add(txtfnpwp, txtfnamapt, combojnsperusahaan2, txtalamatpt);
+
+		return lay;
+	}
+
+	private VerticalLayout idenTitasDanPic() {
+		VerticalLayout lay = new VerticalLayout();
+		lay.setWidthFull();
+		lay.setSpacing(false);
+		lay.setPadding(false);
+		txtfnpwp.setWidthFull();
+		txtfnamapt.setWidthFull();
+		txtalamatpt.setWidthFull();
+
+		txtfnpwp.setReadOnly(true);
+		txtfnamapt.setReadOnly(true);
+		combojnsperusahaan2.setReadOnly(true);
+		txtalamatpt.setReadOnly(true);
+
+		comboKabupaten.setReadOnly(true);
+		comboKecamatan.setReadOnly(true);
+
+		picname.setWidthFull();
+		txtjabtan.setWidthFull();
+		txtemail.setWidthFull();
+		txtnohp.setWidthFull();
+
+		picname.setReadOnly(true);
+		txtjabtan.setReadOnly(true);
+		txtemail.setReadOnly(true);
+		txtnohp.setReadOnly(true);
+
+		lay.add(TamUtils.setInlinetext4(txtfnpwp, "NPWP"));
+		lay.add(TamUtils.setInlinetext4(txtfnamapt, "Nama"));
+		lay.add(TamUtils.setInlinetext4(picname, "Penaggung Jawab"));
+		lay.add(TamUtils.setInlinetext4(combojnsperusahaan2, "Jenis Perusahaan"));
+		lay.add(TamUtils.setInlinetext4(txtalamatpt, "Alamat"));
+		lay.add(TamUtils.setInlinetext4(comboKabupaten, "Kab/Kota"));
+		lay.add(TamUtils.setInlinetext4(comboKecamatan, "Kecamatan"));
+		lay.add(TamUtils.setInlinetext4(txtnohp, "No. Telepon"));
+		lay.add(TamUtils.setInlinetext4(txtemail, "Email"));
 
 		return lay;
 	}
@@ -610,7 +733,7 @@ public class IzinOnline extends VerticalLayout {
 	private VerticalLayout inputChekclist() {
 		VerticalLayout lay = new VerticalLayout();
 		// lay.setSizeFull();
-		lay.setHeight("700px");
+		// lay.setHeight("700px");
 		lay.setWidthFull();
 		// lay.getStyle().set("overflow-y", "auto");
 		// lay.getStyle().set("overflow", "auto");
@@ -619,8 +742,10 @@ public class IzinOnline extends VerticalLayout {
 //		card.addComp(docandconfirmation);
 //
 //		lay.add(card);
-
-		lay.add(dokumenUploads(null));
+		TamSetField setFieldDok = new TamSetField("Upload Dokumen");
+		setFieldDok.addTamCom(dokumenUploads(null));
+		lay.add(setFieldDok);
+		lay.setPadding(false);
 
 		return lay;
 	}
@@ -637,7 +762,8 @@ public class IzinOnline extends VerticalLayout {
 		}
 
 		lay.setWidthFull();
-		lay.setSpacing(true);
+		lay.setSpacing(false);
+		lay.setPadding(false);
 		combojnslayanan.setWidthFull();
 		combosubjenislayanan.setWidthFull();
 		combojnsperusahaan.setWidthFull();

@@ -48,14 +48,15 @@ public class StatusBC extends VerticalLayout {
 		// TODO Auto-generated constructor stub
 		LoginResponse logRes = TamUtils.getLoginResponse();
 		if (logRes != null) {
-			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount(),logRes.getAccount().getRole());
+//			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount(),logRes.getAccount().getRole());
+			layRes = izinOnlineService.viewStatusLayanan(logRes.getAccount(),logRes.getAccount().getRole());
 			gridsattus.setItems(layRes);
 		}
 	}
 
 	public StatusBC() {
 		setSizeFull();
-		gridsattus.getElement().setAttribute("style", "font-size: 12px;");
+		gridsattus.getElement().setAttribute("style", "font-size: 12px;text-align: center;padding:0;");
 		gridsattus.addColumn(LayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
 		gridsattus.addColumn(LayananResponse::getTanggalRequest).setHeader(TamUtils.setCustomHerader("Tanggal"))
 				.setWidth("7em");
@@ -82,6 +83,7 @@ public class StatusBC extends VerticalLayout {
 		gridsattus.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 		gridsattus.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
 		gridsattus.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
+		gridsattus.setHeight("600px");
 
 		add(gridsattus);
 	}
@@ -106,28 +108,30 @@ public class StatusBC extends VerticalLayout {
 		VerticalLayout vel = new VerticalLayout();
 		Span span = new Span();
 		if (col == 0) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalPenerima(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getPenerima(), "-") + "</br>" + getNullorWhat(data.getTanggalPenerima(), "-"));
 		} else if (col == 1) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksa(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalPemeriksa(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getPemeriksa(), "-") + "</br>" + getNullorWhat(data.getTanggalPemeriksa(), "-"));
 		} else if (col == 2) {
 			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksi(), "-") + "</br>"
 					+ getNullorWhat(data.getTanggalKepSubSeksi(), "-"));
 		} else if (col == 3) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksi(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalKepSeksi(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepSeksi(), "-") + "</br>" + getNullorWhat(data.getTanggalKepSeksi(), "-"));
 		} else if (col == 4) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidang(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalKepBidang(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepBidang(), "-") + "</br>" + getNullorWhat(data.getTanggalKepBidang(), "-"));
 		} else {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalKepKantor(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepKantor(), "-") + "</br>" + getNullorWhat(data.getTanggalKepKantor(), "-"));
 		}
 
 		vel.add(span);
 		return vel;
 	}
+	
+	
 
 	private String getNullorWhat(String text, String change) {
 		String hasil = text == null ? change : text;

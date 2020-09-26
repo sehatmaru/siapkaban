@@ -1,9 +1,6 @@
 package com.tam.siap.views.izinonline;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +17,6 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -28,11 +24,11 @@ import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "inboxpt", layout = HomePageIzinOnline2.class)
-@HtmlImport("cell.html")
-public class StatusPT extends VerticalLayout {
+@Route(value = "instanadmin", layout = HomePageIzinOnline2.class)
+public class StatusLayAdmin extends VerticalLayout {
 
 	/**
 	 * @author ahmad
@@ -60,13 +56,13 @@ public class StatusPT extends VerticalLayout {
 		}
 	}
 
-	public StatusPT() {
+	public StatusLayAdmin() {
 		setSizeFull();
-		gridsattus.getElement().setAttribute("style", "font-size: 12px;padding:0");
+		gridsattus.getElement().setAttribute("style", "font-size: 12px;text-align: center;padding:0;");
 		gridsattus.addColumn(PemohonLayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor"))
 				.setWidth("5em");
-		gridsattus.addColumn(data -> TamUtils.setFormatDate(data.getTanggalRequest()))
-				.setHeader(TamUtils.setCustomHerader("Tanggal")).setWidth("7em");
+		gridsattus.addColumn(PemohonLayananResponse::getTanggalRequest).setHeader(TamUtils.setCustomHerader("Tanggal"))
+				.setWidth("7em");
 		gridsattus.addColumn(PemohonLayananResponse::getNamaPerusahaan)
 				.setHeader(TamUtils.setCustomHerader("Nama Perusahaan")).setWidth("7em");
 		gridsattus.addColumn(PemohonLayananResponse::getJenisPerusahaan)

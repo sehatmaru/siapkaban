@@ -4,6 +4,9 @@ import com.tam.siap.models.StatusLayanan;
 import com.tam.siap.models.responses.LoginResponse;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep.LabelsPosition;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -24,8 +27,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -79,6 +85,25 @@ public class TamUtils {
 		fl.setWidthFull();
 		return fl;
 	}
+	
+	public static FormLayout setInlinetext4(Component comp, String text) {
+		FormLayout fl = new FormLayout();
+		fl.addFormItem(comp, text);
+		fl.setResponsiveSteps(new ResponsiveStep("40em", 1));
+		fl.setColspan(comp, 1);
+		fl.setWidthFull();
+		return fl;
+	}
+	
+	public static FormLayout setInlinetext3(Component comp, String text) {
+		FormLayout fl = new FormLayout();
+		FormItem fm = fl.addFormItem(comp, text);
+		fl.setResponsiveSteps(new ResponsiveStep("50em", 0, LabelsPosition.ASIDE));
+		fl.setResponsiveSteps(new ResponsiveStep("50em", 1, LabelsPosition.ASIDE));
+//		fm.getElement().getStyle().set("--vaadin-form-item-label-width", "70em");
+		fl.setWidthFull();
+		return fl;
+	}
 
 	public static HorizontalLayout setInlinetext2(Component comp, String text) {
 		HorizontalLayout fl = new HorizontalLayout();
@@ -113,6 +138,20 @@ public class TamUtils {
 		//fl.addFormItem(comp, hl);
 		comp.getElement().setAttribute("style", "margin:0 10px 0 5px");
 		fl.add(lbl,comp);
+		fl.setWidthFull();
+		return fl;
+	}
+	
+	public static HorizontalLayout setInlinetext5(Component comp, String text) {
+		HorizontalLayout fl = new HorizontalLayout();
+		fl.setAlignItems(Alignment.CENTER);
+		fl.setJustifyContentMode(JustifyContentMode.END);
+		fl.setSpacing(false);
+		Label lbl = new Label(text);
+		lbl.setWidthFull();
+		lbl.getElement().setAttribute("style", "width:100%;text-align: justify;text-justify: inter-word;font-size:14px");
+		comp.getElement().setAttribute("style", "margin:0 10px 0 5px");
+		fl.add(comp,lbl);
 		fl.setWidthFull();
 		return fl;
 	}
@@ -246,5 +285,19 @@ public class TamUtils {
 		int number = rnd.nextInt(999999);
 
 		return String.format("%06d", number);
+	}
+	
+	public static String setFormatDate(String date) {
+		String hasil = "";
+		try {
+			Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			hasil = format.format(date1);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return hasil;
 	}
 }

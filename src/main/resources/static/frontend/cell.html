@@ -1,0 +1,10 @@
+<dom-module id="grid-no-padding" theme-for="vaadin-grid">
+  <template>
+    <style>
+      [part~="cell"] ::slotted(vaadin-grid-cell-content) {
+        padding: 0;
+        text-align: center;
+      }
+    </style>
+  </template>
+</dom-module>

@@ -17,6 +17,7 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -55,9 +56,9 @@ public class InboxBCPage extends VerticalLayout {
 
 	public InboxBCPage() {
 		setSizeFull();
-		gridsattus.getElement().setAttribute("style", "font-size: 12px;");
+		gridsattus.getElement().setAttribute("style", "font-size: 12px;text-align: center;padding:0;");
 		gridsattus.addColumn(LayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
-		gridsattus.addColumn(LayananResponse::getTanggalRequest).setHeader(TamUtils.setCustomHerader("Tanggal"))
+		gridsattus.addColumn(data->TamUtils.setFormatDate(data.getTanggalRequest())).setHeader(TamUtils.setCustomHerader("Tanggal"))
 				.setWidth("7em");
 		gridsattus.addColumn(LayananResponse::getNamaPerusahaan).setHeader(TamUtils.setCustomHerader("Nama Perusahaan"))
 				.setWidth("7em");

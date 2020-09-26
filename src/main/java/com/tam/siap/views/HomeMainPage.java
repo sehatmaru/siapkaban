@@ -136,7 +136,11 @@ public class HomeMainPage extends PolymerTemplate<TemplateModel> implements Page
 				txtemail.setText(datasLogin.getAccount().getPribadi().getEmail());
 				txtemail.setVisible(false);
 				menuapps.getElement().appendChild(elmenu("Perizinan Online", "izinonline", "inboxbc"));
-				menuapps.getElement().appendChild(elmenu("Instan", "instan", "instan"));
+				if(datasLogin.getAccount().getRole().getId() ==2) {
+					menuapps.getElement().appendChild(elmenu("Instan", "instan", "instanadmin"));
+				}else {
+					menuapps.getElement().appendChild(elmenu("Instan", "instan", "instan"));
+				}
 				menuapps.getElement().appendChild(elmenu("Survey Kepuasan", "survey", "mainhome"));
 				if(datasLogin.getAccount().getRole().getId() ==2) {
 					menuapps.getElement().appendChild(elmenu("Apps Manager", "appsmanager", "adminuserpemohon"));	

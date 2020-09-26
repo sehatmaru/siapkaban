@@ -3,7 +3,10 @@ package com.tam.siap.views;
 import static com.tam.siap.utils.refs.Status.SUCCESS;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 
@@ -31,18 +34,18 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.FormItem;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -67,7 +70,6 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 	@Id("vform")
 	VerticalLayout vform;
-
 	@Id("menus")
 	Element menus;
 
@@ -153,33 +155,33 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String val = "" + event.getValue();
 				DPerusahaan dataDPerusahaan = dPerusahaanRepository.findByNpwp(val);
 				String val2 = val.replaceAll("[^a-zA-Z0-9]", "");
-				System.out.println(val+" - "+val2);
-				//txtNpwpPt.setValue(val+" - "+val2);
-				//DPerusahaan dataDPerusahaan2 = dPerusahaanRepository.findByNpwp(val);
+				System.out.println(val + " - " + val2);
+				// txtNpwpPt.setValue(val+" - "+val2);
+				// DPerusahaan dataDPerusahaan2 = dPerusahaanRepository.findByNpwp(val);
 				DPerusahaan dataDPerusahaan2 = new DPerusahaan();
-				List<DPerusahaan> dPerusahaans =  dPerusahaanRepository.findAll();
-				 if (dataDPerusahaan != null) {
+				List<DPerusahaan> dPerusahaans = dPerusahaanRepository.findAll();
+				if (dataDPerusahaan != null) {
 					String npwptemp = dataDPerusahaan.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
-					txtNamaPt.setValue(""+dataDPerusahaan.getNama());
+					txtNamaPt.setValue("" + dataDPerusahaan.getNama());
 					txtNpwpPt.setValue(npwptemp);
 					comboJnsPerusahaan.setValue(dataDPerusahaan.getJenis());
-					txtAlamatPt.setValue(""+dataDPerusahaan.getAlamat());
-					txtHandphonePt.setValue(""+dataDPerusahaan.getTelepon());
-					txtEmailPt.setValue(""+dataDPerusahaan.getEmail());
-					txtNamaPenggungJwb.setValue(""+dataDPerusahaan.getPenanggungJawab());
+					txtAlamatPt.setValue("" + dataDPerusahaan.getAlamat());
+					txtHandphonePt.setValue("" + dataDPerusahaan.getTelepon());
+					txtEmailPt.setValue("" + dataDPerusahaan.getEmail());
+					txtNamaPenggungJwb.setValue("" + dataDPerusahaan.getPenanggungJawab());
 					comboKabupaten.setValue(dataDPerusahaan.getKabupaten());
 					comboKecamatan.setValue(dataDPerusahaan.getKecamatan());
-				}else {
-					for(DPerusahaan datap : dPerusahaans) {
+				} else {
+					for (DPerusahaan datap : dPerusahaans) {
 						String npwptemp = datap.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
-						if(val2.equals(npwptemp)) {
-							txtNamaPt.setValue(""+datap.getNama());
+						if (val2.equals(npwptemp)) {
+							txtNamaPt.setValue("" + datap.getNama());
 							txtNpwpPt.setValue(npwptemp);
 							comboJnsPerusahaan.setValue(datap.getJenis());
-							txtAlamatPt.setValue(""+datap.getAlamat());
-							txtHandphonePt.setValue(""+datap.getTelepon());
-							txtEmailPt.setValue(""+datap.getEmail());
-							txtNamaPenggungJwb.setValue(""+datap.getPenanggungJawab());
+							txtAlamatPt.setValue("" + datap.getAlamat());
+							txtHandphonePt.setValue("" + datap.getTelepon());
+							txtEmailPt.setValue("" + datap.getEmail());
+							txtNamaPenggungJwb.setValue("" + datap.getPenanggungJawab());
 							comboKabupaten.setValue(datap.getKabupaten());
 							comboKecamatan.setValue(datap.getKecamatan());
 						}
@@ -281,23 +283,41 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 		btnSubmit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-		txtTipeAkun.setWidth("100%");
-		txtNama.setWidth("100%");
-		comboJnsIdentitas.setWidth("100%");
-		txtNoidentitas.setWidth("100%");
-		txtJabatan.setWidth("100%");
-		txtHandphone.setWidth("100%");
-		txtEmail.setWidth("100%");
+		// txtTipeAkun.setWidth("45%");
+//		txtNama.setWidth("100%");
+//		comboJnsIdentitas.setWidth("100%");
+//		txtNoidentitas.setWidth("100%");
+//		txtJabatan.setWidth("100%");
+//		txtHandphone.setWidth("100%");
+//		txtEmail.setWidth("100%");
+//
+//		txtNamaPt.setWidth("100%");
+//		txtNpwpPt.setWidth("100%");
+//		comboJnsPerusahaan.setWidth("100%");
+//		txtAlamatPt.setWidth("100%");
+//		txtNpwpPt.setWidth("100%");
+//		txtHandphonePt.setWidth("100%");
+//		txtEmailPt.setWidth("100%");
+//		txtNamaPenggungJwb.setWidth("100%");
+//		txtConfirm.setWidth("49.3%");
 
-		txtNamaPt.setWidth("100%");
-		txtNpwpPt.setWidth("100%");
-		comboJnsPerusahaan.setWidth("100%");
-		txtAlamatPt.setWidth("100%");
-		txtNpwpPt.setWidth("100%");
-		txtHandphonePt.setWidth("100%");
-		txtEmailPt.setWidth("100%");
-		txtNamaPenggungJwb.setWidth("100%");
-		txtConfirm.setWidth("49.3%");
+		txtTipeAkun.setWidthFull();
+		txtNama.setWidthFull();
+		comboJnsIdentitas.setWidthFull();
+		txtNoidentitas.setWidthFull();
+		txtJabatan.setWidthFull();
+		txtHandphone.setWidthFull();
+		txtEmail.setWidthFull();
+
+		txtNamaPt.setWidthFull();
+		txtNpwpPt.setWidthFull();
+		comboJnsPerusahaan.setWidthFull();
+		txtAlamatPt.setWidthFull();
+		txtNpwpPt.setWidthFull();
+		txtHandphonePt.setWidthFull();
+		txtEmailPt.setWidthFull();
+		txtNamaPenggungJwb.setWidthFull();
+		txtConfirm.setWidthFull();
 
 		comboKabupaten.setItemLabelGenerator(Kabupaten::getKeterangan);
 		comboKecamatan.setItemLabelGenerator(Kecamatan::getKeterangan);
@@ -308,15 +328,30 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 //				txtHandphone, txtEmail, new Label(), lblPerusahaan, txtNamaPt, txtNpwpPt, comboJnsPerusahaan,
 //				txtAlamatPt, txtHandphonePt, txtEmailPt, txtConfirm, btnSubmit);
 
-		vform.add(setInlinetext(txtTipeAkun, "TUJUAN"), new Label(""), lblPemohon, setInlinetext(txtNama, "Nama"),
+		VerticalLayout vltujuan = new VerticalLayout(setInlinetext(txtTipeAkun, "TUJUAN"));
+		vltujuan.setWidth("49%");
+		vltujuan.setSpacing(false);
+
+		// data PT
+		VerticalLayout vlpt = new VerticalLayout(lblPerusahaan, setInlinetext(txtNpwpPt, "NPWP"),
+				setInlinetext(txtNamaPt, "Nama"), setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"),
+				setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"), setInlinetext(comboKabupaten, "Kab/Kota"),
+				setInlinetext(comboKecamatan, "Kecamatan"), setInlinetext(txtAlamatPt, "Alamat"),
+				setInlinetext(txtHandphonePt, "No. Telepon"), setInlinetext(txtEmailPt, "Email"));
+		vlpt.setWidthFull();
+		vlpt.setSpacing(false);
+
+		VerticalLayout vlpemohon = new VerticalLayout(lblPemohon, setInlinetext(txtNama, "Nama"),
 				setInlinetext(comboJnsIdentitas, "Jenis Identitas"), setInlinetext(txtNoidentitas, "Nomor Identitas"),
 				setInlinetext(txtJabatan, "Jabatan"), setInlinetext(txtHandphone, "No. Telepon"),
-				setInlinetext(txtEmail, "Email"), new Label(), lblPerusahaan, setInlinetext(txtNamaPt, "Nama"),
-				setInlinetext(txtNpwpPt, "NPWP"), setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"),
-				setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"), setInlinetext(comboKabupaten, "Kabupaten"),
-				setInlinetext(comboKecamatan, "Kecamatan"), setInlinetext(txtAlamatPt, "Alamat"),
-				setInlinetext(txtHandphonePt, "No. Telepon"), setInlinetext(txtEmailPt, "Email"), txtConfirm,
-				btnSubmit);
+				setInlinetext(txtEmail, "Email"), txtConfirm, btnSubmit);
+		vlpemohon.setWidthFull();
+		vlpemohon.setSpacing(false);
+
+		vform.add(vltujuan);
+		FormLayout fl = new FormLayout(vlpt, vlpemohon);
+		fl.setWidthFull();
+		vform.add(fl);
 
 		vform.setSpacing(false);
 	}
@@ -324,6 +359,8 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 	private FormLayout setInlinetext(Component comp, String text) {
 		FormLayout fl = new FormLayout();
 		fl.addFormItem(comp, text);
+		fl.setResponsiveSteps(new ResponsiveStep("40em", 1));
+		fl.setColspan(comp, 1);
 		fl.setWidthFull();
 		return fl;
 	}

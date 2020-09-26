@@ -180,7 +180,7 @@ public class HomePageIzinOnline2 extends PolymerTemplate<TemplateModel>
 					} else if (loc.equals("inboxbcdetail")) {
 						txtjudulapp.setText("Inbox Detail");
 						menus.appendChild(createLink("Back", "inboxbc", false));
-					} else if (loc.equals("instan")) {
+					} else if (loc.equals("instanadmin")) {
 						txtjudulapp.setText("Instan");
 						menus.appendChild(createLink("Back", "mainhome", false));
 					} else {
