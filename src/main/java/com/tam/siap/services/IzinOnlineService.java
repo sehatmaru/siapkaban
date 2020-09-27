@@ -161,8 +161,8 @@ public class IzinOnlineService {
             for (JDokumen data : jenisDocs) {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                    result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                    result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
             }
 
             return result;
@@ -173,8 +173,8 @@ public class IzinOnlineService {
             for (JDokumen data : jenisDocs) {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                    result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                    result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
             }
 
             return result;
@@ -185,8 +185,8 @@ public class IzinOnlineService {
             for (JDokumen data : jenisDocs) {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                    result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                    result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
             }
 
             return result;
@@ -197,8 +197,8 @@ public class IzinOnlineService {
             for (JDokumen data : jenisDocs) {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                    result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                    result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
             }
 
             return result;
@@ -214,16 +214,16 @@ public class IzinOnlineService {
                                 || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) {
                             if (dokumenService.isDocumentExist(data, layanan)) {
                                 Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                                result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                            } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                                result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                            } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
                         }
                     } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
                         if (data.getId() == BA_PEMAPARAN
                                 || data.getId() == SKEP_PEMERIKSA_DOKUMEN) {
                             if (dokumenService.isDocumentExist(data, layanan)) {
                                 Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                                result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                            } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                                result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                            } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
                         }
                     }
                 } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)
@@ -234,8 +234,8 @@ public class IzinOnlineService {
                             || data.getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) {
                         if (dokumenService.isDocumentExist(data, layanan)) {
                             Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                            result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                        } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                            result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                        } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
                     }
                 }
             }
@@ -248,8 +248,8 @@ public class IzinOnlineService {
             for (JDokumen data : jenisDocs) {
                 if (dokumenService.isDocumentExist(data, layanan)) {
                     Dokumen dokumen = dokumenService.findByJenisDokumenAndLayanan(data, layanan);
-                    result.add(new DocFilter(data, new File(dokumen.getPath()), 1));
-                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)),2));
+                    result.add(new DocFilter(data, new File(dokumen.getPath()), new File(dokumen.getPath().replace("pdf", "docx")), 1));
+                } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
             }
 
             return result;
@@ -260,7 +260,7 @@ public class IzinOnlineService {
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
                     if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_P2) {
-                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                     }
                 }
             }
@@ -273,7 +273,7 @@ public class IzinOnlineService {
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
                     if (data.getJenisDokumen().getRole().getId() == PEMERIKSA_PERBEND) {
-                        if (data.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_TAGIHAN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                     }
                 }
             }
@@ -287,7 +287,7 @@ public class IzinOnlineService {
                 if (data.getJenisDokumen().getId() == BA_PEMERIKSAAN_LOKASI
                         || data.getJenisDokumen().getId() == NOTA_DINAS
                         || data.getJenisDokumen().getId() == SURAT_REKOMENDASI
-                        || data.getJenisDokumen().getId() == SURAT_PENGEMBALIAN_BERKAS) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                        || data.getJenisDokumen().getId() == SURAT_PENGEMBALIAN_BERKAS) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
             }
 
             return result;
@@ -298,7 +298,7 @@ public class IzinOnlineService {
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
                     if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_P2) {
-                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                        if (data.getJenisDokumen().getId() == NOTA_DINAS_PROFIL_PEMERIKSA_P2) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                     }
                 }
             }
@@ -314,19 +314,19 @@ public class IzinOnlineService {
                         if (data.getJenisDokumen().getId() == UNDANGAN_PEMAPARAN
                                 || data.getJenisDokumen().getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
                                 || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) {
-                            result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                            result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                         }
                     } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
                         if (data.getJenisDokumen().getId() == BA_PEMAPARAN
                                 || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN) {
-                            result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                            result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                         }
                     }
                 } else {
                     if (data.getJenisDokumen().getId() == TELAAH
                             || data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
                             || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                            || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                            || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                 }
             }
 
@@ -340,7 +340,7 @@ public class IzinOnlineService {
                     if (data.getJenisDokumen().getRole().getId() == KANWIL_PEMERIKSA_PKC) {
                         if (data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_PKC
                                 || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
-                                || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                                || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                     }
                 }
             }

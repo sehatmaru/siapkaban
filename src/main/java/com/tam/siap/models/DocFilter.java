@@ -5,21 +5,15 @@ import java.io.File;
 public class DocFilter {
 
     private JDokumen jenisDokumen;
-    private File file;
+    private File filePreview;
+    private File fileDownload;
     private int status;
 
-    public DocFilter(JDokumen jenisDokumen, File file, int status) {
+    public DocFilter(JDokumen jenisDokumen, File filePreview, File fileDownload, int status) {
         this.jenisDokumen = jenisDokumen;
-        this.file = file;
+        this.filePreview = filePreview;
+        this.fileDownload = fileDownload;
         this.status = status;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 
     public JDokumen getJenisDokumen() {
@@ -28,6 +22,22 @@ public class DocFilter {
 
     public void setJenisDokumen(JDokumen jenisDokumen) {
         this.jenisDokumen = jenisDokumen;
+    }
+
+    public File getFilePreview() {
+        return filePreview;
+    }
+
+    public void setFilePreview(File filePreview) {
+        this.filePreview = filePreview;
+    }
+
+    public File getFileDownload() {
+        return fileDownload;
+    }
+
+    public void setFileDownload(File fileDownload) {
+        this.fileDownload = fileDownload;
     }
 
     public int getStatus() {
