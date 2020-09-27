@@ -51,6 +51,7 @@ public class ExportingService {
         parameter.put("perusahaanjenistppb", " ");
         parameter.put("perusahaanjenistps", " ");
         parameter.put("perusahaanjeniskp", " ");
+        parameter.put("namaPenanggungJawab", account.getPerusahaan().getPenanggungJawab());
 
         if(account.getPribadi().getJenis().getId() == 1) {
             parameter.put("perusahaanjeniskb", "X");
