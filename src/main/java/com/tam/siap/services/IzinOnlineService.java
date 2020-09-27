@@ -909,7 +909,12 @@ public class IzinOnlineService {
                             )
                     );
 
-                    result = sendEmail(layanan, statusLayanan, Integer.parseInt(statusLayanan.getStatus()), EMAIL_PENERIMAAN_KANWIL);
+                    if (statusLayanan.getStatus().equals(ACCEPTED + "")) {
+                        result = sendEmail(layanan, statusLayanan, ACCEPTED, EMAIL_PENERIMAAN_KANWIL);
+                    } else {
+                        result = sendEmail(layanan, statusLayanan, REJECTED, EMAIL_PENOLAKAN);
+                    }
+
                 }
 
                 break;
@@ -2925,8 +2930,7 @@ public class IzinOnlineService {
             for (Dokumen data : docs) {
                 if (data.getJenisDokumen().getRole() != null) {
                     if (data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
-                            || data.getJenisDokumen().getId() == SURAT_REKOMENDASI) dokumen.add(data);
+                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC) dokumen.add(data);
                 }
             }
 
