@@ -83,6 +83,7 @@
 	<parameter name="ttdmaterai" class="java.lang.String">
 		<parameterDescription><![CDATA[TTD Materai 6000]]></parameterDescription>
 	</parameter>
+	<parameter name="namaPenanggungJawab" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -759,18 +760,11 @@ Tangerang, Banten
 					<text><![CDATA[TTD di atas materai 6000]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="41" y="540" width="81" height="20" uuid="c5fbb1e1-1504-4876-9dba-d41e9b29297e"/>
+					<reportElement x="40" y="540" width="82" height="20" uuid="c5fbb1e1-1504-4876-9dba-d41e9b29297e"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
 					<text><![CDATA[Jabatan ***)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="42" y="600" width="81" height="20" uuid="3d351223-e87b-4731-ac5e-34b760f9bef0"/>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-					<text><![CDATA[Nama*)]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="170" y="130" width="10" height="10" uuid="c79f7f26-4409-4409-92bf-db741fd1f41b"/>
@@ -862,6 +856,13 @@ Tangerang, Banten
 					</box>
 					<text><![CDATA[]]></text>
 				</staticText>
+				<textField>
+					<reportElement x="40" y="600" width="124" height="20" uuid="082c62f2-1340-4889-be83-082cf24ac643"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{namaPenanggungJawab}]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 		<band height="459">
@@ -876,47 +877,10 @@ Tangerang, Banten
 				</staticText>
 				<staticText>
 					<reportElement x="30" y="39" width="449" height="20" uuid="c5b1be94-4f8c-4fe7-9aab-7449c86c6263"/>
-					<text><![CDATA[Form diatas adalah file pdf yang dapat diisi dengan pdf reader.]]></text>
+					<text><![CDATA[Setelah diisi dan dicetak, Form Registrasi agar dikirim kembali kepada:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="59" width="449" height="30" uuid="5a2da708-adf3-47aa-860e-b5da34d55886"/>
-					<text><![CDATA[Pada browser tertentu misal safari, akan terlihat kotak terisi. File bisa diunduh dan diisi
-pada pdf reader versi desktop.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="89" width="448" height="30" uuid="3247595d-35ba-4375-946c-f9eeb479b2f8"/>
-					<textElement>
-						<font isItalic="false"/>
-					</textElement>
-					<text><![CDATA[Pengisian data pada field yang diberi highlight agar dilakukan berdasarkan data yang
-valid.
-]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="119" width="448" height="21" uuid="a73b9438-7f9e-4650-8402-2d4a8c73597e"/>
-					<textElement>
-						<font isItalic="false"/>
-					</textElement>
-					<text><![CDATA[Pilih yang sesuai pada kotak “Tujuan” dan “Jenis Perusahaan.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="140" width="448" height="30" uuid="49efce78-03ae-45b5-b6a3-cff7e55914d8"/>
-					<textElement>
-						<font isItalic="false"/>
-					</textElement>
-					<text><![CDATA[Keterangan “tanda tangan dan cap basah perusahaan” dan “tanda tangan di atas
-materai 6000” tidak akan muncul saat akan dicetak.
-]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="170" width="448" height="30" uuid="a9433aaa-40ca-4d94-97c5-d86af1183d19"/>
-					<textElement>
-						<font isItalic="false"/>
-					</textElement>
-					<text><![CDATA[Setelah diisi dan dicetak, Form Registrasi agar dikirim kembali kepada :]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="185" width="270" height="75" uuid="cdf81874-d956-4a86-b317-34dec08412aa">
+					<reportElement x="30" y="61" width="320" height="75" uuid="cdf81874-d956-4a86-b317-34dec08412aa">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box>
@@ -935,7 +899,7 @@ Jl. Raya Serpong Damai Sektor VI Blok 201 No. 02 BSD
 Serpong Utara, Tangerang, Banten 15310]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="30" y="260" width="448" height="30" uuid="ccd1ecb8-8591-473a-9321-25ac8ac5f9c4"/>
+					<reportElement x="30" y="146" width="448" height="30" uuid="ccd1ecb8-8591-473a-9321-25ac8ac5f9c4"/>
 					<textElement>
 						<font isItalic="false"/>
 					</textElement>
@@ -947,28 +911,8 @@ dikirim ke alamat email yang didaftarkan.]]></text>
 					<text><![CDATA[1.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="10" y="59" width="19" height="20" uuid="d25b4cdb-4c0b-4e70-80e5-322f2ebf3d2c"/>
+					<reportElement x="10" y="146" width="19" height="20" uuid="ddd112ec-da4e-406e-b448-577c42f23a28"/>
 					<text><![CDATA[2.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="10" y="89" width="19" height="20" uuid="70998ffc-a875-435d-a977-6b638726fa2b"/>
-					<text><![CDATA[3.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="10" y="119" width="19" height="20" uuid="2d691a3f-cfd9-47ec-b574-4e2c3ea1489e"/>
-					<text><![CDATA[4.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="10" y="140" width="19" height="20" uuid="fc2d8bb3-ec2c-48d3-a929-25aa71808e97"/>
-					<text><![CDATA[5.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="10" y="170" width="19" height="20" uuid="ded256d2-04cd-4fde-9825-67ac98eb6462"/>
-					<text><![CDATA[6.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="10" y="260" width="19" height="20" uuid="ddd112ec-da4e-406e-b448-577c42f23a28"/>
-					<text><![CDATA[7.]]></text>
 				</staticText>
 			</frame>
 		</band>
