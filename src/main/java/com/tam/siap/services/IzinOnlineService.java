@@ -149,7 +149,7 @@ public class IzinOnlineService {
         if (dokumenService.isDocumentExist(dokumen, layanan)) {
             Dokumen dok = dokumenService.findByJenisDokumenAndLayanan(dokumen, layanan);
 
-            return new File(dok.getPath());
+            return new File(dok.getPath().replace("pdf", "docx"));
         } else return editorService.getPath(layanan, dokumen);
     }
 
@@ -1326,6 +1326,8 @@ public class IzinOnlineService {
         }
 
         layananService.save(layanan);
+
+        System.out.println("hasil = " + result);
 
         return result;
     }
