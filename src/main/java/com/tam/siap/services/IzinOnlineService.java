@@ -309,13 +309,25 @@ public class IzinOnlineService {
             List<Dokumen> docs = dokumenService.findByLayanan(layanan);
 
             for (Dokumen data : docs) {
-                if (data.getJenisDokumen().getId() == UNDANGAN_PEMAPARAN
-                        || data.getJenisDokumen().getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
-                        || data.getJenisDokumen().getId() == TELAAH
-                        || data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
-                        || data.getJenisDokumen().getId() == BA_PEMAPARAN
-                        || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                        || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                if (isTPBOrKITEPerizinanBaru(layanan)) {
+                    if (layanan.getProgress() == ON_BATCH_2_KANWIL) {
+                        if (data.getJenisDokumen().getId() == UNDANGAN_PEMAPARAN
+                                || data.getJenisDokumen().getId() == NOTA_DINAS_UNDANGAN_PEMAPARAN
+                                || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) {
+                            result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                        }
+                    } else if (layanan.getProgress() == ON_BATCH_3_KANWIL) {
+                        if (data.getJenisDokumen().getId() == BA_PEMAPARAN
+                                || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN) {
+                            result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                        }
+                    }
+                } else {
+                    if (data.getJenisDokumen().getId() == TELAAH
+                            || data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
+                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
+                            || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), 1));
+                }
             }
 
             return result;
