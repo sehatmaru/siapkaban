@@ -1,5 +1,7 @@
 package com.tam.siap.models.responses;
 
+import com.tam.siap.models.Layanan;
+
 public class PemohonLayananResponse {
 
     private String id;
@@ -52,6 +54,7 @@ public class PemohonLayananResponse {
     private String tanggalPemeriksaPkcKanwil;
     private String tanggalKepBidPkcKanwil;
     private String tanggalKepSeksiPkcKanwil;
+    private Layanan dataLayanan;
 
     public PemohonLayananResponse() {
     }
@@ -456,4 +459,11 @@ public class PemohonLayananResponse {
         this.tanggalKepSeksiPkcKanwil = tanggalKepSeksiPkcKanwil;
     }
 
+    public Layanan getDataLayanan() {
+        return dataLayanan;
+    }
+
+    public void setDataLayanan(Layanan dataLayanan) {
+        this.dataLayanan = dataLayanan;
+    }
 }

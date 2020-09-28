@@ -1414,6 +1414,7 @@ public class IzinOnlineService {
         response.setNamaPerusahaan(layanan.getPemohonon().getPerusahaan().getNama());
         response.setJenisPerusahaan(layanan.getPemohonon().getPerusahaan().getJenis().getKeterangan());
         response.setLayanan(layanan.getSubLayanan().getKeterangan());
+        response.setDataLayanan(layanan);
 
         if (layanan.getPenerima() != null) {
             if (!layanan.getPenerima().isEmpty()) {
