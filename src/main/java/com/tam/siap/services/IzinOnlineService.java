@@ -226,8 +226,7 @@ public class IzinOnlineService {
                             } else result.add(new DocFilter(data, new File(editorService.getTemplate(layanan, data)), new File(editorService.getTemplate(layanan, data).replace("pdf", "docx")), 2));
                         }
                     }
-                } else if (isTPBOrKITEPerubahanLokasiOrPencabutan(layanan)
-                        || isTPBOrKITEPerubahanNonLokasi(layanan)) {
+                } else {
                     if (data.getId() == TELAAH
                             || data.getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
                             || data.getId() == SKEP_PEMERIKSA_DOKUMEN
