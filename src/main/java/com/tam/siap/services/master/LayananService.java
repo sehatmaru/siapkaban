@@ -17,7 +17,7 @@ public class LayananService {
     LayananRepository layananRepository;
 
     public List<Layanan> getAllLayanan(){
-        return layananRepository.findAll();
+        return layananRepository.findAllByOrderByTanggalDesc();
     }
 
     public boolean isLayananExist(Account account, SJLayanan subLayanan, Date tanggal) {

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface LayananRepository extends JpaRepository<Layanan, String>{
 
-    List<Layanan> findAll();
+    List<Layanan> findAllByOrderByTanggalDesc();
 
     Layanan findById(int id);
 
