@@ -164,7 +164,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					adaFile = false;
 				}
 				listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(), new MemoryBuffer(),
-						dataLay, adaFile, datJdok.getFile()));
+						dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 			}
 
 			gridDokumen.addColumn(data -> data.getDoc().getDokumen().getNamaDokumen())
@@ -202,7 +202,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			}
 			gridDokumen.setItems(listChecks);
 			gridDokumenHasil.setItems(listCheklistModel2s);
-			
+
 			if (checkList() && checkList2()) {
 				btnLanjut.setText("Proses Lanjut");
 				btnLanjut.removeThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -486,10 +486,10 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 						}
 						if (checkP2(dataLogin)) {
 							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
-									new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
+									new MemoryBuffer(), dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 						} else {
 							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
-									new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
+									new MemoryBuffer(), dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 						}
 					}
 					gridDokumenHasil.setItems(listCheklistModel2s);
@@ -509,7 +509,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 							adaFile = false;
 						}
 						listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
-								new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
+								new MemoryBuffer(), dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 					}
 					gridDokumenHasil.setItems(listCheklistModel2s);
 					btnLanjut.setText("Tolak");
@@ -589,7 +589,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		} else {
 			ch.setValue(false);
 		}
-		
+
 		ch.addClickListener(new ComponentEventListener<ClickEvent<Checkbox>>() {
 
 			@Override
@@ -616,7 +616,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 								adaFile = false;
 							}
 							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
-									new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
+									new MemoryBuffer(), dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
 						if (checkList() && checkList2()) {
@@ -647,7 +647,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 								adaFile = false;
 							}
 							listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
-									new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
+									new MemoryBuffer(), dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 						}
 						gridDokumenHasil.setItems(listCheklistModel2s);
 						btnLanjut.setText("Tolak");
@@ -667,7 +667,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 									adaFile = false;
 								}
 								listCheklistModel2s.add(new CheklistModel2(adaFile, datJdok.getJenisDokumen(),
-										new MemoryBuffer(), dataLay, adaFile, datJdok.getFile()));
+										new MemoryBuffer(), dataLay, adaFile, datJdok.getFilePreview(),datJdok.getFileDownload()));
 							}
 							gridDokumenHasil.setItems(listCheklistModel2s);
 						}
@@ -796,13 +796,13 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 //		vl.setSpacing(false);
 //		vl.setWidthFull();
 		// data.getjDokumen().getKeterangan()+".pdf"
-		System.out.println("template default : "+data.getFile());
-		StreamResource res = new StreamResource(data.getFile().getName(), new InputStreamFactory() {
+		System.out.println("template default : " + data.getFilepreview());
+		StreamResource res = new StreamResource(data.getFiledownload().getName(), new InputStreamFactory() {
 
 			@Override
 			public InputStream createInputStream() {
 				// TODO Auto-generated method stub
-				File initialFile = data.getFile();
+				File initialFile = data.getFiledownload();
 				InputStream targetStream = null;
 				try {
 					targetStream = new FileInputStream(initialFile);
@@ -838,7 +838,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		hl.setWidthFull();
 		hl.setSpacing(true);
 		Upload up = new Upload(data.getMembuffer());
-		up.setMaxFileSize(2000000);
+		up.setMaxFileSize(10000000);
 		up.setDropAllowed(false);
 		Button btn = new Button("upload");
 		if (data.docada) {
@@ -850,12 +850,12 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		vl2.setWidthFull();
 		vl2.setPadding(false);
 		vl2.setSpacing(false);
-		StreamResource res2 = new StreamResource(data.getjDokumen().getKeterangan()+".pdf", new InputStreamFactory() {
+		StreamResource res2 = new StreamResource(data.getFilepreview().getName(), new InputStreamFactory() {
 
 			@Override
 			public InputStream createInputStream() {
 				// TODO Auto-generated method stub
-				File initialFile = data.getFile();
+				File initialFile = data.getFilepreview();
 //				System.out.println("Initial File : "+initialFile);
 //				if(data.getFile() != null) {
 //					System.out.println("Data file nulkl : "+data.getFile());
@@ -904,23 +904,24 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 					data.setDocada(true);
 					up.getElement().setPropertyJson("files", Json.createArray());
 					vl2.removeAll();
-					System.out.println("file upload nya : "+html.getFile());
-					StreamResource res2 = new StreamResource(data.getjDokumen().getKeterangan()+".pdf", new InputStreamFactory() {
+					System.out.println("file upload nya : " + html.getFile());
+					StreamResource res2 = new StreamResource(data.getjDokumen().getKeterangan() + ".pdf",
+							new InputStreamFactory() {
 
-						@Override
-						public InputStream createInputStream() {
-							// TODO Auto-generated method stub
-							File initialFile = html.getFile();
-							InputStream targetStream = null;
-							try {
-								targetStream = new FileInputStream(initialFile);
-							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							return targetStream;
-						}
-					});
+								@Override
+								public InputStream createInputStream() {
+									// TODO Auto-generated method stub
+									File initialFile = html.getFile();
+									InputStream targetStream = null;
+									try {
+										targetStream = new FileInputStream(initialFile);
+									} catch (FileNotFoundException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									return targetStream;
+								}
+							});
 					EmbeddedPdfDocument pdfdoc = new EmbeddedPdfDocument(res2);
 					pdfdoc.setWidthFull();
 					pdfdoc.setHeight("600px");
@@ -1067,17 +1068,19 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		private MemoryBuffer membuffer;
 		private Layanan datalay;
 		private boolean docada;
-		private File file;
+		private File filepreview;
+		private File filedownload;
 
 		public CheklistModel2(boolean check, JDokumen jDokumen, MemoryBuffer membuffer, Layanan datalay, boolean docada,
-				File file) {
+				File filepreview, File filedownload) {
 			super();
 			this.check = check;
 			this.jDokumen = jDokumen;
 			this.membuffer = membuffer;
 			this.datalay = datalay;
 			this.docada = docada;
-			this.file = file;
+			this.filepreview = filepreview;
+			this.filedownload = filedownload;
 		}
 
 		public boolean isCheck() {
@@ -1120,12 +1123,20 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 			this.docada = docada;
 		}
 
-		public File getFile() {
-			return file;
+		public File getFilepreview() {
+			return filepreview;
 		}
 
-		public void setFile(File file) {
-			this.file = file;
+		public void setFilepreview(File filepreview) {
+			this.filepreview = filepreview;
+		}
+
+		public File getFiledownload() {
+			return filedownload;
+		}
+
+		public void setFiledownload(File filedownload) {
+			this.filedownload = filedownload;
 		}
 
 	}

@@ -115,6 +115,8 @@ public class ProfilPage extends VerticalLayout implements BeforeEnterObserver {
 			btnupdate.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 			uploadProfile.setReceiver(memoryBuf);
+			uploadProfile.setMaxFileSize(1000000);
+			uploadProfile.setAcceptedFileTypes("image/*");
 
 			add(imgprof, TamUtils.setInlinetext(uploadProfile, "Upload image"), TamUtils.setInlinetext(txtNama, "Nama"),
 					TamUtils.setInlinetext(txtNoidentitas, "No. Identitas"), TamUtils.setInlinetext(txtEmail, "Email"),

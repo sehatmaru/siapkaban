@@ -193,7 +193,7 @@ public class IzinOnline extends VerticalLayout {
 			txtfnpwp.setValue(response.getAccount().getPerusahaan().getNpwp());
 			txtjabtan.setValue(response.getAccount().getPribadi().getJabatan());
 			txtnohp.setValue(response.getAccount().getPribadi().getTelepon());
-			picname.setValue(response.getAccount().getPribadi().getNama());
+			picname.setValue(response.getAccount().getPerusahaan().getPenanggungJawab());
 
 			listKabupatens = kabupatenService.findAll();
 			listKecamatans = kecamatanService.findAll();
@@ -415,14 +415,17 @@ public class IzinOnline extends VerticalLayout {
 //					"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan.");
 //			txtdisclimer.setReadOnly(true);
 //			txtdisclimer.setWidthFull();
-			layconfirmation.add(new Label("Disclaimer"));
+			Label lbldisc = new Label("Disclaimer");
+			//lbldisc.getElement().setAttribute("style", "font-size:12px;padding:0;");
+			layconfirmation.add(lbldisc);
 			HorizontalLayout hl = new HorizontalLayout();
 			hl.add(TamUtils.setInlinetext5(checbok,
 					"Dengan melakukan pengisian pada Form Permohonan ini, kami menyatakan bahwa semua data dan dokumen yang kami berikan adalah lengkap, benar dan dapat dipertanggung jawabkan."),
 					submit);
 			layconfirmation.add(hl);
+//			layconfirmation.setSpacing(false);
 			layconfirmation.getElement().setAttribute("style",
-					"border: 1px groove #283B65 !important;border-radius: 7px;margin-top: 10px;");
+					"border: 1px groove #283B65 !important;border-radius: 7px;margin-top: 5px;");
 
 			submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 			// layconfirmation.add(submit);
@@ -481,6 +484,8 @@ public class IzinOnline extends VerticalLayout {
 		VerticalLayout vll = new VerticalLayout(hl);
 		vll.setSpacing(false);
 		add(vll);
+		setSpacing(false);
+		setPadding(false);
 		getElement().setAttribute("style", "border: 1px groove #283B65 !important;border-radius: 7px;width:100%;");
 	}
 
@@ -546,6 +551,7 @@ public class IzinOnline extends VerticalLayout {
 				Upload up = new Upload(membuffDokPemohon[i]);
 				up.setDropAllowed(false);
 				up.setWidthFull();
+				up.setMaxFileSize(10000000);
 				Button btn = new Button("upload");
 				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
 				up.setUploadButton(btn);
@@ -585,6 +591,7 @@ public class IzinOnline extends VerticalLayout {
 				Upload up = new Upload(membuffDokSyarat[i]);
 				up.setDropAllowed(false);
 				up.setWidthFull();
+				up.setMaxFileSize(10000000);
 				Button btn = new Button("upload");
 				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
 				up.setUploadButton(btn);
@@ -623,6 +630,7 @@ public class IzinOnline extends VerticalLayout {
 				Upload up = new Upload(membuffDokLainnya[i]);
 				up.setDropAllowed(false);
 				up.setWidthFull();
+				up.setMaxFileSize(10000000);
 				Button btn = new Button("upload");
 				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
 				up.setUploadButton(btn);
@@ -681,6 +689,7 @@ public class IzinOnline extends VerticalLayout {
 		txtfnpwp.setWidthFull();
 		txtfnamapt.setWidthFull();
 		txtalamatpt.setWidthFull();
+		txtalamatpt.setHeight("50px");
 
 		txtfnpwp.setReadOnly(true);
 		txtfnamapt.setReadOnly(true);
