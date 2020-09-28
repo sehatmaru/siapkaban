@@ -38,11 +38,11 @@ public class ExportingService {
         parameter.put("pemohonjabatan", account.getPribadi().getJabatan());
         parameter.put("pemohontelp", account.getPribadi().getTelepon());
         parameter.put("pemohonemail", account.getPribadi().getEmail());
-        parameter.put("perusahaannama", account.getPribadi().getNama());
+        parameter.put("perusahaannama", account.getPerusahaan().getNama());
         parameter.put("perusahaannpwp", account.getPerusahaan().getNpwp());
         parameter.put("perusahaanalamat", account.getPerusahaan().getAlamat());
-        parameter.put("perusahaantelp", account.getPribadi().getTelepon());
-        parameter.put("perusahaanemail", account.getPribadi().getEmail());
+        parameter.put("perusahaantelp", account.getPerusahaan().getTelepon());
+        parameter.put("perusahaanemail", account.getPerusahaan().getEmail());
         parameter.put("ttdpemohonnama", account.getPribadi().getNama());
         parameter.put("tempattanggal", tanggal);
         parameter.put("perusahaanjeniskb", " ");
