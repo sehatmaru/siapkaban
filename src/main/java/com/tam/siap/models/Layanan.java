@@ -106,8 +106,9 @@ public class Layanan {
     @Column(name = "progress")
     private int progress;
 
-    @Column(name = "perusahaan")
-    private String perusahaan;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "perusahaan", referencedColumnName = "id")
+    private JPerusahaan perusahaan;
 
     public Layanan() {
     }
@@ -352,11 +353,11 @@ public class Layanan {
         this.progress = progress;
     }
 
-    public String getPerusahaan() {
+    public JPerusahaan getPerusahaan() {
         return perusahaan;
     }
 
-    public void setPerusahaan(String perusahaan) {
+    public void setPerusahaan(JPerusahaan perusahaan) {
         this.perusahaan = perusahaan;
     }
 }
