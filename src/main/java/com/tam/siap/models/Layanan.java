@@ -9,24 +9,24 @@ import java.util.Date;
 @Entity
 @Builder
 @DynamicUpdate
-@Table(name="layanan", schema = "public")
+@Table(name = "layanan", schema = "public")
 public class Layanan {
 
-	@Id
-	@Column(name="id", columnDefinition = "serial")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @Column(name = "id", columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "pemohon", referencedColumnName = "id")
-	private Account pemohonon;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "pemohon", referencedColumnName = "id")
+    private Account pemohonon;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "s_j_layanan", referencedColumnName = "id")
-	private SJLayanan subLayanan;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "s_j_layanan", referencedColumnName = "id")
+    private SJLayanan subLayanan;
 
-	@Column(name = "penerima")
-	private String penerima;
+    @Column(name = "penerima")
+    private String penerima;
 
     @Column(name = "pemeriksa_p2")
     private String pemeriksaP2;
@@ -106,8 +106,11 @@ public class Layanan {
     @Column(name = "progress")
     private int progress;
 
-	public Layanan() {
-	}
+    @Column(name = "perusahaan")
+    private String perusahaan;
+
+    public Layanan() {
+    }
 
     public int getId() {
         return id;
@@ -132,141 +135,187 @@ public class Layanan {
     public void setSubLayanan(SJLayanan subLayanan) {
         this.subLayanan = subLayanan;
     }
+
     public String getPenerima() {
         return penerima;
     }
+
     public void setPenerima(String penerima) {
         this.penerima = penerima;
     }
+
     public String getPemeriksaP2() {
         return pemeriksaP2;
     }
+
     public void setPemeriksaP2(String pemeriksaP2) {
         this.pemeriksaP2 = pemeriksaP2;
     }
+
     public String getPemeriksaPerbend() {
         return pemeriksaPerbend;
     }
+
     public void setPemeriksaPerbend(String pemeriksaPerbend) {
         this.pemeriksaPerbend = pemeriksaPerbend;
     }
+
     public String getPemeriksaPkc() {
         return pemeriksaPkc;
     }
+
     public void setPemeriksaPkc(String pemeriksaPkc) {
         this.pemeriksaPkc = pemeriksaPkc;
     }
+
     public String getKepSeksiP2() {
         return kepSeksiP2;
     }
+
     public void setKepSeksiP2(String kepSeksiP2) {
         this.kepSeksiP2 = kepSeksiP2;
     }
+
     public String getKepSeksiPerbend() {
         return kepSeksiPerbend;
     }
+
     public void setKepSeksiPerbend(String kepSeksiPerbend) {
         this.kepSeksiPerbend = kepSeksiPerbend;
     }
+
     public String getKepSeksiPkc() {
         return kepSeksiPkc;
     }
+
     public void setKepSeksiPkc(String kepSeksiPkc) {
         this.kepSeksiPkc = kepSeksiPkc;
     }
+
     public String getKepSubSeksiP2() {
         return kepSubSeksiP2;
     }
+
     public void setKepSubSeksiP2(String kepSubSeksiP2) {
         this.kepSubSeksiP2 = kepSubSeksiP2;
     }
+
     public String getKepSubSeksiPerbend() {
         return kepSubSeksiPerbend;
     }
+
     public void setKepSubSeksiPerbend(String kepSubSeksiPerbend) {
         this.kepSubSeksiPerbend = kepSubSeksiPerbend;
     }
+
     public String getKepSubSeksiPkc() {
         return kepSubSeksiPkc;
     }
+
     public void setKepSubSeksiPkc(String kepSubSeksiPkc) {
         this.kepSubSeksiPkc = kepSubSeksiPkc;
     }
+
     public String getKepKantor() {
         return kepKantor;
     }
+
     public void setKepKantor(String kepKantor) {
         this.kepKantor = kepKantor;
     }
+
     public int getStatus() {
         return status;
     }
+
     public void setStatus(int status) {
         this.status = status;
     }
+
     public String getNomor() {
         return nomor;
     }
+
     public void setNomor(String nomor) {
         this.nomor = nomor;
     }
+
     public Date getTanggal() {
         return tanggal;
     }
+
     public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
     }
+
     public int getLokasi() {
         return lokasi;
     }
+
     public void setLokasi(int lokasi) {
         this.lokasi = lokasi;
     }
+
     public String getKepKantorKanwil() {
         return kepKantorKanwil;
     }
+
     public void setKepKantorKanwil(String kepKantorKanwil) {
         this.kepKantorKanwil = kepKantorKanwil;
     }
+
     public String getPenerimaKanwil() {
         return penerimaKanwil;
     }
+
     public void setPenerimaKanwil(String penerimaKanwil) {
         this.penerimaKanwil = penerimaKanwil;
     }
+
     public String getPemeriksaP2Kanwil() {
         return pemeriksaP2Kanwil;
     }
+
     public void setPemeriksaP2Kanwil(String pemeriksaP2Kanwil) {
         this.pemeriksaP2Kanwil = pemeriksaP2Kanwil;
     }
+
     public String getKepSeksiIntelijenKanwil() {
         return kepSeksiIntelijenKanwil;
     }
+
     public void setKepSeksiIntelijenKanwil(String kepSeksiIntelijenKanwil) {
         this.kepSeksiIntelijenKanwil = kepSeksiIntelijenKanwil;
     }
+
     public String getKepBidangFasilitasKanwil() {
         return kepBidangFasilitasKanwil;
     }
+
     public void setKepBidangFasilitasKanwil(String kepBidangFasilitasKanwil) {
         this.kepBidangFasilitasKanwil = kepBidangFasilitasKanwil;
     }
+
     public String getKepBidangP2Kanwil() {
         return kepBidangP2Kanwil;
     }
+
     public void setKepBidangP2Kanwil(String kepBidangP2Kanwil) {
         this.kepBidangP2Kanwil = kepBidangP2Kanwil;
     }
+
     public String getKepSeksiPfKanwil() {
         return kepSeksiPfKanwil;
     }
+
     public void setKepSeksiPfKanwil(String kepSeksiPfKanwil) {
         this.kepSeksiPfKanwil = kepSeksiPfKanwil;
     }
+
     public String getPemeriksaDokumenKanwil() {
         return pemeriksaDokumenKanwil;
     }
+
     public void setPemeriksaDokumenKanwil(String pemeriksaDokumenKanwil) {
         this.pemeriksaDokumenKanwil = pemeriksaDokumenKanwil;
     }
@@ -301,5 +350,13 @@ public class Layanan {
 
     public void setProgress(int progress) {
         this.progress = progress;
+    }
+
+    public String getPerusahaan() {
+        return perusahaan;
+    }
+
+    public void setPerusahaan(String perusahaan) {
+        this.perusahaan = perusahaan;
     }
 }
