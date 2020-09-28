@@ -3084,7 +3084,7 @@ public class IzinOnlineService {
                 } else {
                     if (status == ACCEPTED) {
                         if (dokumenService.isDocumentExist(jenisDokumenService.getJenisDokumen(TELAAH), layanan)
-                                && dokumenService.isDocumentExist(jenisDokumenService.getJenisDokumen(BA_PEMAPARAN), layanan)
+                                && dokumenService.isDocumentExist(jenisDokumenService.getJenisDokumen(NOTA_DINAS_PEMERIKSA_DOKUMEN), layanan)
                                 && dokumenService.isDocumentExist(jenisDokumenService.getJenisDokumen(SKEP_PEMERIKSA_DOKUMEN), layanan)){
                             result = true;
                         }
