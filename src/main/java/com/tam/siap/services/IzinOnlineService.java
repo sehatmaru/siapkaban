@@ -94,34 +94,6 @@ public class IzinOnlineService {
         } else return new File(editorService.getTemplate(layanan, dokumen));
     }
 
-//    public int saveTemplate(Layanan layanan, JDokumen jDokumen, String html) {
-//        int result = FAILED;
-//        System.out.println("html = " + html);
-//
-//        String path = editorService.htmlToDocx(layanan, jDokumen, html);
-//        editorService.docxToHTML(path, layanan, jDokumen);
-//        editorService.docxToPdf(path);
-//
-//        if (path != null) {
-//            if (!dokumenService.isDocumentExist(jDokumen, layanan)) {
-//                Dokumen dokumen = new Dokumen(
-//                        jDokumen.getKeterangan(),
-//                        path,
-//                        jDokumen,
-//                        layanan.getPemohonon(),
-//                        layanan,
-//                        1
-//                );
-//
-//                dokumenService.save(dokumen);
-//            }
-//
-//            result = SUCCESS;
-//        }
-//
-//        return result;
-//    }
-
     public UploadTemplateResponse uploadTemplate(MemoryBuffer memoryBuffer, Layanan layanan, JDokumen dokumen) {
         String path = editorService.uploadFile(memoryBuffer, layanan, dokumen);
 
@@ -143,14 +115,6 @@ public class IzinOnlineService {
                 return new UploadTemplateResponse(1, new File(path.replace("docx", "pdf")));
             } else return new UploadTemplateResponse(2, null);
         } else return new UploadTemplateResponse(2, null);
-    }
-
-    public File downloadTemplate(Layanan layanan, JDokumen dokumen) {
-        if (dokumenService.isDocumentExist(dokumen, layanan)) {
-            Dokumen dok = dokumenService.findByJenisDokumenAndLayanan(dokumen, layanan);
-
-            return new File(dok.getPath().replace("pdf", "docx"));
-        } else return editorService.getPath(layanan, dokumen);
     }
 
     public List<DocFilter> docFilter(Role role, Layanan layanan, int status) {
@@ -325,7 +289,10 @@ public class IzinOnlineService {
                     if (data.getJenisDokumen().getId() == TELAAH
                             || data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_DOKUMEN
                             || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_DOKUMEN
-                            || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
+                            || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_DOKUMEN
+                            || data.getJenisDokumen().getId() == NOTA_DINAS_PEMERIKSA_PKC
+                            || data.getJenisDokumen().getId() == SKEP_PEMERIKSA_PKC
+                            || data.getJenisDokumen().getId() == SURAT_PENOLAKAN_PEMERIKSA_PKC) result.add(new DocFilter(data.getJenisDokumen(), new File(data.getPath()), new File(data.getPath().replace("pdf", "docx")), 1));
                 }
             }
 
