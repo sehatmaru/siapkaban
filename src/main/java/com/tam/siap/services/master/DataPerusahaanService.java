@@ -1,6 +1,7 @@
 package com.tam.siap.services.master;
 
 import com.tam.siap.models.DPerusahaan;
+import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.repos.DPerusahaanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,10 @@ public class DataPerusahaanService {
 
     public List<DPerusahaan> findAll() {
         return dPerusahaanRepository.findAll();
+    }
+
+    public List<DPerusahaan> findDataPerusahaanByJenisPerusahaan(JPerusahaan perusahaan){
+        return dPerusahaanRepository.findByJenis(perusahaan);
     }
 
     public void save(DPerusahaan dPerusahaan){
