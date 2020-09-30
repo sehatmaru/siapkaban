@@ -3,6 +3,7 @@ package com.tam.siap.services;
 import com.tam.siap.models.Account;
 import com.tam.siap.models.DPerusahaan;
 import com.tam.siap.models.DPribadi;
+import com.tam.siap.models.JPerusahaan;
 import com.tam.siap.models.request.EmailRequestDto;
 import com.tam.siap.models.request.InsertPegawaiRequest;
 import com.tam.siap.services.master.*;
@@ -46,7 +47,7 @@ public class RegisterService {
         int result = FAILED;
 
         if (!accountService.isAccountExist(account.getUsername(), account.getRole())) {
-            if (!isDataPerusahaanExist(dPerusahaan.getNpwp())) {
+            if (!isDataPerusahaanExist(dPerusahaan.getNpwp(), dPerusahaan.getJenis())) {
                 if (addDataPribadi(dPribadi) == SUCCESS) {
                     if (addDataPerusahaan(dPerusahaan) == SUCCESS) {
                         if (addUser(account, dPribadi, dPerusahaan) == SUCCESS) {
@@ -147,10 +148,10 @@ public class RegisterService {
         return result;
     }
 
-    private boolean isDataPerusahaanExist(String npwp) {
+    private boolean isDataPerusahaanExist(String npwp, JPerusahaan perusahaan) {
         boolean result = false;
 
-        List<DPerusahaan> perusahaans = dataPerusahaanService.findAll();
+        List<DPerusahaan> perusahaans = dataPerusahaanService.findDataPerusahaanByJenisPerusahaan(perusahaan);
 
         for (DPerusahaan data : perusahaans) {
             if (data.getNpwp().replaceAll("[^a-zA-Z0-9]", "").equals(npwp)) {
