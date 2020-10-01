@@ -1401,6 +1401,8 @@ public class IzinOnlineService {
             }
         }
 
+        System.out.println("status = " + result.toString());
+
         return result;
     }
 
@@ -1429,8 +1431,8 @@ public class IzinOnlineService {
                 StatusLayanan status = splitStringWithColon(layanan.getPenerimaKanwil());
                 Account account = accountService.findById(status.getAccountId());
 
-                response.setPenerima(account.getPribadi().getNama());
-                response.setTanggalPenerima(status.getTanggal());
+                response.setPenerimaKanwil(account.getPribadi().getNama());
+                response.setTanggalPenerimaKanwil(status.getTanggal());
             }
         }
 
@@ -1529,8 +1531,8 @@ public class IzinOnlineService {
                 StatusLayanan status = splitStringWithColon(layanan.getKepKantorKanwil());
                 Account account = accountService.findById(status.getAccountId());
 
-                response.setKepKantor(account.getPribadi().getNama());
-                response.setTanggalKepKantor(status.getTanggal());
+                response.setKepKantorKanwil(account.getPribadi().getNama());
+                response.setTanggalKepKantorKanwil(status.getTanggal());
             }
         }
 
@@ -1621,6 +1623,16 @@ public class IzinOnlineService {
 
                 response.setPemeriksaP2Kanwil(account.getPribadi().getNama());
                 response.setTanggalPemeriksaP2Kanwil(status.getTanggal());
+            }
+        }
+
+        if (layanan.getPemeriksaP2() != null) {
+            if (!layanan.getPemeriksaP2().isEmpty()) {
+                StatusLayanan status = splitStringWithColon(layanan.getPemeriksaP2());
+                Account account = accountService.findById(status.getAccountId());
+
+                response.setPemeriksaP2(account.getPribadi().getNama());
+                response.setTanggalPemeriksaP2(status.getTanggal());
             }
         }
 
