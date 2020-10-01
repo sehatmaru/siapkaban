@@ -187,13 +187,15 @@ public class IzinOnline extends VerticalLayout {
 		// TODO Auto-generated constructor stub
 		LoginResponse response = TamUtils.getLoginResponse();
 		if (response != null) {
-			txtalamatpt.setValue(response.getAccount().getPerusahaan().getAlamat());
-			txtemail.setValue(response.getAccount().getPribadi().getEmail());
-			txtfnamapt.setValue(response.getAccount().getPerusahaan().getNama());
-			txtfnpwp.setValue(response.getAccount().getPerusahaan().getNpwp());
-			txtjabtan.setValue(response.getAccount().getPribadi().getJabatan());
-			txtnohp.setValue(response.getAccount().getPribadi().getTelepon());
-			picname.setValue(response.getAccount().getPerusahaan().getPenanggungJawab());
+			txtalamatpt.setValue(""+response.getAccount().getPerusahaan().getAlamat());
+			txtemail.setValue(""+response.getAccount().getPerusahaan().getEmail());
+			txtfnamapt.setValue(""+response.getAccount().getPerusahaan().getNama());
+			txtfnpwp.setValue(""+response.getAccount().getPerusahaan().getNpwp());
+			txtjabtan.setValue(""+response.getAccount().getPribadi().getJabatan());
+			txtnohp.setValue(response.getAccount().getPerusahaan().getTelepon() == null ? "-"
+					: response.getAccount().getPerusahaan().getTelepon());
+			picname.setValue(response.getAccount().getPerusahaan().getPenanggungJawab() == null ? "-"
+					: response.getAccount().getPerusahaan().getPenanggungJawab());
 
 			listKabupatens = kabupatenService.findAll();
 			listKecamatans = kecamatanService.findAll();
@@ -385,6 +387,7 @@ public class IzinOnline extends VerticalLayout {
 							dataLay.setLokasi(account.getLokasi());
 							// SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 							dataLay.setTanggal(new Date());
+							dataLay.setPerusahaan(combojnsperusahaan.getValue());
 							dataLay.setSubLayanan(combosubjenislayanan.getValue());
 
 							List<MemoryBuffer> listMemBuff = new ArrayList<>();
@@ -416,7 +419,7 @@ public class IzinOnline extends VerticalLayout {
 //			txtdisclimer.setReadOnly(true);
 //			txtdisclimer.setWidthFull();
 			Label lbldisc = new Label("Disclaimer");
-			//lbldisc.getElement().setAttribute("style", "font-size:12px;padding:0;");
+			// lbldisc.getElement().setAttribute("style", "font-size:12px;padding:0;");
 			layconfirmation.add(lbldisc);
 			HorizontalLayout hl = new HorizontalLayout();
 			hl.add(TamUtils.setInlinetext5(checbok,
@@ -713,7 +716,7 @@ public class IzinOnline extends VerticalLayout {
 		lay.add(TamUtils.setInlinetext4(txtfnamapt, "Nama"));
 		lay.add(TamUtils.setInlinetext4(picname, "Penaggung Jawab"));
 		lay.add(TamUtils.setInlinetext4(combojnsperusahaan2, "Jenis Perusahaan"));
-		lay.add(TamUtils.setInlinetext4(txtalamatpt, "Alamat"));
+		lay.add(TamUtils.setInlinetext4(txtalamatpt, "Alamat Pabrik"));
 		lay.add(TamUtils.setInlinetext4(comboKabupaten, "Kab/Kota"));
 		lay.add(TamUtils.setInlinetext4(comboKecamatan, "Kecamatan"));
 		lay.add(TamUtils.setInlinetext4(txtnohp, "No. Telepon"));

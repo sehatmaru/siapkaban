@@ -336,7 +336,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 		VerticalLayout vlpt = new VerticalLayout(lblPerusahaan, setInlinetext(txtNpwpPt, "NPWP"),
 				setInlinetext(txtNamaPt, "Nama"), setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"),
 				setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"), setInlinetext(comboKabupaten, "Kab/Kota"),
-				setInlinetext(comboKecamatan, "Kecamatan"), setInlinetext(txtAlamatPt, "Alamat"),
+				setInlinetext(comboKecamatan, "Kecamatan"), setInlinetext(txtAlamatPt, "Alamat Pabrik"),
 				setInlinetext(txtHandphonePt, "No. Telepon"), setInlinetext(txtEmailPt, "Email"));
 		vlpt.setWidthFull();
 		vlpt.setSpacing(false);

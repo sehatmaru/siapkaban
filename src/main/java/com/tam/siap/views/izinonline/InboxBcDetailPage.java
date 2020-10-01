@@ -69,6 +69,7 @@ import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.upload.AllFinishedEvent;
 import com.vaadin.flow.component.upload.FailedEvent;
+import com.vaadin.flow.component.upload.StartedEvent;
 import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -346,7 +347,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
 										dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
 								if (izinOnlineService.processLayanan(dataLay, statusLayanan) == SUCCESS) {
-									Notification notification = new Notification("Layanan telah diproses", 3000,
+									Notification notification = new Notification("Layanan telah ditolak", 3000,
 											Position.MIDDLE);
 									notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 									notification.open();
@@ -447,7 +448,7 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 								StatusLayanan statusLayanan = new StatusLayanan("" + dataLogin.getAccount().getId(),
 										dateFormat.format(new Date()), "" + REJECTED, catatan, acc);
 								if (izinOnlineService.processLayanan(dataLay, statusLayanan) == SUCCESS) {
-									Notification notification = new Notification("Layanan telah diproses", 3000,
+									Notification notification = new Notification("Layanan telah ditolak", 3000,
 											Position.MIDDLE);
 									notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 									notification.open();
@@ -879,6 +880,16 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 		btn.setSizeUndefined();
 		btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
 		up.setUploadButton(btn);
+//		up.addStartedListener(new ComponentEventListener<StartedEvent>() {
+//			
+//			@Override
+//			public void onComponentEvent(StartedEvent event) {
+//				// TODO Auto-generated method stub
+//				System.out.println("started");
+//				data.setMembuffer(new MemoryBuffer());
+//				up.setReceiver(data.getMembuffer());
+//			}
+//		});
 		up.getElement().addEventListener("file-remove", new DomEventListener() {
 			@Override
 			public void handleEvent(DomEvent event) {
@@ -898,12 +909,12 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 						data.getjDokumen());
 				// System.out.println("Ht : " + html);
 				// wysiwygE.setValue(html.getHtml());
+				up.getElement().setPropertyJson("files", Json.createArray());
+				vl2.removeAll();
 				if (html.getStatus() == 1) {
 					data.setCheck(true);
 					btn.setText("uploaded");
 					data.setDocada(true);
-					up.getElement().setPropertyJson("files", Json.createArray());
-					vl2.removeAll();
 					System.out.println("file upload nya : " + html.getFile());
 					StreamResource res2 = new StreamResource(data.getjDokumen().getKeterangan() + ".pdf",
 							new InputStreamFactory() {
@@ -937,8 +948,13 @@ public class InboxBcDetailPage extends VerticalLayout implements BeforeEnterObse
 						btnLanjut.addThemeVariants(ButtonVariant.LUMO_ERROR);
 					}
 				} else {
+					Notification notification = new Notification("Upload Gagal", 3000, Position.MIDDLE);
+					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+					notification.open();
+					System.out.println("Error upload template status : "+html.getStatus());
 					data.setCheck(false);
 				}
+				
 			}
 		});
 

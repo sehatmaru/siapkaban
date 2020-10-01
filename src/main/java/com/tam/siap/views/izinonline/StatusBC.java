@@ -57,12 +57,12 @@ public class StatusBC extends VerticalLayout {
 	public StatusBC() {
 		setSizeFull();
 		gridsattus.getElement().setAttribute("style", "font-size: 12px;text-align: center;padding:0;");
-		gridsattus.addColumn(LayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
-		gridsattus.addColumn(LayananResponse::getTanggalRequest).setHeader(TamUtils.setCustomHerader("Tanggal"))
+		gridsattus.addColumn(LayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("3em");
+		gridsattus.addColumn(data -> TamUtils.setFormatDate(data.getTanggalRequest())).setHeader(TamUtils.setCustomHerader("Tanggal"))
 				.setWidth("7em");
 		gridsattus.addColumn(LayananResponse::getNamaPerusahaan).setHeader(TamUtils.setCustomHerader("Nama Perusahaan"))
 				.setWidth("7em");
-		gridsattus.addColumn(LayananResponse::getJenisPerusahaan)
+		gridsattus.addColumn(data->data.getDataLayanan().getPerusahaan().getKeterangan())
 				.setHeader(TamUtils.setCustomHerader("Jenis Perusahaan")).setWidth("7em");
 		gridsattus.addColumn(LayananResponse::getLayanan).setHeader(TamUtils.setCustomHerader("Jenis Layanan"))
 				.setWidth("5em");

@@ -69,7 +69,7 @@ public class StatusPT extends VerticalLayout {
 				.setHeader(TamUtils.setCustomHerader("Tanggal")).setWidth("7em");
 		gridsattus.addColumn(PemohonLayananResponse::getNamaPerusahaan)
 				.setHeader(TamUtils.setCustomHerader("Nama Perusahaan")).setWidth("7em");
-		gridsattus.addColumn(PemohonLayananResponse::getJenisPerusahaan)
+		gridsattus.addColumn(data->data.getDataLayanan().getPerusahaan().getKeterangan())
 				.setHeader(TamUtils.setCustomHerader("Jenis Perusahaan")).setWidth("7em");
 		gridsattus.addColumn(PemohonLayananResponse::getLayanan).setHeader(TamUtils.setCustomHerader("Jenis Layanan"))
 				.setWidth("5em");

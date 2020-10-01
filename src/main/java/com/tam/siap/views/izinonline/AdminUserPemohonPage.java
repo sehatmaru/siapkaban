@@ -64,7 +64,7 @@ public class AdminUserPemohonPage extends VerticalLayout {
 				.setHeader(TamUtils.setCustomHerader("Alamat"));
 		gridPemohon.addColumn(data -> data.getPerusahaan().getJenis().getKeterangan())
 				.setHeader(TamUtils.setCustomHerader("Jenis PT"));
-		gridPemohon.addColumn(data -> data.getPerusahaan().getNama()).setHeader(TamUtils.setCustomHerader("Nama PIC"));
+		gridPemohon.addColumn(data -> data.getPribadi().getNama()).setHeader(TamUtils.setCustomHerader("Nama PIC"));
 		gridPemohon.addColumn(data -> data.getPribadi().getNomor())
 				.setHeader(TamUtils.setCustomHerader("No Identitas"));
 		gridPemohon.addComponentColumn(item -> createRemoveButton2(gridPemohon, item))

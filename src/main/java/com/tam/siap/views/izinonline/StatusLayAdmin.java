@@ -1,5 +1,12 @@
 package com.tam.siap.views.izinonline;
 
+import static com.tam.siap.utils.refs.ProgressLayanan.COMPLETE;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_1_KANWIL;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_1_KPPBC;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KANWIL;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_2_KPPBC;
+import static com.tam.siap.utils.refs.ProgressLayanan.ON_BATCH_3_KANWIL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,11 +68,12 @@ public class StatusLayAdmin extends VerticalLayout {
 		gridsattus.getElement().setAttribute("style", "font-size: 12px;text-align: center;padding:0;");
 		gridsattus.addColumn(PemohonLayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor"))
 				.setWidth("5em");
-		gridsattus.addColumn(PemohonLayananResponse::getTanggalRequest).setHeader(TamUtils.setCustomHerader("Tanggal"))
+		//gridsattus.addComponentColumn(data->layCell(11, data)).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
+		gridsattus.addColumn(data->TamUtils.setFormatDate(data.getTanggalRequest())).setHeader(TamUtils.setCustomHerader("Tanggal"))
 				.setWidth("7em");
 		gridsattus.addColumn(PemohonLayananResponse::getNamaPerusahaan)
 				.setHeader(TamUtils.setCustomHerader("Nama Perusahaan")).setWidth("7em");
-		gridsattus.addColumn(PemohonLayananResponse::getJenisPerusahaan)
+		gridsattus.addColumn(data->data.getDataLayanan().getPerusahaan().getKeterangan())
 				.setHeader(TamUtils.setCustomHerader("Jenis Perusahaan")).setWidth("7em");
 		gridsattus.addColumn(PemohonLayananResponse::getLayanan).setHeader(TamUtils.setCustomHerader("Jenis Layanan"))
 				.setWidth("5em");
@@ -115,7 +123,26 @@ public class StatusLayAdmin extends VerticalLayout {
 		Span span = new Span();
 		// LoginResponse logRes = TamUtils.getLoginResponse();
 		// String layRole = getListLayananFor(logRes.getAccount().getRole(), data);
-		if (col == 0) {
+		if (col == 11) {
+			vel.setSpacing(false);
+			vel.setPadding(false);
+			String prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 0)</span>";
+			if (data.getDataLayanan().getProgress() == ON_BATCH_1_KANWIL) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 0 KANWIL)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_1_KPPBC) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 0 KPPBC)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_2_KANWIL) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 1 KANWIL)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_2_KPPBC) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 1 KPPBC)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_3_KANWIL) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 2 KANWIL)</span>";
+			} else if (data.getDataLayanan().getProgress() == COMPLETE) {
+				prog = "Selesai";
+				prog = "<span style='font-size:9px;padding:0;color:#00ff00'>(Selesai)</span>";
+			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getNomor(), "-") + "</br>"+prog);
+		} else if (col == 0) {
 			if (data.getPenerimaKanwil() != null) {
 //				span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerimaKanwil(), "-") + "</br>"
 //						+ getNullorWhat(data.getTanggalPenerimaKanwil(), "-"));
@@ -238,7 +265,7 @@ public class StatusLayAdmin extends VerticalLayout {
 					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerimaKanwil(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalPenerimaKanwil(), "-"));
 
-					span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
+					span2.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
 							+ getNullorWhat(data.getTanggalPenerima(), "-"));
 
 					dialog.add(new H5("Pendok kanwil"));

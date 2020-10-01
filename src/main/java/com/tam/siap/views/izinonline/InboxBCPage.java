@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import static com.tam.siap.utils.refs.ProgressLayanan.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,7 +50,7 @@ public class InboxBCPage extends VerticalLayout {
 		// TODO Auto-generated constructor stub
 		LoginResponse logRes = TamUtils.getLoginResponse();
 		if (logRes != null) {
-			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount(),logRes.getAccount().getRole());
+			layRes = izinOnlineService.viewPerizinanOnline(logRes.getAccount(), logRes.getAccount().getRole());
 			gridsattus.setItems(layRes);
 		}
 	}
@@ -58,11 +59,12 @@ public class InboxBCPage extends VerticalLayout {
 		setSizeFull();
 		gridsattus.getElement().setAttribute("style", "font-size: 12px;text-align: center;padding:0;");
 		gridsattus.addColumn(LayananResponse::getNomor).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
-		gridsattus.addColumn(data->TamUtils.setFormatDate(data.getTanggalRequest())).setHeader(TamUtils.setCustomHerader("Tanggal"))
-				.setWidth("7em");
+		//gridsattus.addComponentColumn(data->layCell(11, data)).setHeader(TamUtils.setCustomHerader("Nomor")).setWidth("5em");
+		gridsattus.addColumn(data -> TamUtils.setFormatDate(data.getTanggalRequest()))
+				.setHeader(TamUtils.setCustomHerader("Tanggal")).setWidth("7em");
 		gridsattus.addColumn(LayananResponse::getNamaPerusahaan).setHeader(TamUtils.setCustomHerader("Nama Perusahaan"))
 				.setWidth("7em");
-		gridsattus.addColumn(LayananResponse::getJenisPerusahaan)
+		gridsattus.addColumn(data -> data.getDataLayanan().getPerusahaan().getKeterangan())
 				.setHeader(TamUtils.setCustomHerader("Jenis Perusahaan")).setWidth("7em");
 		gridsattus.addColumn(LayananResponse::getLayanan).setHeader(TamUtils.setCustomHerader("Jenis Layanan"))
 				.setWidth("5em");
@@ -106,15 +108,34 @@ public class InboxBCPage extends VerticalLayout {
 	private VerticalLayout layCell(int col, LayananResponse data) {
 		VerticalLayout vel = new VerticalLayout();
 		Span span = new Span();
-		//LoginResponse logRes = TamUtils.getLoginResponse();
-		//String layRole = getListLayananFor(logRes.getAccount().getRole(), data);
-		if (col == 0) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPenerima(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalPenerima(), "-"));
+		// LoginResponse logRes = TamUtils.getLoginResponse();
+		// String layRole = getListLayananFor(logRes.getAccount().getRole(), data);
+		if (col == 11) {
+			vel.setSpacing(false);
+			vel.setPadding(false);
+			String prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 0)</span>";
+			if (data.getDataLayanan().getProgress() == ON_BATCH_1_KANWIL) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 0 KANWIL)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_1_KPPBC) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 0 KPPBC)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_2_KANWIL) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 1 KANWIL)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_2_KPPBC) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 1 KPPBC)</span>";
+			} else if (data.getDataLayanan().getProgress() == ON_BATCH_3_KANWIL) {
+				prog = "<span style='font-size:9px;padding:0;color:#0000ff'>(Siklus 2 KANWIL)</span>";
+			} else if (data.getDataLayanan().getProgress() == COMPLETE) {
+				prog = "Selesai";
+				prog = "<span style='font-size:9px;padding:0;color:#00ff00'>(Selesai)</span>";
+			}
+			span.getElement().setProperty("innerHTML", getNullorWhat(data.getNomor(), "-") + "</br>"+prog);
+		} else if (col == 0) {
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getPenerima(), "-") + "</br>" + getNullorWhat(data.getTanggalPenerima(), "-"));
 
 		} else if (col == 1) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getPemeriksa(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalPemeriksa(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getPemeriksa(), "-") + "</br>" + getNullorWhat(data.getTanggalPemeriksa(), "-"));
 			// cek role dan status layanan
 //			if(data.get) {
 //				
@@ -174,12 +195,12 @@ public class InboxBCPage extends VerticalLayout {
 //				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksiPkc(), "-") + "</br>"
 //						+ getNullorWhat(data.getTanggalKepSubSeksiPkc(), "-"));
 //			}
-			
+
 			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSubSeksi(), "-") + "</br>"
 					+ getNullorWhat(data.getTanggalKepSubSeksi(), "-"));
 		} else if (col == 3) {
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksi(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalKepSeksi(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepSeksi(), "-") + "</br>" + getNullorWhat(data.getTanggalKepSeksi(), "-"));
 //			if (data.getKepSeksiP2() != null) {
 //				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiP2(), "-") + "</br>"
 //						+ getNullorWhat(data.getTanggalKepSeksiP2(), "-"));
@@ -210,8 +231,8 @@ public class InboxBCPage extends VerticalLayout {
 //				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepSeksiIntelijenKanwil(), "-")
 //						+ "</br>" + getNullorWhat(data.getTanggalKepSeksiIntelijenKanwil(), "-"));
 //			}
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepBidang(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalKepBidang(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepBidang(), "-") + "</br>" + getNullorWhat(data.getTanggalKepBidang(), "-"));
 		} else {
 //			if (data.getKepKantorKanwil() != null) {
 //				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantorKanwil(), "-") + "</br>"
@@ -220,8 +241,8 @@ public class InboxBCPage extends VerticalLayout {
 //				span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
 //						+ getNullorWhat(data.getTanggalKepKantor(), "-"));
 //			}
-			span.getElement().setProperty("innerHTML", getNullorWhat(data.getKepKantor(), "-") + "</br>"
-					+ getNullorWhat(data.getTanggalKepKantor(), "-"));
+			span.getElement().setProperty("innerHTML",
+					getNullorWhat(data.getKepKantor(), "-") + "</br>" + getNullorWhat(data.getTanggalKepKantor(), "-"));
 		}
 
 //		Button btnSeeAll = new Button("Detail");
