@@ -354,7 +354,7 @@ public class IzinOnlineService {
         layanan.setNomor(getNomor());
         layanan.setStatus(ON_PROGRESS);
 
-        if (isTPBKITEPerubahanNonLokasi(layanan)) layanan.setProgress(ON_BATCH_1_KANWIL);
+        if (isTPBPerubahanNonLokasiKITEPerubahanOrPencabutan(layanan)) layanan.setProgress(ON_BATCH_1_KANWIL);
         else layanan.setProgress(ON_BATCH_1_KPPBC);
 
         layananService.save(layanan);
@@ -540,8 +540,7 @@ public class IzinOnlineService {
                             )
                     );
 
-                    if(isTPBPerubahanLokasiKITEPerubahanLokasiOrPencabutan(layanan)
-                        || isTPBPencabutan(layanan)) {
+                    if(isTPBPerubahanLokasi(layanan) || isTPBPencabutan(layanan)) {
                         StatusLayanan kepSeksiP2 = splitStringWithColon(layanan.getKepSeksiP2());
                         StatusLayanan kepSeksiPerbend = splitStringWithColon(layanan.getKepSeksiPerbend());
 
@@ -687,7 +686,7 @@ public class IzinOnlineService {
                             )
                     );
 
-                    if(isTPBPerubahanLokasiKITEPerubahanLokasiOrPencabutan(layanan)
+                    if(isTPBPerubahanLokasi(layanan)
                         || isTPBPencabutan(layanan)) {
                         StatusLayanan kepSubSeksiP2 = splitStringWithColon(layanan.getKepSubSeksiP2());
                         StatusLayanan kepSubSeksiPerbend = splitStringWithColon(layanan.getKepSubSeksiPerbend());
@@ -765,7 +764,7 @@ public class IzinOnlineService {
                             )
                     );
 
-                    if (isTPBPerubahanLokasiKITEPerubahanLokasiOrPencabutan(layanan)
+                    if (isTPBPerubahanLokasi(layanan)
                         || isTPBPencabutan(layanan)) {
                         layanan.setKepSeksiP2(fetchStringWithColon(
                                 Integer.toString(accountService.findByRoleAndLokasi(roleService.getRole(KEPALA_SEKSI_P2), account.getLokasi()).getId()),
@@ -1708,7 +1707,7 @@ public class IzinOnlineService {
                 List<Layanan> penerima = layananService.findLayananByPenerimaIsNull(account.getLokasi());
 
                 for (Layanan data : penerima) {
-                    if (!isTPBKITEPerubahanNonLokasi(data)) responses.add(setDataLayananToResponse(data, role));
+                    if (!isTPBPerubahanNonLokasiKITEPerubahanOrPencabutan(data)) responses.add(setDataLayananToResponse(data, role));
                 }
 
                 break;
@@ -2993,7 +2992,7 @@ public class IzinOnlineService {
         } else return false;
     }
 
-    private boolean isTPBPerubahanLokasiKITEPerubahanLokasiOrPencabutan(Layanan layanan) {
+    private boolean isTPBPerubahanLokasi(Layanan layanan) {
         boolean result = false;
 
         if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null) {
@@ -3002,23 +3001,27 @@ public class IzinOnlineService {
              }
         }
 
+        return result;
+    }
+
+    private boolean isTPBPerubahanNonLokasiKITEPerubahanOrPencabutan(Layanan layanan) {
+        boolean result = false;
+
+        if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null) {
+            if (layanan.getSubLayanan().getKeterangan().contains("Perubahan"))
+                if (!layanan.getSubLayanan().getKeterangan().contains("lokasi")) {
+                    result = true;
+                }
+        }
+
         if (layanan.getSubLayanan().getLayanan().getFasilitas() != null) {
-            if (layanan.getSubLayanan().getKeterangan().contains("lokasi")
+            if (layanan.getSubLayanan().getKeterangan().contains("Perubahan")
                     || layanan.getSubLayanan().getKeterangan().contains("Pencabutan")){
                 result = true;
             }
         }
 
         return result;
-    }
-
-    private boolean isTPBKITEPerubahanNonLokasi(Layanan layanan) {
-        if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null
-                || layanan.getSubLayanan().getLayanan().getFasilitas() != null) {
-            if (layanan.getSubLayanan().getKeterangan().contains("Perubahan"))
-                return !layanan.getSubLayanan().getKeterangan().contains("lokasi");
-            else return false;
-        } else return false;
     }
 
     private boolean checkDoc(int role, int status, Layanan layanan) {
