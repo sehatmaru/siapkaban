@@ -57,6 +57,8 @@ public class RegisterService {
                 }
             } else {
                 if (addDataPribadi(dPribadi) == SUCCESS) {
+                    updateDataPerusahaan(dPerusahaan);
+
                     if (addUser(account, dPribadi, getPerusahaan(dPerusahaan.getNpwp())) == SUCCESS) {
                         result = sendEmail(account, dPribadi);
                     }
@@ -119,6 +121,21 @@ public class RegisterService {
 
         if (dataPerusahaanService.isDataPerusahaanExist(dPerusahaan.getId())) return SUCCESS;
         else return FAILED;
+    }
+
+    private void updateDataPerusahaan(DPerusahaan dPerusahaan){
+        DPerusahaan existPerusahaan = getPerusahaan(dPerusahaan.getNpwp());
+        existPerusahaan.setNpwp(dPerusahaan.getNpwp());
+        existPerusahaan.setNama(dPerusahaan.getNama());
+        existPerusahaan.setPenanggungJawab(dPerusahaan.getPenanggungJawab());
+        existPerusahaan.setJenis(dPerusahaan.getJenis());
+        existPerusahaan.setKabupaten(dPerusahaan.getKabupaten());
+        existPerusahaan.setKecamatan(dPerusahaan.getKecamatan());
+        existPerusahaan.setAlamat(dPerusahaan.getAlamat());
+        existPerusahaan.setTelepon(dPerusahaan.getTelepon());
+        existPerusahaan.setEmail(dPerusahaan.getEmail());
+
+        dataPerusahaanService.save(existPerusahaan);
     }
 
     private int sendEmail(Account account, DPribadi dPribadi) {
