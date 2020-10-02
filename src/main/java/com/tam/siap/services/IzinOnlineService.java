@@ -115,8 +115,11 @@ public class IzinOnlineService {
                 return new UploadTemplateResponse(1, new File(path.replace("docx", "pdf")));
             } else {
                 Dokumen dok = dokumenService.findByJenisDokumenAndLayanan(dokumen, layanan);
+                dok.setPath(path.replace("docx", "pdf"));
 
-                return new UploadTemplateResponse(1, new File(dok.getPath()));
+                dokumenService.save(dok);
+
+                return new UploadTemplateResponse(1, new File(path.replace("docx", "pdf")));
             }
         } else return new UploadTemplateResponse(2, null);
     }

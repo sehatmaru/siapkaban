@@ -11,6 +11,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.tam.siap.utils.TamUtils.createDir;
 import static com.tam.siap.utils.refs.JenisLokasi.TANGERANG;
@@ -250,7 +252,9 @@ public class EditorService {
                 + "\\hasil";
 
         createDir(path);
-        String fileDocx = path + "\\" + dokumen.getKeterangan() + ".docx";
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM HHmmss");
+        String fileDocx = path + "\\" + dokumen.getKeterangan() + " " + dateFormat.format(new Date()) + ".docx";
 
         uploadService.saveFile(memoryBuffer, path, fileDocx);
 
