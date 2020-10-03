@@ -180,6 +180,21 @@ public class RegisterService {
         return result ;
     }
 
+    public DPerusahaan findPerusahaan(String npwp, JPerusahaan perusahaan) {
+        DPerusahaan result = new DPerusahaan();
+
+        List<DPerusahaan> perusahaans = dataPerusahaanService.findDataPerusahaanByJenisPerusahaan(perusahaan);
+
+        for (DPerusahaan data : perusahaans) {
+            if (data.getNpwp().replaceAll("[^a-zA-Z0-9]", "").equals(npwp)) {
+                result = data;
+                break;
+            }
+        }
+
+        return result;
+    }
+
     private DPerusahaan getPerusahaan(String npwp) {
         DPerusahaan result = new DPerusahaan();
         List<DPerusahaan> perusahaans = dataPerusahaanService.findAll();

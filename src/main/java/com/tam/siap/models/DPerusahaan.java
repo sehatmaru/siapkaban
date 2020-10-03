@@ -54,7 +54,7 @@ public class DPerusahaan {
 	@JoinColumn(name = "kecamatan", referencedColumnName = "id")
 	private Kecamatan kecamatan;
 
-	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+	@OneToOne(cascade = {CascadeType.MERGE})
 	@JoinColumn(name = "kabupaten", referencedColumnName = "id")
 	private Kabupaten kabupaten;
 

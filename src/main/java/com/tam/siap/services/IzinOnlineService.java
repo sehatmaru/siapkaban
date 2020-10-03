@@ -3027,9 +3027,12 @@ public class IzinOnlineService {
         boolean result = false;
 
         if (layanan.getSubLayanan().getLayanan().getPerusahaan() != null) {
-            if (layanan.getSubLayanan().getKeterangan().contains("Perubahan"))
-                if (!layanan.getSubLayanan().getKeterangan().contains("lokasi")) {
-                    result = true;
+            if (layanan.getSubLayanan().getKeterangan().contains("Perubahan")
+                || layanan.getSubLayanan().getKeterangan().contains("Penambahan"))
+                if (layanan.getSubLayanan().getId() != 21) {
+                    if (!layanan.getSubLayanan().getKeterangan().contains("lokasi")) {
+                        result = true;
+                    }
                 }
         }
 
