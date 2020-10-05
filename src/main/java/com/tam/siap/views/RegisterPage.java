@@ -137,6 +137,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 		listKabupatens = kabupatenService.findAll();
 		comboKabupaten.setItems(listKabupatens);
+		comboJnsPerusahaan.setValue(listperusahaans.size() <= 0 ? null : listperusahaans.get(0));
 	}
 
 	public RegisterPage() {
@@ -153,18 +154,20 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 			public void valueChanged(ValueChangeEvent<?> event) {
 				// TODO Auto-generated method stub
 				String val = "" + event.getValue();
-				DPerusahaan dataDPerusahaan = dPerusahaanRepository.findByNpwp(val);
+				// DPerusahaan dataDPerusahaan = dPerusahaanRepository.findByNpwp(val);
+				DPerusahaan dataDPerusahaan = registerService.findPerusahaan(val, comboJnsPerusahaan.getValue());
 				String val2 = val.replaceAll("[^a-zA-Z0-9]", "");
 				System.out.println(val + " - " + val2);
 				// txtNpwpPt.setValue(val+" - "+val2);
 				// DPerusahaan dataDPerusahaan2 = dPerusahaanRepository.findByNpwp(val);
-				DPerusahaan dataDPerusahaan2 = new DPerusahaan();
-				List<DPerusahaan> dPerusahaans = dPerusahaanRepository.findAll();
+				// DPerusahaan dataDPerusahaan2 = new DPerusahaan();
+				// List<DPerusahaan> dPerusahaans = dPerusahaanRepository.findAll();
+				DPerusahaan dPerusahaans = registerService.findPerusahaan(val2, comboJnsPerusahaan.getValue());
 				if (dataDPerusahaan != null) {
 					String npwptemp = dataDPerusahaan.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
 					txtNamaPt.setValue("" + dataDPerusahaan.getNama());
 					txtNpwpPt.setValue(npwptemp);
-					comboJnsPerusahaan.setValue(dataDPerusahaan.getJenis());
+					// comboJnsPerusahaan.setValue(dataDPerusahaan.getJenis());
 					txtAlamatPt.setValue("" + dataDPerusahaan.getAlamat());
 					txtHandphonePt.setValue("" + dataDPerusahaan.getTelepon());
 					txtEmailPt.setValue("" + dataDPerusahaan.getEmail());
@@ -172,19 +175,63 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					comboKabupaten.setValue(dataDPerusahaan.getKabupaten());
 					comboKecamatan.setValue(dataDPerusahaan.getKecamatan());
 				} else {
-					for (DPerusahaan datap : dPerusahaans) {
-						String npwptemp = datap.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
+					if (dPerusahaans != null) {
+						String npwptemp = dPerusahaans.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
 						if (val2.equals(npwptemp)) {
-							txtNamaPt.setValue("" + datap.getNama());
+							txtNamaPt.setValue("" + dPerusahaans.getNama());
 							txtNpwpPt.setValue(npwptemp);
-							comboJnsPerusahaan.setValue(datap.getJenis());
-							txtAlamatPt.setValue("" + datap.getAlamat());
-							txtHandphonePt.setValue("" + datap.getTelepon());
-							txtEmailPt.setValue("" + datap.getEmail());
-							txtNamaPenggungJwb.setValue("" + datap.getPenanggungJawab());
-							comboKabupaten.setValue(datap.getKabupaten());
-							comboKecamatan.setValue(datap.getKecamatan());
+							// comboJnsPerusahaan.setValue(dPerusahaans.getJenis());
+							txtAlamatPt.setValue("" + dPerusahaans.getAlamat());
+							txtHandphonePt.setValue("" + dPerusahaans.getTelepon());
+							txtEmailPt.setValue("" + dPerusahaans.getEmail());
+							txtNamaPenggungJwb.setValue("" + dPerusahaans.getPenanggungJawab());
+							comboKabupaten.setValue(dPerusahaans.getKabupaten());
+							comboKecamatan.setValue(dPerusahaans.getKecamatan());
 						}
+					} else {
+						txtNamaPt.setValue("");
+						txtAlamatPt.setValue("");
+						txtHandphonePt.setValue("");
+						txtEmailPt.setValue("");
+						txtNamaPenggungJwb.setValue("");
+						comboKabupaten.setValue(null);
+						comboKecamatan.setValue(null);
+					}
+				}
+			}
+		});
+
+		comboJnsPerusahaan.addValueChangeListener(new ValueChangeListener<ValueChangeEvent<?>>() {
+
+			@Override
+			public void valueChanged(ValueChangeEvent<?> event) {
+				// TODO Auto-generated method stub
+				String npwp = txtNpwpPt.getValue();
+				if (npwp == null || npwp.length() <= 0) {
+
+				} else {
+					DPerusahaan dataDPerusahaan = registerService.findPerusahaan(npwp, comboJnsPerusahaan.getValue());
+					if (dataDPerusahaan != null) {
+						String npwptemp = "" + dataDPerusahaan.getNpwp().replaceAll("[^a-zA-Z0-9]", "");
+						txtNamaPt.setValue("" + dataDPerusahaan.getNama());
+						txtNpwpPt.setValue(npwptemp);
+						// comboJnsPerusahaan.setValue(dataDPerusahaan.getJenis());
+						txtAlamatPt.setValue("" + dataDPerusahaan.getAlamat());
+						txtHandphonePt.setValue("" + dataDPerusahaan.getTelepon());
+						txtEmailPt.setValue("" + dataDPerusahaan.getEmail());
+						txtNamaPenggungJwb.setValue("" + dataDPerusahaan.getPenanggungJawab());
+						comboKabupaten.setValue(dataDPerusahaan.getKabupaten());
+						comboKecamatan.setValue(dataDPerusahaan.getKecamatan());
+					} else {
+						txtNamaPt.setValue("");
+						// txtNpwpPt.setValue(npwptemp);
+						// comboJnsPerusahaan.setValue(dataDPerusahaan.getJenis());
+						txtAlamatPt.setValue("");
+						txtHandphonePt.setValue("");
+						txtEmailPt.setValue("");
+						txtNamaPenggungJwb.setValue("");
+						comboKabupaten.setValue(null);
+						comboKecamatan.setValue(null);
 					}
 				}
 			}

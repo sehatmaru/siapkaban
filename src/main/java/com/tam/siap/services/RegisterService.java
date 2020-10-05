@@ -181,7 +181,7 @@ public class RegisterService {
     }
 
     public DPerusahaan findPerusahaan(String npwp, JPerusahaan perusahaan) {
-        DPerusahaan result = new DPerusahaan();
+        DPerusahaan result = null;
 
         List<DPerusahaan> perusahaans = dataPerusahaanService.findDataPerusahaanByJenisPerusahaan(perusahaan);
 
