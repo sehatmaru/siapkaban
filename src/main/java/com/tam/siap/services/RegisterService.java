@@ -192,6 +192,12 @@ public class RegisterService {
             }
         }
 
+        if (result != null) {
+            if (result.getTelepon() == null) result.setTelepon("");
+            if (result.getEmail() == null) result.setEmail("");
+            if (result.getPenanggungJawab() == null) result.setPenanggungJawab("");
+        }
+
         return result;
     }
 
