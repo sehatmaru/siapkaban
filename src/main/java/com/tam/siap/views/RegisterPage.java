@@ -137,7 +137,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 		listKabupatens = kabupatenService.findAll();
 		comboKabupaten.setItems(listKabupatens);
-		comboJnsPerusahaan.setValue(listperusahaans.size() <= 0 ? null : listperusahaans.get(0));
+//		comboJnsPerusahaan.setValue(listperusahaans.size() <= 0 ? null : listperusahaans.get(0));
 	}
 
 	public RegisterPage() {
@@ -158,7 +158,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				DPerusahaan dataDPerusahaan = registerService.findPerusahaan(val, comboJnsPerusahaan.getValue());
 				String val2 = val.replaceAll("[^a-zA-Z0-9]", "");
 				System.out.println(val + " - " + val2);
-				// txtNpwpPt.setValue(val+" - "+val2);
+				txtNpwpPt.setValue(val2);
 				// DPerusahaan dataDPerusahaan2 = dPerusahaanRepository.findByNpwp(val);
 				// DPerusahaan dataDPerusahaan2 = new DPerusahaan();
 				// List<DPerusahaan> dPerusahaans = dPerusahaanRepository.findAll();
@@ -381,8 +381,8 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 
 		// data PT
 		VerticalLayout vlpt = new VerticalLayout(lblPerusahaan, setInlinetext(txtNpwpPt, "NPWP"),
-				setInlinetext(txtNamaPt, "Nama"), setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"),
-				setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"), setInlinetext(comboKabupaten, "Kab/Kota"),
+				setInlinetext(comboJnsPerusahaan, "Jenis Perusahaan"), setInlinetext(txtNamaPt, "Nama"),
+				setInlinetext(txtNamaPenggungJwb, "Penanggung Jawab"), setInlinetext(comboKabupaten, "Kab/Kota"),
 				setInlinetext(comboKecamatan, "Kecamatan"), setInlinetext(txtAlamatPt, "Alamat Pabrik"),
 				setInlinetext(txtHandphonePt, "No. Telepon"), setInlinetext(txtEmailPt, "Email"));
 		vlpt.setWidthFull();
