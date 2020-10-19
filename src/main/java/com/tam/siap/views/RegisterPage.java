@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
@@ -264,6 +266,8 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String jabatan = txtJabatan.getValue();
 				String notelp = txtHandphone.getValue();
 				String email = txtEmail.getValue();
+				Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+				Matcher matchermailpic = pattern.matcher(email);
 
 				// data PT
 				String namapt = txtNamaPt.getValue();
@@ -273,6 +277,7 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 				String notelppt = txtHandphonePt.getValue();
 				String emailpt = txtEmailPt.getValue();
 				String tgJawab = txtNamaPenggungJwb.getValue();
+				Matcher matchermailpt = pattern.matcher(emailpt);
 
 				Kabupaten datakKabupaten = comboKabupaten.getValue();
 				Kecamatan dataKecamatan = comboKecamatan.getValue();
@@ -291,6 +296,14 @@ public class RegisterPage extends PolymerTemplate<TemplateModel> {
 					notification.open();
 				} else if (dataKecamatan == null) {
 					Notification notification = new Notification("Kecamatan harus dipilih", 3000, Position.MIDDLE);
+					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+					notification.open();
+				}else if(!matchermailpt.matches()) {
+					Notification notification = new Notification("Format Email PT salah", 3000, Position.MIDDLE);
+					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+					notification.open();
+				}else if(!matchermailpic.matches()) {
+					Notification notification = new Notification("Format Email PIC salah", 3000, Position.MIDDLE);
 					notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 					notification.open();
 				} else {
