@@ -54,10 +54,6 @@ public class DPerusahaan {
 	@JoinColumn(name = "kecamatan", referencedColumnName = "id")
 	private Kecamatan kecamatan;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "kabupaten", referencedColumnName = "id")
-	private Kabupaten kabupaten;
-
 	public DPerusahaan() {
 	}
 
@@ -165,16 +161,28 @@ public class DPerusahaan {
 		this.kecamatan = kecamatan;
 	}
 
-	public Kabupaten getKabupaten() {
-		return kabupaten;
-	}
 
-	public void setKabupaten(Kabupaten kabupaten) {
-		this.kabupaten = kabupaten;
+	@Override
+	public String toString() {
+		return "DPerusahaan{" +
+				"id=" + id +
+				", nama='" + nama + '\'' +
+				", npwp='" + npwp + '\'' +
+				", alamat='" + alamat + '\'' +
+				", telepon='" + telepon + '\'' +
+				", email='" + email + '\'' +
+				", status=" + status +
+				", komoditi='" + komoditi + '\'' +
+				", nomorSkep='" + nomorSkep + '\'' +
+				", tanggalSkep='" + tanggalSkep + '\'' +
+				", penanggungJawab='" + penanggungJawab + '\'' +
+				", jenis=" + jenis +
+				", kecamatan=" + kecamatan +
+				'}';
 	}
 
 	public DPerusahaan(String nama, String npwp, String alamat, String telepon, String email, JPerusahaan jenis,
-					   String penanggungJawab, Kecamatan kecamatan, Kabupaten kabupaten) {
+					   String penanggungJawab, Kecamatan kecamatan) {
 		this.nama = nama;
 		this.npwp = npwp;
 		this.alamat = alamat;
@@ -183,6 +191,5 @@ public class DPerusahaan {
 		this.jenis = jenis;
 		this.penanggungJawab = penanggungJawab;
 		this.kecamatan = kecamatan;
-		this.kabupaten = kabupaten;
 	}
 }
