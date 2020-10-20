@@ -44,8 +44,8 @@
 	<parameter name="perusahaanjenisplb" class="java.lang.String">
 		<parameterDescription><![CDATA[Jenis Perusahaan PLB]]></parameterDescription>
 	</parameter>
-	<parameter name="perusahaanjenistppb" class="java.lang.String">
-		<parameterDescription><![CDATA[Jenis Perusahaan TPPB]]></parameterDescription>
+	<parameter name="perusahaanjeniskite" class="java.lang.String">
+		<parameterDescription><![CDATA[Jenis Perusahaan KITE]]></parameterDescription>
 	</parameter>
 	<parameter name="perusahaanjeniskp" class="java.lang.String">
 		<parameterDescription><![CDATA[Jenis Perusahaan KP]]></parameterDescription>
@@ -447,7 +447,7 @@
 						<font size="8"/>
 						<paragraph leftIndent="2"/>
 					</textElement>
-					<text><![CDATA[TPPB]]></text>
+					<text><![CDATA[KITE]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="320" y="368" width="20" height="20" uuid="e5e5b4a5-b18f-4046-8c1d-f41387d2ceb5"/>
@@ -647,7 +647,7 @@
 					<textElement textAlignment="Center">
 						<font size="10"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{perusahaanjenistppb}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{perusahaanjeniskite}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="310" y="366" width="12" height="14" uuid="dc7ee7bc-ce59-49c0-b08e-fba26e315b7f"/>

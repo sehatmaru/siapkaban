@@ -48,22 +48,22 @@ public class ExportingService {
         parameter.put("perusahaanjeniskb", " ");
         parameter.put("perusahaanjenisgb", " ");
         parameter.put("perusahaanjenisplb", " ");
-        parameter.put("perusahaanjenistppb", " ");
+        parameter.put("perusahaanjeniskite", " ");
         parameter.put("perusahaanjenistps", " ");
         parameter.put("perusahaanjeniskp", " ");
         parameter.put("namaPenanggungJawab", account.getPerusahaan().getPenanggungJawab());
 
-        if(account.getPribadi().getJenis().getId() == 1) {
+        if(account.getPerusahaan().getJenis().getId() == 1) {
             parameter.put("perusahaanjeniskb", "X");
-        } else if(account.getPribadi().getJenis().getId() == 2) {
+        } else if(account.getPerusahaan().getJenis().getId() == 2) {
             parameter.put("perusahaanjenisgb", "X");
-        } else if(account.getPribadi().getJenis().getId() == 3) {
+        } else if(account.getPerusahaan().getJenis().getId() == 3) {
             parameter.put("perusahaanjenisplb", "X");
-        } else if(account.getPribadi().getJenis().getId() == 4) {
-            parameter.put("perusahaanjenistppb", "X");
-        } else if(account.getPribadi().getJenis().getId() == 5) {
+        } else if(account.getPerusahaan().getJenis().getId() == 4) {
+            parameter.put("perusahaanjeniskite", "X");
+        } else if(account.getPerusahaan().getJenis().getId() == 5) {
             parameter.put("perusahaanjenistps", "X");
-        } else if(account.getPribadi().getJenis().getId() == 6) {
+        } else if(account.getPerusahaan().getJenis().getId() == 6) {
             parameter.put("perusahaanjeniskp", "X");
         }
 
