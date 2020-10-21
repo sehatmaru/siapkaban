@@ -37,11 +37,6 @@ public class RegisterService {
     @Autowired
     ExportingService exportingService;
 
-    @Autowired
-    KabupatenService kabupatenService;
-
-    @Autowired
-    KecamatanService kecamatanService;
 
     @Autowired
     RoleService roleService;
@@ -135,7 +130,7 @@ public class RegisterService {
         existPerusahaan.setNama(dPerusahaan.getNama());
         existPerusahaan.setPenanggungJawab(dPerusahaan.getPenanggungJawab());
         existPerusahaan.setJenis(dPerusahaan.getJenis());
-        existPerusahaan.setKecamatan(kecamatanService.findById(dPerusahaan.getKecamatan().getId()));
+        existPerusahaan.setKecamatan(dPerusahaan.getKecamatan());
         existPerusahaan.setAlamat(dPerusahaan.getAlamat());
         existPerusahaan.setTelepon(dPerusahaan.getTelepon());
         existPerusahaan.setEmail(dPerusahaan.getEmail());
