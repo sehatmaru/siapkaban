@@ -1,67 +1,67 @@
 project:
-    home: C:\Users\Administrator\Documents\siapkabanv3
-    base: http://siapkaban.id:7078/test/image/
+  home: C:\Users\Administrator\Documents\siapkabanv3
+  base: http://siapkaban.id:7078/test/image/
 
 layanan:
-    document:
-        bc:
-            logo: C:\Users\Administrator\Documents\siapkabanv3\dok\logologo.jpeg
-        path: C:\Users\Administrator\Documents\siapkabanv3\dok\report
-    generated:
-        report:
-            path: ${project.home}/report
-    images:
-        path: C:\Users\Administrator\Documents\siapkabanv3\dok\images
-    jasper:
-        path: ${project.home}/report
+  document:
+    bc:
+      logo: C:\Users\Administrator\Documents\siapkabanv3\dok\logologo.jpeg
+    path: C:\Users\Administrator\Documents\siapkabanv3\dok\report
+  generated:
+    report:
+      path: ${project.home}/report
+  images:
+    path: C:\Users\Administrator\Documents\siapkabanv3\dok\images
+  jasper:
+    path: ${project.home}/report
 
 server:
-    port: 7078
+  port: 7078
 
 siapkaban:
-    datasource:
-        driver-class-name: org.postgresql.Driver
-        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
-        password: tamimi1017590
-        username: kwbc_banten
-    jpa:
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
+    password: tamimi1017590
+    username: kwbc_banten
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #        generate-ddl: true
 #        hibernate:
 #            ddl-auto: update
 spring:
-    datasource:
-        driver-class-name: org.postgresql.Driver
-        hikari:
-            connectionTimeout: 20000
-            maximumPoolSize: 5
-        jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
-        url: jdbc:postgresql://localhost:5432/siapkaban2
-        password: tamimi1017590
-        username: kwbc_banten
-    jpa:
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
-#        generate-ddl: true
-#        hibernate:
-#            ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    jdbc-url: jdbc:postgresql://localhost:5432/siapkaban2
+    url: jdbc:postgresql://localhost:5432/siapkaban2
+    password: tamimi1017590
+    username: kwbc_banten
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  #        generate-ddl: true
+  #        hibernate:
+  #            ddl-auto: update
 
-    mail:
-        default-encoding: UTF-8
-        host: smtp.gmail.com
-        username: siapkaban@gmail.com
-        password: Bckaban01#
-        port: 587
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
-        protocol: smtp
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: siapkaban@gmail.com
+    password: 5)?Gfgh;
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
 
 vaadin:
-    compatibilityMode: true
-    original:
-        frontend:
-            resources: true
-    productionMode: true
+  compatibilityMode: true
+  original:
+    frontend:
+      resources: true
+  productionMode: true
